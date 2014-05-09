@@ -36,6 +36,8 @@ GeoNetwork.app = function(){
 
     var searchForm;
 
+    var facetsPanel;
+
     var resultsPanel;
 
     var metadataResultsView;
@@ -151,6 +153,7 @@ GeoNetwork.app = function(){
 //        map.zoomToMaxExtent();
         
         mapPanel = new GeoExt.MapPanel({
+        	title: OpenLayers.i18n('mapPanelTitle'),
             id: "resultsMap",
             height: 100,
             width: 200,
@@ -451,6 +454,30 @@ GeoNetwork.app = function(){
 
 
         var hideInspirePanel = catalogue.getInspireInfo().enable == "false";
+/*
+        var siteStore = new Ext.data.ArrayStore({
+        	data: [
+                   ['LITORA','site-litora.png'],
+                   ['SONIA','site-sonia.png'],
+                   ['HESBANIA','site-hesbania.png']
+               ],
+            autoLoad : true,
+            autoDestroy: true,
+            storeId: 'siteStore',
+            idIndex: 0,  
+            fields: [
+               'name',
+               'filename'
+            ]
+        });
+        var tpl = new Ext.XTemplate(
+                '<tpl for=".">',
+                    '<div class="thumb-wrap" id="{name}" style="display: inline-block">',
+                    '<div class="thumb"><img src="' + catalogue.URL + '/apps/tabsearch/images/{filename}" title="{name}"></div>',
+                '</tpl>',
+                '<div class="x-clear"></div>'
+            );
+*/
 
         return new Ext.FormPanel({
             id: 'searchForm',
@@ -533,6 +560,7 @@ GeoNetwork.app = function(){
                            iconAlign: 'right',
                            listeners: {
                                click: function(){
+                                   facetsPanel.reset();
                                    Ext.getCmp('searchForm').getForm().reset();
                                    statusField.store.reload();
                                }
@@ -564,7 +592,7 @@ GeoNetwork.app = function(){
                 },
 */
                 // Panel with Advanced search, Help and About Links
-                {
+/*                {
                     layout: 'column',
                     id:'advSearch',
                     bodyStyle:'padding-top:5px;border-width:0px',
@@ -579,6 +607,101 @@ GeoNetwork.app = function(){
 						}
                     ]
                 },
+*/
+                {
+               		title:'Options',
+                    layout:'form',
+                    width:0,
+                    autoHeight: true,
+                    hidden: true,
+                    items:[
+                        GeoNetwork.util.SearchFormTools.getSortByCombo(),hitsPerPageField
+                    ]
+               	},
+                new Ext.Panel({
+                    id:'images-view',
+                    plain:true,
+                    layout: 'column',
+                    layoutConfig: { pack: 'center', align: 'center' },
+                    autoHeight: true,
+                    boxMinWidth: 1000,
+                    bodyStyle:'border-width:0px',
+                    border:true,
+                    deferredRender: false,
+                    defaults:{style:'padding:5px',bodyStyle:'padding:5px'},
+//                    title:'Sites',
+                    items:[
+                           	{
+								border: false,
+								columnWidth: 0.15
+                       		},
+                       		{                    	   	
+								xtype: 'box',
+								border: false,
+								columnWidth: 0.25,
+								autoEl : {html:'<div class="thumb"><img src="' + catalogue.URL + '/apps/tabsearch/images/site-litora.jpg" title="LITORA" alt="LITORA"></div><div>LITORA</div>'},
+								listeners: {
+									render: function(p) {
+										p.getEl().on('click', function(){
+                       						searchWithSitekeyword("litora");
+										});
+									},
+									single: true
+								}								
+                       		},
+                       		{
+                       			xtype: 'box',
+                       			border: false,
+                       			columnWidth: 0.20,
+                       			autoEl : {html:'<div class="thumb"><img src="' + catalogue.URL + '/apps/tabsearch/images/site-sonia.png" title="SONIA" alt="SONIA"></div><div>SONIA</div>'},
+                       			listeners: {
+                       				render: function(p) {
+                       					p.getEl().on('click', function(){
+                       						searchWithSitekeyword("sonia");
+                       					});
+                       				},
+                       				single: true
+                       			}								
+                       		},
+                       		{
+                       			xtype: 'box',
+                       			border: false,
+                       			columnWidth: 0.25,
+                       			autoEl : {html:'<div class="thumb"><img src="' + catalogue.URL + '/apps/tabsearch/images/site-hesbania.jpg" title="HESBANIA" alt="HESBANIA"></div><div>HESBANIA</div>'},
+                       			listeners: {
+                       				render: function(p) {
+                       					p.getEl().on('click', function(){
+                       						searchWithSitekeyword("hesbania");
+                       					});
+                       				},
+                       				single: true
+                       			}								
+                       		},
+                           	{
+								border: false,
+								columnWidth: 0.15
+                       		}
+/*
+                           {
+	                   		border: false,
+	                    	columnWidth: 0.15
+	                    },
+                    	new Ext.DataView({
+	                        store: siteStore,
+	                        tpl: tpl,
+							autoHeight: true,
+                    		height:200,
+	                        multiSelect: false,
+	                        overClass:'x-view-over',
+	                        itemSelector:'div.thumb-wrap'
+	                    }),
+                        {
+                       		border: false,
+                        	columnWidth: 0.15
+                        }
+*/
+					]
+                })/*,                
                 //  Advanced search form
                 new Ext.Panel(                
                 {
@@ -618,7 +741,7 @@ GeoNetwork.app = function(){
                                 advancedCriteriaExtra, myMetadata
                             ]
                         },
-/*
+*//*
                         // Where panel
                         {
                             title: OpenLayers.i18n('where'),
@@ -638,7 +761,7 @@ GeoNetwork.app = function(){
                                 //,new GeoExt.ux.GeoNamesSearchCombo({ map: Ext.getCmp('geometryMap').map, zoom: 12})
                             ]
                         },
-*/
+*//*
                         // When panel
                         {
                         	frame: true,
@@ -650,7 +773,7 @@ GeoNetwork.app = function(){
                             items:GeoNetwork.util.SearchFormTools.getWhen()
                         },
                        	// INSPIRE panel
-/*
+*//*
                         {
                             title:'INSPIRE',
                             hidden: hideInspirePanel,
@@ -660,7 +783,7 @@ GeoNetwork.app = function(){
                             width: 250,
                             items: GeoNetwork.util.INSPIRESearchFormTools.getINSPIREFields(catalogue.services, true)
                         },
-*/
+*//*
                         //Options
                         {
                        		title:'Options',
@@ -677,7 +800,7 @@ GeoNetwork.app = function(){
                         	columnWidth: 0.15
                         }
                     ]
-                })
+                })*/
             ]
         });
     }
@@ -685,6 +808,33 @@ GeoNetwork.app = function(){
     function search(){
         searching = true;
         catalogue.search('searchForm', app.loadResults, null, catalogue.startRecord, true);
+    }
+    
+    function searchWithSitekeyword(value) {
+/*
+    	var sitekeywordField = Ext.getCmp('E_sitekeyword');
+    	if (!sitekeywordField) {
+    		sitekeywordField = searchForm.insert(0, new Ext.form.TextField({
+                id: 'E_sitekeyword',
+                name: 'E_sitekeyword',
+                inputType: 'hidden'
+            }));    	
+    	}
+		catalogue.startRecord = 1; // Reset start record
+		sitekeywordField.setValue(value);
+		search();
+		setTab('results');
+ */
+//    	facetsPanel.removeFacet('facet_0',true);
+        facetsPanel.reset();
+    	facetsPanel.addFacet(0, {
+                id: 'facet_0', 
+                facet: 'sitekeyword', 
+                value: value, 
+                label: value,
+                bcid: 'bc_facet_0', 
+                fieldid: 'field_facet_0'
+            });
     }
 
     function initPanels(){
@@ -961,7 +1111,7 @@ GeoNetwork.app = function(){
 
     function createHeader(){
         var info = catalogue.getInfo();
-        Ext.getDom('title').innerHTML = '<img class="catLogo" src="images/logo' + GeoNetwork.Settings.nodeType.toLowerCase() + '.gif" title="'  + info.name + '"/>';
+        Ext.getDom('title').innerHTML = '<img class="catLogo" src="images/logo' + GeoNetwork.Settings.nodeType.toLowerCase() + '.png" title="'  + info.name + '"/>';
         document.title = info.name;
     }
 
@@ -1014,7 +1164,7 @@ GeoNetwork.app = function(){
             edit();
 
             // Results map 
-            resultsMap = getResultsMap();
+//            resultsMap = getResultsMap();
 
             // Search result
             resultsPanel = createResultsPanel();
@@ -1038,7 +1188,25 @@ GeoNetwork.app = function(){
 
             if (!visualizationModeInitialized) initMap();
 
-           var viewport = new Ext.Viewport({
+            var breadcrumb = new Ext.Panel({
+                layout:'column',
+                cls: 'breadcrumb',
+                defaultType: 'button',
+                border: false,
+                split: false
+//                layoutConfig: {
+//                    columns:3
+//                }
+            });
+            facetsPanel = new GeoNetwork.FacetsPanel({
+            	title: OpenLayers.i18n('facetsPanelTitle'),
+                searchForm: searchForm,
+                breadcrumb: breadcrumb,
+                maxDisplayedItems: GeoNetwork.Settings.facetMaxItems || 1000,
+                facetListConfig: GeoNetwork.Settings.facetListConfig || []
+            });
+
+            var viewport = new Ext.Viewport({
                 layout:'border',
                 id:'vp',
                 items:[   //todo: should add header here?
@@ -1096,15 +1264,26 @@ GeoNetwork.app = function(){
 //                                layout: 'fit',
 //                                autoScroll:true,    
                                 layout:'border',
-                                items:[
+                                items:[{
+	                                    region : 'north',
+	                                    border : false,
+	                                    height: 30,
+	                                    autoScroll: true,
+	                                    items : [ breadcrumb ]
+	                                },
                                     {//sidebar searchform
                                         region:'west',
                                         id:'west',
                                         border: true,
-                                        width:200,                                        
-                                        items: [resultsMap]
-                                        //html: 'Facetet panel'
-
+                                        width:200,
+//                                        autoScroll: true,
+                                        layout: {
+                                            type: 'accordion',
+                                            titleCollapse: true,
+                                            animate: true,
+                                            activeOnTop: false
+                                        },
+	                                	items: [/*resultsMap, */facetsPanel]
                                     },
                                     { //search results
                                         /*region:'center',
@@ -1228,7 +1407,7 @@ GeoNetwork.app = function(){
             Ext.get('E_any').setWidth(285);
             Ext.get('E_any').setHeight(28);
 
-            metadataResultsView.addMap( Ext.getCmp('resultsMap').map, true);
+//            metadataResultsView.addMap( Ext.getCmp('resultsMap').map, true);
 
             if (GeoNetwork.searchDefault.activeMapControlExtent) {
                 Ext.getCmp('geometryMap').setExtent();
@@ -1373,6 +1552,7 @@ GeoNetwork.app = function(){
             tabPanel.unhideTabStripItem(tabPanel.items.itemAt(1));
 
             initPanels();
+            facetsPanel.refresh(response);
 
             // FIXME : result panel need to update layout in case of slider
             // Ext.getCmp('resultsPanel').syncSize();

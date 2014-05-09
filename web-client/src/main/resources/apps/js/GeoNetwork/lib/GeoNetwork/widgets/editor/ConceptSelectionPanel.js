@@ -178,6 +178,8 @@ GeoNetwork.editor.ConceptSelectionPanel = Ext.extend(Ext.Panel, {
         
         var combo = new Ext.form.ComboBox({
             store: this.keywordStore,
+            editable: false,
+            width: 300,
             triggerAction: 'all',
             mode: 'local',
             displayField: 'value',

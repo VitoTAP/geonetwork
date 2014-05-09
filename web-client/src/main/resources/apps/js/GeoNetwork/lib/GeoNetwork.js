@@ -117,6 +117,7 @@
             "GeoNetwork/form/SearchField.js",
             "GeoNetwork/form/GeometryMapField.js",
             "GeoNetwork/form/OpenSearchSuggestionTextField.js",
+            "GeoNetwork/widgets/FacetsPanel.js",
             "GeoNetwork/widgets/LoginForm.js",
             "GeoNetwork/widgets/Templates.js",
             "GeoNetwork/widgets/MetadataMenu.js",

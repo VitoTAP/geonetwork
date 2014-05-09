@@ -299,7 +299,7 @@
 					jdbc:postgresql_postGIS://host:port/database
 					
 				-->
-			  <url>jdbc:postgresql://localhost:5432/geonetwork</url>
+			  <url>jdbc:postgresql://localhost:5432/geonetworkvito</url>
 				<poolSize>20</poolSize>
         <validationQuery>SELECT 1</validationQuery>
 			</config>

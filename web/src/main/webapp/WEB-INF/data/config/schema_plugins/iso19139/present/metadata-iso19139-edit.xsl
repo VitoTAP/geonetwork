@@ -1633,13 +1633,18 @@
               TODO : check that the thesaurus is available in the catalogue to not 
               to try to initialize a widget with a non existing thesaurus. -->
               <xsl:when test="not($thesaurusId='')">
-                
+                <xsl:call-template name="columnElementGui">
+                <xsl:with-param name="cols">
+                <col>                
                 <xsl:apply-templates select="gmd:MD_Keywords" mode="snippet-editor">
                   <xsl:with-param name="edit" select="$edit"/>
                   <xsl:with-param name="schema" select="$schema"/>
                   <xsl:with-param name="thesaurusId" select="$thesaurusId"/>
                 </xsl:apply-templates>
-              </xsl:when>
+                </col>
+                </xsl:with-param>
+                </xsl:call-template>
+			  </xsl:when>
               <xsl:otherwise>
               
                 <xsl:variable name="content">
@@ -5332,8 +5337,12 @@ to build the XML fragment in the editor. -->
      <xsl:variable name="widgetMode" select="if (contains(gmd:thesaurusName/gmd:CI_Citation/
       gmd:identifier/gmd:MD_Identifier/gmd:code/*[1], 'inspire')) then 'multiplelist' else ''"/>
       -->
-    <xsl:variable name="widgetMode" select="''"/>
-    
+    <xsl:variable name="widgetMode">
+    	<xsl:choose>
+    		<xsl:when test="contains($thesaurusId,'BEL-AIR')"><xsl:value-of select="'combo'"/></xsl:when>
+    		<xsl:otherwise><xsl:value-of select="''"/></xsl:otherwise>
+    	</xsl:choose>
+    </xsl:variable>    
     <!-- The element identifier in the metadocument-->
     <xsl:variable name="elementRef" select="../geonet:element/@ref"/>
     <xsl:call-template name="snippet-editor">
@@ -5354,6 +5363,9 @@ to build the XML fragment in the editor. -->
   		<xsl:when test="contains(normalize-space(gmd:thesaurusName/gmd:CI_Citation/gmd:title/gco:CharacterString),'D.4 van de verordening')">geonetwork.thesaurus.external.theme.inspire-service-taxonomy</xsl:when>
   		<xsl:when test="contains(normalize-space(gmd:thesaurusName/gmd:CI_Citation/gmd:title/gco:CharacterString),'Vlaamse regio')">geonetwork.thesaurus.external.place.GDI-Vlaanderenregios</xsl:when>
   		<xsl:when test="contains(normalize-space(gmd:thesaurusName/gmd:CI_Citation/gmd:title/gco:CharacterString),'GDI') and contains(normalize-space(gmd:thesaurusName/gmd:CI_Citation/gmd:title/gco:CharacterString),'Vlaanderen')">geonetwork.thesaurus.external.theme.GDI-Vlaanderen-trefwoorden</xsl:when>
+  		<xsl:when test="contains(normalize-space(gmd:thesaurusName/gmd:CI_Citation/gmd:title/gco:CharacterString),'BEL-AIR Sites')">geonetwork.thesaurus.external.place.BEL-AIR-Site-Keywords</xsl:when>
+  		<xsl:when test="contains(normalize-space(gmd:thesaurusName/gmd:CI_Citation/gmd:title/gco:CharacterString),'BEL-AIR Campaigns')">geonetwork.thesaurus.external.temporal.BEL-AIR-Campaigns-Keywords</xsl:when>
+  		<xsl:when test="contains(normalize-space(gmd:thesaurusName/gmd:CI_Citation/gmd:title/gco:CharacterString),'BEL-AIR DataTypes')">geonetwork.thesaurus.external.theme.BEL-AIR-DataTypes-Keywords</xsl:when>
   		<xsl:otherwise><xsl:value-of select="normalize-space(gmd:thesaurusName/gmd:CI_Citation/gmd:identifier/gmd:MD_Identifier/gmd:code/*[1])"/></xsl:otherwise>
   	</xsl:choose>
   </xsl:template>

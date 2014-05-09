@@ -181,11 +181,20 @@
 
 			<xsl:for-each select="//gmd:MD_Keywords">
 			  
+				<xsl:variable name="thesaurusName" select="gmd:thesaurusName/gmd:CI_Citation/gmd:title/gco:CharacterString"/>
 				<xsl:for-each select="gmd:keyword/gco:CharacterString|gmd:keyword/gmd:PT_FreeText/gmd:textGroup/gmd:LocalisedCharacterString">
                     <xsl:variable name="keywordLower" select="lower-case(.)"/>
                     <Field name="keyword" string="{string(.)}" store="true" index="true"/>
 					<Field name="any" string="{string($keywordLower)}" store="true" index="true"/>
-					
+					<xsl:if test="contains($thesaurusName,'BEL-AIR Sites')">
+	                    <Field name="sitekeyword" string="{lower-case(.)}" store="true" index="true"/>
+					</xsl:if>
+					<xsl:if test="contains($thesaurusName,'BEL-AIR Campaigns')">
+	                    <Field name="campaignkeyword" string="{lower-case(.)}" store="true" index="true"/>
+					</xsl:if>
+					<xsl:if test="contains($thesaurusName,'BEL-AIR DataTypes')">
+	                    <Field name="datatypekeyword" string="{lower-case(.)}" store="true" index="true"/>
+					</xsl:if>					
                     <xsl:if test="$inspire='true'">
                         <xsl:if test="string-length(.) &gt; 0">
                          
@@ -217,7 +226,7 @@
 			<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->		
 	
 			<xsl:for-each select="gmd:pointOfContact/gmd:CI_ResponsibleParty/gmd:organisationName/gco:CharacterString">
-				<Field name="orgName" string="{string(.)}" store="false" index="true"/>
+				<Field name="orgName" string="{string(.)}" store="true" index="true"/>
 				
 				<xsl:variable name="role" select="../../gmd:role/*/@codeListValue"/>
 				<xsl:variable name="logo" select="../..//gmx:FileName/@src"/>

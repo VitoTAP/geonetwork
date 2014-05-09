@@ -336,7 +336,14 @@ GeoNetwork.util.SearchTools = {
      */
     addFilterImpl: function(filters, type, name, value){
         if (type.charAt(0) === 'E') { // equals
-            filters.push(name + "=" + encodeURIComponent(value) + "");
+		    if (typeof(value) == 'object') {
+				 for (var i=0; i< value.length; i++) {
+				     filters.push(name + "=" + encodeURIComponent(value[i]) + "");
+				 }
+		    } else {
+				filters.push(name + "=" + encodeURIComponent(value) + "");
+		    }
+//            filters.push(name + "=" + encodeURIComponent(value) + "");
         } else if (type === 'B') { //boolean
             filters.push(name + "=" + (value ? 'on' : 'off') + "");
         } else if (type === 'O') { //optional boolean
@@ -395,11 +402,11 @@ GeoNetwork.util.SearchTools = {
      *  According to field type, get form values.
      */
     getFormValues: function(form){
-        var result = form.getForm().getValues() || {};
+        var result = /*form.getForm().getValues() ||*/ {};
     	var bSkipThemekey = false;
         
         form.cascade(function(cur){
-            if (cur.disabled !== true && cur.rendered) { // Check element is
+            if (cur.disabled !== true && /*cur.rendered*/ !(cur.getName && OpenLayers.String.startsWith(cur.getName(),'ext-comp'))) { // Check element is
                 // enabled
                 // and rendered (ie. visible, eg. field in a collapsed fieldset)
                 if (cur.isXType('boxselect')) {
@@ -467,12 +474,30 @@ GeoNetwork.util.SearchTools = {
                     }
                 } else if (cur.getName) {
                     if (cur.getValue && cur.getValue() !== "") {
-                        result[cur.getName()] = cur.getValue();
+/*
+                    	var value = cur.getValue();
+                        if (value.split(" ").length > 1) {
+                            result[cur.getName()] = (value.indexOf(" or ") > -1) ? value : '"' + value + '"';
+                        } else {
+                            result[cur.getName()] = value;
+                        }
+*/
+                    	GeoNetwork.util.SearchTools.addFieldValue(result, cur.getName(), cur.getValue());
                     }
                 }
             }
             return true;
         });
         return result;
+    },			
+    addFieldValue: function (result, name, value) {
+        if (value.split(" ").length > 1) {
+            value = (value.indexOf(" or ") > -1) ? value : '"' + value + '"';
+        }
+        if (result[name] === undefined) {
+            result[name] = new Array(value);
+        } else {
+            result[name].push(value);
+        }
     }
 };

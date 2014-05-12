@@ -437,11 +437,37 @@ GeoNetwork.MetadataResultsView = Ext.extend(Ext.DataView, {
         
         // TODO : Translate layer name based on a search name ?
         var l = new OpenLayers.Layer.Vector(OpenLayers.i18n("mdResultsLayer"), {
-            styleMap: new OpenLayers.StyleMap({'default': this.layer_style, 'hover': this.layer_style_hover})
+            eventListeners:{
+                'featureselected':function(evt){
+                    var feature = evt.feature;
+                    var popup = new OpenLayers.Popup.FramedCloud("popup",
+                        feature.geometry.getBounds().getCenterLonLat(),
+                        null,
+                        "<div style='font-size:.8em'>Title: " + feature.attributes.title +"<br/>Abstract: " + feature.attributes.abstract+"</div>",
+                        null,
+                        true
+                    );
+                    feature.popup = popup;
+                    map.map.addPopup(popup);
+                },
+                'featureunselected':function(evt){
+                    var feature = evt.feature;
+                    map.map.removePopup(feature.popup);
+                    feature.popup.destroy();
+                    feature.popup = null;
+                }
+            },
+        	styleMap: new OpenLayers.StyleMap({'default': this.layer_style, 'hover': this.layer_style_hover})
         });
         this.addCurrentFeatures(l);
         map.layer = l;
         map.map.addLayer(l);
+        // create the select feature control
+        var selector = new OpenLayers.Control.SelectFeature(l,{
+            hover:true,
+            autoActivate:true
+        }); 
+        map.map.addControl(selector);
     },
     /** api: method[removeMap] 
      *  :param mapId: ``OpenLayers.Map.id`` An OpenLayers map id
@@ -620,7 +646,10 @@ GeoNetwork.MetadataResultsView = Ext.extend(Ext.DataView, {
                 }
                 var multipolygon = new OpenLayers.Feature.Vector(new OpenLayers.Geometry.MultiPolygon(polygons), {
                     id: r.get('uuid'),
-                    featurecolor: featurecolor
+                    title: r.get('title'),
+                    abstract: r.get('abstract'),
+                    featurecolor: featurecolor,
+                    createPopup: function() {}
                 });
                 this.features.push(multipolygon.clone());
             }

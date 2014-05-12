@@ -56,12 +56,17 @@ GeoNetwork.app = function(){
      */
 
     function initMap(){
-    	iMap = new GeoNetwork.mapApp();
-/*
-    	iMap.init(GeoNetwork.map.BACKGROUND_LAYERS, GeoNetwork.map.MAIN_MAP_OPTIONS);
-        metadataResultsView.addMap(iMap.getMap());
+        iMap = new GeoNetwork.mapApp();
+        var layers={}, options={};
+        if(GeoNetwork.map.CONTEXT || GeoNetwork.map.OWS) {
+            options = GeoNetwork.map.CONTEXT_MAIN_MAP_OPTIONS;
+        } else {
+            options = GeoNetwork.map.MAIN_MAP_OPTIONS;
+            layers  = GeoNetwork.map.BACKGROUND_LAYERS;
+        }
+        iMap.init(layers, options);
+        metadataResultsView.addMap(iMap.getMap(), true);
         visualizationModeInitialized = true;
-*/
         return iMap;
     }
 
@@ -176,52 +181,6 @@ GeoNetwork.app = function(){
         var advancedCriteria = [];
         var advancedCriteriaExtra = [];
         var services = catalogue.services;
-//        var orgNameField = new GeoNetwork.form.OpenSearchSuggestionTextField({
-//            hideLabel: false,
-//            minChars: 0,
-//            hideTrigger: false,
-//            url: services.opensearchSuggest,
-//            field: 'orgName',
-//            name: 'E_orgName',
-//            fieldLabel: OpenLayers.i18n('org')
-//        });
-        // Multi select uuid field
-/*
-        var uuidStore = new GeoNetwork.data.OpenSearchSuggestionStore({
-            url: services.opensearchSuggest,
-            rootId: 1,
-            baseParams: {
-                field: '_uuid'
-            }
-        });
-
-        var tpl = '<tpl for="."><div class="x-combo-list-item" ext:qtip="{values.value}">{values.value}</div></tpl>';
-        var displayFieldTpl = '<tpl for="."><span ext:qtip="{values.value}">{values.value}</span></tpl>';
-        var uuidField = new Ext.ux.form.SuperBoxSelect({
-            hideLabel: false,
-            minChars: 0,
-            queryParam: 'q',
-            hideTrigger: false,
-            id: 'E__uuid',
-            name: 'E__uuid',
-            store: uuidStore,
-            valueField: 'value',
-            displayField: 'value',
-            valueDelimiter: ' or ',
-            displayFieldTpl: displayFieldTpl,
-            tpl: tpl,
-            fieldLabel: OpenLayers.i18n('uuid')
-        });
-		var uuidField = new Ext.form.TextField({
-            name: 'E__uuid',
-            id: 'E__uuid',
-            fieldLabel: OpenLayers.i18n("uuid"),
-			style: {
-		    	width: '99%',
-	        	height:'29px'
-	        }
-        });
-*/
   		var uuidField = new GeoNetwork.form.OpenSearchSuggestionTextField({
 			hideLabel: false,
 			field: '_uuid',
@@ -272,10 +231,6 @@ GeoNetwork.app = function(){
                 field: 'keyword'
             }
         });
-//        FIXME : could not underline current search criteria in tpl
-//        var tpl = '<tpl for="."><div class="x-combo-list-item">' +
-//            '{[values.value.replace(Ext.getDom(\'E_themekey\').value, \'<span>\' + Ext.getDom(\'E_themekey\').value + \'</span>\')]}' +
-//          '</div></tpl>';
         var themekeyField = new Ext.ux.form.SuperBoxSelect({
             hideLabel: false,
             minChars: 0,
@@ -290,17 +245,6 @@ GeoNetwork.app = function(){
             displayFieldTpl: displayFieldTpl,
             tpl: tpl,
             fieldLabel: OpenLayers.i18n('keyword')
-//            FIXME : Allow new data is not that easy
-//            allowAddNewData: true,
-//            addNewDataOnBlur: true,
-//            listeners: {
-//                newitem: function(bs,v, f){
-//                    var newObj = {
-//                            value: v
-//                        };
-//                    bs.addItem(newObj, true);
-//                }
-//            }
         });
 
 
@@ -362,31 +306,7 @@ GeoNetwork.app = function(){
         	advancedCriteria.push(catalogueField);
         } 
         advancedCriteriaExtra.push(groupField,
-//            metadataTypeField,
-//            validField, validXSDField, validISOSchematronField, validInspireSchematronField, validAGIVSchematronField,
             statusField, ownerField, isHarvestedField, isLockedField);
-/*        
-        var adv = {
-            xtype: 'fieldset',
-            title: OpenLayers.i18n('advancedSearchOptions'),
-            autoHeight: true,
-            autoWidth: true,
-            collapsible: true,
-            collapsed: (urlParameters.advanced?false:true),
-            defaultType: 'checkbox',
-            defaults: {
-                width: 160
-            },
-            items: advancedCriteria
-        };
-
-        var formItems = [];
-        formItems.push(GeoNetwork.util.SearchFormTools.getSimpleFormFields(catalogue.services,
-            GeoNetwork.map.BACKGROUND_LAYERS, GeoNetwork.map.MAP_OPTIONS, true,
-            GeoNetwork.searchDefault.activeMapControlExtent, undefined, {width: 290}),
-            adv, GeoNetwork.util.SearchFormTools.getOptions(catalogue.services, undefined));
-        // Add advanced mode criteria to simple form - end
-*/
 
         // Hide or show extra fields after login event
         var loggedInFields = [statusField,groupField,myMetadata];
@@ -454,163 +374,70 @@ GeoNetwork.app = function(){
 
 
         var hideInspirePanel = catalogue.getInspireInfo().enable == "false";
-/*
-        var siteStore = new Ext.data.ArrayStore({
-        	data: [
-                   ['LITORA','site-litora.png'],
-                   ['SONIA','site-sonia.png'],
-                   ['HESBANIA','site-hesbania.png']
-               ],
-            autoLoad : true,
-            autoDestroy: true,
-            storeId: 'siteStore',
-            idIndex: 0,  
-            fields: [
-               'name',
-               'filename'
-            ]
-        });
-        var tpl = new Ext.XTemplate(
-                '<tpl for=".">',
-                    '<div class="thumb-wrap" id="{name}" style="display: inline-block">',
-                    '<div class="thumb"><img src="' + catalogue.URL + '/apps/tabsearch/images/{filename}" title="{name}"></div>',
-                '</tpl>',
-                '<div class="x-clear"></div>'
-            );
-*/
-
         return new Ext.FormPanel({
             id: 'searchForm',
-            bodyStyle: 'text-align: center;',
+//            bodyStyle: 'text-align: center;',
+            layout:'column',
             border: false,
+            columns:3,
+            autoHeight: true,
             autoScroll: true,
             //autoShow : true,
-/*
-            listeners: {
-                afterrender: function(){
-                    //Ext.getCmp("advSearchTabs").getEl().toggle();
-                    }
-            },
-*/
             items:[
-                // Simple search form and search buttons
-                {
-                    layout: {
-                        type: 'hbox',
-                        pack: 'center',
-                        align: 'center'
-                    },
-                    bodyStyle:'padding-top:5px;border-width:0px',
-                    border:true,
-                    items:[
-                   		new Ext.form.Label({
-                    		text: OpenLayers.i18n('searchTitle'),
-//                    		tpl: ['<h1>{text}</h1>'],
-        	               	style:'padding-top:5px;padding-right:10px;font-weight:bold;font-size:150%',
-                       		listeners: {
-                    		   render: function(textField) {
-                    			   Ext.QuickTips.register({
-                    				   target: textField.getEl(),
-                    				   text: "Zoek in alle tekstvelden en codelijsten"
-                    			   });
-                    		   }
-                    	   }
-                   		}),
-						new GeoNetwork.form.OpenSearchSuggestionTextField({
-                           //hideLabel: true,
-                           width: 285,
-                           height:40,
-                           minChars: 2,
-                           loadingText: '...',
-                           hideTrigger: true,
-                           url: catalogue.services.opensearchSuggest
-
-                        }),
-                        new Ext.Button({
-                text: OpenLayers.i18n('search'),
-                           id: 'searchBt', margins:'3 5 3 5',
-                icon: '../js/GeoNetwork/resources/images/default/find.png',
-                // FIXME : iconCls : 'md-mn-find',
-                iconAlign: 'right',
-                listeners: {
-                    click: function(){
-
-                                   /*if (Ext.getCmp('geometryMap')) {
-                            metadataResultsView.addMap(Ext.getCmp('geometryMap').map, true);
-                                   }*/
-                        var any = Ext.get('E_any');
-                        if (any) {
-                            if (any.getValue() === OpenLayers.i18n('fullTextSearch')) {
-                                any.setValue('');
-                            }
-                        }
-
-                        catalogue.startRecord = 1; // Reset start record
-                        search();
-                                   setTab('results');
-                               }
-                           }
-                        }),
-                        new Ext.Button( {
-                           text: OpenLayers.i18n('reset'),
-                           tooltip: OpenLayers.i18n('resetSearchForm'),
-                           // iconCls: 'md-mn-reset',
-                           id: 'resetBt', margins:'3 5 3 5',
-                           icon: '../images/default/cross.png',
-                           iconAlign: 'right',
-                           listeners: {
-                               click: function(){
-                                   facetsPanel.reset();
-                                   Ext.getCmp('searchForm').getForm().reset();
-                                   statusField.store.reload();
-                               }
-                    }
-                       })
-                    ]
-                },
-
-/*                {
-                    layout: {
-                        type: 'hbox',
-                        pack: 'center',
-                        align: 'center'
-                    },
-                    bodyStyle:'padding-top:5px;border-width:0px',
-                    border:true,
-                    items:[
-						{
-						    xtype: 'checkboxgroup',
-						    items: [
-					            {value:'dataset', fieldLabel: OpenLayers.i18n('dataset'), name:'E_type'},
-					            {value:'series', fieldLabel: OpenLayers.i18n('series') name:'E_type'},
-					            {value:'service', fieldLabel: OpenLayers.i18n('service') name:'E_type'},
-					            {value:'model', fieldLabel: OpenLayers.i18n('featureCat') name:'E_type'}
-						    ]
-						}
-						        
-                    ]
-                },
-*/
-                // Panel with Advanced search, Help and About Links
-/*                {
-                    layout: 'column',
-                    id:'advSearch',
-                    bodyStyle:'padding-top:5px;border-width:0px',
-                    border:true,
-                    height:25,
-                    items: [
-						{
-							border : false,
-							columnWidth : 1,
-							xtype: 'label',
-							text : OpenLayers.i18n('Advanced')
-						}
-                    ]
-                },
-*/
+				new GeoNetwork.form.OpenSearchSuggestionTextField({
+					width: 100,
+					anchor: '100%',
+					border: false,
+					columnWidth: 0.70,
+					minChars: 2,
+					loadingText: '...',
+					hideTrigger: true,
+					url: catalogue.services.opensearchSuggest
+                }),
+                new Ext.Button({
+//	                text: OpenLayers.i18n('search'),
+	                id: 'searchBt', margins:'3 5 3 5',
+					border: false,
+					height: '28px',
+					columnWidth: 0.15,
+	                icon: '../js/GeoNetwork/resources/images/default/find.png',
+	                // FIXME : iconCls : 'md-mn-find',
+	                iconAlign: 'right',
+	                listeners: {
+	                    click: function(){
+	                        var any = Ext.get('E_any');
+	                        if (any) {
+	                            if (any.getValue() === OpenLayers.i18n('fullTextSearch')) {
+	                                any.setValue('');
+	                            }
+	                        }
+	                        catalogue.startRecord = 1; // Reset start record
+	                        search();
+	                        setTab('results');
+	                    }
+	                }
+                }),
+                new Ext.Button( {
+//					text: OpenLayers.i18n('reset'),
+					tooltip: OpenLayers.i18n('resetSearchForm'),
+					// iconCls: 'md-mn-reset',
+					id: 'resetBt', margins:'3 5 3 5',
+					border: false,
+					height: '28px',
+					columnWidth: 0.15,
+					icon: '../images/default/cross.png',
+					iconAlign: 'right',
+					listeners: {
+                       click: function(){
+                           facetsPanel.reset();
+                           Ext.getCmp('searchForm').getForm().reset();
+                           statusField.store.reload();
+                           Ext.getCmp('searchBt').fireEvent('click');
+                       }
+                   }
+                }),
                 {
                		title:'Options',
-                    layout:'form',
                     width:0,
                     autoHeight: true,
                     hidden: true,
@@ -618,190 +445,12 @@ GeoNetwork.app = function(){
                         GeoNetwork.util.SearchFormTools.getSortByCombo(),hitsPerPageField
                     ]
                	},
-                new Ext.Panel({
-                    id:'images-view',
-                    plain:true,
-                    layout: 'column',
-                    layoutConfig: { pack: 'center', align: 'center' },
-                    autoHeight: true,
-                    boxMinWidth: 1000,
-                    bodyStyle:'border-width:0px',
-                    border:true,
-                    deferredRender: false,
-                    defaults:{style:'padding:5px',bodyStyle:'padding:5px'},
-//                    title:'Sites',
-                    items:[
-                           	{
-								border: false,
-								columnWidth: 0.15
-                       		},
-                       		{                    	   	
-								xtype: 'box',
-								border: false,
-								columnWidth: 0.25,
-								autoEl : {html:'<div class="thumb"><img src="' + catalogue.URL + '/apps/tabsearch/images/site-litora.jpg" title="LITORA" alt="LITORA"></div><div>LITORA</div>'},
-								listeners: {
-									render: function(p) {
-										p.getEl().on('click', function(){
-                       						searchWithSitekeyword("litora");
-										});
-									},
-									single: true
-								}								
-                       		},
-                       		{
-                       			xtype: 'box',
-                       			border: false,
-                       			columnWidth: 0.20,
-                       			autoEl : {html:'<div class="thumb"><img src="' + catalogue.URL + '/apps/tabsearch/images/site-sonia.png" title="SONIA" alt="SONIA"></div><div>SONIA</div>'},
-                       			listeners: {
-                       				render: function(p) {
-                       					p.getEl().on('click', function(){
-                       						searchWithSitekeyword("sonia");
-                       					});
-                       				},
-                       				single: true
-                       			}								
-                       		},
-                       		{
-                       			xtype: 'box',
-                       			border: false,
-                       			columnWidth: 0.25,
-                       			autoEl : {html:'<div class="thumb"><img src="' + catalogue.URL + '/apps/tabsearch/images/site-hesbania.jpg" title="HESBANIA" alt="HESBANIA"></div><div>HESBANIA</div>'},
-                       			listeners: {
-                       				render: function(p) {
-                       					p.getEl().on('click', function(){
-                       						searchWithSitekeyword("hesbania");
-                       					});
-                       				},
-                       				single: true
-                       			}								
-                       		},
-                           	{
-								border: false,
-								columnWidth: 0.15
-                       		}
-/*
-                           {
-	                   		border: false,
-	                    	columnWidth: 0.15
-	                    },
-                    	new Ext.DataView({
-	                        store: siteStore,
-	                        tpl: tpl,
-							autoHeight: true,
-                    		height:200,
-	                        multiSelect: false,
-	                        overClass:'x-view-over',
-	                        itemSelector:'div.thumb-wrap'
-	                    }),
-                        {
-                       		border: false,
-                        	columnWidth: 0.15
-                        }
-*/
-					]
-                })/*,                
-                //  Advanced search form
-                new Ext.Panel(                
-                {
-                    id:'advSearchTabs',
-                    plain:true,
-                    layout: 'column',
-                    layoutConfig: { pack: 'center', align: 'center' },
-                    autoHeight: true,
-//                    autoWidth: true,
-                    boxMinWidth: 1000,
-                    bodyStyle:'border-width:0px',
-                    border:true,
-                    deferredRender: false,
-                    defaults:{style:'padding:5px',bodyStyle:'padding:5px'},
-                    items:[
-                        // What panel
-                        {
-                       		border: false,
-                        	columnWidth: 0.15
-                        },
-                        {
-                        	frame: true,
-                            title: OpenLayers.i18n('what'),
-                            layout:'form',
-                            autoHeight: true,
-//                            width: 820,
-                            boxMinWidth: 400,
-                            boxMaxidth: 1100,
-                        	columnWidth: 0.70,
-                        	labelWidth:130,
-                            items:[
-                                advancedCriteria,GeoNetwork.util.SearchFormTools.getTypesField(GeoNetwork.searchDefault.activeMapControlExtent, true),
-                                metadataTypeField,
-                                GeoNetwork.util.INSPIRESearchFormTools.getAnnexField(true),
-                                GeoNetwork.util.INSPIRESearchFormTools.getThemesField(catalogue.services, true),
-                                GeoNetwork.util.INSPIRESearchFormTools.getServiceTypeField(true),
-                                advancedCriteriaExtra, myMetadata
-                            ]
-                        },
-*//*
-                        // Where panel
-                        {
-                            title: OpenLayers.i18n('where'),
-                            bodyStyle:'padding:0px',
-                            layout:'form',
-                            autoHeight: true,
-                            width: 270,
-                            items:[
-                                GeoNetwork.util.SearchFormTools.getSimpleMap(GeoNetwork.map.BACKGROUND_LAYERS, GeoNetwork.map.MAP_OPTIONS,false,{
-                                    width: 250,
-                                    height: 180,
-                                    border : false,
-                                    activated : false,
-                                    restrictToMapExtent : false,
-                                    nearYouControl : false
-                                })
-                                //,new GeoExt.ux.GeoNamesSearchCombo({ map: Ext.getCmp('geometryMap').map, zoom: 12})
-                            ]
-                        },
-*//*
-                        // When panel
-                        {
-                        	frame: true,
-                            title:OpenLayers.i18n('when'),
-                            defaultType: 'datefield',
-                            layout:'form',
-                            autoHeight: true,
-                            width: 270,
-                            items:GeoNetwork.util.SearchFormTools.getWhen()
-                        },
-                       	// INSPIRE panel
-*//*
-                        {
-                            title:'INSPIRE',
-                            hidden: hideInspirePanel,
-                            defaultType: 'datefield',
-                            layout:'form',
-                            autoHeight: true,
-                            width: 250,
-                            items: GeoNetwork.util.INSPIRESearchFormTools.getINSPIREFields(catalogue.services, true)
-                        },
-*//*
-                        //Options
-                        {
-                       		title:'Options',
-                            layout:'form',
-                            width:0,
-                            autoHeight: true,
-                            hidden: true,
-                            items:[
-                                GeoNetwork.util.SearchFormTools.getSortByCombo(),hitsPerPageField
-                            ]
-                       	},
-                        {
-                       		border: false,
-                        	columnWidth: 0.15
-                        }
-                    ]
-                })*/
-            ]
+               	{
+					border: false,
+					columnWidth: 1,
+               		html:'<div id="facets" class="facets"></div>'
+               	}
+			]
         });
     }
 
@@ -1234,30 +883,72 @@ GeoNetwork.app = function(){
                                 },
                                 closable:false,
 //                                autoScroll:true,
-                                items:/*[        
-                                    {id:'alignCenter',
-                                    border:false,
-                                    layout: 'fit', 
-                                    layoutConfig: { pack: 'center', align: 'center' },
-									items: [{
-											columnWidth: .05,
-											border: false,
-											html: '&nbsp;'
-									},{
-                                        columnWidth: .90,
-                                        border: false,
-                                        items: [
-                                                    searchForm
-                                                    //{id:'out',contentEl:'dvOut', border:false, style:{align:"center"}}
-                                        ]
-                                    },{
-                                        border: false,
-                                        columnWidth: .05, 
-                                        items: [tagCloudViewPanel]
-                                    }]
-                                }]*/
-                                searchForm
-                            },
+                                items: //searchForm
+                                    new Ext.Panel({
+                                        id:'images-view',
+                                        plain:true,
+                                        layout: 'column',
+                                        layoutConfig: { pack: 'center', align: 'center' },
+                                        autoHeight: true,
+                                        boxMinWidth: 1000,
+                                        bodyStyle:'border-width:0px',
+                                        border:true,
+                                        deferredRender: false,
+                                        defaults:{style:'padding:5px',bodyStyle:'padding:5px'},
+                                        items:[
+                                           	{
+                    							border: false,
+                    							columnWidth: 0.15
+                                       		},
+                                       		{                    	   	
+                    							xtype: 'box',
+                    							border: false,
+                    							columnWidth: 0.25,
+                    							autoEl : {html:'<div class="thumb"><img src="' + catalogue.URL + '/apps/tabsearch/images/site-litora.jpg" title="LITORA" alt="LITORA"></div><div>LITORA</div>'},
+                    							listeners: {
+                    								render: function(p) {
+                    									p.getEl().on('click', function(){
+                                       						searchWithSitekeyword("litora");
+                    									});
+                    								},
+                    								single: true
+                    							}								
+                                       		},
+                                       		{
+                                       			xtype: 'box',
+                                       			border: false,
+                                       			columnWidth: 0.20,
+                                       			autoEl : {html:'<div class="thumb"><img src="' + catalogue.URL + '/apps/tabsearch/images/site-sonia.png" title="SONIA" alt="SONIA"></div><div>SONIA</div>'},
+                                       			listeners: {
+                                       				render: function(p) {
+                                       					p.getEl().on('click', function(){
+                                       						searchWithSitekeyword("sonia");
+                                       					});
+                                       				},
+                                       				single: true
+                                       			}								
+                                       		},
+                                       		{
+                                       			xtype: 'box',
+                                       			border: false,
+                                       			columnWidth: 0.25,
+                                       			autoEl : {html:'<div class="thumb"><img src="' + catalogue.URL + '/apps/tabsearch/images/site-hesbania.jpg" title="HESBANIA" alt="HESBANIA"></div><div>HESBANIA</div>'},
+                                       			listeners: {
+                                       				render: function(p) {
+                                       					p.getEl().on('click', function(){
+                                       						searchWithSitekeyword("hesbania");
+                                       					});
+                                       				},
+                                       				single: true
+                                       			}								
+                                       		},
+                                           	{
+                    							border: false,
+                    							columnWidth: 0.15
+                                       		}
+                    					]
+                                    })
+                                },
                             {//search results panel
                                 id:'results',
                                 title:OpenLayers.i18n('List'),
@@ -1311,15 +1002,16 @@ GeoNetwork.app = function(){
                                 }
 
 
-                            }/* ,
+                            },
                             {//map
                                 id:'map',
                                 title:OpenLayers.i18n('Map'),
                                 layout:'fit',                              
                                 margins:margins,
-                                items: [iMap.getViewport()],
+//                                items: [iMap.getViewport()],
                                 listeners: {
-                                    afterLayout: function(c){
+/*
+                                	afterLayout: function(c){
                                         if (mapTabAccessCount > 2) return;
 
                                         mapTabAccessCount++;
@@ -1330,9 +1022,13 @@ GeoNetwork.app = function(){
                                             if (iMap) iMap.getMap().zoomToMaxExtent();
                                         }
                                     }
-                                }
-                            }*/
-                        ]
+*/
+                                	activate : function (p) {
+                                        p.add(iMap.getViewport());
+                                        p.doLayout();
+                                    }                            	}
+	                            }
+	                        ]
                         
                                 // Doesn't work to set extent
 	                            /*, listeners: {
@@ -1500,13 +1196,11 @@ GeoNetwork.app = function(){
         },
 
         getIMap: function(){
-//        	Ext.Msg.alert("Kaart","Deze funktie zal later beschikbaar gesteld worden");
             // init map if not yet initialized
-/*
-        	if (!iMap) {
+            if (!iMap) {
                 initMap();
             }
-*/
+
             // TODO : maybe we should switch to visualization mode also ?
             return iMap;
         },
@@ -1590,6 +1284,10 @@ GeoNetwork.app = function(){
          * @param force
          * @return
          */
+        switchMode : function () {
+            setTab('map');
+        }
+/*
         switchMode: function(mode, force){
             setTab('map');
             mode = '1';
@@ -1600,14 +1298,13 @@ GeoNetwork.app = function(){
             }
             //console.log(    iMap);
             if (iMap) {
-/*
-            	var e = Ext.getCmp('map');
-                e.add(iMap.getViewport());
-                e.doLayout();
-                Ext.getCmp('vp').syncSize();
-*/
+//            	var e = Ext.getCmp('map');
+//                e.add(iMap.getViewport());
+//                e.doLayout();
+//                Ext.getCmp('vp').syncSize();
             }
         }
+*/
     };
 };
 
@@ -1745,8 +1442,6 @@ function setTab(id){
     
 function addWMSLayer(arr)
 {
-/*
-	app.switchMode('1', true);
+	app.switchMode(/*'1', true*/);
     app.getIMap().addWMSLayer(arr);
-*/    
 }

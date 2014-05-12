@@ -64,9 +64,35 @@ GeoNetwork.mapApp = function() {
             controls: []
         };
         
-        map = new OpenLayers.Map('ol_map', options);
-        
-        fixedScales = scales;
+        if (GeoNetwork.map.CONTEXT) {
+            // Load map context
+            var request = OpenLayers.Request.GET({
+                url: GeoNetwork.map.CONTEXT,
+                async: false
+            });
+            if (request.responseText) {
+                
+                var text = request.responseText;
+                var format = new OpenLayers.Format.WMC();
+                map = format.read(text, {map:options});
+            }
+        } 
+        else if (GeoNetwork.map.OWS) {
+            // Load map context
+            var request = OpenLayers.Request.GET({
+                url: GeoNetwork.map.OWS,
+                async: false
+            });
+            if (request.responseText) {
+                var parser = new OpenLayers.Format.OWSContext();
+                var text = request.responseText;
+                map = parser.read(text, {map: options});
+            }
+        }
+        else {
+            map = new OpenLayers.Map('ol_map', options);
+            fixedScales = scales;
+        }
     };
 
     /**
@@ -114,7 +140,7 @@ GeoNetwork.mapApp = function() {
                             //Ext.getCmp('legendwms').forceRemoveLegend(node.attributes.layer.id);
 
                             if (activeNode == node) activeNode = null;
-                            refreshTocToolbar(activeNode);
+//                            refreshTocToolbar(activeNode);
                             Ext.getCmp('toctree').getSelectionModel().clearSelections();
                        }
                     }
@@ -215,7 +241,7 @@ GeoNetwork.mapApp = function() {
 //            }
 
             Ext.getCmp("tbMetadataButton").enable();
-            Ext.getCmp("btnZoomToExtent").enable();
+//            Ext.getCmp("btnZoomToExtent").enable();
 
 
 
@@ -224,7 +250,7 @@ GeoNetwork.mapApp = function() {
 //            Ext.getCmp("tbWmsTimeButton").disable();
 //            Ext.getCmp("tbStylesButton").disable();
             Ext.getCmp("tbMetadataButton").disable(); 
-            Ext.getCmp("btnZoomToExtent").disable();
+//            Ext.getCmp("btnZoomToExtent").disable();
         }
     };
 	var createPrintPanel = function() {
@@ -331,7 +357,8 @@ GeoNetwork.mapApp = function() {
      * Creates the map viewer toolbars
      */
     var createToolbars = function() {
-        toctoolbar = [];
+/*
+    	toctoolbar = [];
         // Layer TOC toolbar
         var action = new GeoExt.Action({
             handler: function() {
@@ -392,7 +419,7 @@ GeoNetwork.mapApp = function() {
 //        
 //        toctoolbar.push(action);
 
-
+*/
         // Main toolbar
         toolbar = [];
    
@@ -410,16 +437,25 @@ GeoNetwork.mapApp = function() {
 
         action = new GeoExt.Action({
             iconCls: 'zoomlayer',
+            disabled: true,
             id: 'btnZoomToExtent',
             //tooltip: {title: OpenLayers.i18n("zoomlayerTooltipTitle"), text: OpenLayers.i18n("zoomlayerTooltipText")},
             handler: function() {
+                if (activeNode) {
+                    if (activeNode.attributes.layer) {
+                    	var extent = activeNode.attributes.layer.getDataExtent();
+                    	if (extent!=null) {
+                    		map.zoomToExtent(extent);
+                    	}
+                    }
+                }
+/*            	
                 var node = activeNode;
                 var layer;
-
                 if (node) {
                     layer = node.attributes.layer;
                     if (layer) {
-                        if (layer.llbbox) {
+                		if (layer.llbbox) {
                             // store info as wgs84
                             var mapProj = map.getProjectionObject();
                             var wgs84 = new OpenLayers.Projection("WGS84");
@@ -433,13 +469,12 @@ GeoNetwork.mapApp = function() {
                             extent.top = maxMapxy.lat;
                             extent.bottom = minMapxy.lat;
 
-                            map.zoomToExtent(extent);
-
+                            map.zoomToExtent(extent);                    		
                         // If layer has no boundingbox info, use full extent
                         } else {
                             map.zoomToMaxExtent();
                         }
-                    } else {
+            		} else {
                         Ext.MessageBox.alert(OpenLayers.i18n("zoomlayer.selectLayerTitle"),
                             OpenLayers.i18n("zoomlayer.selectLayerText"));
                     }
@@ -447,7 +482,7 @@ GeoNetwork.mapApp = function() {
                      Ext.MessageBox.alert(OpenLayers.i18n("zoomlayer.selectLayerTitle"),
                             OpenLayers.i18n("zoomlayer.selectLayerText"));
                 }
-
+*/
             }
         });
 
@@ -572,7 +607,7 @@ GeoNetwork.mapApp = function() {
             //tooltip: {title: OpenLayers.i18n("nextTooltipTitle"), text: OpenLayers.i18n("nextTooltipText")}
         });
         toolbar.push(action);
-
+/*
         toolbar.push("-");
         
         action = new GeoExt.Action({
@@ -594,7 +629,7 @@ GeoNetwork.mapApp = function() {
         });
 
         toolbar.push(action);
-        
+*/        
         // create split button for measure controls
 //
 //        var measureSplit = new Ext.SplitButton({
@@ -938,6 +973,7 @@ GeoNetwork.mapApp = function() {
               new GeoExt.plugins.TreeNodeRadioButton({
 	              listeners: {
 	                  "radiochange": function(node) {
+	                      Ext.getCmp("btnZoomToExtent").enable();
 	                	  activeNode = node;
 	                  }
 	              }
@@ -1036,7 +1072,7 @@ GeoNetwork.mapApp = function() {
 //                }
 
             ]}),
-            tbar:  toctoolbar,
+//            tbar:  toctoolbar,
             rootVisible: false,
             lines: false,
             border: false,
@@ -1132,10 +1168,9 @@ GeoNetwork.mapApp = function() {
                 if (node.ui.radio) {
                     node.ui.radio.checked = true;
                     node.ui.fireEvent("radiochange", node);
-
                 }
 
-                refreshTocToolbar(node);
+                //refreshTocToolbar(node);
 
             },
             scope: this
@@ -1151,7 +1186,7 @@ GeoNetwork.mapApp = function() {
             }
         }); 
         
-        refreshTocToolbar(activeNode);
+        //refreshTocToolbar(activeNode);
     };
 
 

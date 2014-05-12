@@ -465,7 +465,7 @@ GeoNetwork.FacetsPanel = Ext.extend(Ext.Panel, {
             idIndex: 0
         });
         
-        this.update('<div id="facets" class="facets"></div>');
+//        this.update('<div id="facets" class="facets"></div>');
         
     },
     /** private: method[initComponent] 
@@ -474,7 +474,8 @@ GeoNetwork.FacetsPanel = Ext.extend(Ext.Panel, {
     initComponent: function () {
         Ext.applyIf(this, this.defaultConfig);
         GeoNetwork.FacetsPanel.superclass.initComponent.call(this);
-        
+        this.add(this.searchForm);
+//        this.add({html:'<div id="facets" class="facets"></div>'});
         this.on({
             render: this.init,
             scope: this

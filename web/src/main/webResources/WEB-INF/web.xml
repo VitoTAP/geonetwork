@@ -167,7 +167,6 @@
 			<param-name>jeeves.configuration.overrides.file</param-name>
 			<param-value>,/WEB-INF/config-overrides-prod.xml,</param-value>
 		</init-param>
-<!--
         <init-param>
             <param-name>geonetwork.dir</param-name>
 			<param-value>/data/geonetwork</param-value>
@@ -188,7 +187,7 @@
             <param-name>geonetwork.resources.dir</param-name>
             <param-value>/data/geonetwork</param-value>
         </init-param>
--->
+<!--
         <init-param>
             <param-name>geonetwork.drivemapping</param-name>
             <param-value>net use y: \\PCPB359\geonetwork_data_shared /PERSISTENT:NO</param-value>
@@ -213,6 +212,7 @@
             <param-name>geonetwork.resources.dir</param-name>
             <param-value>y:</param-value>
         </init-param>
+-->
         <load-on-startup>1</load-on-startup>
     </servlet>
 

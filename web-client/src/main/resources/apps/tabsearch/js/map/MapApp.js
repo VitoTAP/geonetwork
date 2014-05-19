@@ -30,7 +30,9 @@ GeoNetwork.mapApp = function() {
 
     var tree, legendPanel, mapLateralPanel, printPanel, printProvider, printPage, pageLayer;
     
-    var featureinfo;
+//    var featureinfo;
+    
+    var selectControl;
 
     var activeNode;
 
@@ -39,7 +41,7 @@ GeoNetwork.mapApp = function() {
 
     var fixedScales;
 
-    var featureinfolayer;
+//    var featureinfolayer;
 
     var layerLoadingMask;
 
@@ -531,7 +533,7 @@ GeoNetwork.mapApp = function() {
         
         toolbar.push("-");
 
-        featureinfo = new OpenLayers.Control.WMSGetFeatureInfo({drillDown: true, infoFormat: 'application/vnd.ogc.gml'});
+//        featureinfo = new OpenLayers.Control.WMSGetFeatureInfo({drillDown: true, infoFormat: 'application/vnd.ogc.gml'});
 
         var moveLayerToTop = function(layertomove) {
             var idx = -1;
@@ -547,13 +549,13 @@ GeoNetwork.mapApp = function() {
             }
         };
 
+/*
         featureinfolayer = new OpenLayers.Layer.Vector("Feature info", {displayInLayerSwitcher: false,
             styleMap: new OpenLayers.StyleMap({
                 externalGraphic: OpenLayers.Util.getImagesLocation() + "marker.png",
                 pointRadius: 12
             })
         });
-
 
         featureinfo.events.on({
             'getfeatureinfo': function(evt) {
@@ -570,10 +572,64 @@ GeoNetwork.mapApp = function() {
                 featureinfolayer.destroyFeatures();
             }
         });
+*/
 
-
+        var selectedFeature, popup;
+        var mdResultsLayer = new OpenLayers.Layer.Vector(OpenLayers.i18n("mdResultsLayer"), {
+            eventListeners:{
+                'featureselected':function(evt){
+                    var feature = evt.feature;
+                	selectedFeature = feature;
+                    feature.popup = new OpenLayers.Popup.FramedCloud("popup",
+                        feature.geometry.getBounds().getCenterLonLat(),
+                        new OpenLayers.Size(200,200),
+                        "<div><div style='font-size:1em;font-weight:bold'>" + feature.attributes.title +"</div><div style='font-size:.8em'>" + feature.attributes.description + "</div><div><a href='javascript:function(){}' onclick='catalogue.metadataShow(\'" + feature.attributes.id + "\')'>"+ OpenLayers.i18n("view") +"</a></</div>",
+                        null,
+                        true,
+                        function(){
+                    		selectControl.unselect(selectedFeature);
+                    	}
+                    );
+                    map.addPopup(feature.popup, false);
+                },
+                'featureunselected':function(evt){
+                    var feature = evt.feature;
+                    if (feature.popup) {
+                        map.removePopup(feature.popup);
+                        feature.popup.destroy();
+                        feature.popup = null;
+                    }
+                },
+                'beforefeatureremoved':function(evt){
+                    var feature = evt.feature;
+                    if (feature.popup) {
+                        map.removePopup(feature.popup);
+                        feature.popup.destroy();
+                        feature.popup = null;
+                    }
+                } 
+            },
+        	styleMap: new OpenLayers.StyleMap({
+        		'default': new OpenLayers.Style({ 
+        	        strokeOpacity: 1,
+        	        strokeWidth: 1,
+        	        fillOpacity: 0,
+        	        strokeColor: '${featurecolor}',
+        	        fillColor: '${featurecolor}'
+        	    }),
+        	    'hover': new OpenLayers.Style({ 
+        	        strokeOpacity: 1,
+        	        strokeWidth: 3,
+        	        fillOpacity: 0.3,
+        	        strokeColor: '${featurecolor}',
+        	        fillColor: '${featurecolor}'
+        	    }) 
+        	})
+        });
+        selectControl = new OpenLayers.Control.SelectFeature(mdResultsLayer); 
+        map.addLayer(mdResultsLayer);
         action = new GeoExt.Action({
-            control: featureinfo,
+            control: selectControl,
             toggleGroup: "move",
             allowDepress: false,
             pressed: false,
@@ -1334,11 +1390,11 @@ var processLayersSuccess = function(response) {
             GeoNetwork.WindowManager.registerWindow("addwms", GeoNetwork.AddWmsLayerWindow, {map: map, id:"addwms"});
             GeoNetwork.WindowManager.registerWindow("wmsinfo", GeoNetwork.WmsLayerMetadataWindow, {map: map, id:"wmsinfo"});
             GeoNetwork.WindowManager.registerWindow("loadwmc", GeoNetwork.LoadWmcWindow, {map: map, id:"loadwmc"});
-            GeoNetwork.WindowManager.registerWindow("featureinfo", GeoNetwork.FeatureInfoWindow, {map: map, id:"featureinfo", control: featureinfo});
+//            GeoNetwork.WindowManager.registerWindow("featureinfo", GeoNetwork.FeatureInfoWindow, {map: map, id:"featureinfo", control: featureinfo});
 //            GeoNetwork.WindowManager.registerWindow("layerstyles", GeoNetwork.LayerStylesWindow, {map: map, id:"layerstyles"});
 //            GeoNetwork.WindowManager.registerWindow("wmstime", GeoNetwork.WMSTimeWindow, {map: map, id:"wmstime"});
             
-            map.addLayer(featureinfolayer);
+//            map.addLayer(featureinfolayer);
         },
 
         /**

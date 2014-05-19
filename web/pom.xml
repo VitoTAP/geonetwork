@@ -292,12 +292,14 @@
       <artifactId>oaipmh</artifactId>
       <version>${project.version}</version>
     </dependency>
-    <dependency> <!-- dummy API for ARC SDE stuff -->
+<!--    <dependency>--> 
+    <!-- dummy API for ARC SDE stuff -->
+<!--
       <groupId>org.geonetwork-opensource</groupId>
       <artifactId>dummy-api</artifactId>
       <version>${project.version}</version>
     </dependency>
-
+-->
     <!-- Handled locally by a temporarly repository -->
     <dependency>
       <groupId>dlib</groupId>

@@ -247,7 +247,7 @@ GeoNetwork.MetadataResultsView = Ext.extend(Ext.DataView, {
                     var uuid = record.get('uuid');
                     
                     for (j = 0; j < this.maps.length; j++) {
-                        var l = this.maps[j].layer;
+                        var l = this.getMdResultsLayer(this.maps[j].map);
                         if (l.features) {
                             for (i = 0; i < l.features.length; i++) {
                                 if (uuid === l.features[i].attributes.id) {
@@ -274,7 +274,7 @@ GeoNetwork.MetadataResultsView = Ext.extend(Ext.DataView, {
                 
                 for (i = 0; i < this.maps.length; i++) {
                     if (this.hover_feature[i]) {
-                        var l = this.maps[i].layer;
+                        var l = this.getMdResultsLayer(this.maps[i].map);
                         l.drawFeature(this.hover_feature[i], 'default');
                         this.hover_feature[i] = null;
                         continue;
@@ -323,7 +323,7 @@ GeoNetwork.MetadataResultsView = Ext.extend(Ext.DataView, {
         var i, j;
         
         for (j = 0; j < this.maps.length; j++) {
-            var l = this.maps[j].layer;
+            var l = this.getMdResultsLayer(this.maps[j].map);
             if (l.features) {
                 for (i = 0; i < l.features.length; i++) {
                     if (uuid === l.features[i].attributes.id) {
@@ -434,40 +434,7 @@ GeoNetwork.MetadataResultsView = Ext.extend(Ext.DataView, {
             this.styleInitialized = true;
             // TODO : a map may be initialized twice by 2 differents results views
         }
-        
-        // TODO : Translate layer name based on a search name ?
-        var l = new OpenLayers.Layer.Vector(OpenLayers.i18n("mdResultsLayer"), {
-            eventListeners:{
-                'featureselected':function(evt){
-                    var feature = evt.feature;
-                    var popup = new OpenLayers.Popup.FramedCloud("popup",
-                        feature.geometry.getBounds().getCenterLonLat(),
-                        null,
-                        "<div style='font-size:.8em'>Title: " + feature.attributes.title +"<br/>Abstract: " + feature.attributes.abstract+"</div>",
-                        null,
-                        true
-                    );
-                    feature.popup = popup;
-                    map.map.addPopup(popup);
-                },
-                'featureunselected':function(evt){
-                    var feature = evt.feature;
-                    map.map.removePopup(feature.popup);
-                    feature.popup.destroy();
-                    feature.popup = null;
-                }
-            },
-        	styleMap: new OpenLayers.StyleMap({'default': this.layer_style, 'hover': this.layer_style_hover})
-        });
-        this.addCurrentFeatures(l);
-        map.layer = l;
-        map.map.addLayer(l);
-        // create the select feature control
-        var selector = new OpenLayers.Control.SelectFeature(l,{
-            hover:true,
-            autoActivate:true
-        }); 
-        map.map.addControl(selector);
+        this.addCurrentFeatures(this.getMdResultsLayer(map.map));
     },
     /** api: method[removeMap] 
      *  :param mapId: ``OpenLayers.Map.id`` An OpenLayers map id
@@ -536,7 +503,7 @@ GeoNetwork.MetadataResultsView = Ext.extend(Ext.DataView, {
         var i;
         
         for (i = 0; i < this.maps.length; i++) {
-            var l = this.maps[i].layer;
+            var l = this.getMdResultsLayer(this.maps[i].map);
             if (l.features) {
                 if (l.features.length > 0) {
                     this.features = [];
@@ -647,7 +614,7 @@ GeoNetwork.MetadataResultsView = Ext.extend(Ext.DataView, {
                 var multipolygon = new OpenLayers.Feature.Vector(new OpenLayers.Geometry.MultiPolygon(polygons), {
                     id: r.get('uuid'),
                     title: r.get('title'),
-                    abstract: r.get('abstract'),
+                    description: r.get('abstract'),
                     featurecolor: featurecolor,
                     createPopup: function() {}
                 });
@@ -656,14 +623,14 @@ GeoNetwork.MetadataResultsView = Ext.extend(Ext.DataView, {
         }, this);
         
         for (i = 0; i < this.maps.length; i++) {
-            this.addCurrentFeatures(this.maps[i].layer);
+            this.addCurrentFeatures(this.getMdResultsLayer(this.maps[i].map));
         }
         
         if (this.features.length > 0) {
             for (i = 0; i < this.maps.length; i++) {
                 var m = this.maps[i];
                 if (m.zoomToExtentOnSearch) {
-                    m.map.zoomToExtent(m.layer.getDataExtent());
+                    m.map.zoomToExtent(this.getMdResultsLayer(m.map).getDataExtent());
                 }
             }
         }
@@ -773,6 +740,10 @@ GeoNetwork.MetadataResultsView = Ext.extend(Ext.DataView, {
         //            // TODO ?
         //        }
         GeoNetwork.MetadataResultsView.superclass.onDestroy.apply(this, arguments);
+    },
+    
+    getMdResultsLayer: function(map){
+        return map.getLayersByName(OpenLayers.i18n("mdResultsLayer"))[0];
     }
 });
 

@@ -445,7 +445,8 @@ div.facets > ul > li {
  */
 div.facets ul ul {
     margin-bottom: 5px;
-    font-size: 85%;
+/*    font-size: 85%;*/
+    font-size: 95%;
 }
 /**
  * Facet count between (number) displayed next to a facet value
@@ -482,7 +483,7 @@ div.facets * .facet-less-bt a {
 }
 .breadcrumb * button {
     color: #0076A1;
-    font-size: smaller;
+/*    font-size: smaller;*/
     font-weight: bold;
 }
 .breadcrumb * button:hover {

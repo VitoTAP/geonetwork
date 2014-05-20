@@ -1026,9 +1026,16 @@ GeoNetwork.app = function(){
                                 	activate : function (p) {
                                         p.add(iMap.getViewport());
                                         p.doLayout();
-                                    }                            	}
-	                            }
-	                        ]
+                                    },                            	
+	                            	deactivate : function (p) {
+	                            		var activeWindow = Ext.WindowMgr.getActive();
+	                            		if (activeWindow && activeWindow.getId()=="selectedFeaturePopupWindow") {
+	                            			activeWindow.close();
+	                            		}
+	                                }                            	
+                                }
+                            }
+                        ]
                         
                                 // Doesn't work to set extent
 	                            /*, listeners: {

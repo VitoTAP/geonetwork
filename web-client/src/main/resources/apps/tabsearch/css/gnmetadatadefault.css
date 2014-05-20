@@ -116,7 +116,7 @@ div#tabs ul li ul li.active {
   float : left;
   display : block;
     background: url("../images/shade.gif") repeat-x scroll left top white;
-    color: #2D2B2B;
+/*    color: #2D2B2B;*/
     margin-right: 3px;
     padding: 3px 7px;
     position: relative;
@@ -139,7 +139,7 @@ div#tabs ul li ul li.active {
   margin-right: 5px;
 }
 .metadata * label {
-  color : #767676;
+/*  color : #767676;*/
   float : left;
 }
 /*
@@ -164,7 +164,7 @@ label + span {
 .metadata * legend {
   font-size : 110%;
   font-weight : bold;
-  color : #016599;
+/*  color : #016599;*/
   padding : 0px 0px 4px 0px;
 }
 
@@ -179,7 +179,7 @@ label + span {
 .metadata * input,
 .metadata * textarea,
 .metadata * select {
-  color : #353a3b;
+/*  color : #353a3b;*/
   border-color : #C1C1C1;
   border : 1px solid #7EADD9;
   padding : 1px 3px;
@@ -222,7 +222,7 @@ label + span {
 .metadata * textarea:focus,
 .metadata * select:focus
 {
-  color : #000;
+/*  color : #000;*/
   background-color : #F7EEE1;
 }
 
@@ -293,7 +293,7 @@ table.related > tbody > tr {
   height : 30px;
 }
 table.related > tbody > tr > td {
-  color : #069;
+/*  color : #069;*/
   border-top : 1px solid #D9AF71;
   border-bottom : 1px solid #D9AF71;
 }
@@ -312,7 +312,7 @@ table.gn {
 table.gn > tbody > tr > td,
 table.gn > tbody > tr > th {
   border-bottom : 0px solid #B3D4E6;
-  color : #069;
+/*  color : #069;*/
 }
 
 table.gn > tbody > tr > th.complex,

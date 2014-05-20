@@ -61,7 +61,7 @@
                 This phase does not belong to the default lifecycle for a jar/war packaging.
                 It has to be run explicitely as mvn command argument for generating obfuscated js. 
              -->
-            <phase>initialize</phase>
+            <phase>prepare-package</phase>
             <goals>
               <goal>compress</goal>
             </goals>
@@ -246,6 +246,7 @@
                 <include>${project.build.directory}/classes/apps/js/GeoExt/lib/GeoExt/data/AttributeReader.js</include>
                 <include>${project.build.directory}/classes/apps/js/GeoExt/lib/GeoExt/data/AttributeStore.js</include>
                 <include>${project.build.directory}/classes/apps/js/GeoExt/lib/GeoExt/data/FeatureReader.js</include>
+                <include>${project.build.directory}/classes/apps/js/GeoExt/lib/GeoExt/data/FeatureRecord.js</include>
                 <include>${project.build.directory}/classes/apps/js/GeoExt/lib/GeoExt/data/FeatureStore.js</include>
                 <include>${project.build.directory}/classes/apps/js/GeoExt/lib/GeoExt/data/LayerRecord.js</include>
                 <include>${project.build.directory}/classes/apps/js/GeoExt/lib/GeoExt/data/LayerReader.js</include>
@@ -259,11 +260,13 @@
                 <include>${project.build.directory}/classes/apps/js/GeoExt/lib/GeoExt/data/WMSDescribeLayerStore.js</include>
                 <include>${project.build.directory}/classes/apps/js/GeoExt/lib/GeoExt/state/PermalinkProvider.js</include>
                 <include>${project.build.directory}/classes/apps/js/GeoExt/lib/GeoExt/widgets/Action.js</include>
-                <include>${project.build.directory}/classes/apps/js/GeoExt/lib/GeoExt/widgets/MapPanel.js</include>
                 <include>${project.build.directory}/classes/apps/js/GeoExt/lib/GeoExt/widgets/LegendImage.js</include>
                 <include>${project.build.directory}/classes/apps/js/GeoExt/lib/GeoExt/widgets/LegendPanel.js</include>
                 <include>${project.build.directory}/classes/apps/js/GeoExt/lib/GeoExt/widgets/LayerLegend.js</include>
+                <include>${project.build.directory}/classes/apps/js/GeoExt/lib/GeoExt/widgets/MapPanel.js</include>
+                <include>${project.build.directory}/classes/apps/js/GeoExt/lib/GeoExt/widgets/Popup.js</include>
                 <include>${project.build.directory}/classes/apps/js/GeoExt/lib/GeoExt/widgets/WMSLegend.js</include>
+                <include>${project.build.directory}/classes/apps/js/GeoExt/lib/GeoExt/widgets/grid/FeatureSelectionModel.js</include>                
                 <include>${project.build.directory}/classes/apps/js/GeoExt/lib/GeoExt/widgets/tree/LayerContainer.js</include>
                 <include>${project.build.directory}/classes/apps/js/GeoExt/lib/GeoExt/widgets/tree/BaseLayerContainer.js</include>
                 <include>${project.build.directory}/classes/apps/js/GeoExt/lib/GeoExt/widgets/tree/LayerLoader.js</include>

@@ -28,11 +28,13 @@ GeoNetwork.mapApp = function() {
     // private vars:
     var toolbar, toctoolbar, tocbbar, viewport;
 
-    var tree, legendPanel, mapLateralPanel, printPanel, printProvider, printPage, pageLayer;
+    var tree, featureGridPanel, legendPanel, mapLateralPanel, printPanel, printProvider, printPage, pageLayer;
     
 //    var featureinfo;
     
-    var selectControl;
+//    var selectControl;
+
+    var mdResultsLayer;
 
     var activeNode;
 
@@ -491,7 +493,7 @@ GeoNetwork.mapApp = function() {
         toolbar.push(action);
         
         toolbar.push("-");
-        
+/*        
         action = new GeoExt.Action({
             control: new OpenLayers.Control.ZoomBox(),
             map: map,
@@ -532,7 +534,7 @@ GeoNetwork.mapApp = function() {
         toolbar.push(action);
         
         toolbar.push("-");
-
+*/
 //        featureinfo = new OpenLayers.Control.WMSGetFeatureInfo({drillDown: true, infoFormat: 'application/vnd.ogc.gml'});
 
         var moveLayerToTop = function(layertomove) {
@@ -574,13 +576,14 @@ GeoNetwork.mapApp = function() {
         });
 */
 
-        var selectedFeature, popup;
-        var mdResultsLayer = new OpenLayers.Layer.Vector(OpenLayers.i18n("mdResultsLayer"), {
+        var selectedFeature;
+        mdResultsLayer = new OpenLayers.Layer.Vector(OpenLayers.i18n("mdResultsLayer"), {
             eventListeners:{
                 'featureselected':function(evt){
                     var feature = evt.feature;
                 	selectedFeature = feature;
-                    feature.popup = new OpenLayers.Popup.FramedCloud("popup",
+/*
+                	feature.popup = new OpenLayers.Popup.FramedCloud("popup",
                         feature.geometry.getBounds().getCenterLonLat(),
                         new OpenLayers.Size(200,200),
                         "<div><div style='font-size:1em;font-weight:bold'>" + feature.attributes.title +"</div><div style='font-size:.8em'>" + feature.attributes.description + "</div><div><a href='javascript:function(){}' onclick='catalogue.metadataShow(\'" + feature.attributes.id + "\')'>"+ OpenLayers.i18n("view") +"</a></</div>",
@@ -590,21 +593,54 @@ GeoNetwork.mapApp = function() {
                     		selectControl.unselect(selectedFeature);
                     	}
                     );
+                    feature.popup.maxSize = new OpenLayers.Size(300,200);
                     map.addPopup(feature.popup, false);
-                },
+*/
+                	selectedFeature.popupIsClosed = false;
+                	feature.popup = new GeoExt.Popup({
+                		id: "selectedFeaturePopupWindow",
+                        title: feature.attributes.title,
+                        map: map,
+                        location: feature,
+                        alwaysOnTop: false,
+                        width:200,
+                        height:200,
+                        autoScroll: true,
+//                        html: "<div><div style='font-size:1em;font-weight:bold'>" + feature.attributes.title +"</div><div style='font-size:.8em'>" + feature.attributes.description + "</div><div><a href='javascript:function(){}' onclick='catalogue.metadataShow(\"" + feature.attributes.id + "\")'>"+ OpenLayers.i18n("view") +"</a></</div>",
+                        html: "<div><div>" + feature.attributes.description + "</div><div><a href='javascript:function(){}' onclick='catalogue.metadataShow(\"" + feature.attributes.id + "\")'>"+ OpenLayers.i18n("view") +"</a></div></div>",
+                        maximizable: true,
+                        collapsible: false/*,
+                        unpinnable: false,*/
+                    });
+
+                	feature.popup.on({
+                        close: function() {
+                        	var selectControl = selectedFeature.layer.map.getControlsByClass("OpenLayers.Control.SelectFeature");
+                        	selectedFeature.popupIsClosed = true;
+                        	if (selectControl && selectControl[0]) {
+                            	selectControl[0].unselect(selectedFeature);
+                        	}
+                        }
+                    });
+                	feature.popup.show();
+            	},
                 'featureunselected':function(evt){
                     var feature = evt.feature;
                     if (feature.popup) {
-                        map.removePopup(feature.popup);
-                        feature.popup.destroy();
+//                        map.removePopup(feature.popup);
+//                        feature.popup.destroy();
+                    	if (!feature.popupIsClosed) {
+                            feature.popup.close();
+                    	}
                         feature.popup = null;
                     }
                 },
                 'beforefeatureremoved':function(evt){
                     var feature = evt.feature;
                     if (feature.popup) {
-                        map.removePopup(feature.popup);
-                        feature.popup.destroy();
+//                        map.removePopup(feature.popup);
+//                        feature.popup.destroy();
+                        feature.popup.close();
                         feature.popup = null;
                     }
                 } 
@@ -626,9 +662,12 @@ GeoNetwork.mapApp = function() {
         	    }) 
         	})
         });
-        selectControl = new OpenLayers.Control.SelectFeature(mdResultsLayer); 
+  //      selectControl = new OpenLayers.Control.SelectFeature(mdResultsLayer);
         map.addLayer(mdResultsLayer);
+        createFeatureGridPanel(mdResultsLayer);
+/*
         action = new GeoExt.Action({
+        	id:"identifyAction",
             control: selectControl,
             toggleGroup: "move",
             allowDepress: false,
@@ -641,7 +680,7 @@ GeoNetwork.mapApp = function() {
         toolbar.push(action);
         
         toolbar.push("-");
-
+*/
         // Navigation history - two "button" controls
         ctrl = new OpenLayers.Control.NavigationHistory();
         map.addControl(ctrl);
@@ -1148,14 +1187,58 @@ GeoNetwork.mapApp = function() {
                 style: 'padding:5px'
             },
             title: 'Legend',
-            height:200,
+//            height:200,
             autoScroll: true,
-            split: true,
-            collapsible: true,
-            collapsed: true,
-            border: false,
-            region: 'south'
+//            split: true,
+//            collapsible: true,
+//            collapsed: true,
+//            border: false,
+//            region: 'south'
         });
+    };
+
+    var createFeatureGridPanel = function(layer) {
+    	var store = new GeoExt.data.FeatureStore({
+	        layer: layer,
+	        fields: [
+	            {name: 'id', type: 'string'},
+	            {name: 'title', type: 'string'}
+	        ],
+	        autoLoad: true
+	    });
+    	featureGridPanel = new Ext.grid.GridPanel({
+	        layer: layer,
+	        title: OpenLayers.i18n("mdResultsLayer"),
+//	        headerCssClass: 'x-panel-header-belair',
+//            height:200,
+            autoScroll: true,
+	        store: store,
+	        tbar: [new Ext.Button({
+				text: OpenLayers.i18n('view'),
+				iconCls: 'md-mn-view',
+				handler: function() {
+				    var record = featureGridPanel.getSelectionModel().getSelected();
+				    if (record) {
+				    	catalogue.metadataShow(record.get('id'),false);
+				    } else {
+				        Ext.MessageBox.alert("Metadata",OpenLayers.i18n("noneSelected"));
+				    }
+				},
+                scope: featureGridPanel
+            })],
+	        columns: [{
+	        	id: "title",
+	            header: "Title",
+	            dataIndex: "title",
+	            menuDisabled: true,
+	            sortable: true
+	        }/*,{
+	            header: "Description",
+	            dataIndex: "description"
+	        }*/],
+	        autoExpandColumn: "title",
+	        sm: new GeoExt.grid.FeatureSelectionModel() 
+	    });
     };
 
     /**
@@ -1169,7 +1252,7 @@ GeoNetwork.mapApp = function() {
         //createPrintPanel();
         
         var mapOverlay = createMapOverlay();
-       
+/*       
         // Accordion panel with layer tree and advanced print config
         var accordion = new Ext.Panel({
             region: 'center',
@@ -1177,10 +1260,10 @@ GeoNetwork.mapApp = function() {
             layout: 'accordion',
             deferredRender:false, 
             items: [
-                tree //, printPanel
+                    featureGridPanel, tree //, printPanel
             ]
         });
-       
+*/       
         viewport = new Ext.Panel({
             layout: 'border',
             border: false,
@@ -1188,6 +1271,7 @@ GeoNetwork.mapApp = function() {
             items: [{
                     region: 'west',
                     xtype: 'panel',			
+/*
                     header: false,			
                     collapsible: true,
                     collapseMode: "mini",
@@ -1196,9 +1280,21 @@ GeoNetwork.mapApp = function() {
                     width:200,
                     minSize: 200,
                     maxSize: 300,
+                    layout: 'accordion',
                     layout: 'border',
                     items: [accordion, legendPanel]
-                },{
+*/
+	                border: false,
+	                width:200,
+//					autoScroll: true,
+	                layout: {
+	                    type: 'accordion',
+	                    titleCollapse: true,
+	                    animate: true,
+	                    activeOnTop: false
+	                },
+                    items: [featureGridPanel, tree, legendPanel]
+        		},{
                     region: 'center',
                     layout: 'fit',
                     frame: false,

@@ -1,9 +1,12 @@
 body {
   /*font-family : helvetica, tahoma, verdana, sans-serif;*/
-  font-family : "Helvetica Neue", sans-serif;
+  font-family: Verdana,Helvetica,Arial,sans-serif;
+  font-size: 95%;
+  color: #7E7878;
+/*font-family : "Helvetica Neue", sans-serif;*/
   padding : 20px;
   padding-top : 32px;
-  font-size : 12px;
+  /*font-size : 12px;*/
   background-color : #fff !important;
 }
 a {
@@ -172,6 +175,16 @@ ul.main {
 #header .catLogo {
   //max-height : 31px;
 }
+
+.x-panel-header {
+  background: #FFFFFF;
+  background: -moz-linear-gradient(left, #FFFFFF 0%, #1E6A91 100%);
+  background: -webkit-gradient(linear, left top, right top, color-stop(0%,#FFFFFF), color-stop(100%,#1E6A91));
+  background: -webkit-linear-gradient(left, #FFFFFF 0%, #1E6A91 100%);
+  background: -o-linear-gradient(left, #FFFFFF 0%, #1E6A91 100%);
+  background: -ms-linear-gradient(left, #FFFFFF 0%, #1E6A91 100%);
+}
+
 #header div {
   background: #FFFFFF;
   background: -moz-linear-gradient(left, #FFFFFF 0%, #1E6A91 100%);
@@ -237,7 +250,10 @@ table.related * a,
 #mn-top div a,
 .mn-main {
   color : #0076A1;
-  font-family : "Lucida Sans", "Lucida Sans Unicode", "Lucida Grande", Verdana, Arial, Helvetica, sans-serif;
+  font-family: Verdana,Helvetica,Arial,sans-serif;
+  font-size: 95%;
+  color: #7E7878;
+/*  font-family : "Lucida Sans", "Lucida Sans Unicode", "Lucida Grande", Verdana, Arial, Helvetica, sans-serif;*/
   text-decoration : none;
 }
 #mn-top div a,
@@ -443,7 +459,8 @@ div.facets > ul > li {
 div.facets ul ul {
     margin-left: 5px;
     margin-bottom: 5px;
-    font-size: 85%;
+/*    font-size: 85%;*/
+    font-size: 95%;
 }
 /**
  * Facet count between (number) displayed next to a facet value
@@ -475,7 +492,7 @@ div.facets * .facet-less-bt {
 }
 .breadcrumb * button {
     color: #0076A1;
-    font-size: smaller;
+/*    font-size: smaller;*/
     font-weight: bold;
 }
 .breadcrumb * button:hover {

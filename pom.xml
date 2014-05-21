@@ -189,7 +189,7 @@
             <descriptor>release/zip-war.xml</descriptor>
             <descriptor>release/bin.xml</descriptor>
           </descriptors>
-          <finalName>geonetwork-${version}</finalName>
+          <finalName>geonetwork-${project.version}</finalName>
           <outputDirectory>${project.build.directory}/release</outputDirectory>
         </configuration>
       </plugin>
@@ -789,12 +789,13 @@
     </repository>
 
 		<!-- tmatesoft repo for svnkit -->
+<!-- 
      <repository>
         <id>org.tmatesoft.svnkit</id>
         <name>svnkit repository</name>
         <url>http://maven.tmatesoft.com/content/repositories/releases/</url>
     </repository>
-
+-->
       <!-- seasar repo, has jsonic - used by langdetect -->
       <repository>
           <id>maven.seasar.org</id>

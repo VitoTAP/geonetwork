@@ -127,6 +127,9 @@ GeoNetwork.mapApp = function() {
         map.addControl(new OpenLayers.Control.LoadingPanel());
         map.addControl(new OpenLayers.Control.PanZoomBar());
         map.addControl(new OpenLayers.Control.ScaleLine());
+        map.addControl(new OpenLayers.Control.DragPan({
+            isDefault: true
+        }));
     };
     
     /**
@@ -519,7 +522,7 @@ GeoNetwork.mapApp = function() {
         });
 
         toolbar.push(action);
-
+*/
         action = new GeoExt.Action({
             control: new OpenLayers.Control.DragPan({
                     isDefault: true
@@ -535,7 +538,7 @@ GeoNetwork.mapApp = function() {
         toolbar.push(action);
         
         toolbar.push("-");
-*/
+
 //        featureinfo = new OpenLayers.Control.WMSGetFeatureInfo({drillDown: true, infoFormat: 'application/vnd.ogc.gml'});
 
         var moveLayerToTop = function(layertomove) {

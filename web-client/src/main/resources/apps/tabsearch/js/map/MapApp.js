@@ -125,7 +125,8 @@ GeoNetwork.mapApp = function() {
     var addMapControls = function() {
         map.addControl(new GeoNetwork.Control.ZoomWheel());
         map.addControl(new OpenLayers.Control.LoadingPanel());
-        //map.addControl(new OpenLayers.Control.ScaleBar());
+        map.addControl(new OpenLayers.Control.PanZoomBar());
+        map.addControl(new OpenLayers.Control.ScaleLine());
     };
     
     /**
@@ -798,9 +799,10 @@ GeoNetwork.mapApp = function() {
 //        });
 //        
 //        toolbar.push(measureSplit);
-
+/*
         toolbar.push('->');
-        toolbar.push({xtype: 'gn_projectionselector', projections: GeoNetwork.ProjectionList, fieldLabel: OpenLayers.i18n("projectionTitle"), map: map});	
+        toolbar.push({xtype: 'gn_projectionselector', projections: GeoNetwork.ProjectionList, fieldLabel: OpenLayers.i18n("projectionTitle"), map: map});
+*/        	
     };
 
     /**
@@ -809,13 +811,14 @@ GeoNetwork.mapApp = function() {
      */
     var createMapOverlay = function() {
         var scaleLinePanel = new Ext.Panel({
-            cls: 'olControlScaleLine overlay-element overlay-scaleline',
+//            cls: 'olControlScaleLine overlay-element overlay-scaleline',
             border: false
         });
 
         scaleLinePanel.on('render', function(){
             var scaleLine = new OpenLayers.Control.ScaleLine({
-                div: scaleLinePanel.body.dom
+                div: scaleLinePanel.body.dom,
+                geodesic: true
             });
 
             map.addControl(scaleLine);
@@ -890,8 +893,8 @@ GeoNetwork.mapApp = function() {
             // title: "Overlay",
             cls: 'map-overlay',
             items: [
-                scaleLinePanel,
-                zoomSelectorWrapper
+                scaleLinePanel/*,
+                zoomSelectorWrapper*/
             ]
         });
 
@@ -1170,8 +1173,9 @@ GeoNetwork.mapApp = function() {
 //            tbar:  toctoolbar,
             rootVisible: false,
             lines: false,
-            border: false,
-            region: 'center'			
+            frame: false,
+            border: true/*,
+            region: 'center'*/			
         });
 
     };
@@ -1192,8 +1196,9 @@ GeoNetwork.mapApp = function() {
 //            split: true,
 //            collapsible: true,
 //            collapsed: true,
-//            border: false,
-//            region: 'south'
+            border: true,
+            frame: false/*,
+            region: 'south'*/
         });
     };
 
@@ -1209,8 +1214,10 @@ GeoNetwork.mapApp = function() {
     	featureGridPanel = new Ext.grid.GridPanel({
 	        layer: layer,
 	        title: OpenLayers.i18n("mdResultsLayer"),
-//	        headerCssClass: 'x-panel-header-belair',
+	        padding: 0,
 //            height:200,
+	        border: true,
+	        frame: false,
             autoScroll: true,
 	        store: store,
 	        tbar: [new Ext.Button({
@@ -1251,7 +1258,7 @@ GeoNetwork.mapApp = function() {
         createLegendPanel();
         //createPrintPanel();
         
-        var mapOverlay = createMapOverlay();
+//        var mapOverlay = createMapOverlay();
 /*       
         // Accordion panel with layer tree and advanced print config
         var accordion = new Ext.Panel({
@@ -1285,7 +1292,7 @@ GeoNetwork.mapApp = function() {
                     items: [accordion, legendPanel]
 */
 	                border: false,
-	                width:200,
+	                width:300,
 //					autoScroll: true,
 	                layout: {
 	                    type: 'accordion',
@@ -1299,16 +1306,18 @@ GeoNetwork.mapApp = function() {
                     layout: 'fit',
                     frame: false,
                     border: false,
-                    margins: '0 0 0 0',
+                    padding: 0,
                     items: [{
                         id: 'mappanel',
                         xtype: 'gx_mappanel',
                         map: map,
                         tbar: toolbar,
-                        border: false,
+                        border: true,
+                        frame: false,
+                        padding:0,
                         center: [155000, 463000],
-                        zoom: 2,
-                        items: [mapOverlay]
+                        zoom: 2/*,
+                        items: [mapOverlay]*/
                     }]
                 }
             ]

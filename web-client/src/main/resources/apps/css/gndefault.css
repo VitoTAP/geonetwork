@@ -398,6 +398,7 @@ span.madeBy a {
 .loginInfo {
   text-align: right;
   padding: 1px;
+  color: #FFFFFF;
 }
 
 .xmltag {
@@ -488,7 +489,7 @@ div.facets * .facet-less-bt a {
 }
 .breadcrumb * button:hover {
     color : #959532;
-    text-decoration: underline;
+/*    text-decoration: underline;*/
 }
 .breadcrumb-mn {
     background-color: #FFF !important;

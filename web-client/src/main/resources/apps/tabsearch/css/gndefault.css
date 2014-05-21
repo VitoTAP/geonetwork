@@ -176,6 +176,18 @@ ul.main {
   //max-height : 31px;
 }
 
+.x-panel-body {
+	padding:5px;
+}
+
+.x-panel-mc {
+  font-family: Verdana,Helvetica,Arial,sans-serif;
+  font-size: 95%;
+/*  background: #FFFFFF;*/
+}
+.breadcrumb .x-panel-body {
+	padding:0px;
+}
 .x-panel-header {
   background: #FFFFFF;
   background: -moz-linear-gradient(left, #FFFFFF 0%, #1E6A91 100%);
@@ -198,7 +210,7 @@ ul.main {
   border-color: #6B6B6B;
   float : left;
   width : auto;
-  display : inline;
+  display : inline;e
 }
 
 #footer {
@@ -413,6 +425,7 @@ span.madeBy a {
 .loginInfo {
   text-align: right;
   padding: 1px;
+  color: #FFFFFF;
 }
 
 .xmltag {
@@ -497,7 +510,7 @@ div.facets * .facet-less-bt {
 }
 .breadcrumb * button:hover {
     color : #959532;
-    text-decoration: underline;
+/*    text-decoration: underline;*/
 }
 .breadcrumb-mn {
     background-color: #FFF !important;

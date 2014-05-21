@@ -24283,8 +24283,9 @@ Ext.data.Store = Ext.extend(Ext.util.Observable, {
             
             
             
-            
-            this.proxy.request(Ext.data.Api.actions[action], rs, options.params, this.reader, this.createCallback(action, rs, batch), this, options);
+            if (this.proxy) {
+                this.proxy.request(Ext.data.Api.actions[action], rs, options.params, this.reader, this.createCallback(action, rs, batch), this, options);
+            }
         }
         return doRequest;
     },

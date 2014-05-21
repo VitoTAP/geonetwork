@@ -37430,7 +37430,9 @@ sortInfo: {
             // the user's configured DataProxy#api
             // TODO Refactor all Proxies to accept an instance of Ext.data.Request (not yet defined) instead of this looooooong list
             // of params.  This method is an artifact from Ext2.
-            this.proxy.request(Ext.data.Api.actions[action], rs, options.params, this.reader, this.createCallback(action, rs, batch), this, options);
+            if (this.proxy) {
+            	this.proxy.request(Ext.data.Api.actions[action], rs, options.params, this.reader, this.createCallback(action, rs, batch), this, options);
+            }
         }
         return doRequest;
     },

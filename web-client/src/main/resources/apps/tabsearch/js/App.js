@@ -849,6 +849,7 @@ GeoNetwork.app = function(){
             });
             facetsPanel = new GeoNetwork.FacetsPanel({
             	title: OpenLayers.i18n('facetsPanelTitle'),
+            	border: true,
                 searchForm: searchForm,
                 breadcrumb: breadcrumb,
                 maxDisplayedItems: GeoNetwork.Settings.facetMaxItems || 1000,
@@ -867,7 +868,7 @@ GeoNetwork.app = function(){
                         plain:true,
 //                        autoScroll: true,
 //                        defaults:{ autoScroll:true },
-                        margins:'0 0 0 0',
+                        margins:'10',
                         border: false,
                         activeTab: 0,
                         items:[
@@ -965,8 +966,9 @@ GeoNetwork.app = function(){
                                     {//sidebar searchform
                                         region:'west',
                                         id:'west',
-                                        border: true,
-                                        width:200,
+                                        border: false,
+                                        frame: false,
+                                        width:300,
 //                                        autoScroll: true,
                                         layout: {
                                             type: 'accordion',
@@ -985,7 +987,8 @@ GeoNetwork.app = function(){
                                         items:[resultsPanel]*/
                                         layout: 'fit',
                                         region:'center',                                        
-                                        border: false,
+                                        border: true,
+                                        padding: 0,
 //                                        autoScroll:true,
                                         items:resultsPanel
                                     }

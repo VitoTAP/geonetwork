@@ -158,8 +158,8 @@ GeoNetwork.LoginForm = Ext.extend(Ext.FormPanel, {
     		this.toggledFields.push(loginBt);
     	} else {
     		// hbox layout does not display TextField labels, create a label then
-        	var usernameLb = new Ext.form.Label({hidde:GeoNetwork.Settings.useSTS,html: OpenLayers.i18n('username')}),
-    			passwordLb = new Ext.form.Label({hidde:GeoNetwork.Settings.useSTS,html: OpenLayers.i18n('password')});
+        	var usernameLb = new Ext.form.Label({hidden:GeoNetwork.Settings.useSTS,html: OpenLayers.i18n('username')}),
+    			passwordLb = new Ext.form.Label({hidden:GeoNetwork.Settings.useSTS,html: OpenLayers.i18n('password')});
     		this.loginFields.push(usernameLb, 
             		this.username,
                     passwordLb,

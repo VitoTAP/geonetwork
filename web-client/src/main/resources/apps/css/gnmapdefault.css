@@ -184,6 +184,8 @@ div.map-overlay div.overlay-element {
   font-family : tahoma, arial, helvetica, sans-serif;
   font-size : xx-small;
   left : 10px;
+  background: white;
+  padding: 10px;
 }
 
 .overlay-scaleline {

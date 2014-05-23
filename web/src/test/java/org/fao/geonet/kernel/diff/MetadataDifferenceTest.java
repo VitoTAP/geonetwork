@@ -23,6 +23,7 @@ public class MetadataDifferenceTest extends TestCase {
 
     public MetadataDifferenceTest(String name) throws Exception {
 		super(name);
+        MetadataDifference.init("src\\main\\webapp");
 	}
 
     //

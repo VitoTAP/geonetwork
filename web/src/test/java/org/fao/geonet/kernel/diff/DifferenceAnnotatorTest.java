@@ -28,7 +28,7 @@ public class DifferenceAnnotatorTest extends TestCase {
 
     public DifferenceAnnotatorTest(String name) throws Exception {
         super(name);
-        MetadataDifference.init("src\\main\\webapp");
+        MetadataDifference.init("src/main/webapp");
     }
 
     //

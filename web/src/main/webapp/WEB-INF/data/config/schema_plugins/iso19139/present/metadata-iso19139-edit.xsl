@@ -3678,7 +3678,7 @@
 		<xsl:if test="$edit=true()">
 	        <xsl:choose>
 
-	            <xsl:when test="false() and string(gmd:protocol[1]/gco:CharacterString)='WWW:DOWNLOAD-1.0-http--download'
+	            <xsl:when test="string(gmd:protocol[1]/gco:CharacterString)='WWW:DOWNLOAD-1.0-http--download'
 	            and string(gmd:name/gco:CharacterString|gmd:name/gmx:MimeFileType)!=''">
 	                <xsl:apply-templates mode="iso19139FileRemove" select="gmd:name/gco:CharacterString|gmd:name/gmx:MimeFileType">
 	                    <xsl:with-param name="access" select="'private'"/>
@@ -3972,7 +3972,7 @@
                     <xsl:with-param name="edit" select="$edit"/>
                     <xsl:with-param name="title" select="/root/gui/strings/file"/>
                     <xsl:with-param name="text">
-                        <button class="content" onclick="Ext.getCmp('editorPanel').showFileUploadPanel({//geonet:info/id}, '{$ref}');" type="button">
+                        <button class="content" onclick="Ext.getCmp('editorPanel').showFileUploadPanel('{//geonet:info/id}', '{$ref}');" type="button">
                             <xsl:value-of select="/root/gui/strings/insertFileMode"/>
                         </button>
                     </xsl:with-param>

@@ -1,12 +1,14 @@
 body {
   /*font-family : helvetica, tahoma, verdana, sans-serif;*/
-  font-family: Verdana,Helvetica,Arial,sans-serif;
-  font-size: 95%;
+  font-family: OpenSans,Verdana,Helvetica,Arial,sans-serif;
+/*  font-size: 95%;*/
+/*  font-size: 1em;*/
+  line-height: 1.4;
   color: #7E7878;
 /*font-family : "Helvetica Neue", sans-serif;*/
   padding : 20px;
   padding-top : 32px;
-  /*font-size : 12px;*/
+  font-size : 12px;
   background-color : #fff !important;
 }
 a {
@@ -16,7 +18,7 @@ p {
   margin-bottom : 15px;
 }
 h1 {
-  font-size : large;
+  font-size : 14px;
   margin-bottom : 20px;
 }
 h2 {
@@ -180,15 +182,24 @@ ul.main {
 	padding:5px;
 }
 
+.x-tab-strip-active{
+	background: red;
+}
+
+.x-tab-strip{
+	background: blue;
+}
+
 .x-panel-mc {
   font-family: Verdana,Helvetica,Arial,sans-serif;
-  font-size: 95%;
+/*  font-size: 95%;*/
+  font-size: 85%;
 /*  background: #FFFFFF;*/
 }
 .breadcrumb .x-panel-body {
 	padding:0px;
 }
-.x-panel-header {
+.x-panel-header, .x-panel-tbar {
   background: #FFFFFF;
   background: -moz-linear-gradient(left, #FFFFFF 0%, #1E6A91 100%);
   background: -webkit-gradient(linear, left top, right top, color-stop(0%,#FFFFFF), color-stop(100%,#1E6A91));
@@ -263,7 +274,8 @@ table.related * a,
 .mn-main {
   color : #0076A1;
   font-family: Verdana,Helvetica,Arial,sans-serif;
-  font-size: 95%;
+/*  font-size: 95%;*/
+  font-size: 85%;
   color: #7E7878;
 /*  font-family : "Lucida Sans", "Lucida Sans Unicode", "Lucida Grande", Verdana, Arial, Helvetica, sans-serif;*/
   text-decoration : none;
@@ -461,19 +473,31 @@ div.facets * li {
  * Facet category label
  */
 div.facets > ul > li {
-    margin: 0px;
+	border-top: #CCC;
+	color: #47A8DD;
+	margin: 0px;
     padding: 0px;
-    border-top: 1px solid #CCC;
+/*    border-top: 1px solid #CCC;*/
     font-weight: bold;
 }
 /**
  * Facet sub elements
  */
 div.facets ul ul {
-    margin-left: 5px;
+	display: block;
+	list-style-type: disc;
+	-webkit-margin-before: 1em;
+	-webkit-margin-after: 1em;
+	-webkit-margin-start: 0px;
+	-webkit-margin-end: 0px;
+	-webkit-padding-start: 10px;
+/*
+	margin-left: 5px;
     margin-bottom: 5px;
-/*    font-size: 85%;*/
-    font-size: 95%;
+    font-size: 85%;*/
+*/
+/*  font-size: 95%;*/
+  font-size: 85%;
 }
 /**
  * Facet count between (number) displayed next to a facet value

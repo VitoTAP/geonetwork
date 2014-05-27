@@ -100,7 +100,7 @@ GeoNetwork.data.MetadataResultsFastStore = function(){
                 if (!Ext.isEmpty(name) && !addedContacts.contains(name)) {
                     contact.push({
                         applies: tokens[1],
-                        logo: tokens[3],
+                        logo: (name && name!='') ? name.toLowerCase().replace(/[éè ]/g, function(match) {return {"é": "e", "è": "e", " ":""}[match];}) + '.png' : '',
                         role: tokens[0],
                         name: name
                     });
@@ -177,6 +177,22 @@ GeoNetwork.data.MetadataResultsFastStore = function(){
         }*/
         if (record.geonet_info && record.geonet_info.ownername) {
             return record.geonet_info.ownername[0].value;
+        } else {
+            return '';
+        }
+    }
+    
+    function getTempExtentBegin(v, record){
+        if (record.tempExtentBegin) {
+            return record.tempExtentBegin[0].value;
+        } else {
+            return '';
+        }
+    }
+    
+    function getTempExtentEnd(v, record){
+        if (record.tempExtentEnd) {
+            return record.tempExtentEnd[0].value;
         } else {
             return '';
         }
@@ -429,7 +445,13 @@ GeoNetwork.data.MetadataResultsFastStore = function(){
         }, {
             name: 'owner',
             convert: getOwner
-        }
+	    }, {
+	        name: 'tempExtentBegin',
+	        convert: getTempExtentBegin
+		}, {
+		    name: 'tempExtentEnd',
+		    convert: getTempExtentEnd
+		}
         ]
     });
 };

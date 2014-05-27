@@ -170,8 +170,8 @@
 							</xsl:call-template>
 						</xsl:variable>
 
-						<Field name="tempExtentBegin" string="{lower-case(substring-before($times,'|'))}" store="false" index="true"/>
-						<Field name="tempExtentEnd" string="{lower-case(substring-after($times,'|'))}" store="false" index="true"/>
+						<Field name="tempExtentBegin" string="{lower-case(substring-before($times,'|'))}" store="true" index="true"/>
+						<Field name="tempExtentEnd" string="{lower-case(substring-after($times,'|'))}" store="true" index="true"/>
 					</xsl:for-each>
 
 				</xsl:for-each>
@@ -250,7 +250,7 @@
 	
 			<xsl:for-each select="gmd:topicCategory/gmd:MD_TopicCategoryCode">
 				<Field name="topicCat" string="{string(.)}" store="true" index="true"/>
-				<Field name="keyword" string="{string(.)}" store="true" index="true"/>
+<!--				<Field name="keyword" string="{string(.)}" store="true" index="true"/>-->
 			</xsl:for-each>
 
 			<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->		

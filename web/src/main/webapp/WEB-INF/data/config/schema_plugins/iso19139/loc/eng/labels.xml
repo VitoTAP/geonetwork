@@ -1622,6 +1622,21 @@
         <label>Organisation name</label>
         <description>Name of the responsible organization</description>
         <condition>conditional</condition>
+      <helper>
+        <option value="Vito">Vito</option>
+        <option value="VISION LAB">VISION LAB</option>
+        <option value="Universiteit Hasselt">Universiteit Hasselt</option>
+        <option value="KU Leuven">KU Leuven</option>
+        <option value="Universiteit Gent">Universiteit Gent</option>
+        <option value="Proefcentrum fruitteelt vzw">Proefcentrum fruitteelt vzw</option>
+        <option value="cra-W">cra-W</option>
+        <option value="Vrije Universiteit Brussel">Vrije Universiteit Brussel</option>
+        <option value="INBO">INBO</option>
+        <option value="Division de la Nature et des Forets">Division de la Nature et des Forets</option>
+        <option value="Bruxelles environnement - Leefmilieu Brussel">Agentschap voor Natuur en Bos</option>
+        <option value="Vito">Bruxelles environnement - Leefmilieu Brussel</option>
+        <option value="Université de Liège">Université de Liège</option>
+      </helper>
     </element>
     <element name="gmd:orientationParameterAvailability" id="172.0">
         <label>Orientation parameter availability</label>

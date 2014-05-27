@@ -618,6 +618,8 @@ GeoNetwork.util.SearchFormTools = {
      */
     getMetadataTypeField: function(multi){
         var config = {
+				columnWidth: 1,
+				anchor: '100%',
                 name: 'E_template',
                 mode: 'local',
                 triggerAction: 'all',

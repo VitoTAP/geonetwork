@@ -436,6 +436,7 @@ GeoNetwork.app = function(){
                        }
                    }
                 }),
+                metadataTypeField,
                 {
                		title:'Options',
                     width:0,
@@ -895,7 +896,7 @@ GeoNetwork.app = function(){
                                         bodyStyle:'border-width:0px',
                                         border:true,
                                         deferredRender: false,
-                                        defaults:{style:'padding:5px',bodyStyle:'padding:5px'},
+                                        defaults:{style:'padding:50px;text-align:center;font-size:20px',bodyStyle:'padding:5px'},
                                         items:[
                                            	{
                     							border: false,
@@ -905,7 +906,7 @@ GeoNetwork.app = function(){
                     							xtype: 'box',
                     							border: false,
                     							columnWidth: 0.25,
-                    							autoEl : {html:'<div class="thumb"><img src="' + catalogue.URL + '/apps/tabsearch/images/site-litora.jpg" title="LITORA" alt="LITORA"></div><div>LITORA</div>'},
+                    							autoEl : {html:'<div class="thumb"><img style="cursor:pointer;" height="250" src="' + catalogue.URL + '/apps/tabsearch/images/litora.png" title="LITORA" alt="LITORA"></div><br/><div>LITORA</div>'},
                     							listeners: {
                     								render: function(p) {
                     									p.getEl().on('click', function(){
@@ -919,7 +920,7 @@ GeoNetwork.app = function(){
                                        			xtype: 'box',
                                        			border: false,
                                        			columnWidth: 0.20,
-                                       			autoEl : {html:'<div class="thumb"><img src="' + catalogue.URL + '/apps/tabsearch/images/site-sonia.png" title="SONIA" alt="SONIA"></div><div>SONIA</div>'},
+                                       			autoEl : {html:'<div class="thumb"><img style="cursor:pointer;" height="250" src="' + catalogue.URL + '/apps/tabsearch/images/sonia.png" title="SONIA" alt="SONIA"></div><br/><div>SONIA</div>'},
                                        			listeners: {
                                        				render: function(p) {
                                        					p.getEl().on('click', function(){
@@ -933,7 +934,7 @@ GeoNetwork.app = function(){
                                        			xtype: 'box',
                                        			border: false,
                                        			columnWidth: 0.25,
-                                       			autoEl : {html:'<div class="thumb"><img src="' + catalogue.URL + '/apps/tabsearch/images/site-hesbania.jpg" title="HESBANIA" alt="HESBANIA"></div><div>HESBANIA</div>'},
+                                       			autoEl : {html:'<div class="thumb"><img style="cursor:pointer;" height="250" src="' + catalogue.URL + '/apps/tabsearch/images/hesbania.png" title="HESBANIA" alt="HESBANIA"></div><br/><div>HESBANIA</div>'},
                                        			listeners: {
                                        				render: function(p) {
                                        					p.getEl().on('click', function(){

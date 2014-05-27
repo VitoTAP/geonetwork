@@ -153,8 +153,8 @@ GeoNetwork.Templates = Ext.extend(Ext.XTemplate, {
             '<table><tr>',  // FIXME
             '<td style="width:75px;">',
 //            isAgiv ? '<tpl if="isharvested==\'y\'">' + GeoNetwork.Templates.LOGO + '</tpl>' + '<tpl if="isharvested==\'n\'">' + GeoNetwork.Templates.GEOPUNT_LOGO + '</tpl>' : '',
-            !isAgiv ? GeoNetwork.Templates.LOGO : '',
-            (isAgiv || isGeopunt) ? '<br/><div class="md-logo-type"><img title="{type}" src="{catalogue.URL}/apps/tabsearch/images/{type}.png"/></div>' : '',
+//            !isAgiv ? GeoNetwork.Templates.LOGO : '',
+//            (isAgiv || isGeopunt) ? '<br/><div class="md-logo-type"><img title="{type}" src="{catalogue.URL}/apps/tabsearch/images/{type}.png"/></div>' : '',
 			'</td>',
             '<td id="{uuid}">',
             GeoNetwork.Templates.TITLE,
@@ -244,12 +244,15 @@ GeoNetwork.Templates = Ext.extend(Ext.XTemplate, {
             '<table><tr>',
             '<td class="left">',
 //        	isAgiv ? '<tpl if="isharvested==\'y\'">' + GeoNetwork.Templates.LOGO + '</tpl>' + '<tpl if="isharvested==\'n\'">' + GeoNetwork.Templates.GEOPUNT_LOGO + '</tpl>' : '',
-        	!isAgiv ? GeoNetwork.Templates.LOGO : '',
-            (isAgiv || isGeopunt) ? '<br/><div class="md-logo-type"><img title="{type}" src="{catalogue.URL}/apps/tabsearch/images/{type}.png"/></div>' : '',
+//        	!isAgiv ? GeoNetwork.Templates.LOGO : '',
+//            (isAgiv || isGeopunt) ? '<br/><div class="md-logo-type"><img title="{type}" src="{catalogue.URL}/apps/tabsearch/images/{type}.png"/></div>' : '',
             '</td>',
             '<td id="{uuid}">',
             GeoNetwork.Templates.TITLE,
             '<p class="abstract">{[values.abstract.substring(0, 350)]} ...</p>',    // FIXME : 250 as parameters
+            '<tpl if="values.tempExtentBegin && values.tempExtentBegin!=\'\'">',
+            	'<p>From {[values.tempExtentBegin.substring(0, 10)]} to {[values.tempExtentEnd.substring(0, 10)]}</p>',
+        	'</tpl>',
             '<tpl if="subject">',
             '<p class="subject"><tpl for="subject">',
             '{value}{[xindex==xcount?"":", "]}',
@@ -258,20 +261,20 @@ GeoNetwork.Templates = Ext.extend(Ext.XTemplate, {
             '<div class="md-links">',
             '<a href="?uuid={uuid}&hl={catalogue.lang}" target="_blank" class="md-mn md-mn-bookmark" title="{[OpenLayers.i18n(\'view\')]} {title}" alt="{[OpenLayers.i18n(\'view\')]}">&nbsp;</a>',
             // FIXME : this call require the catalogue to be named catalogue, static call ?
-            // FIXME : ref to app
+            // FIXME : ref to appee
             '<tpl for="links">',
-            '<tpl if="values.type == \'application/vnd.ogc.wms_xml\' || values.type == \'OGC:WMS\'">',
-            '<a href="#" class="md-mn addLayer" title="' + OpenLayers.i18n('addToMap') + ' {title}" alt="Add layer to map" onclick="app.switchMode(\'1\', true);app.getIMap().addWMSLayer([[\'{[escape(values.title)]}\', \'{href}\', \'{name}\', \'{id}\']]);">&nbsp;</a>',
-            '</tpl>',
-            '<tpl if="values.type == \'application/vnd.google-earth.kml+xml\'">',
-            '<a href="{href}" class="md-mn md-mn-kml" title="' + OpenLayers.i18n('viewKml') + ' {title}" alt="Open kml">&nbsp;</a>',
-            '</tpl>',
-            '<tpl if="values.type == \'application/zip\' || values.type == \'application/x-compressed\'">',
-            '<a href="{href}" class="md-mn md-mn-zip" title="' + OpenLayers.i18n('downloadLink') + ' {title}" alt="Download">&nbsp;</a>',
-            '</tpl>',
-            '<tpl if="values.type == \'text/html\'">',
-            '<a href="{href}" class="md-mn md-mn-www" title="' + OpenLayers.i18n('webLink') + ' {title}" alt="Web link" target="_blank">&nbsp;</a>',
-            '</tpl>',
+	            '<tpl if="values.type == \'application/vnd.ogc.wms_xml\' || values.type == \'OGC:WMS\'">',
+	            '<a href="#" class="md-mn addLayer" title="' + OpenLayers.i18n('addToMap') + ' {title}" alt="Add layer to map" onclick="app.switchMode(\'1\', true);app.getIMap().addWMSLayer([[\'{[escape(values.title)]}\', \'{href}\', \'{name}\', \'{id}\']]);">&nbsp;</a>',
+	            '</tpl>',
+	            '<tpl if="values.type == \'application/vnd.google-earth.kml+xml\'">',
+	            '<a href="{href}" class="md-mn md-mn-kml" title="' + OpenLayers.i18n('viewKml') + ' {title}" alt="Open kml">&nbsp;</a>',
+	            '</tpl>',
+	            '<tpl if="values.type == \'application/zip\' || values.type == \'application/x-compressed\'">',
+	            '<a href="{href}" class="md-mn md-mn-zip" title="' + OpenLayers.i18n('downloadLink') + ' {title}" alt="Download">&nbsp;</a>',
+	            '</tpl>',
+	            '<tpl if="values.type == \'text/html\'">',
+	            '<a href="{href}" class="md-mn md-mn-www" title="' + OpenLayers.i18n('webLink') + ' {title}" alt="Web link" target="_blank">&nbsp;</a>',
+	            '</tpl>',
             // FIXME : no else ops, how to display other links ?
             //'|<a href="#" onclick="app.getIMap().addWMSLayer([[\'{title}\', \'{href}\', \'{name}\', \'{id}\']]);">{type}</a>',
             '</tpl>',
@@ -328,7 +331,7 @@ GeoNetwork.Templates = Ext.extend(Ext.XTemplate, {
             '<tpl if="edit==\'true\' && status ==\'14\'">',
             '<img class="md_status" src="{catalogue.URL}/images/bullets/bullet-yellow.png" alt="'+  OpenLayers.i18n(prefix + 'status_14') + '" title="'+  OpenLayers.i18n(prefix + 'status_14') + '"/>&nbsp;' + OpenLayers.i18n(prefix + 'status_label') + OpenLayers.i18n(prefix + 'status_14'),
             '</tpl>',
-
+/*
             // locked information
             '<tpl if="locked==\'y\'">',
             '<img class="md_status"  style="position:static;" width="30" height="30" src="{catalogue.URL}/images/lock.png" alt="'+  OpenLayers.i18n('metadataLocked') + '" title="'+  OpenLayers.i18n('metadataLocked') + '"/>',
@@ -344,6 +347,7 @@ GeoNetwork.Templates = Ext.extend(Ext.XTemplate, {
             '<tpl if="values.canedit==\'y\'">',
             '<img class="md_status" style="position:static;"  width="30" height="30" src="{catalogue.URL}/images/edit.png" alt="'+  OpenLayers.i18n('allowedToEditMetadata') + '" title="'+  OpenLayers.i18n('allowedToEditMetadata') + '"/>',
             '</tpl>',
+*/
             '</div>',
             '</tpl>',
 
@@ -384,7 +388,10 @@ GeoNetwork.Templates = Ext.extend(Ext.XTemplate, {
             '{name}&nbsp;&nbsp;</span>',
             '</tpl>',
 */
-            '<span>{name}&nbsp;&nbsp;</span>',
+            '<tpl if="values.logo !== undefined && values.logo !== \'\'">',
+            	'<img alt="{name}" title="{name}" src="{catalogue.URL}/images/logos/{values.logo}" style="max-width:200px" class="orgLogo"/><span>&nbsp;&nbsp;</span>',
+            '</tpl>',
+//            '<span>{name}&nbsp;&nbsp;</span>',
             '</tpl>',
             '<tpl if="edit==\'true\' && isharvested!=\'y\'">',
             '<br/><span class="md-mn md-mn-user" title="' + OpenLayers.i18n('ownerName') + '">{ownername} - ' + OpenLayers.i18n('lastUpdate') + '{[values.changedate.split(\'T\')[0]]}</span>',

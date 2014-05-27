@@ -519,6 +519,14 @@ GeoNetwork.lang.en = {
     'addTplElTT': 'Add an element from an XML fragment to a directory. The destination directory is based on the root element name (eg. gmd:CI_ResponsibleParty).',
     'copyTplElTT': 'Create a new entry in the directory from the current selection.',
     'delTplElTT': 'Remove selected entry from the directory.',
+    'mapPanelTitle': 'Overviewmap', 
+    'facetsPanelTitle': 'Filter', 
+    'removeFilter': 'Remove filter', 
+    'datatypekeywords': "BEL-AIR DataTypes",
+    'sitekeywords': "BEL-AIR Sites",
+    'campaignkeywords': "BEL-AIR Campaigns",
+    'facetMore': '+ Show more',
+    'facetLess': '- Show less',
     'language': 'Language',
 
     'viewWorkspaceCopy': 'View workspace copy',
@@ -541,7 +549,7 @@ GeoNetwork.lang.en = {
     'where': 'Where',
     'Advanced': 'Advanced',
     'About': 'About',
-    'List': 'List',
+    'List': 'Product list',
     
     'error-login': 'You have to login first to access this page.',
     'statusChangeFailed': 'The change of state was not succesful since the metadatarecord does not validate. Please check the validation issues in the metadata editor.',

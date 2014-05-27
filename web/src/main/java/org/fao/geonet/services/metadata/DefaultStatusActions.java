@@ -314,30 +314,35 @@ public class DefaultStatusActions implements StatusActions {
 					            	changedMmetadataIdsToInformOwner.put(mid,properties);
 					            }
 */
-								changedMmetadataIdsToInformEditors.put(mid,properties);
+//								changedMmetadataIdsToInformEditors.put(mid,properties);
 								break;
 							case 2: //APPROVED
 								changedMmetadataIdsToInformEditors.put(mid,properties);
-								changedMmetadataIdsToInformReviewers.put(mid,properties);
-								changedMmetadataIdsToInformAdministrators.put(mid,properties);
+//								changedMmetadataIdsToInformReviewers.put(mid,properties);
+//								changedMmetadataIdsToInformAdministrators.put(mid,properties);
 								break;
 							case 3: //RETIRED
+/*
 								changedMmetadataIdsToInformEditors.put(mid,properties);
 								changedMmetadataIdsToInformReviewers.put(mid,properties);
 								if (context.getServlet().getNodeType().equalsIgnoreCase("agiv")) {
 									changedMmetadataIdsToInformAdministrators.put(mid,properties);
 								}
+*/
 								break;
 							case 4: //SUBMITTED
-								changedMmetadataIdsToInformEditors.put(mid,properties);
-								changedMmetadataIdsToInformReviewers.put(mid,properties);
+//								changedMmetadataIdsToInformEditors.put(mid,properties);
+//								changedMmetadataIdsToInformReviewers.put(mid,properties);
+// For Belair
+								changedMmetadataIdsToInformAdministrators.put(mid,properties);
 								break;
 							case 5: //REJECTED
 								changedMmetadataIdsToInformEditors.put(mid,properties);
-								changedMmetadataIdsToInformReviewers.put(mid,properties);
+//								changedMmetadataIdsToInformReviewers.put(mid,properties);
 								break;
 							case 6: //JUSTCREATED
 								break;
+/*
 							case 7: //SUBMITTED_FOR_AGIV
 								changedMmetadataIdsToInformEditors.put(mid,properties);
 								changedMmetadataIdsToInformReviewers.put(mid,properties);
@@ -383,6 +388,7 @@ public class DefaultStatusActions implements StatusActions {
 								changedMmetadataIdsToInformReviewers.put(mid,properties);
 								changedMmetadataIdsToInformAdministrators.put(mid,properties);
 								break;
+*/
 							default:
 								break;
 						}
@@ -796,11 +802,7 @@ public class DefaultStatusActions implements StatusActions {
 			for (Element record : validationStatus) {
 				// check that xsd validation succeeded
 				if (record.getChildText("valtype").equals("xsd")) {
-					if (!record.getChildText("status").equals("1")/*
-							&& (status
-									.equals(Params.Status.SUBMITTED_FOR_AGIV) || status
-									.equals(Params.Status.APPROVED_BY_AGIV) || status
-									.equals(Params.Status.APPROVED))*/) {
+					if (!record.getChildText("status").equals("1")) {
 						System.out.println("Metadata with id " + mid
 								+ " failed XSD validation: status change not "
 								+ "allowed");
@@ -808,13 +810,10 @@ public class DefaultStatusActions implements StatusActions {
 					}
 				}
 				// check that iso schematron validation succeeded
+/*
 				if (record.getChildText("valtype").equals(
 						"schematron-rules-iso") || record.getChildText("valtype").equals("schematron-rules-inspire")) {
-					if (!record.getChildText("status").equals("1")/*
-							&& (status
-									.equals(Params.Status.SUBMITTED_FOR_AGIV) || status
-									.equals(Params.Status.APPROVED_BY_AGIV) || status
-									.equals(Params.Status.APPROVED))*/) {
+					if (!record.getChildText("status").equals("1")) {
 						System.out
 								.println("Metadata with id "
 										+ mid
@@ -822,6 +821,7 @@ public class DefaultStatusActions implements StatusActions {
 						return false;
 					}
 				}
+*/
 			}
 		}
 		return true;

@@ -223,7 +223,7 @@ GeoNetwork.editor.EditorPanel = Ext.extend(Ext.Panel, {
                     value: 'private' // FIXME
                 }, {
                     name: 'ref',
-                    allowBlank: false,
+//                    allowBlank: false,
                     hidden: true,
                     value: ref
                 }, {

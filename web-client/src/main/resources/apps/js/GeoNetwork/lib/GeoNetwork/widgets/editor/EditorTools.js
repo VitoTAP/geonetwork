@@ -527,7 +527,7 @@ function doFileRemoveAction(action, ref, access, id){
  */
 function checkForFileUpload(fref, pref, protocolBeforeEdit){
     var fileName = Ext.getDom('_' + fref); // the file name input field
-    var protoSelect = Ext.getDom('s_' + pref); // the protocol <select>
+    var protoSelect = Ext.getCmp('s_' + pref); // the protocol <select>
     var protoIn = Ext.getDom('_' + pref); // the protocol input field to be submitted
     var fileUploaded = protocolBeforeEdit.startsWith('WWW:DOWNLOAD'); // File name not displayed in editor if downloaded
     var protocol = protoSelect.value;
@@ -565,7 +565,7 @@ function checkForFileUpload(fref, pref, protocolBeforeEdit){
         
         // Reload the editor in order to make the import file button
         // appear for the name element (if existing).
-        Ext.getCmp('editorPanel').callAction('metadata.update.new');
+//        Ext.getCmp('editorPanel').callAction('metadata.update.new');
     } else {
         if (finput !== null) {
             finput.show();

@@ -251,7 +251,7 @@ GeoNetwork.Templates = Ext.extend(Ext.XTemplate, {
             GeoNetwork.Templates.TITLE,
             '<p class="abstract">{[values.abstract.substring(0, 350)]} ...</p>',    // FIXME : 250 as parameters
             '<tpl if="values.tempExtentBegin && values.tempExtentBegin!=\'\'">',
-            	'<p>From {[values.tempExtentBegin.substring(0, 10)]} to {[values.tempExtentEnd.substring(0, 10)]}</p>',
+            	'<p>From {[values.tempExtentBegin.substring(8, 10) + "/" + values.tempExtentBegin.substring(5, 7) + "/" + values.tempExtentBegin.substring(0, 4)]} to {[values.tempExtentEnd.substring(8, 10) + "/" + values.tempExtentEnd.substring(5, 7) + "/" + values.tempExtentEnd.substring(0, 4)]}</p>',
         	'</tpl>',
             '<tpl if="subject">',
             '<p class="subject"><tpl for="subject">',

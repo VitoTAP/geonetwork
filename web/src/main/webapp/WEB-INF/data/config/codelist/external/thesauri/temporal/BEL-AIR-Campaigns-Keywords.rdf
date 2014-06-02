@@ -14,13 +14,11 @@
     <dcterms:modified>2014-05-06</dcterms:modified>
   </skos:ConceptScheme>
   <!-- Concept list -->
-  <skos:Concept rdf:about="http://belair.vito.be/v1/BEL-AIR-Campaign-Keywords/2013">
-    <skos:prefLabel xml:lang="nl">2013</skos:prefLabel>
-    <skos:prefLabel xml:lang="en">2013</skos:prefLabel>
+  <skos:Concept rdf:about="http://belair.vito.be/v1/BEL-AIR-Campaign-Keywords/JUNE2013">
+    <skos:prefLabel xml:lang="en">June 2013</skos:prefLabel>
   </skos:Concept>
-  <skos:Concept rdf:about="http://belair.vito.be/v1/BEL-AIR-Campaign-Keywords/2014">
-    <skos:prefLabel xml:lang="nl">2014</skos:prefLabel>
-    <skos:prefLabel xml:lang="en">2014</skos:prefLabel>
+  <skos:Concept rdf:about="http://belair.vito.be/v1/BEL-AIR-Campaign-Keywords/JUNE2014">
+    <skos:prefLabel xml:lang="en">June 2014</skos:prefLabel>
   </skos:Concept>
-  </rdf:RDF>
+</rdf:RDF>
 

@@ -98,7 +98,7 @@
 						    </xsl:if>
 						</div>
 						<xsl:if test="$isUploadedThumb">
-							<a href="#" onclick="javascript:Ext.getCmp('editorPanel').saveBeforeRemoveThumbnail('{string($fileName)}','{string($fileDescr)}');">Voorbeeldweergave verwijderen</a>
+							<a href="#" onclick="javascript:Ext.getCmp('editorPanel').saveBeforeRemoveThumbnail('{string($fileName)}','{string($fileDescr)}');">Thumbnail verwijderen</a>
 						</xsl:if>
 					</td>
 				</tr>
@@ -106,7 +106,7 @@
 			<xsl:if test="$followingGraphicOverviewSiblingsCount=0">
 	            <tr>
 	            	<td>
-						<a href="#" onclick="javascript:Ext.getCmp('editorPanel').saveBeforeUploadThumbnail();">Voorbeeldweergave toevoegen</a>
+						<a href="#" onclick="javascript:Ext.getCmp('editorPanel').saveBeforeUploadThumbnail();">Thumbnail toevoegen</a>
 					</td>
 				</tr>
 			</xsl:if>
@@ -162,7 +162,7 @@
 		<xsl:apply-templates mode="simpleElement" select=".">
 		    <xsl:with-param name="schema" select="$schema"/>
 		    <xsl:with-param name="edit"   select="true()"/>
-		    <xsl:with-param name="text"   select="'voorbeeldweergave'"/>
+		    <xsl:with-param name="text"   select="'Thumbnail'"/>
 		</xsl:apply-templates>
  	</xsl:template>
 
@@ -3896,21 +3896,25 @@
 			        <xsl:choose>
 			          	<xsl:when test="$edit=true()">
 							<xsl:variable name="ref" select="gco:CharacterString/geonet:element/@ref"/>
-	<!-- 
 							<xsl:variable name="fref" select="../gmd:name/gco:CharacterString/geonet:element/@ref|../gmd:name/gmx:MimeFileType/geonet:element/@ref"/>
+	<!-- 
 							<xsl:variable name="isXLinked" select="count(ancestor-or-self::node()[@xlink:href]) > 0"/>
-							<xsl:variable name="onchange" select="concat('''checkForFileUpload(\''',$fref,'\'',\''',$ref,'\'',\''',$value,'\'')')"/>
-							<xsl:variable name="onkeyup" select="concat('''checkForFileUpload(\''',$fref,'\'',\''',$ref,'\'',\''',$value,'\'')')"/>
 	-->
+							<xsl:variable name="onchangeFunction" select="'checkForFileUpload'"/>
+							<xsl:variable name="onchangeParams" select="concat($fref,',',$ref,',',$value)"/>
+							<xsl:variable name="onkeyupFunction" select="$onchangeFunction"/>
+							<xsl:variable name="onkeyupParams" select="$onchangeParams"/>
 						    <xsl:variable name="optionValues" select="replace(replace(string-join(/root/gui/strings/protocolChoice[@value]/@value, '#,#'), '''', '\\'''), '#', '''')"/>
 						    <xsl:variable name="optionLabels" select="replace(replace(string-join(/root/gui/strings/protocolChoice[@value], '#,#'), '''', '\\'''), '#', '''')"/>
 	                        <xsl:call-template name="combobox">
 	                            <xsl:with-param name="ref" select="$ref"/>
 	<!-- 
 							    <xsl:with-param name="disabled" select="concat('''',$isXLinked,'''')"/>
-							    <xsl:with-param name="onchange" select="$onchange"/>
-							    <xsl:with-param name="onkeyup" select="$onkeyup"/>
 	 -->
+							    <xsl:with-param name="onchangeFunction" select="$onchangeFunction"/>
+							    <xsl:with-param name="onchangeParams" select="$onchangeParams"/>
+							    <xsl:with-param name="onkeyupFunction" select="$onkeyupFunction"/>
+							    <xsl:with-param name="onkeyupParams" select="$onkeyupParams"/>
 	                             <xsl:with-param name="value" select="gco:CharacterString/text()"/>
 	                            <xsl:with-param name="optionValues" select="$optionValues"/>
 	                            <xsl:with-param name="optionLabels" select="$optionLabels"/>
@@ -4741,7 +4745,7 @@
 	                                    <xsl:for-each select="gmd:MD_BrowseGraphic/gmd:fileDescription">
 	                                    	<xsl:choose>
 										 		<xsl:when test="gco:CharacterString='thumbnail' or gco:CharacterString='large_thumbnail'">
-												    <xsl:value-of select="'voorbeeldweergave'"/>
+												    <xsl:value-of select="'Thumbnail'"/>
 												</xsl:when>
 				                                <xsl:otherwise>
 			                                        <xsl:call-template name="localised">

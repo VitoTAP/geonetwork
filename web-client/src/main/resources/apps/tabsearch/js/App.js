@@ -732,7 +732,8 @@ GeoNetwork.app = function(){
                 resizable: true,
 //                constrain: true,
                 width: 980,
-                height: 800
+                height: 800,
+                onEsc: Ext.emptyFn
             });
             
             var this_ = this;
@@ -740,6 +741,7 @@ GeoNetwork.app = function(){
                 this_.editorWindow = undefined;
                 this_.editorPanel = undefined;
             });
+
             this.editorPanel.setContainer(this.editorWindow);
             
             this.editorPanel.on('editorClosed', function(){
@@ -770,7 +772,13 @@ GeoNetwork.app = function(){
         init: function(){
     		Ext.Msg.minWidth = 360;
     		Ext.MessageBox.minWidth = 360;
-            geonetworkUrl = /*GeoNetwork.URL || */window.location.href.match(/(http.*\/.*)\/apps\/tabsearch.*/, '')[1];
+    		Ext.EventManager.on(window, 'keydown', function(e, t) {
+    		    if (e.getKey() == e.BACKSPACE && (/^select$/i.test(t.tagName) || /^body$/i.test(t.tagName) || t.disabled || t.readOnly)) {
+    		        e.stopEvent();
+    		    }
+    		});
+
+    		geonetworkUrl = /*GeoNetwork.URL || */window.location.href.match(/(http.*\/.*)\/apps\/tabsearch.*/, '')[1];
 
             urlParameters = GeoNetwork.Util.getParameters(location.href);
             var lang = urlParameters.hl || GeoNetwork.defaultLocale;
@@ -906,7 +914,7 @@ GeoNetwork.app = function(){
                     							xtype: 'box',
                     							border: false,
                     							columnWidth: 0.25,
-                    							autoEl : {html:'<div class="thumb"><img style="cursor:pointer;" height="250" src="' + catalogue.URL + '/apps/tabsearch/images/litora.png" title="LITORA" alt="LITORA"></div><br/><div>LITORA</div>'},
+                    							autoEl : {html:'<div class="thumb"><img style="cursor:pointer;height:150px" src="' + catalogue.URL + '/apps/tabsearch/images/litora.png" title="LITORA" alt="LITORA"></div><br/><div>LITORA</div>'},
                     							listeners: {
                     								render: function(p) {
                     									p.getEl().on('click', function(){
@@ -920,7 +928,7 @@ GeoNetwork.app = function(){
                                        			xtype: 'box',
                                        			border: false,
                                        			columnWidth: 0.20,
-                                       			autoEl : {html:'<div class="thumb"><img style="cursor:pointer;" height="250" src="' + catalogue.URL + '/apps/tabsearch/images/sonia.png" title="SONIA" alt="SONIA"></div><br/><div>SONIA</div>'},
+                                       			autoEl : {html:'<div class="thumb"><img style="cursor:pointer;height:150px" src="' + catalogue.URL + '/apps/tabsearch/images/sonia.png" title="SONIA" alt="SONIA"></div><br/><div>SONIA</div>'},
                                        			listeners: {
                                        				render: function(p) {
                                        					p.getEl().on('click', function(){
@@ -934,7 +942,7 @@ GeoNetwork.app = function(){
                                        			xtype: 'box',
                                        			border: false,
                                        			columnWidth: 0.25,
-                                       			autoEl : {html:'<div class="thumb"><img style="cursor:pointer;" height="250" src="' + catalogue.URL + '/apps/tabsearch/images/hesbania.png" title="HESBANIA" alt="HESBANIA"></div><br/><div>HESBANIA</div>'},
+                                       			autoEl : {html:'<div class="thumb"><img style="cursor:pointer;height:150px" src="' + catalogue.URL + '/apps/tabsearch/images/hesbania.png" title="HESBANIA" alt="HESBANIA"></div><br/><div>HESBANIA</div>'},
                                        			listeners: {
                                        				render: function(p) {
                                        					p.getEl().on('click', function(){
@@ -1002,10 +1010,8 @@ GeoNetwork.app = function(){
                                 listeners: {
                                     render: function(c){
                                       c.ownerCt.hideTabStripItem(c);
-                                    }
+                                  }
                                 }
-
-
                             },
                             {//map
                                 id:'map',
@@ -1038,7 +1044,17 @@ GeoNetwork.app = function(){
 	                            		}
 	                                }                            	
                                 }
-                            }
+                            },
+                            {
+	                            title:OpenLayers.i18n('documents'),
+	                            layout:'fit',
+	                            closable:false,
+                                defaults:{bodyStyle:'border-width:0px'},
+	                            items: 	                            		
+								    {
+								   		html:'<div class="facets"><ul><li>List of documents of type 1</li><ul><li><a href="javascript:void(0);">Link naar document 1</a></li></ul><li>List of documents of type 2</li><ul><li><a href="javascript:void(0);">Link naar document 1 van type 2</a></li></ul></ul></div>'
+								    }
+	                    	}
                         ]
                         
                                 // Doesn't work to set extent

@@ -246,8 +246,10 @@
   <xsl:template name="combobox">
     <xsl:param name="ref"/>
 	<xsl:param name="disabled"/>
-	<xsl:param name="onchange"/>
-    <xsl:param name="onkeyup"/>
+	<xsl:param name="onchangeFunction"/>
+	<xsl:param name="onchangeParams"/>
+    <xsl:param name="onkeyupFunction"/>
+	<xsl:param name="onkeyupParams"/>
     <xsl:param name="value"/>
     <xsl:param name="optionValues"/>
     <xsl:param name="optionLabels"/>
@@ -256,7 +258,7 @@
       <tr>
         <td>
 <!-- 		  <div class="combobox" id="_{$ref}" config="{{disabled: {$disabled}, onchange: {$onchange}, onkeyup: {$onkeyup}, optionValues: ['{$optionValues}'],optionLabels: ['{$optionLabels}']}}"/> -->
-		  <div class="combobox" id="_{$ref}_combobox" config="{{optionValues: ['{$optionValues}'],optionLabels: ['{$optionLabels}']}}"/>
+		  <div class="combobox" id="_{$ref}_combobox" config="{{onchangeFunction: '{$onchangeFunction}', onchangeParams: '{$onchangeParams}', onkeyupFunction: '{$onkeyupFunction}', onkeyupParams: '{$onkeyupParams}', optionValues: ['{$optionValues}'],optionLabels: ['{$optionLabels}']}}"/>
           <input type="hidden" name="_{$ref}" id="_{$ref}" value="{$value}"/>
         </td>
       </tr>

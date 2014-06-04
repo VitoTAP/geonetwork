@@ -324,6 +324,7 @@ GeoNetwork.app = function(){
         });
 
         catalogue.on('afterLogin', function(){
+            var user = Ext.state.Manager.getProvider().get('user');
             Ext.each(loggedInFields, function(item){
             	item.setVisible(user && !Ext.isEmpty(user.role));
             });

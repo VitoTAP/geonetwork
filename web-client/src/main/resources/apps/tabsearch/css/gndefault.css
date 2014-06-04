@@ -491,6 +491,9 @@ div.facets ul ul {
 	-webkit-margin-start: 0px;
 	-webkit-margin-end: 0px;
 	-webkit-padding-start: 10px;
+	-moz-margin-start: 10px;
+	-moz-margin-end: 0px;
+	-moz-padding-start: 10px;
 /*
 	margin-left: 5px;
     margin-bottom: 5px;

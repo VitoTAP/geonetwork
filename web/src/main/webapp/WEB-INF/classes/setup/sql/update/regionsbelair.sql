@@ -6,4 +6,3 @@ INSERT INTO regions VALUES (30, 50.878, 50.443, 5.03, 5.635);
 INSERT INTO regionsdes VALUES (10, 'eng', 'Litora');
 INSERT INTO regionsdes VALUES (20, 'eng', 'Sonia');
 INSERT INTO regionsdes VALUES (30, 'eng', 'Hesbania');
-

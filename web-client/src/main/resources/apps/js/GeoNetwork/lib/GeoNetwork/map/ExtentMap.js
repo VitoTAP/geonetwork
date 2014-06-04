@@ -402,7 +402,7 @@ GeoNetwork.map.ExtentMap = function(){
         // optionally, zoom on the layer features extent
         if (options.zoomToFeatures) {
             //zoomToFeatures(map, vectorLayer);
-            map.zoomToExtent(map.maxExtent);
+            map.zoomToExtent(map.restrictedExtent);
         }
         return true;
     }

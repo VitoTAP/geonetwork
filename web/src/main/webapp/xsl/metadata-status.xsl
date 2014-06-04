@@ -40,13 +40,9 @@
                                                     <xsl:attribute name="checked"/>
                                                 </xsl:if>
                                                 <xsl:if test="contains($profile,'Admin')">
+<!--
                                                 	<xsl:choose>
                                                 		<xsl:when test="id='1'">
-<!--
- 	                                                		<xsl:if test="$currentStatus='4' or $currentStatus='5' or $currentStatus='7' or $currentStatus='8' or $currentStatus='9' or $currentStatus='10' or $currentStatus='11'">
-		                                                        <xsl:attribute name="disabled"/>
-	                                                        </xsl:if>
- -->
 	                                                        <xsl:attribute name="disabled"/>
                                                  		</xsl:when>
                                                 		<xsl:when test="id='2'">
@@ -62,16 +58,6 @@
                                                 		<xsl:when test="id='4' or id='5'">
 	                                                        <xsl:attribute name="disabled"/>
                                                 		</xsl:when>
-<!-- 
-                                                		<xsl:when test="id='4'">
-															<xsl:if test="lower-case($nodeType)='agiv'">
-		                                                        <xsl:attribute name="disabled"/>
-									                        </xsl:if>                                            
-                                                		</xsl:when>
-                                                		<xsl:when test="id='5'">
-	                                                        <xsl:attribute name="disabled"/>
-                                                		</xsl:when>
--->
                                                 		<xsl:when test="id='7'">
 	                                                		<xsl:if test="$currentStatus!='1'">
 		                                                        <xsl:attribute name="disabled"/>
@@ -88,14 +74,11 @@
 	                                                        </xsl:if>
                                                 		</xsl:when>
                                                 		<xsl:when test="id='10'">
-<!--															<xsl:if test="$isWorkspace='true' or $currentStatus='3' or $currentStatus='11'">-->
-<!--															<xsl:if test="$currentStatus='1' or $currentStatus='3' or $currentStatus='7' or $currentStatus='8' or $currentStatus='11'">-->
 															<xsl:if test="$currentStatus!='2'">
 		                                                        <xsl:attribute name="disabled"/>
 															</xsl:if>
                                                 		</xsl:when>
                                                 		<xsl:when test="id='11'">
-<!--															<xsl:if test="$isWorkspace='true' or $currentStatus='10'">-->
 															<xsl:if test="$currentStatus='7' or $currentStatus='8' or $currentStatus='10'">
 		                                                        <xsl:attribute name="disabled"/>
 															</xsl:if>
@@ -118,6 +101,7 @@
                                                 		<xsl:otherwise>
                                                 		</xsl:otherwise>
                                                 	</xsl:choose>
+ -->
                                                	</xsl:if>
                                                 <xsl:if test="contains($profile,'Hoofdeditor')">
                                                 	<xsl:choose>

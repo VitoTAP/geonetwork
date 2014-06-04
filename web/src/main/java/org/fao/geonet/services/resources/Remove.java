@@ -81,7 +81,8 @@ public class Remove implements Service
 
 		// get online resource name
         boolean forEditing = true, withValidationErrors = false, keepXlinkAttributes = false;
-        Element metadata = dataMan.getMetadata(context, id, forEditing, withValidationErrors, keepXlinkAttributes);
+        
+        Element metadata = dataMan.getMetadataFromWorkspace(context, id, forEditing, withValidationErrors, keepXlinkAttributes, true);
 
 		Element elem     = dataMan.getElementByRef(metadata, ref);
 
@@ -99,8 +100,10 @@ public class Remove implements Service
 
 		// update the metadata
 		params.addContent(new Element("_" + ref));
+/*
 		Element version = params.getChild("version");
 		version.setText((Integer.parseInt(version.getText()) + 1)  + "");
+*/
 		return update.exec(params, context);
 	}
 }

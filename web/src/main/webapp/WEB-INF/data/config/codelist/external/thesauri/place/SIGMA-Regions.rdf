@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:fn="http://www.w3.org/2005/02/xpath-functions" xmlns:foaf="http://xmlns.com/foaf/0.1/" xmlns:gml="http://www.opengis.net/gml#" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#" xmlns:skos="http://www.w3.org/2004/02/skos/core#" xmlns:xdt="http://www.w3.org/2005/02/xpath-datatypes" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <!-- Scheme -->
+  <skos:ConceptScheme rdf:about="http://sigma.vito.be/v1/SIGMA-Regions">
+    <dc:title>SIGMA Regions</dc:title>
+    <dc:description>SIGMA Regions</dc:description>
+    <dc:creator>
+      <foaf:Organization>
+        <foaf:name>VITO</foaf:name>
+      </foaf:Organization>
+    </dc:creator>
+    <dc:rights>Free usage</dc:rights>
+    <dcterms:issued>2014-05-06</dcterms:issued>
+    <dcterms:modified>2014-05-06</dcterms:modified>
+  </skos:ConceptScheme>
+  <!-- Concept list -->
+  <skos:Concept rdf:about="http://sigma.vito.be/v1/SIGMA-Regions/GLOBAL">
+    <skos:prefLabel xml:lang="en">Global</skos:prefLabel>
+  </skos:Concept>
+  <skos:Concept rdf:about="http://sigma.vito.be/v1/SIGMA-Regions/REGION-TITLE1">
+    <skos:prefLabel xml:lang="en">Region Title 1</skos:prefLabel>
+  </skos:Concept>
+  <skos:Concept rdf:about="http://sigma.vito.be/v1/SIGMA-Regions/REGION-TITLE2">
+    <skos:prefLabel xml:lang="en">Region Title 2</skos:prefLabel>
+  </skos:Concept>
+  <skos:Concept rdf:about="http://sigma.vito.be/v1/SIGMA-Regions/SITE1">
+    <skos:prefLabel xml:lang="en">Site Title 1</skos:prefLabel>
+  </skos:Concept>
+  <skos:Concept rdf:about="http://sigma.vito.be/v1/SIGMA-Regions/SITE2">
+    <skos:prefLabel xml:lang="en">Site Title 2</skos:prefLabel>
+  </skos:Concept>
+  <skos:Concept rdf:about="http://sigma.vito.be/v1/SIGMA-Regions/SITE3">
+    <skos:prefLabel xml:lang="en">Site Title 3</skos:prefLabel>
+  </skos:Concept>
+  </rdf:RDF>
+

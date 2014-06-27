@@ -5,6 +5,8 @@
 		<hits>
 			<item name="keyword" plural="keywords" indexKey="keyword" order="freq" type="string" max="100"/>            			
 			<item name="sitekeyword" plural="sitekeywords" indexKey="sitekeyword" max="100"/>
+			<item name="regionkeyword" plural="regionkeywords" indexKey="regionkeyword" max="100"/>
+			<item name="yearkeyword" plural="yearkeywords" indexKey="yearkeyword" max="100"/>
 			<item name="campaignkeyword" plural="campaignkeywords" indexKey="campaignkeyword" max="100"/>
 			<item name="datatypekeyword" plural="datatypekeywords" indexKey="datatypekeyword" max="100"/>
 		</hits>

@@ -853,7 +853,7 @@
         <condition>mandatory</condition>
     </element>
     <element name="gmd:deliveryPoint" id="381.0">
-        <label>Delivery point</label>
+        <label>Street</label>
         <description>Address line for the location (as described in ISO 11180, annex
             A)</description>
     </element>

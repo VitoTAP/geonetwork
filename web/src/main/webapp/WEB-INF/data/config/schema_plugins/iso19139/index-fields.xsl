@@ -163,6 +163,7 @@
 
 				<xsl:for-each select="gmd:temporalElement/gmd:EX_TemporalExtent/gmd:extent">
 					<xsl:for-each select="gml:TimePeriod">
+<!--
 						<xsl:variable name="times">
 							<xsl:call-template name="newGmlTime">
 								<xsl:with-param name="begin" select="gml:beginPosition|gml:begin/gml:TimeInstant/gml:timePosition"/>
@@ -172,6 +173,9 @@
 
 						<Field name="tempExtentBegin" string="{lower-case(substring-before($times,'|'))}" store="true" index="true"/>
 						<Field name="tempExtentEnd" string="{lower-case(substring-after($times,'|'))}" store="true" index="true"/>
+-->
+						<Field name="tempExtentBegin" string="{lower-case(gml:beginPosition|gml:begin/gml:TimeInstant/gml:timePosition)}" store="true" index="true"/>
+						<Field name="tempExtentEnd" string="{lower-case(gml:endPosition|gml:end/gml:TimeInstant/gml:timePosition)}" store="true" index="true"/>
 					</xsl:for-each>
 
 				</xsl:for-each>
@@ -194,6 +198,12 @@
 					</xsl:if>
 					<xsl:if test="contains($thesaurusName,'BEL-AIR DataTypes')">
 	                    <Field name="datatypekeyword" string="{lower-case(.)}" store="true" index="true"/>
+					</xsl:if>					
+					<xsl:if test="contains($thesaurusName,'SIGMA Regions')">
+	                    <Field name="regionkeyword" string="{lower-case(.)}" store="true" index="true"/>
+					</xsl:if>					
+					<xsl:if test="contains($thesaurusName,'SIGMA Years')">
+	                    <Field name="yearkeyword" string="{lower-case(.)}" store="true" index="true"/>
 					</xsl:if>					
                     <xsl:if test="$inspire='true'">
                         <xsl:if test="string-length(.) &gt; 0">

@@ -48,7 +48,7 @@
     <defaultStatusChangeMessage>No information</defaultStatusChangeMessage>
 	<createThesaurus>Create/Update Thesaurus</createThesaurus>
 	<thesaurusType>Thesaurus Type</thesaurusType>
-	<changeLogMessage>Change Log Message</changeLogMessage>
+	<changeLogMessage>Notification for the administrator (for example info about the donwload permissions)</changeLogMessage>
 	<status>Status</status>
 	<updateStatus>Update status</updateStatus>
 	<batchUpdateStatusTitle>Batch Update Status Operation</batchUpdateStatusTitle>

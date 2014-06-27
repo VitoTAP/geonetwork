@@ -57,11 +57,13 @@
 		<xsl:variable name="status" select="/root/status"/>
 		<xsl:choose>
 			<xsl:when test="$status='2' or $status='3' or $status='9' or $status='13' or $status='14'">
-				<xsl:text>metadata-editor/-hoofdeditor</xsl:text>
+				<xsl:text>metadata-editor</xsl:text>
 			</xsl:when>
+<!--
 			<xsl:when test="$status='4'">
 				<xsl:text>metadata-hoofdeditor</xsl:text>
 			</xsl:when>
+-->
 			<xsl:when test="$status='1' or $status='5'">
 				<xsl:text>metadata-editor</xsl:text>
 			</xsl:when>
@@ -84,6 +86,11 @@
 				</xsl:when>
 				<xsl:when test="$status='2'">
 					<xsl:text>Jouw wijzigingen aan </xsl:text><xsl:if test="$metadataCount>1">volgende</xsl:if><xsl:if test="$metadataCount=1">de</xsl:if><xsl:text> metadatarecord</xsl:text><xsl:if test="$metadataCount>1">s</xsl:if><xsl:if test="$metadataCount=1"><xsl:text> met titel '</xsl:text><xsl:value-of select="$title"/><xsl:text>'</xsl:text></xsl:if><xsl:text> werden gevalideerd en gepubliceerd.</xsl:text>
+				</xsl:when>
+				<xsl:when test="$status='4'">
+					<xsl:if test="$metadataCount>1">Volgende</xsl:if><xsl:if test="$metadataCount=1">De</xsl:if><xsl:text> metadatarecord</xsl:text><xsl:if test="$metadataCount>1">s</xsl:if><xsl:if test="$metadataCount=1"><xsl:text> met titel '</xsl:text><xsl:value-of select="$title"/><xsl:text>'</xsl:text></xsl:if><xsl:text> werd</xsl:text><xsl:if test="$metadataCount>1">en</xsl:if><xsl:text> </xsl:text><xsl:call-template name="typewijziging"/><xsl:value-of select="concat(' door ',/root/user/name, ' ', /root/user/surname, ' van ', /root/group, ' en ')"/><xsl:call-template name="status"/><xsl:text>.</xsl:text>
+					<xsl:text>&#10;&#13;&#10;&#13;Notification:</xsl:text>
+					<xsl:text>&#10;&#13;&#10;&#13;</xsl:text><xsl:value-of select="/root/changeMessage"/>
 				</xsl:when>
 				<xsl:when test="$status='5' or $status='9'">
 					<xsl:text>Jouw wijzigingen aan </xsl:text><xsl:if test="$metadataCount>1">volgende</xsl:if><xsl:if test="$metadataCount=1">de</xsl:if><xsl:text> metadatarecord</xsl:text><xsl:if test="$metadataCount>1">s</xsl:if><xsl:if test="$metadataCount=1"><xsl:text> met titel '</xsl:text><xsl:value-of select="$title"/><xsl:text>'</xsl:text></xsl:if><xsl:text> konden niet gevalideerd worden door </xsl:text><xsl:if test="$status='5'">jouw hoofdeditor.</xsl:if><xsl:if test="$status='9'">het AGIV.</xsl:if>
@@ -134,14 +141,14 @@
 			</xsl:when>
 			<xsl:otherwise>
 				<xsl:choose>
-					<xsl:when test="$status='0'">onbekend</xsl:when>
-					<xsl:when test="$status='1'">ontwerp</xsl:when>
-					<xsl:when test="$status='2'">intern goedgekeurd en gepubliceerd</xsl:when>
-					<xsl:when test="$status='3'">gedepubliceerd</xsl:when>
-					<xsl:when test="$status='4'">intern ingediend ter validatie</xsl:when>
-					<xsl:when test="$status='5'">afgekeurd door Hoofdeditor</xsl:when>
-					<xsl:when test="$status='6'">pas gecreëerd</xsl:when>
-					<xsl:when test="$status='12'">verwijderd</xsl:when>
+					<xsl:when test="$status='0'">unknown</xsl:when>
+					<xsl:when test="$status='1'">draft</xsl:when>
+					<xsl:when test="$status='2'">approved</xsl:when>
+					<xsl:when test="$status='3'">retired</xsl:when>
+					<xsl:when test="$status='4'">submitted</xsl:when>
+					<xsl:when test="$status='5'">rejected</xsl:when>
+					<xsl:when test="$status='6'">just created</xsl:when>
+					<xsl:when test="$status='12'">removed</xsl:when>
 					<xsl:otherwise></xsl:otherwise>
 				</xsl:choose>
 			</xsl:otherwise>

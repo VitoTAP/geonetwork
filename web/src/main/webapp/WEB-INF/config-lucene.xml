@@ -165,6 +165,8 @@
 
     <Field name="keyword" analyzer="org.fao.geonet.kernel.search.LowerCaseKeywordAnalyzer"/>
     <Field name="sitekeyword" analyzer="org.fao.geonet.kernel.search.LowerCaseKeywordAnalyzer"/>
+    <Field name="regionkeyword" analyzer="org.fao.geonet.kernel.search.LowerCaseKeywordAnalyzer"/>
+    <Field name="yearkeyword" analyzer="org.fao.geonet.kernel.search.LowerCaseKeywordAnalyzer"/>
     <Field name="campaignkeyword" analyzer="org.fao.geonet.kernel.search.LowerCaseKeywordAnalyzer"/>
     <Field name="datatypekeyword" analyzer="org.fao.geonet.kernel.search.LowerCaseKeywordAnalyzer"/>
     <Field name="inspirerelated" analyzer="org.fao.geonet.kernel.search.LowerCaseKeywordAnalyzer"/>
@@ -255,6 +257,8 @@
     <Field name="orgName"/>
     <Field name="keyword"/>
     <Field name="sitekeyword"/>
+    <Field name="regionkeyword"/>
+    <Field name="yearkeyword"/>
     <Field name="campaignkeyword"/>
     <Field name="datatypekeyword"/>
   </tokenized>

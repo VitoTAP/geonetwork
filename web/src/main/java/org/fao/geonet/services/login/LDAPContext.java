@@ -28,6 +28,8 @@ import jeeves.utils.Log;
 import org.fao.geonet.constants.Geonet;
 import org.fao.geonet.kernel.setting.SettingManager;
 
+import com.ibm.icu.util.Calendar;
+
 import javax.naming.NamingException;
 import javax.naming.directory.DirContext;
 
@@ -93,25 +95,26 @@ class LDAPContext
 
 	public LDAPInfo lookUp(String username, String password)
 	{
+		DirContext dc = null;
 		try
 		{
-            String uidFilter = "("+ uidAttr + "=" + username + ")";
+			String uidFilter = "("+ uidAttr + "=" + username + ")";
 
 			String usersBaseDN = usersDN +","+ baseDN;
 
             String path = null;
-
+/*
             try {
                 path = LDAPUtil.findUserDN(getUrl(), uidFilter, usersBaseDN);
             } catch (NamingException ex) {
                 Log.warning(Geonet.LDAP, ex.getMessage());
             }
-
+*/
             if (path == null || path.length() == 0) {
                 path = uidAttr + "="+ username +","+ usersDN +","+ baseDN;
             }
 			
-			DirContext dc   = LDAPUtil.openContext(getUrl(), path, password);
+			dc   = LDAPUtil.openContext(getUrl(), path, password);
 
 			Map<String, ? extends List<Object>> attr = LDAPUtil.getNodeInfo(dc, path);
 			dc.close();
@@ -126,7 +129,7 @@ class LDAPContext
 				LDAPInfo info = new LDAPInfo();
 
 				info.username = username;
-				info.password = password;
+				info.password = "" + Calendar.getInstance().getTimeInMillis();
 				info.name     = get(attr, nameAttr);
 				info.profile  = (profileAttr == null)
 										? defProfile
@@ -154,6 +157,13 @@ class LDAPContext
 		}
 		catch(NamingException e)
 		{
+			if (dc!=null) {
+				try {
+					dc.close();
+				} catch (NamingException e1) {
+					Log.warning(Geonet.LDAP, "Raised exception during LDAP close connection");
+				}
+			}
 			Log.warning(Geonet.LDAP, "Raised exception during LDAP access");
 			Log.warning(Geonet.LDAP, "  (C) Message :"+ e.getMessage());
 			return null;

@@ -1492,7 +1492,7 @@
                             <xsl:choose>
                                 <xsl:when test="normalize-space($label)!=''">
                                 	<xsl:choose>
-			                        	<xsl:when test="$qname='gmd:MD_CharacterSetCode'">
+			                        	<xsl:when test="$qname='gmd:MD_CharacterSetCode' or $qname='gmd:CI_DateTypeCode' or $qname='gmd:CI_RoleCode'">
 		                                    <xsl:value-of select="$label"/>
 							            </xsl:when>
 			                            <xsl:otherwise>
@@ -2001,10 +2001,20 @@
                 <xsl:apply-templates mode="simpleElement" select="./gmd:CI_Date/gmd:date">
                     <xsl:with-param name="schema" select="$schema"/>
                     <xsl:with-param name="edit"   select="false()"/>
-                </xsl:apply-templates>
-                <xsl:apply-templates mode="iso19139" select="./gmd:CI_Date/gmd:dateType">
-                    <xsl:with-param name="schema" select="$schema"/>
-                    <xsl:with-param name="edit"   select="false()"/>
+					<xsl:with-param name="title">
+		                <xsl:apply-templates mode="iso19139GetAttributeText" select="./gmd:CI_Date/gmd:dateType/*/@codeListValue">
+		                    <xsl:with-param name="schema" select="$schema"/>
+		                    <xsl:with-param name="edit"   select="$edit"/>
+		                </xsl:apply-templates>
+		                <xsl:text> </xsl:text>
+		                <xsl:variable name="dateLabel">
+							<xsl:call-template name="getTitle">
+								<xsl:with-param name="name" select="name(.)"/>
+								<xsl:with-param name="schema" select="$schema"/>
+							</xsl:call-template>
+						</xsl:variable>
+						<xsl:value-of select="lower-case($dateLabel)"/>
+					</xsl:with-param>
                 </xsl:apply-templates>
             </xsl:otherwise>
         </xsl:choose>
@@ -2943,9 +2953,9 @@
 
                     <xsl:apply-templates mode="elementEP" select="gmd:spatialRepresentationType|geonet:child[string(@name)='spatialRepresentationType']
           |gmd:spatialResolution|geonet:child[string(@name)='spatialResolution']
-		  |gmd:language|geonet:child[string(@name)='language']
-          |gmd:characterSet|geonet:child[string(@name)='characterSet']
-          |gmd:topicCategory|geonet:child[string(@name)='topicCategory']
+		  |gmd:language[$edit=true()]|geonet:child[string(@name)='language' and $edit=true()]
+          |gmd:characterSet[$edit=true()]|geonet:child[string(@name)='characterSet' and $edit=true()]
+          |gmd:topicCategory[$edit=true()]|geonet:child[string(@name)='topicCategory' and $edit=true()]
           |gmd:supplementalInformation|geonet:child[string(@name)='supplementalInformation']
           |gmd:environmentDescription|geonet:child[string(@name)='environmentDescription']
           |srv:serviceType|srv:*[*/@codeList]|srv:containsOperations|srv:operatesOn|srv:coupledResource|srv:extent|gmd:extent|geonet:child[string(@name)='extent']
@@ -3227,32 +3237,70 @@
     <xsl:template name="contactTemplate">
         <xsl:param name="schema"/>
         <xsl:param name="edit"/>
-        <xsl:apply-templates mode="complexElement" select=".">
-            <xsl:with-param name="schema"  select="$schema"/>
-            <xsl:with-param name="edit"    select="$edit"/>
-            <xsl:with-param name="content">
+        <xsl:choose>
+        	<xsl:when test="$edit=true()">
+		        <xsl:apply-templates mode="complexElement" select=".">
+		            <xsl:with-param name="schema"  select="$schema"/>
+		            <xsl:with-param name="edit"    select="$edit"/>
+		            <xsl:with-param name="content">
+			            <xsl:for-each select="gmd:CI_ResponsibleParty">
+		                    <xsl:apply-templates mode="elementEP" select="../@xlink:href">
+		                        <xsl:with-param name="schema" select="$schema"/>
+		                        <xsl:with-param name="edit"   select="$edit"/>
+		                    </xsl:apply-templates>
+		                    <xsl:apply-templates mode="elementEP" select="gmd:individualName|geonet:child[string(@name)='individualName']
+			                    |gmd:organisationName|geonet:child[string(@name)='organisationName']
+			                    |gmd:positionName|geonet:child[string(@name)='positionName']
+			                    |gmd:role|geonet:child[string(@name)='role']
+			                    ">
+		                        <xsl:with-param name="schema" select="$schema"/>
+		                        <xsl:with-param name="edit"   select="$edit"/>
+		                    </xsl:apply-templates>
+		                    <xsl:apply-templates mode="elementEP" select="gmd:contactInfo|geonet:child[string(@name)='contactInfo']">
+		                        <xsl:with-param name="schema" select="$schema"/>
+		                        <xsl:with-param name="edit"   select="$edit"/>
+		                    </xsl:apply-templates>
+			            </xsl:for-each>
+		            </xsl:with-param>
+		        </xsl:apply-templates>
+        	</xsl:when>
+        	<xsl:otherwise>
 	            <xsl:for-each select="gmd:CI_ResponsibleParty">
-                    <xsl:apply-templates mode="elementEP" select="../@xlink:href">
-                        <xsl:with-param name="schema" select="$schema"/>
-                        <xsl:with-param name="edit"   select="$edit"/>
-                    </xsl:apply-templates>
-
-                    <xsl:apply-templates mode="elementEP" select="gmd:individualName|geonet:child[string(@name)='individualName']
-                    |gmd:organisationName|geonet:child[string(@name)='organisationName']
-                    |gmd:positionName|geonet:child[string(@name)='positionName']
-                    |gmd:role|geonet:child[string(@name)='role']
-                    ">
-                        <xsl:with-param name="schema" select="$schema"/>
-                        <xsl:with-param name="edit"   select="$edit"/>
-                    </xsl:apply-templates>
-                    <xsl:apply-templates mode="elementEP" select="gmd:contactInfo|geonet:child[string(@name)='contactInfo']">
-                        <xsl:with-param name="schema" select="$schema"/>
-                        <xsl:with-param name="edit"   select="$edit"/>
+	            	<xsl:variable name="individualName" select="normalize-space(gmd:individualName|geonet:child[string(@name)='individualName'])"/>
+	            	<xsl:variable name="organisationName" select="normalize-space(gmd:organisationName|geonet:child[string(@name)='organisationName'])"/>
+	            	<xsl:if test="$individualName!='' or $organisationName!=''">
+	                    <xsl:apply-templates mode="elementEP" select="../@xlink:href">
+	                        <xsl:with-param name="schema" select="$schema"/>
+	                        <xsl:with-param name="edit"   select="$edit"/>
+	                    </xsl:apply-templates>
+		                <xsl:variable name="roleLabel">
+			                <xsl:apply-templates mode="iso19139GetAttributeText" select="gmd:role/*/@codeListValue">
+			                    <xsl:with-param name="schema" select="$schema"/>
+			                    <xsl:with-param name="edit"   select="$edit"/>
+			                </xsl:apply-templates>
+		                </xsl:variable>
+						<tr>
+						    <th class="main">
+				                <xsl:if test="$roleLabel=''">
+									<xsl:call-template name="getTitle">
+										<xsl:with-param name="name" select="'gmd:pointOfContact'"/>
+										<xsl:with-param name="schema" select="$schema"/>
+									</xsl:call-template>
+								</xsl:if>
+				                <xsl:if test="$roleLabel!=''">
+									<xsl:value-of select="$roleLabel"/>
+								</xsl:if>
+						    </th>
+						    <td><xsl:value-of select="$individualName"/><xsl:if test="$individualName!='' and $organisationName!=''"><xsl:text>, </xsl:text></xsl:if><xsl:value-of select="$organisationName"/></td>
+						</tr>
+					</xsl:if>
+	                <xsl:apply-templates mode="elementEP" select="gmd:contactInfo/gmd:CI_Contact/gmd:address/gmd:CI_Address/gmd:electronicMailAddress">
+	                    <xsl:with-param name="schema" select="$schema"/>
+	                    <xsl:with-param name="edit"   select="$edit"/>
                     </xsl:apply-templates>
 	            </xsl:for-each>
-            </xsl:with-param>
-        </xsl:apply-templates>
-
+        	</xsl:otherwise>
+        </xsl:choose>
     </xsl:template>
 
     <xsl:template mode="iso19139" match="gmd:distributionInfo/gmd:MD_Distribution">
@@ -5001,11 +5049,12 @@ This parameter define the class of the textarea (see CSS). -->
                   priority="100">
         <xsl:param name="schema" />
         <xsl:param name="edit" />
-
-        <xsl:call-template name="iso19139String">
-            <xsl:with-param name="schema" select="$schema"/>
-            <xsl:with-param name="edit"   select="$edit"/>
-        </xsl:call-template>
+		<xsl:if test="name(.)!='gmd:edition' or $edit=true()">
+	        <xsl:call-template name="iso19139String">
+	            <xsl:with-param name="schema" select="$schema"/>
+	            <xsl:with-param name="edit"   select="$edit"/>
+	        </xsl:call-template>
+        </xsl:if>
     </xsl:template>
 
 
@@ -5344,6 +5393,7 @@ to build the XML fragment in the editor. -->
     <xsl:variable name="widgetMode">
     	<xsl:choose>
     		<xsl:when test="contains($thesaurusId,'BEL-AIR')"><xsl:value-of select="'combo'"/></xsl:when>
+    		<xsl:when test="contains($thesaurusId,'SIGMA')"><xsl:value-of select="'combo'"/></xsl:when>
     		<xsl:otherwise><xsl:value-of select="''"/></xsl:otherwise>
     	</xsl:choose>
     </xsl:variable>    
@@ -5365,11 +5415,11 @@ to build the XML fragment in the editor. -->
   		<xsl:when test="contains(normalize-space(gmd:thesaurusName/gmd:CI_Citation/gmd:title/gco:CharacterString),'GEMET') and contains(normalize-space(gmd:thesaurusName/gmd:CI_Citation/gmd:title/gco:CharacterString),'INSPIRE')">geonetwork.thesaurus.external.theme.inspire-theme</xsl:when>
   		<xsl:when test="contains(normalize-space(gmd:thesaurusName/gmd:CI_Citation/gmd:title/gco:CharacterString),'GEMET')">geonetwork.thesaurus.external.theme.gemet</xsl:when>
   		<xsl:when test="contains(normalize-space(gmd:thesaurusName/gmd:CI_Citation/gmd:title/gco:CharacterString),'D.4 van de verordening')">geonetwork.thesaurus.external.theme.inspire-service-taxonomy</xsl:when>
-  		<xsl:when test="contains(normalize-space(gmd:thesaurusName/gmd:CI_Citation/gmd:title/gco:CharacterString),'Vlaamse regio')">geonetwork.thesaurus.external.place.GDI-Vlaanderenregios</xsl:when>
-  		<xsl:when test="contains(normalize-space(gmd:thesaurusName/gmd:CI_Citation/gmd:title/gco:CharacterString),'GDI') and contains(normalize-space(gmd:thesaurusName/gmd:CI_Citation/gmd:title/gco:CharacterString),'Vlaanderen')">geonetwork.thesaurus.external.theme.GDI-Vlaanderen-trefwoorden</xsl:when>
-  		<xsl:when test="contains(normalize-space(gmd:thesaurusName/gmd:CI_Citation/gmd:title/gco:CharacterString),'BEL-AIR Sites')">geonetwork.thesaurus.external.place.BEL-AIR-Site-Keywords</xsl:when>
-  		<xsl:when test="contains(normalize-space(gmd:thesaurusName/gmd:CI_Citation/gmd:title/gco:CharacterString),'BEL-AIR Campaigns')">geonetwork.thesaurus.external.temporal.BEL-AIR-Campaigns-Keywords</xsl:when>
-  		<xsl:when test="contains(normalize-space(gmd:thesaurusName/gmd:CI_Citation/gmd:title/gco:CharacterString),'BEL-AIR DataTypes')">geonetwork.thesaurus.external.theme.BEL-AIR-DataTypes-Keywords</xsl:when>
+  		<xsl:when test="contains(normalize-space(gmd:thesaurusName/gmd:CI_Citation/gmd:title/gco:CharacterString),'SIGMA Regions')">geonetwork.thesaurus.external.place.SIGMA-Regions</xsl:when>
+  		<xsl:when test="contains(normalize-space(gmd:thesaurusName/gmd:CI_Citation/gmd:title/gco:CharacterString),'SIGMA Years')">geonetwork.thesaurus.external.place.SIGMA-Years</xsl:when>
+  		<xsl:when test="contains(normalize-space(gmd:thesaurusName/gmd:CI_Citation/gmd:title/gco:CharacterString),'BEL-AIR Sites')">geonetwork.thesaurus.external.place.BEL-AIR-Sites</xsl:when>
+  		<xsl:when test="contains(normalize-space(gmd:thesaurusName/gmd:CI_Citation/gmd:title/gco:CharacterString),'BEL-AIR Campaigns')">geonetwork.thesaurus.external.temporal.BEL-AIR-Campaigns</xsl:when>
+  		<xsl:when test="contains(normalize-space(gmd:thesaurusName/gmd:CI_Citation/gmd:title/gco:CharacterString),'BEL-AIR DataTypes')">geonetwork.thesaurus.external.theme.BEL-AIR-DataTypes</xsl:when>
   		<xsl:otherwise><xsl:value-of select="normalize-space(gmd:thesaurusName/gmd:CI_Citation/gmd:identifier/gmd:MD_Identifier/gmd:code/*[1])"/></xsl:otherwise>
   	</xsl:choose>
   </xsl:template>

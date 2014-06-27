@@ -34,7 +34,7 @@
                                 <!-- do not display status JUSTCREATED -->
                                 <xsl:if test="id != '0' and id != '6'">
                                     <tr>
-                                        <td class="padded" align="left" colspan="2">
+                                        <td class="padded" align="left">
                                             <input type="radio" name="status" value="{id}" id="st{id}">
                                                 <xsl:if test="$currentStatus=id">
                                                     <xsl:attribute name="checked"/>
@@ -179,11 +179,14 @@
                                 </xsl:if>
                             </xsl:for-each>
                             <tr width="100%">
-                                <td align="left">
+                                <th class="padded" align="left">
+                                	<br/>
                                     <xsl:value-of select="/root/gui/strings/changeLogMessage"/>
-                                </td>
-                                <td align="left">
-                                    <textarea rows="8" cols="25" id="changeMessage" name="changeMessage"><xsl:value-of select="/root/gui/strings/defaultStatusChangeMessage"/></textarea>
+                                </th>
+                            </tr>
+                            <tr width="100%">
+                                <td class="padded" align="left">
+                                    <textarea rows="8" id="changeMessage" name="changeMessage" style="width:100%"><xsl:value-of select="/root/gui/strings/defaultStatusChangeMessage"/></textarea>
                                 </td>
                             </tr>
                             <tr width="100%">

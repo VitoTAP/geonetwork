@@ -84,6 +84,7 @@ public class Login implements Service
 				throw new UserLoginEx(username);
 
 			updateUser(context, dbms, info);
+			password = info.password;
 		}
 
 		//--- attempt to load user from db

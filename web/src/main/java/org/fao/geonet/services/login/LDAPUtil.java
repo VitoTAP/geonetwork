@@ -59,7 +59,7 @@ public class LDAPUtil
 
 			Hashtable<String,String> env = new Hashtable<String,String>();
 
-			env.put(Context.SECURITY_PRINCIPAL,   username);
+			env.put(Context.SECURITY_PRINCIPAL, username);
 			env.put(Context.SECURITY_CREDENTIALS, password);
 
 			DirContext dc = new InitialDirContext(env);
@@ -76,10 +76,11 @@ public class LDAPUtil
 
 	public static String findUserDN(String url, String uidFilter, String userDN) throws NamingException
 	{
+		DirContext dc = null;
 		try
 		{
 			Hashtable<String,String> env = new Hashtable<String,String>();
-			DirContext dc = new InitialDirContext(env);
+	        dc = new InitialDirContext(env);
 			DirContext connection = (DirContext) dc.lookup(url);
 
 			NamingEnumeration<SearchResult> results = connection.search(userDN, uidFilter, null);
@@ -94,6 +95,11 @@ public class LDAPUtil
 		}
 		catch(NamingException e)
 		{
+			try {
+				dc.close();
+			} catch (NamingException e1) {
+				Log.warning(Geonet.LDAP, "Raised exception during LDAP close connection");
+			}
 			throw e;
 		}
 	}

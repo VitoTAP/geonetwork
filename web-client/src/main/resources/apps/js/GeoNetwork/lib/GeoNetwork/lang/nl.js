@@ -542,6 +542,8 @@ GeoNetwork.Lang.nl = {
     'removeFilter': 'Verwijder filter', 
     'datatypekeywords': "BEL-AIR DataTypes",
     'sitekeywords': "BEL-AIR Sites",
+    'regionskeywords': "SIGMA REgions",
+    'yearskeywords': "SIGMA Years",
     'campaignkeywords': "BEL-AIR Campaigns",
     'facetMore': '+ Toon meer',
     'facetLess': '- Toon minder',

@@ -209,10 +209,13 @@
       <groupId>org.postgis</groupId>
       <artifactId>postgis-jdbc</artifactId>
     </dependency>
+    
+    <!--not used by vito
     <dependency>
       <groupId>mysql</groupId>
       <artifactId>mysql-connector-java</artifactId>
-    </dependency>
+      
+    </dependency>-->
     <dependency>
       <groupId>ojdbc</groupId>
       <artifactId>ojdbc</artifactId>
@@ -279,7 +282,22 @@
           <groupId>org.apache.activemq</groupId>
           <artifactId>activemq-core</artifactId>
           <version>5.6.0</version>
+          <!-- needed for load balancing -->
+          <exclusions>
+          	<!-- excluded by vito to save space in war file, reenable for load balancing -->
+          	<exclusion>
+          		<groupId>org.fusesource.fuse-extra</groupId>
+          		<artifactId>fusemq-leveldb</artifactId>
+          	</exclusion>
+          </exclusions>
       </dependency>
+      <dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>servlet-api</artifactId>
+			<version>2.5</version>
+			<scope>provided</scope>
+	  </dependency>
+      
   
     <!-- ====================== -->
     <!-- Generated dependencies -->

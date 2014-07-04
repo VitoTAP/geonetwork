@@ -157,11 +157,11 @@
           -->
         <init-param>
 		    <param-name>NODE_TYPE</param-name>
- 			<param-value>BEL-AIR</param-value>
+ 			<param-value>SIGMA</param-value>
         </init-param>
         <init-param>
 		    <param-name>FROM_DESCRIPTION</param-name>
-            <param-value>BEL-AIR-Metadatacenter</param-value>
+            <param-value>SIGMA-Metadatacenter</param-value>
         </init-param>
 		<init-param>
 			<param-name>jeeves.configuration.overrides.file</param-name>

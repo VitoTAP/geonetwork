@@ -462,25 +462,11 @@ GeoNetwork.app = function(){
     }
     
     function searchWithSitekeyword(value) {
-/*
-    	var sitekeywordField = Ext.getCmp('E_sitekeyword');
-    	if (!sitekeywordField) {
-    		sitekeywordField = searchForm.insert(0, new Ext.form.TextField({
-                id: 'E_sitekeyword',
-                name: 'E_sitekeyword',
-                inputType: 'hidden'
-            }));    	
-    	}
-		catalogue.startRecord = 1; // Reset start record
-		sitekeywordField.setValue(value);
-		search();
-		setTab('results');
- */
 //    	facetsPanel.removeFacet('facet_0',true);
         facetsPanel.reset();
     	facetsPanel.addFacet(0, {
                 id: 'facet_0', 
-                facet: 'sitekeyword', 
+                facet: 'regionkeyword',
                 value: value, 
                 label: value,
                 bcid: 'bc_facet_0', 
@@ -915,11 +901,11 @@ GeoNetwork.app = function(){
                     							xtype: 'box',
                     							border: false,
                     							columnWidth: 0.25,
-                    							autoEl : {html:'<div class="thumb"><img style="cursor:pointer;height:150px" src="' + catalogue.URL + '/apps/tabsearch/images/litora.png" title="LITORA" alt="LITORA"></div><br/><div>LITORA</div>'},
+                    							autoEl: {html:'<div><span style="text-decoration: underline;">Global data</span></div>'},
                     							listeners: {
                     								render: function(p) {
                     									p.getEl().on('click', function(){
-                                       						searchWithSitekeyword("litora");
+                                       						searchWithSitekeyword("global");
                     									});
                     								},
                     								single: true
@@ -929,11 +915,11 @@ GeoNetwork.app = function(){
                                        			xtype: 'box',
                                        			border: false,
                                        			columnWidth: 0.20,
-                                       			autoEl : {html:'<div class="thumb"><img style="cursor:pointer;height:150px" src="' + catalogue.URL + '/apps/tabsearch/images/sonia.png" title="SONIA" alt="SONIA"></div><br/><div>SONIA</div>'},
+                                       			autoEl : {html:'<div><span style="text-decoration: underline;">Regional data</span></div>'},
                                        			listeners: {
                                        				render: function(p) {
                                        					p.getEl().on('click', function(){
-                                       						searchWithSitekeyword("sonia");
+                                       						searchWithSitekeyword("regional");
                                        					});
                                        				},
                                        				single: true

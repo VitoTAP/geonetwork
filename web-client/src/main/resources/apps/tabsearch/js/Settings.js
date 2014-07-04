@@ -60,7 +60,7 @@ Ext.BLANK_IMAGE_URL = '../js/ext/resources/images/default/s.gif';
 
 GeoNetwork.Settings.ratingEnabled = false;
 GeoNetwork.Settings.isProduction = false;
-GeoNetwork.Settings.nodeType = "BEL-AIR";
+GeoNetwork.Settings.nodeType = "SIGMA";
 GeoNetwork.Settings.useSTS = false;
 GeoNetwork.Settings.ga = false;
 GeoNetwork.Settings.logoutUrlSTS = "https://auth." + (GeoNetwork.Settings.isProduction ? "" : "beta.") + "agiv.be/sts/";

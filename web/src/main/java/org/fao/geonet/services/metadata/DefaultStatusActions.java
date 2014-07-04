@@ -26,7 +26,6 @@ package org.fao.geonet.services.metadata;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -39,8 +38,6 @@ import jeeves.resources.dbms.Dbms;
 import jeeves.server.UserSession;
 import jeeves.server.context.ServiceContext;
 import jeeves.utils.BinaryFile;
-import jeeves.utils.Log;
-import jeeves.utils.Xml;
 
 import org.apache.commons.lang.StringUtils;
 import org.fao.geonet.GeonetContext;
@@ -52,9 +49,9 @@ import org.fao.geonet.kernel.MdInfo;
 import org.fao.geonet.kernel.mef.MEFLib;
 import org.fao.geonet.kernel.setting.SettingManager;
 import org.fao.geonet.lib.Lib;
+import org.fao.geonet.services.Utils;
 import org.fao.geonet.util.FileCopyMgr;
 import org.fao.geonet.util.ISODate;
-import org.fao.geonet.util.MailSender;
 import org.jdom.Document;
 import org.jdom.Element;
 
@@ -918,7 +915,8 @@ public class DefaultStatusActions implements StatusActions {
 		String subject = "Status metadata record(s) gewijzigd naar '" + dm.getStatusDes(dbms, status, context.getLanguage()) + "' door " + replyTo + " ("
 					+ replyToDescr + ") op " + changeDate;
 
-		processList(contentUsers, subject, status, changeDate, changeMessage, metadataMap, emailMetadataIdList);
+		//processList(contentUsers, subject, status, changeDate, changeMessage, metadataMap, emailMetadataIdList);
+		Utils.processList(context, dbms, replyTo, replyToDescr, contentUsers, subject, status, changeDate, changeMessage, metadataMap, emailMetadataIdList);
 	}
 
 	/**
@@ -934,6 +932,7 @@ public class DefaultStatusActions implements StatusActions {
 	 *            Datestamp of status change
 	 */
 	@SuppressWarnings("unchecked")
+/*
 	private void processList(Element contentUsers, String subject, String status,
 			String changeDate, String changeMessage, Map<String,Map<String,String>> metadataMap, List<String> emailMetadataIdList)
 			throws Exception {
@@ -957,10 +956,11 @@ public class DefaultStatusActions implements StatusActions {
 				if (currentEmail!=null) {
 					currentEmail = currentEmail.toLowerCase();
 				}
-				root = getNewRootElement(status, changeMessage, context.getUserSession().getUserId());
+				root = Utils.getNewRootElement(context, dbms, status, changeMessage, context.getUserSession().getUserId());
 			} else if (!currentUserId.equals(userId)) {
 				if (StringUtils.isNotBlank(currentEmail) && metadataIds.size()>0) {
-					sendEmail(currentEmail, Xml.transform(root, styleSheet));
+					Utils.sendEmail(context, currentEmail, replyTo, replyToDescr, Xml.transform(root, styleSheet));
+//					sendEmail(currentEmail, Xml.transform(root, styleSheet));
 //					sendEmail(currentEmail, subject, status, changeDate, changeMessage, metadataIds);
 					metadataIds.clear();
 				}
@@ -969,14 +969,14 @@ public class DefaultStatusActions implements StatusActions {
 				if (currentEmail!=null) {
 					currentEmail = currentEmail.toLowerCase();
 				}
-				root = getNewRootElement(status, changeMessage, context.getUserSession().getUserId());
+				root = Utils.getNewRootElement(context, dbms, status, changeMessage, context.getUserSession().getUserId());
 			}
 			if (StringUtils.isNotBlank(currentEmail) && !emailMetadataIdList.contains(currentEmail + "_" + metadataId)) {
 				emailMetadataIdList.add(currentEmail + "_" + metadataId);
 				metadataIds.add(metadataId);
 				metadata = new Element("metadata");
 				root.addContent(metadata);
-				metadata.addContent(new Element("url").setText(buildMetadataLink(metadataId)));
+				metadata.addContent(new Element("url").setText(Utils.buildMetadataLink(context, metadataId)));
 				metadata.addContent(new Element("title").setText(metadataMap.get(metadataId).get("title").toString()));
 				metadata.addContent(new Element("currentStatus").setText(metadataMap.get(metadataId).get("currentStatus").toString()));
 				if (metadataMap.get(metadataId).get("previousStatus")!=null) {
@@ -986,7 +986,8 @@ public class DefaultStatusActions implements StatusActions {
 		}
 
 		if (StringUtils.isNotBlank(currentEmail) && metadataIds.size()>0) {
-			sendEmail(currentEmail, Xml.transform(root, styleSheet));
+			Utils.sendEmail(context, currentEmail, replyTo, replyToDescr, Xml.transform(root, styleSheet));
+//			sendEmail(currentEmail, Xml.transform(root, styleSheet));
 //			sendEmail(currentEmail, subject, status, changeDate, changeMessage, metadataIds);
 		}
 	}
@@ -1009,6 +1010,8 @@ public class DefaultStatusActions implements StatusActions {
 		root.addContent(new Element("changeMessage").setText(changeMessage));
 		return root;
 	}
+*/
+	
 	/**
 	 * Send the email message about change of status on a group of metadata
 	 * records.
@@ -1024,6 +1027,7 @@ public class DefaultStatusActions implements StatusActions {
 	 * @param changeMessage
 	 *            The message indicating why the status has changed
 	 */
+	/*
 	private void sendEmail(String sendTo, String subject, String status,
 			String changeDate, String changeMessage, Set<String> metadataIds)
 			throws Exception {
@@ -1045,8 +1049,8 @@ public class DefaultStatusActions implements StatusActions {
 					fromDescr, sendTo, null, replyTo, replyToDescr, subject,
 					changeMessage);
 		}
-	}
-
+	}*/
+/*
 	private void sendEmail(String sendTo, Element emailElement)
 			throws Exception {
 		MailSender sender = new MailSender(context);
@@ -1054,6 +1058,8 @@ public class DefaultStatusActions implements StatusActions {
 				fromDescr, sendTo, null, replyTo, replyToDescr, emailElement.getChildText("subject"),
 				emailElement.getChildText("message"));
 	}
+*/	
+
 	/**
 	 * Build search link to metadata that has had a change of status.
 	 *
@@ -1061,13 +1067,13 @@ public class DefaultStatusActions implements StatusActions {
 	 *            The id of the metadata
 	 * @return string Search link to metadata
 	 */
+/*
 	private String buildMetadataLink(String metadataId) {
 		// TODO: hack voor AGIV
 		return getContextUrl()
 //				+ "/apps/tabsearch/index_login.html?id=" + metadataId;
 				+ "/apps/tabsearch/index.html?id=" + metadataId + "&external=true";
 	}
-
 	private String getContextUrl() {
 		GeonetContext gc = (GeonetContext) context
 				.getHandlerContext(Geonet.CONTEXT_NAME);
@@ -1077,9 +1083,10 @@ public class DefaultStatusActions implements StatusActions {
 				Geonet.Settings.SERVER_HOST);
 		String port = gc.getSettingManager().getValue(
 				Geonet.Settings.SERVER_PORT);
-		return /*protocol + */"https://" + host + ((port.equals("80") || port.equals("443")) ? "" : ":" + port)
-				+ context.getBaseUrl();
+//		return protocol + "://" + host + ((port.equals("80") || port.equals("443")) ? "" : ":" + port) + context.getBaseUrl();
+		return "https://" + host + ((port.equals("80") || port.equals("443")) ? "" : ":" + port) + context.getBaseUrl();
 	}
+*/
 
 	/**
 	 * Build search link to metadata that has had a change of status.

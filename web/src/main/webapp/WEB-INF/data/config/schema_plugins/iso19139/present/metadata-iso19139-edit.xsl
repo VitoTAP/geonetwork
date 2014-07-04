@@ -317,6 +317,84 @@
 		</xsl:for-each>
 	</xsl:template>
 	
+    <xsl:template mode="iso19139" match="gmd:MD_Constraints|gmd:MD_LegalConstraints|gmd:MD_SecurityConstraints ">
+        <xsl:param name="schema"/>
+        <xsl:param name="edit"/>
+		<xsl:if test="$edit=true()">
+			<xsl:apply-templates mode="addElement" select="geonet:child[@name='useLimitation' and @prefix='gmd']">
+	            <xsl:with-param name="schema" select="$schema"/>
+	            <xsl:with-param name="edit"   select="$edit"/>
+	            <xsl:with-param name="visible"   select="count(gmd:useLimitation)=0"/>
+			</xsl:apply-templates>
+		</xsl:if>
+        <xsl:for-each select="gmd:useLimitation">
+       		<xsl:apply-templates mode="elementEP" select=".">
+	            <xsl:with-param name="schema" select="$schema"/>
+	            <xsl:with-param name="edit"   select="$edit"/>
+			</xsl:apply-templates>
+		</xsl:for-each>
+		<xsl:if test="name(.)='gmd:MD_LegalConstraints'">
+			<xsl:if test="$edit=true()">
+				<xsl:apply-templates mode="addElement" select="geonet:child[@name='accessConstraints' and @prefix='gmd']">
+		            <xsl:with-param name="schema" select="$schema"/>
+		            <xsl:with-param name="edit"   select="$edit"/>
+		            <xsl:with-param name="visible"   select="count(gmd:accessConstraints)=0"/>
+				</xsl:apply-templates>
+			</xsl:if>
+	        <xsl:for-each select="gmd:accessConstraints">
+	       		<xsl:apply-templates mode="elementEP" select=".">
+		            <xsl:with-param name="schema" select="$schema"/>
+		            <xsl:with-param name="edit"   select="$edit"/>
+				</xsl:apply-templates>
+			</xsl:for-each>
+			<xsl:if test="$edit=true()">
+				<xsl:apply-templates mode="addElement" select="geonet:child[@name='useConstraints' and @prefix='gmd']">
+		            <xsl:with-param name="schema" select="$schema"/>
+		            <xsl:with-param name="edit"   select="$edit"/>
+		            <xsl:with-param name="visible"   select="count(gmd:useConstraints)=0"/>
+				</xsl:apply-templates>
+			</xsl:if>
+	        <xsl:for-each select="gmd:useConstraints">
+	       		<xsl:apply-templates mode="elementEP" select=".">
+		            <xsl:with-param name="schema" select="$schema"/>
+		            <xsl:with-param name="edit"   select="$edit"/>
+				</xsl:apply-templates>
+			</xsl:for-each>
+			<xsl:if test="$edit=true()">
+				<xsl:apply-templates mode="addElement" select="geonet:child[@name='otherConstraints' and @prefix='gmd']">
+		            <xsl:with-param name="schema" select="$schema"/>
+		            <xsl:with-param name="edit"   select="$edit"/>
+		            <xsl:with-param name="visible"   select="count(gmd:otherConstraints)=0"/>
+				</xsl:apply-templates>
+			</xsl:if>
+	        <xsl:for-each select="gmd:otherConstraints">
+	       		<xsl:apply-templates mode="elementEP" select=".">
+		            <xsl:with-param name="schema" select="$schema"/>
+		            <xsl:with-param name="edit"   select="$edit"/>
+				</xsl:apply-templates>
+			</xsl:for-each>
+		</xsl:if>
+		<xsl:if test="name(.)='gmd:MD_SecurityConstraints'">
+			<xsl:if test="$edit=true()">
+				<xsl:apply-templates mode="addElement" select="geonet:child[@name='classification' and @prefix='gmd']">
+		            <xsl:with-param name="schema" select="$schema"/>
+		            <xsl:with-param name="edit"   select="$edit"/>
+		            <xsl:with-param name="visible"   select="count(gmd:classification)=0"/>
+				</xsl:apply-templates>
+			</xsl:if>
+	        <xsl:for-each select="gmd:classification">
+	       		<xsl:apply-templates mode="elementEP" select=".">
+		            <xsl:with-param name="schema" select="$schema"/>
+		            <xsl:with-param name="edit"   select="$edit"/>
+				</xsl:apply-templates>
+			</xsl:for-each>
+       		<xsl:apply-templates mode="elementEP" select="*[not(name()='gmd:useLimitation' or name()='gmd:classification')]">
+	            <xsl:with-param name="schema" select="$schema"/>
+	            <xsl:with-param name="edit"   select="$edit"/>
+			</xsl:apply-templates>
+		</xsl:if>
+	</xsl:template>
+	
     <!-- ===================================================================== -->
     <!-- some gco: elements and gmx:MimeFileType are swallowed -->
     <!-- ===================================================================== -->
@@ -5416,7 +5494,7 @@ to build the XML fragment in the editor. -->
   		<xsl:when test="contains(normalize-space(gmd:thesaurusName/gmd:CI_Citation/gmd:title/gco:CharacterString),'GEMET')">geonetwork.thesaurus.external.theme.gemet</xsl:when>
   		<xsl:when test="contains(normalize-space(gmd:thesaurusName/gmd:CI_Citation/gmd:title/gco:CharacterString),'D.4 van de verordening')">geonetwork.thesaurus.external.theme.inspire-service-taxonomy</xsl:when>
   		<xsl:when test="contains(normalize-space(gmd:thesaurusName/gmd:CI_Citation/gmd:title/gco:CharacterString),'SIGMA Regions')">geonetwork.thesaurus.external.place.SIGMA-Regions</xsl:when>
-  		<xsl:when test="contains(normalize-space(gmd:thesaurusName/gmd:CI_Citation/gmd:title/gco:CharacterString),'SIGMA Years')">geonetwork.thesaurus.external.place.SIGMA-Years</xsl:when>
+  		<xsl:when test="contains(normalize-space(gmd:thesaurusName/gmd:CI_Citation/gmd:title/gco:CharacterString),'SIGMA Years')">geonetwork.thesaurus.external.temporal.SIGMA-Years</xsl:when>
   		<xsl:when test="contains(normalize-space(gmd:thesaurusName/gmd:CI_Citation/gmd:title/gco:CharacterString),'BEL-AIR Sites')">geonetwork.thesaurus.external.place.BEL-AIR-Sites</xsl:when>
   		<xsl:when test="contains(normalize-space(gmd:thesaurusName/gmd:CI_Citation/gmd:title/gco:CharacterString),'BEL-AIR Campaigns')">geonetwork.thesaurus.external.temporal.BEL-AIR-Campaigns</xsl:when>
   		<xsl:when test="contains(normalize-space(gmd:thesaurusName/gmd:CI_Citation/gmd:title/gco:CharacterString),'BEL-AIR DataTypes')">geonetwork.thesaurus.external.theme.BEL-AIR-DataTypes</xsl:when>

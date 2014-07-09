@@ -1364,4 +1364,60 @@ GeoNetwork.util.SearchFormTools = {
              return new Ext.form.ComboBox(config);
         }
     },
+    getRegionsKeywordField : function (services, multi) {
+        var keywordRecord = Ext.data.Record.create([ {
+            name : 'id'
+        }, {
+            name : 'value'
+        }, {
+            name : 'definition'
+        }, {
+            name : 'uri'
+        }]);
+
+        // Keyword store
+        var regionsKeywordStore = new Ext.data.Store({
+            proxy : new Ext.data.HttpProxy({
+                url : services.searchKeyword,
+                method : 'GET'
+            }),
+            baseParams : {
+                pNewSearch : true,
+                pTypeSearch : 1,
+                pKeyword: '*',
+                pThesauri : 'external.place.SIGMA-Regions',
+                pMode : 'searchBox',
+                maxResults : '35'
+            },
+            reader : new Ext.data.XmlReader({
+                record : 'keyword',
+                id : 'id'
+            }, keywordRecord),
+            fields : [ "id", "value", "definition", "uri" ],
+            sortInfo : {
+                field : "value"
+            }
+        });
+
+        regionsKeywordStore.load();
+        var config = {
+                id : 'E_flanderskeyword',
+                name : 'E_flanderskeyword',
+                mode : 'local',
+                triggerAction : 'all',
+                fieldLabel : OpenLayers.i18n('flanderskeyword'),
+                store : regionsKeywordStore,
+                valueField : 'value',
+                displayField : 'value'
+            };
+        if (multi) {
+            Ext.apply(config, {
+                valueDelimiter: ' or '/*,
+                stackItems: true*/
+                });
+            return new Ext.ux.form.SuperBoxSelect(config);
+        } else {
+             return new Ext.form.ComboBox(config);
+        }
+    },
 };

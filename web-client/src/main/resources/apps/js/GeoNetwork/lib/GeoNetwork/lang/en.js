@@ -524,6 +524,8 @@ GeoNetwork.lang.en = {
     'removeFilter': 'Remove filter', 
     'datatypekeywords': "BEL-AIR DataTypes",
     'sitekeywords': "BEL-AIR Sites",
+    'regionkeywords': "SIGMA Regions",
+    'yearkeywords': "SIGMA Years",
     'campaignkeywords': "BEL-AIR Campaigns",
     'facetMore': '+ Show more',
     'facetLess': '- Show less',

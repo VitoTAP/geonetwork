@@ -206,6 +206,7 @@ GeoNetwork.FacetsPanel = Ext.extend(Ext.Panel, {
                                 }
                             });
                             if (facetList !== "") {
+                            	console.alert(OpenLayers.i18n(facet.nodeName));
                                 zappette += "<li>" + OpenLayers.i18n(facet.nodeName) + "</li><ul>";
                                 zappette += facetList;
                                 if (facet.getAttribute('moreAction') === 'true') {

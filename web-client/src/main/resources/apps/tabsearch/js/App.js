@@ -274,6 +274,7 @@ GeoNetwork.app = function(){
             hidden: true
         });
         var flandersKeywordField = GeoNetwork.util.SearchFormTools.getFlandersKeywordField(catalogue.services, true);
+        var regionsKeywordField = GeoNetwork.util.SearchFormTools.getRegionsKeywordField(catalogue.services, true);
         var myMetadata = new Ext.form.Checkbox({
         	fieldLabel: OpenLayers.i18n('myMetadata'),
         	handler: function(ck, checked){
@@ -461,7 +462,7 @@ GeoNetwork.app = function(){
         catalogue.search('searchForm', app.loadResults, null, catalogue.startRecord, true);
     }
     
-    function searchWithSitekeyword(value) {
+    function searchWithRegionkeyword(value) {
 //    	facetsPanel.removeFacet('facet_0',true);
         facetsPanel.reset();
     	facetsPanel.addFacet(0, {
@@ -905,7 +906,7 @@ GeoNetwork.app = function(){
                     							listeners: {
                     								render: function(p) {
                     									p.getEl().on('click', function(){
-                                       						searchWithSitekeyword("global");
+                                       						searchWithRegionkeyword("global");
                     									});
                     								},
                     								single: true
@@ -919,7 +920,7 @@ GeoNetwork.app = function(){
                                        			listeners: {
                                        				render: function(p) {
                                        					p.getEl().on('click', function(){
-                                       						searchWithSitekeyword("regional");
+                                       						searchWithRegionkeyword("regional");
                                        					});
                                        				},
                                        				single: true
@@ -933,7 +934,7 @@ GeoNetwork.app = function(){
                                        			listeners: {
                                        				render: function(p) {
                                        					p.getEl().on('click', function(){
-                                       						searchWithSitekeyword("hesbania");
+                                       						searchWithRegionkeyword("hesbania");
                                        					});
                                        				},
                                        				single: true

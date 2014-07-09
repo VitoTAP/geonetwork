@@ -1655,6 +1655,22 @@ GeoNetwork.Catalogue = Ext.extend(Ext.util.Observable, {
 	        }
 	    });
     },
+    
+    sendGAEvent : function(url) {
+    	if (GeoNetwork.Settings && GeoNetwork.Settings.ga) {
+    		try {
+/*
+    			ga('set', 'dimension1', (catalogue.identifiedUser ? catalogue.identifiedUser.username : 'Unregistered user'));
+    			ga('send','event','download','clicked', 'info');
+*/
+    			ga('send','event','download','clicked', {
+    				'dimension1' : (catalogue.identifiedUser ? catalogue.identifiedUser.username : 'Unregistered user'),
+    				'dimension2' : url});    				
+			} catch(e) {
+//				alert("No send");
+			}
+		}    	
+    },
 
     getMdAggegatedInfo: function(uuid,successCb){
     	var mduuid

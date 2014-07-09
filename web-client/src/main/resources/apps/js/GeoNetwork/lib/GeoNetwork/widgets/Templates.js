@@ -261,7 +261,7 @@ GeoNetwork.Templates = Ext.extend(Ext.XTemplate, {
             '<div class="md-links">',
             '<a href="?uuid={uuid}&hl={catalogue.lang}" target="_blank" class="md-mn md-mn-bookmark" title="{[OpenLayers.i18n(\'view\')]} {title}" alt="{[OpenLayers.i18n(\'view\')]}">&nbsp;</a>',
             // FIXME : this call require the catalogue to be named catalogue, static call ?
-            // FIXME : ref to appee
+            // FIXME : ref to app
             '<tpl for="links">',
 	            '<tpl if="values.type == \'application/vnd.ogc.wms_xml\' || values.type == \'OGC:WMS\'">',
 	            '<a href="#" class="md-mn addLayer" title="' + OpenLayers.i18n('addToMap') + ' {title}" alt="Add layer to map" onclick="app.switchMode(\'1\', true);app.getIMap().addWMSLayer([[\'{[escape(values.title)]}\', \'{href}\', \'{name}\', \'{id}\']]);">&nbsp;</a>',

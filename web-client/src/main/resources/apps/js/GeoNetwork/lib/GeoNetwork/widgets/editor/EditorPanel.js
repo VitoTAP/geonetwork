@@ -193,10 +193,11 @@ GeoNetwork.editor.EditorPanel = Ext.extend(Ext.Panel, {
      * 
      *  :param id: ``String``  Metadata internal identifier.
      *  :param ref: ``String``  Form element identifier (eg. 235).
+     *  :param urlRef: ``String``  Form element identifier (eg. 235).
      *  
      *  Show panel to upload a file.
      */
-    showFileUploadPanel: function(id, ref){
+    showFileUploadPanel: function(id, uuid, ref, urlRef){
         var panel = this;
         
         // FIXME : could be improved. Here we clean the window.
@@ -217,11 +218,16 @@ GeoNetwork.editor.EditorPanel = Ext.extend(Ext.Panel, {
                     hidden: true,
                     value: this.metadataId
                 }, {
+                    name: 'public',
+                    fieldLabel: 'Public',
+                    checked: false,
+                    xtype: 'checkbox'
+                }/*, {
                     name: 'access',
                     allowBlank: false,
                     hidden: true,
                     value: 'private' // FIXME
-                }, {
+                }*/, {
                     name: 'ref',
 //                    allowBlank: false,
                     hidden: true,
@@ -252,6 +258,7 @@ GeoNetwork.editor.EditorPanel = Ext.extend(Ext.Panel, {
                     iconCls: 'attachedAdd',
                     handler: function(){
                         if (fileUploadPanel.getForm().isValid()) {
+                        	var publicFieldValue = fileUploadPanel.getForm().findField("public").getValue();
                             fileUploadPanel.getForm().submit({
                                 url: panel.catalogue.services.upload,
                                 waitMsg: OpenLayers.i18n('uploading'),
@@ -260,6 +267,10 @@ GeoNetwork.editor.EditorPanel = Ext.extend(Ext.Panel, {
                                     var name = Ext.getDom('_' + ref);
                                     if (name) {
                                         name.value = fname;
+                                    }
+                                    var url = Ext.getDom('_' + urlRef);
+                                    if (url) {
+                                        url.value = this.catalogue.services.rootUrl + 'resources.get?uuid=' + uuid + '&fname=' + fname + '&access=' + (publicFieldValue ? 'public' : 'private');
                                     }
                                     // Trigger update
                                     panel.save();
@@ -1036,6 +1047,11 @@ GeoNetwork.editor.EditorPanel = Ext.extend(Ext.Panel, {
             errorMsg = errorPage.match(/message<\/b\>[ ]<u\>(.*)/);
             if (errorMsg) {
                 Ext.Msg.alert("Fout",errorMsg[1]);
+            } else {
+                errorMsg = errorPage.match(/<p\>Exception[ ]:[ ](.*)<\/p\>/);
+                if (errorMsg) {
+                    Ext.Msg.alert("Fout",errorMsg[1]);
+                }
             }
         } 
     },

@@ -1420,4 +1420,6 @@
     <crsType value="VerticalCRS">Vertical CRS</crsType>
     <crsType value="ProjectedCRS">Projected CRS</crsType>
     <crsType value="GeographicCRS">Geographic CRS</crsType>
+	<applicationProfileChoice show="y" value="report">Report</applicationProfileChoice>
+	<applicationProfileChoice show="y" value="chart">Chart</applicationProfileChoice>
 </strings>

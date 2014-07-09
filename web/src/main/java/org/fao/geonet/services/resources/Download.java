@@ -125,7 +125,7 @@ public class Download implements Service
 				StringBuffer query = new StringBuffer();
 				query.append("SELECT g.id, g.name, g.email ");
 				query.append("FROM   OperationAllowed oa, Groups g ");
-				query.append("WHERE  oa.operationId =" + AccessManager.OPER_NOTIFY + " ");
+				query.append("WHERE  oa.operationId ='" + AccessManager.OPER_NOTIFY + "' ");
 				query.append("AND    oa.metadataId = ? ");
 				query.append("AND    oa.groupId = g.id");
 

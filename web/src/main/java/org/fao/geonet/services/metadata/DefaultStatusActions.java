@@ -835,8 +835,7 @@ public class DefaultStatusActions implements StatusActions {
 	private void setAllOperations(String mdId) throws Exception {
 		String allGroup = "1";
 		dm.setOperation(context, dbms, mdId, allGroup, AccessManager.OPER_VIEW);
-		dm.setOperation(context, dbms, mdId, allGroup,
-				AccessManager.OPER_DOWNLOAD);
+//		dm.setOperation(context, dbms, mdId, allGroup, AccessManager.OPER_DOWNLOAD);
 		dm.setOperation(context, dbms, mdId, allGroup,
 				AccessManager.OPER_NOTIFY);
 		dm.setOperation(context, dbms, mdId, allGroup,

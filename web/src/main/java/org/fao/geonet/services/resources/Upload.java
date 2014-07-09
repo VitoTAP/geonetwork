@@ -69,7 +69,8 @@ public class Upload implements Service
 
 		String id = Utils.getIdentifierFromParameters(params, context);
 		String ref    		= Util.getParam(params, Params.REF);
-		String access 		= Util.getParam(params, Params.ACCESS);
+		String publicAcces 		= Util.getParam(params, Params.PUBLIC_ACCESS, "no");
+//		String access 		= Util.getParam(params, Params.ACCESS, "private");
 		String overwrite	= Util.getParam(params, Params.OVERWRITE, "no");
 
 		Lib.resource.checkEditPrivilege(context, id);
@@ -102,7 +103,7 @@ public class Upload implements Service
 		// move uploaded file to destination directory
 		// note: uploadDir and rootDir must be in the same volume
 
-		File dir = new File(Lib.resource.getDir(context, access, id));
+		File dir = new File(Lib.resource.getDir(context, publicAcces.equals("on") ? Params.Access.PUBLIC : Params.Access.PRIVATE, id));
 		dir.mkdirs();
 
 		// Jeeves will place the uploaded file name in the f_{ref} element
@@ -125,22 +126,27 @@ public class Upload implements Service
 		}
 
 		// check if file already exists and do whatever overwrite wants
-		if (newFile.exists() && overwrite.equals("no")) {
-			throw new Exception("File upload unsuccessful because "+newFile.getName()+" already exists and overwrite was not permitted");
+		if (overwrite.equals("no")) {
+			if (newFile.exists()) {
+				throw new Exception("File upload unsuccessful because "+newFile.getName()+" already exists and overwrite was not permitted");
+			}
+		} else {
+			if (newFile.exists()) {
+				newFile.delete();
+			}
 		}
-
 	
 		// move uploaded file to destination directory - have two goes
 		try {
 			FileUtils.moveFile(oldFile, newFile);
 		} catch (Exception e) {
 			oldFile.delete();
-				context.warning("Cannot move uploaded file");
-				context.warning(" (C) Source : "+oldFile.getAbsolutePath());
-				context.warning(" (C) Destin : "+newFile.getAbsolutePath());
-				oldFile.delete();
-				throw new Exception("Unable to move uploaded file to destination directory");
-			}
+			context.warning("Cannot move uploaded file");
+			context.warning(" (C) Source : "+oldFile.getAbsolutePath());
+			context.warning(" (C) Destin : "+newFile.getAbsolutePath());
+			oldFile.delete();
+			throw new Exception("Unable to move uploaded file to destination directory");
+		}
 
 		// log the upload
 		context.info("UPLOADED:"+fname+","+id+","+mdUuid+","+context.getIpAddress()+","+username);

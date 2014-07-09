@@ -27,6 +27,7 @@ package org.fao.geonet.constants;
  * Constants for service parameters (elements and attributes).
  */
 public class Params {
+	public static final String PUBLIC_ACCESS       = "public";
 	public static final String ACCESS       = "access";
 	public static final String BTN          = "btn";
 	public static final String CATEGORY     = "category";
@@ -69,6 +70,7 @@ public class Params {
 	public static final String NEW_PASSWORD = "newPassword";
 	public static final String PROFILE      = "profile";
 	public static final String REF          = "ref";
+	public static final String URL_REF          = "urlRef";
 	public static final String MODE         = "mode";
     public static final String SCHEMA       = "schema";
     public static final String SECOND       = "second";

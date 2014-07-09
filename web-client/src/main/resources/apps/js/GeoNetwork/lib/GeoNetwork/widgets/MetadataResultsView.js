@@ -504,7 +504,7 @@ GeoNetwork.MetadataResultsView = Ext.extend(Ext.DataView, {
         
         for (i = 0; i < this.maps.length; i++) {
             var l = this.getMdResultsLayer(this.maps[i].map);
-            if (l.features) {
+            if (l!=null && l.features) {
                 if (l.features.length > 0) {
                     this.features = [];
                     l.destroyFeatures();
@@ -630,7 +630,10 @@ GeoNetwork.MetadataResultsView = Ext.extend(Ext.DataView, {
             for (i = 0; i < this.maps.length; i++) {
                 var m = this.maps[i];
                 if (m.zoomToExtentOnSearch) {
-                    m.map.zoomToExtent(this.getMdResultsLayer(m.map).getDataExtent());
+                	var resultsLayer = this.getMdResultsLayer(m.map);
+                	if (resultsLayer!=null) {
+                        m.map.zoomToExtent(resultsLayer.getDataExtent());
+                	}
                 }
             }
         }
@@ -728,8 +731,9 @@ GeoNetwork.MetadataResultsView = Ext.extend(Ext.DataView, {
                 clone = orig.clone();
                 clones[j] = clone;
             }
-            
-            layer.addFeatures(clones);
+            if (layer) {
+                layer.addFeatures(clones);
+            }
         }
     },
     /** private: method[onDestroy]

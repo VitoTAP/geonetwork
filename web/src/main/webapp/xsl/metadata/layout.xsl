@@ -2500,7 +2500,7 @@
 		</xsl:variable>
 		<xsl:variable name="addLink">
 			<xsl:choose>
-				<xsl:when test="$name='gmd:useLimitation' or $name='gmd:accessConstraints' or $name='gmd:useConstraints' or $name='gmd:otherConstraints' or $name='gmd:classification'"><xsl:value-of select="concat('doNewElementAction(',$apos,'metadata.elem.add.new',$apos,',',$parentName,',',$apos,$name,$apos,',',$apos,'_',$parentName,'_',$name,'_subtemplate_row',$apos,',',$apos,'add',$apos,',',@max,');')"/></xsl:when>
+				<xsl:when test="$name='gmd:applicationProfile' or $name='gmd:useLimitation' or $name='gmd:accessConstraints' or $name='gmd:useConstraints' or $name='gmd:otherConstraints' or $name='gmd:classification'"><xsl:value-of select="concat('doNewElementAction(',$apos,'metadata.elem.add.new',$apos,',',$parentName,',',$apos,$name,$apos,',',$apos,'_',$parentName,'_',$name,'_subtemplate_row',$apos,',',$apos,'add',$apos,',',@max,');')"/></xsl:when>
 				<xsl:otherwise>
 					<xsl:variable name="function">Ext.getCmp('editorPanel').retrieveSubTemplate</xsl:variable>
 					<xsl:value-of select="concat('javascript:', $function, '(',$parentName,',',$apos,$name,$apos,',document.mainForm._',$parentName,'_',$qname,'_subtemplate.value,',$ommitNameTag,');')"/>

@@ -273,7 +273,7 @@ GeoNetwork.app = function(){
             name: 'E__isLocked',
             hidden: true
         });
-        var flandersKeywordField = GeoNetwork.util.SearchFormTools.getFlandersKeywordField(catalogue.services, true);
+//        var flandersKeywordField = GeoNetwork.util.SearchFormTools.getFlandersKeywordField(catalogue.services, true);
         var myMetadata = new Ext.form.Checkbox({
         	fieldLabel: OpenLayers.i18n('myMetadata'),
         	handler: function(ck, checked){
@@ -300,7 +300,7 @@ GeoNetwork.app = function(){
 
         // Disabled for AGIV
         //advancedCriteria.push(themekeyField, orgNameField, categoryField,
-        advancedCriteria.push(flandersKeywordField,themekeyField, uuidField, orgNameField/*,
+        advancedCriteria.push(/*flandersKeywordField,*/themekeyField, uuidField, orgNameField/*,
             spatialTypes, denominatorField*/);
         if (GeoNetwork.Settings.nodeType.toLowerCase() != "agiv") {
         	advancedCriteria.push(catalogueField);

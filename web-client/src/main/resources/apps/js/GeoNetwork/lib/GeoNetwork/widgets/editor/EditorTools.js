@@ -526,7 +526,6 @@ function doFileRemoveAction(action, ref, access, id){
  * Protocol could not be changed if file is already uploaded.
  */
 function checkForFileUpload(fref, pref, protocolBeforeEdit){
-    var fileName = Ext.getDom('_' + fref); // the file name input field
     var protoSelect = Ext.getCmp('s_' + pref); // the protocol <select>
     var protoIn = Ext.getDom('_' + pref); // the protocol input field to be submitted
     var fileUploaded = protocolBeforeEdit.startsWith('WWW:DOWNLOAD'); // File name not displayed in editor if downloaded
@@ -535,15 +534,18 @@ function checkForFileUpload(fref, pref, protocolBeforeEdit){
     
     // don't let anyone change the protocol if a file has already been uploaded 
     // unless its between downloaddata and downloadother
-    if (fileUploaded) {
+    if (fileUploaded && Ext.getDom('_' + fref)==null) {
         if (!protocolDownload) {
             alert(OpenLayers.i18n("errorChangeProtocol")); 
             // protocol change is not ok so reset the protocol value
-            protoSelect.value = protoIn.value;
-        } else {
+//            protoSelect.value = protoIn.value;
+//            protoSelect.setValue(protoSelect.originalValue)
+            protoSelect.reset();
+            protoIn.value = protoSelect.originalValue;
+        }/* else {
             // protocol change is ok so set the protocol value to that selected
             protoIn.value = protoSelect.value;
-        }
+        }*/
         return;
     }
     

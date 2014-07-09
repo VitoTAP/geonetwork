@@ -4415,6 +4415,7 @@
 
             <!-- The old links still in use by some systems. Deprecated -->
             <xsl:choose>
+            <xsl:message select="test"/>
                 <xsl:when test="starts-with($protocol,'WWW:DOWNLOAD-') and contains($protocol,'http--download') and not(contains($linkage,$download_check))">
                     <link type="download"><xsl:value-of select="$linkage"/></link>
                 </xsl:when>

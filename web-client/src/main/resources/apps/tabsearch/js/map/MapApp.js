@@ -1532,11 +1532,35 @@ var processLayersSuccess = function(response) {
 
             layers = layerList;
 
-            var params = {'service': 'WMS', 'request': 'GetCapabilities',
-                'version': '1.1.1'};
-            var paramString = OpenLayers.Util.getParameterString(params);
-            var separator = (onlineResource.indexOf('?') > -1) ? '&' : '?';
-            onlineResource += separator + paramString;
+        	var newRequestParams = [];
+            var bVersionExists = false;
+            var bServiceExists = false;
+            var splittedUrl = onlineResource.split('?');
+           	onlineResource = splittedUrl[0] + '?';
+            if (splittedUrl.length > 1) {
+            	if (splittedUrl[1].length>0) {
+                	var requestParams = splittedUrl[1].split("&");
+                	for (var i=0;i<requestParams.length;i++) {
+                		if (requestParams[i].toLowerCase().indexOf("version=")==0) {
+                			bVersionExists = true;
+            			}
+                		if (requestParams[i].toLowerCase().indexOf("service=")==0) {
+                			bServiceExists = true;
+                		}
+                		if (requestParams[i].toLowerCase().indexOf("request=")!=0) {
+                			newRequestParams.push(requestParams[i]);            			
+                		}
+                	}
+            	}
+            }
+        	if (!bVersionExists) {
+    			newRequestParams.push("version=1.1.1");            			
+        	}
+        	if (!bServiceExists) {
+    			newRequestParams.push("service=WMS");            			
+        	}
+			newRequestParams.push("request=GetCapabilities");            			
+        	onlineResource = onlineResource + newRequestParams.join("&");
 
             var req = OpenLayers.Request.GET({
                 url: onlineResource, //OpenLayers.Util.removeTail(OpenLayers.ProxyHostURL),

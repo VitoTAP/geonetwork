@@ -121,7 +121,8 @@ GeoNetwork.data.MetadataResultsFastStore = function(){
             		title: tokens[1],
             		href: tokens[2] + (tokens[2].indexOf('google.kml') !== -1 ? '&fromWorkspace=' + getWorkspace(v,record) : ''),
             		protocol: tokens[3],
-            		type: tokens[4]
+            		type: tokens[4],
+            		applicationProfile: (tokens.length>5 ? tokens[5] : '')
             	});
             }
         }

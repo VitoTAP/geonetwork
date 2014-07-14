@@ -378,6 +378,7 @@
 			<xsl:for-each select="gmd:transferOptions/gmd:MD_DigitalTransferOptions/gmd:onLine/gmd:CI_OnlineResource[gmd:linkage/gmd:URL!='']">
 				<xsl:variable name="download_check"><xsl:text>&amp;fname=&amp;access</xsl:text></xsl:variable>
 				<xsl:variable name="linkage" select="gmd:linkage/gmd:URL" /> 
+				<xsl:variable name="applicationProfile" select="normalize-space(gmd:applicationProfile/gco:CharacterString)"/>
 				<xsl:variable name="title" select="normalize-space(gmd:name/gco:CharacterString|gmd:name/gmx:MimeFileType)"/>
 				<xsl:variable name="desc" select="normalize-space(gmd:description/gco:CharacterString)"/>
 				<xsl:variable name="protocol" select="normalize-space(gmd:protocol/gco:CharacterString)"/>
@@ -399,16 +400,16 @@
 				<xsl:if test="contains($protocol, 'OGC:WMS') or contains($protocol, 'OGC:WMTS')">
 			   	 	<Field name="dynamic" string="true" store="false" index="true"/>
 			  	</xsl:if>
-				<Field name="link" string="{concat($title, '|', $desc, '|', $linkage, '|', $protocol, '|', $mimetype)}" store="true" index="false"/>
+				<Field name="link" string="{concat($title, '|', $desc, '|', $linkage, '|', $protocol, '|', $mimetype, '|', $applicationProfile)}" store="true" index="false"/>
 				
 				<!-- Add KML link if WMS -->
+<!--				
 				<xsl:if test="starts-with($protocol,'OGC:WMS-')and contains($protocol,'-get-map') and string($linkage)!='' and string($title)!=''">
-					<!-- FIXME : relative path -->
 					<Field name="link" string="{concat($title, '|', $desc, '|', 
 						'../../srv/en/google.kml?uuid=', /gmd:MD_Metadata/gmd:fileIdentifier/gco:CharacterString, '&amp;layers=', $title, 
 						'|application/vnd.google-earth.kml+xml|application/vnd.google-earth.kml+xml')}" store="true" index="false"/>					
 				</xsl:if>					
-				
+-->				
 			</xsl:for-each>  
 		</xsl:for-each>
 

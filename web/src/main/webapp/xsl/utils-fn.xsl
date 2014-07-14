@@ -126,19 +126,24 @@
     <xsl:param name="mimeType" as="xs:string?"/>
     
     <xsl:choose>
+<!--
       <xsl:when test="(starts-with($protocol,'WWW:LINK-') or starts-with($protocol,'WWW:DOWNLOAD-') or starts-with($protocol,'LINK')) and $mimeType!=''">
         <xsl:value-of select="$mimeType"/>
       </xsl:when>
+-->
+      <xsl:when test="starts-with($protocol,'WWW:DOWNLOAD-')">application/octet-stream</xsl:when>
       <xsl:when test="starts-with($protocol,'LINK')">text/html</xsl:when>
       <xsl:when test="starts-with($protocol,'WWW:LINK')">text/html</xsl:when>
+<!--
       <xsl:when test="starts-with($protocol,'WWW:DOWNLOAD') and contains($linkage,'.jpg')">image/jpeg</xsl:when>
       <xsl:when test="starts-with($protocol,'WWW:DOWNLOAD') and contains($linkage,'.png')">image/png</xsl:when>
       <xsl:when test="starts-with($protocol,'WWW:DOWNLOAD') and contains($linkage,'.gif')">image/gif</xsl:when>
       <xsl:when test="starts-with($protocol,'WWW:DOWNLOAD') and contains($linkage,'.doc')">application/word</xsl:when>
       <xsl:when test="starts-with($protocol,'WWW:DOWNLOAD') and contains($linkage,'.zip')">application/zip</xsl:when>
       <xsl:when test="starts-with($protocol,'WWW:DOWNLOAD') and contains($linkage,'.pdf')">application/pdf</xsl:when>
-      <xsl:when test="starts-with($protocol,'GLG:KML') and contains($linkage,'.kml')">application/vnd.google-earth.kml+xml</xsl:when>
-      <xsl:when test="starts-with($protocol,'GLG:KML') and contains($linkage,'.kmz')">application/vnd.google-earth.kmz</xsl:when>
+-->      
+      <xsl:when test="(starts-with($protocol,'GLG:KML') or starts-with($protocol,'OGC:KML')) and contains($linkage,'.kml')">application/vnd.google-earth.kml+xml</xsl:when>
+      <xsl:when test="(starts-with($protocol,'GLG:KML') or starts-with($protocol,'OGC:KML')) and contains($linkage,'.kmz')">application/vnd.google-earth.kmz</xsl:when>
       <xsl:when test="starts-with($protocol,'OGC:WFS')">application/vnd.ogc.wfs_xml</xsl:when>
       <xsl:when test="starts-with($protocol,'OGC:WCS')">application/vnd.ogc.wcs_xml</xsl:when>
       <xsl:when test="starts-with($protocol,'OGC:WMS')">application/vnd.ogc.wms_xml</xsl:when>

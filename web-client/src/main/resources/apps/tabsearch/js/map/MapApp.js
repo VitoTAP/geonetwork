@@ -1548,6 +1548,44 @@ var processLayersSuccess = function(response) {
             });
         },
 
+        /**
+         * Add a KML layer to the map
+         *
+         * @param params    Configuration to load
+         *                  [[name, url, layer, metadata_id], [name, url, layer, metadata_id], ....]
+         */
+        addKMLLayer:  function(params) {
+        	if (params.length === 0) {
+                return;
+            }
+            if (map) {
+            	var title = params[0][0];
+            	var onlineResource = params[0][1];
+            	if (title && onlineResource)
+                var layer = new OpenLayers.Layer.Vector(title, {
+                    strategies: [new OpenLayers.Strategy.Fixed()],
+                    protocol: new OpenLayers.Protocol.HTTP({
+                        url: onlineResource,
+                        format: new OpenLayers.Format.KML({
+                            extractStyles: true, 
+                            extractAttributes: true,
+                            maxDepth: 2
+                        })
+                    })
+                });
+                if (!GeoNetwork.OGCUtil.layerExistsInMap(layer, map)) {
+                    // TODO: these events are never removed?
+                    layer.events.on({"loadstart": function() {
+                            this.isLoading = true;
+                        }});
+                    layer.events.on({"loadend": function() {
+                            this.isLoading = false;
+                        }});
+                    map.addLayer(layer);
+                }
+            }
+        },
+
         getViewport: function() {
             return viewport;
         },

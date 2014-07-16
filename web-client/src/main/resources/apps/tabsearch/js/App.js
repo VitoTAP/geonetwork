@@ -47,6 +47,8 @@ GeoNetwork.app = function(){
     var mainTagCloudViewPanel, tagCloudViewPanel, infoPanel;
 
     var visualizationModeInitialized = false;
+    
+    var regionsKeywords;
 
 
     /**
@@ -274,7 +276,8 @@ GeoNetwork.app = function(){
             hidden: true
         });
         //var flandersKeywordField = GeoNetwork.util.SearchFormTools.getFlandersKeywordField(catalogue.services, true);
-        var regionsKeywordField = GeoNetwork.util.SearchFormTools.getRegionsKeywordField(catalogue.services, true);r
+        regionsKeywords = GeoNetwork.util.SearchFormTools.getRegionsKeywords(catalogue.services);
+        
         var myMetadata = new Ext.form.Checkbox({
         	fieldLabel: OpenLayers.i18n('myMetadata'),
         	handler: function(ck, checked){
@@ -751,7 +754,7 @@ GeoNetwork.app = function(){
 
     function createHeader(){
         var info = catalogue.getInfo();
-        Ext.getDom('title').innerHTML = '<img class="catLogo" src="images/logo' + GeoNetwork.Settings.nodeType.toLowerCase() + '.png" title="'  + info.name + '"/>';
+        Ext.getDom('title').innerHTML = '<img width="100" height="49" class="catLogo" src="images/logo' + GeoNetwork.Settings.nodeType.toLowerCase() + '.png" title="'  + info.name + '"/>';
         document.title = info.name;
     }
 
@@ -853,12 +856,13 @@ GeoNetwork.app = function(){
                 facetListConfig: GeoNetwork.Settings.facetListConfig || []
             });
 
+            var previousTab, tabPanel;
             var viewport = new Ext.Viewport({
                 layout:'border',
                 id:'vp',
                 items:[   //todo: should add header here?
                     {id:'header',height:60,region:'north',border:false},
-                    new Ext.TabPanel({
+                    tabPanel = new Ext.TabPanel({
                         region:'center',
                         id:'GNtabs',
                         deferredRender:false,
@@ -876,12 +880,14 @@ GeoNetwork.app = function(){
                                 layoutConfig: { pack: 'center', align: 'center' },
                                 listeners: {
                                     activate: function(){
+                                    	previousTab = 0;
                                         this.doLayout();
                                     }
                                 },
                                 closable:false,
+                                autoEl: {html:'<h1 style="font-size: 24px; text-align: center; margin-top: 10px;">Click on the region of your interest</h1>'},
 //                                autoScroll:true,
-                                items: //searchForm
+                                items: [//searchForm
                                     new Ext.Panel({
                                         id:'images-view',
                                         plain:true,
@@ -902,7 +908,7 @@ GeoNetwork.app = function(){
                     							xtype: 'box',
                     							border: false,
                     							columnWidth: 0.25,
-                    							autoEl: {html:'<div><span style="text-decoration: underline;">Global data</span></div>'},
+                    							autoEl: {html:'<div style="cursor: pointer;"><span style="text-decoration: underline;">Global data</span></div>'},
                     							listeners: {
                     								render: function(p) {
                     									p.getEl().on('click', function(){
@@ -916,11 +922,11 @@ GeoNetwork.app = function(){
                                        			xtype: 'box',
                                        			border: false,
                                        			columnWidth: 0.20,
-                                       			autoEl : {html:'<div><span style="text-decoration: underline;">Regional data</span></div>'},
+                                       			autoEl : {html:'<div style="cursor: pointer;"><span style="text-decoration: underline;">Regional data</span>' + regionsKeywords.regions + '</div>'},
                                        			listeners: {
                                        				render: function(p) {
-                                       					p.getEl().on('click', function(){
-                                       						searchWithRegionkeyword("regional");
+                                       					p.getEl().on('click', function(el){
+                                       						searchWithRegionkeyword(el.target.nodeName === 'LI' ? el.target.innerText.toLowerCase() : 'regional');
                                        					});
                                        				},
                                        				single: true
@@ -930,11 +936,12 @@ GeoNetwork.app = function(){
                                        			xtype: 'box',
                                        			border: false,
                                        			columnWidth: 0.25,
-                                       			autoEl : {html:'<div class="thumb"><img style="cursor:pointer;height:150px" src="' + catalogue.URL + '/apps/tabsearch/images/hesbania.png" title="HESBANIA" alt="HESBANIA"></div><br/><div>HESBANIA</div>'},
+                                       			autoEl : {html:'<div style="cursor: pointer;"><span style="text-decoration: underline;">Site data</span>' + regionsKeywords.sites + '</div>'},
+                                       			//autoEl : {html:'<div class="thumb"><img style="cursor:pointer;height:150px" src="' + catalogue.URL + '/apps/tabsearch/images/hesbania.png" title="HESBANIA" alt="HESBANIA"></div><br/><div>HESBANIA</div>'},
                                        			listeners: {
                                        				render: function(p) {
-                                       					p.getEl().on('click', function(){
-                                       						searchWithRegionkeyword("hesbania");
+                                       					p.getEl().on('click', function(el){
+                                       						searchWithRegionkeyword(el.target.nodeName === 'LI' ? el.target.innerText.toLowerCase() : 'sites');
                                        					});
                                        				},
                                        				single: true
@@ -945,7 +952,7 @@ GeoNetwork.app = function(){
                     							columnWidth: 0.15
                                        		}
                     					]
-                                    })
+                                    })]
                                 },
                             {//search results panel
                                 id:'results',
@@ -997,8 +1004,11 @@ GeoNetwork.app = function(){
                                 */
                                 listeners: {
                                     render: function(c){
-                                      c.ownerCt.hideTabStripItem(c);
-                                  }
+                                    	c.ownerCt.hideTabStripItem(c);
+                                    },
+                                    activate : function (p) {
+                                    	previousTab = 1;
+                                    }
                                 }
                             },
                             {//map
@@ -1022,6 +1032,7 @@ GeoNetwork.app = function(){
                                     }
 */
                                 	activate : function (p) {
+                                		previousTab = 2;
                                         p.add(iMap.getViewport());
                                         p.doLayout();
                                     },                            	
@@ -1041,7 +1052,21 @@ GeoNetwork.app = function(){
 	                            items: 	                            		
 								    {
 								   		html:'<div class="facets"><ul><li>List of documents of type 1</li><ul><li><a href="javascript:void(0);">Link naar document 1</a></li></ul><li>List of documents of type 2</li><ul><li><a href="javascript:void(0);">Link naar document 1 van type 2</a></li></ul></ul></div>'
-								    }
+								    },
+							    listeners: {
+                                	activate : function (p) {
+                                		previousTab = 3;
+                                    }
+							    }
+	                    	},
+	                    	{
+	                    		title: '<img src="images/hyperlink_icon.png" alt="Hyperlink icon" width="14" height="14" />' + OpenLayers.i18n('Geo-wiki'),
+                                listeners: {
+                                	activate : function (p) {
+                                		window.open('http://www.geo-wiki.org');
+                                		tabPanel.setActiveTab(previousTab);
+                                    }
+                       			}
 	                    	}
                         ]
                         
@@ -1061,7 +1086,7 @@ GeoNetwork.app = function(){
                         id:'footer',
                         region:'south',
                         border:true,
-                        html:"<div><span class='madeBy' style='text-align:left;padding:0px 3px'>"+ OpenLayers.i18n('Powered by') + " GeoNetwork OpenSource"/* + "<a href='http://geonetwork-opensource.org/'><img style='width:80px' src='../images/default/gn-logo.png' title='GeoNetwork OpenSource' border='0' /></a>"*/ + "</span><span class='madeBy' style='text-align:right;padding:0px 3px'>" + GeoNetwork.Settings.nodeFooterInfo + "</span></div>",
+                        html:"<div><span class='madeBy' style='text-align:left;padding:0px 3px'>"+ OpenLayers.i18n('Powered by') + " GeoNetwork OpenSource"/* + "<a href='http://geonetwork-opensource.org/'><img style='width:80px' src='../images/default/gn-logo.png' title='GeoNetwork OpenSource' border='0' /></a>"*/ + "</span><span class='madeBy' style='text-align:right;padding:0px 3px'>" + GeoNetwork.Settings.nodeFooterInfo + "</span><span> - <a href='http://www.geo-wiki.org/' target='_blank'>Geo-wiki</a></span></div>",
                         layout:'fit'
                  }
                 ],

@@ -206,7 +206,6 @@ GeoNetwork.FacetsPanel = Ext.extend(Ext.Panel, {
                                 }
                             });
                             if (facetList !== "") {
-                            	console.alert(OpenLayers.i18n(facet.nodeName));
                                 zappette += "<li>" + OpenLayers.i18n(facet.nodeName) + "</li><ul>";
                                 zappette += facetList;
                                 if (facet.getAttribute('moreAction') === 'true') {
@@ -277,7 +276,7 @@ GeoNetwork.FacetsPanel = Ext.extend(Ext.Panel, {
         if (this.currentFilterStore.getCount() === 0 ||
                 this.currentFilterStore.query('value', data.node).length === 0) {
             var recId = this.facetsStore.getCount() + 1,
-                 r = new this.facetsStore.recordType(data, recId); 
+                 r = new this.facetsStore.recordType(data, recId);
             this.facetsStore.add(r);
             return "<li class='" + (visible ? '' : 'facet-more') + "' style='" + (visible ? '' : 'display:none;') + "'><a href='javascript:void(0);' class='facet-link' id='" + recId + "'>" + 
                     (data.label != null ? data.label : data.node) + "<span class='facet-count'>(" + data.count + ")</span></a></li>";

@@ -433,7 +433,7 @@ GeoNetwork.lang.en = {
     'notValid': 'Not valid',
     'notDetermined': 'Not determined',
     'addToMap': 'Add to map: ',
-    'downloadLink': 'Download: ',
+    'downloadLink': 'Download',
     'webLink': 'Web link: ',
     'viewKml': 'Open in GoogleEarth: ',
     'layerTree': 'Layer manager',

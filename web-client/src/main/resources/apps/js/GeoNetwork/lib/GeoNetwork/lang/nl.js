@@ -449,7 +449,7 @@ GeoNetwork.Lang.nl = {
     'notValid': "Niet geldig",
     'notDetermined': "Onbepaald",
     'addToMap': "Voeg toe aan kaart: ",
-    'downloadLink': "Download: ",
+    'downloadLink': "Download",
     'webLink': "Web link: ",
     'viewKml': "Open in GoogleEarth: ",
     'layerTree': "Lagenbeheer",

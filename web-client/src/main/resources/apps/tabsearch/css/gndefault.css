@@ -181,7 +181,7 @@ ul.main {
 .x-panel-body {
 	padding:5px;
 }
-
+/*
 .x-tab-strip-active{
 	background: red;
 }
@@ -189,7 +189,7 @@ ul.main {
 .x-tab-strip{
 	background: blue;
 }
-
+*/
 .x-panel-mc {
   font-family: Verdana,Helvetica,Arial,sans-serif;
 /*  font-size: 95%;*/
@@ -221,7 +221,7 @@ ul.main {
   border-color: #6B6B6B;
   float : left;
   width : auto;
-  display : inline;e
+  display : inline;
 }
 
 #footer {

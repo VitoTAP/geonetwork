@@ -3302,7 +3302,7 @@
     Custom element layout
     -->
 
-    <xsl:template mode="iso19139" match="gmd:contact|gmd:pointOfContact|gmd:citedResponsibleParty">
+    <xsl:template mode="iso19139" match="gmd:contact|gmd:pointOfContact|gmd:citedResponsibleParty|gmd:processor">
         <xsl:param name="schema"/>
         <xsl:param name="edit"/>
 

@@ -258,10 +258,22 @@ GeoNetwork.Templates = Ext.extend(Ext.XTemplate, {
             '{value}{[xindex==xcount?"":", "]}',
             '</tpl></p>',
             '</tpl>',
+            '<tpl if="this.hasDownloadLinks(values.links)">',
             '<div class="md-links">',
+            '<p>Reports links:</p>',
+            '<tpl for="links">',
+	            '<tpl if="values.type == \'application/octet-stream\' && values.applicationProfile.length &gt; 0">',
+	            '<p><a href="{href}" target="_blank" title="' + OpenLayers.i18n('downloadLink') + ' {values.title} ({values.applicationProfile})" alt="Download">{values.name}</a></p>',
+	            '</tpl>',
+            '</tpl>',
+            '</div>',
+            '</tpl>',
+            '<div class="md-links">',
+            '<p>Download links:</p>',
             '<a href="?uuid={uuid}&hl={catalogue.lang}" target="_blank" class="md-mn md-mn-bookmark" title="{[OpenLayers.i18n(\'view\')]} {title}" alt="{[OpenLayers.i18n(\'view\')]}">&nbsp;</a>',
             // FIXME : this call require the catalogue to be named catalogue, static call ?
             // FIXME : ref to app
+/*
             '<tpl for="links">',
 	            '<tpl if="values.type == \'application/vnd.ogc.wms_xml\' || values.type == \'OGC:WMS\'">',
 	            '<a href="#" class="md-mn addLayer" title="' + OpenLayers.i18n('addToMap') + ' {title}" alt="Add layer to map" onclick="app.switchMode(\'1\', true);app.getIMap().addWMSLayer([[\'{[escape(values.title)]}\', \'{href}\', \'{name}\', \'{id}\']]);">&nbsp;</a>',
@@ -275,12 +287,28 @@ GeoNetwork.Templates = Ext.extend(Ext.XTemplate, {
 	            '<tpl if="values.type == \'text/html\'">',
 	            '<a href="{href}" class="md-mn md-mn-www" title="' + OpenLayers.i18n('webLink') + ' {title}" alt="Web link" target="_blank">&nbsp;</a>',
 	            '</tpl>',
-            // FIXME : no else ops, how to display other links ?
-            //'|<a href="#" onclick="app.getIMap().addWMSLayer([[\'{title}\', \'{href}\', \'{name}\', \'{id}\']]);">{type}</a>',
             '</tpl>',
             '<tpl if="this.hasDownloadLinks(values.links)">',//type == \'application/vnd.ogc.wms_xml\'">',
-            '<a href="#" onclick="catalogue.metadataPrepareDownload({id});" class="md-mn downloadAllIcon" title="' + OpenLayers.i18n('prepareDownload') + '" alt="download">&nbsp;</a>',
+            '<a href="#" onclick="catalogue.metadataPrepareDownload(\'{id}\');" class="md-mn downloadAllIcon" title="' + OpenLayers.i18n('prepareDownload') + '" alt="download">&nbsp;</a>',
             '</tpl>',
+*/
+            '<tpl for="links">',
+	            '<tpl if="values.type == \'application/vnd.ogc.wms_xml\' || values.type == \'OGC:WMS\'">',
+	            '<a href="#" class="md-mn addLayer" title="' + OpenLayers.i18n('addToMap') + ' {values.title}" alt="Add layer to map" onclick="app.switchMode(\'1\', true);app.getIMap().addWMSLayer([[\'{[escape(values.title)]}\', \'{href}\', \'{name}\', \'{id}\']]);">&nbsp;</a>',
+	            '</tpl>',
+	            '<tpl if="values.type == \'application/vnd.google-earth.kml+xml\'">',
+	            '<a href="#" class="md-mn addLayer" title="' + OpenLayers.i18n('addToMap') + ' {values.title}" alt="Add layer to map" onclick="app.switchMode(\'1\', true);app.getIMap().addKMLLayer([[\'{[escape(values.title)]}\', \'{href}\', \'{name}\', \'{id}\']]);">&nbsp;</a>',
+	            '</tpl>',
+//	            '<tpl if="values.type == \'application/vnd.google-earth.kml+xml\'">',
+//	            '<a href="{href}" class="md-mn md-mn-kml" title="' + OpenLayers.i18n('viewKml') + ' {values.title}" alt="Open kml">&nbsp;</a>',
+//	            '</tpl>',
+	            '<tpl if="values.type == \'text/html\'">',
+	            '<a href="{href}" class="md-mn md-mn-www" title="' + OpenLayers.i18n('webLink') + ' {values.title}" alt="Web link" target="_blank">&nbsp;</a>',
+	            '</tpl>',
+	            '<tpl if="values.type == \'application/octet-stream\' && values.applicationProfile.length == 0">',
+	            '<a href="{href}" class="md-mn md-mn-zip" title="' + OpenLayers.i18n('downloadLink') + ' {values.title}" alt="Download">&nbsp;</a>',
+	            '</tpl>',
+	        '</tpl>',
             '</div>',
 
             '<tpl if="(values.userauthenticated == \'y\') && (edit==\'true\' || locked==\'y\' || values.canunlock==\'y\' || values.canedit==\'y\')">',
@@ -404,7 +432,7 @@ GeoNetwork.Templates = Ext.extend(Ext.XTemplate, {
                 hasDownloadLinks: function(values) {
                     var i;
                     for (i = 0; i < values.length; i ++) {
-                        if (values[i].type === 'application/x-compressed') {
+                        if (values[i].type === 'application/octet-stream') {
                             return true;
                         }
                     }

@@ -1532,11 +1532,35 @@ var processLayersSuccess = function(response) {
 
             layers = layerList;
 
-            var params = {'service': 'WMS', 'request': 'GetCapabilities',
-                'version': '1.1.1'};
-            var paramString = OpenLayers.Util.getParameterString(params);
-            var separator = (onlineResource.indexOf('?') > -1) ? '&' : '?';
-            onlineResource += separator + paramString;
+        	var newRequestParams = [];
+            var bVersionExists = false;
+            var bServiceExists = false;
+            var splittedUrl = onlineResource.split('?');
+           	onlineResource = splittedUrl[0] + '?';
+            if (splittedUrl.length > 1) {
+            	if (splittedUrl[1].length>0) {
+                	var requestParams = splittedUrl[1].split("&");
+                	for (var i=0;i<requestParams.length;i++) {
+                		if (requestParams[i].toLowerCase().indexOf("version=")==0) {
+                			bVersionExists = true;
+            			}
+                		if (requestParams[i].toLowerCase().indexOf("service=")==0) {
+                			bServiceExists = true;
+                		}
+                		if (requestParams[i].toLowerCase().indexOf("request=")!=0) {
+                			newRequestParams.push(requestParams[i]);            			
+                		}
+                	}
+            	}
+            }
+        	if (!bVersionExists) {
+    			newRequestParams.push("version=1.1.1");            			
+        	}
+        	if (!bServiceExists) {
+    			newRequestParams.push("service=WMS");            			
+        	}
+			newRequestParams.push("request=GetCapabilities");            			
+        	onlineResource = onlineResource + newRequestParams.join("&");
 
             var req = OpenLayers.Request.GET({
                 url: onlineResource, //OpenLayers.Util.removeTail(OpenLayers.ProxyHostURL),
@@ -1546,6 +1570,44 @@ var processLayersSuccess = function(response) {
                 failure: processLayersFailure,
                 timeout: 10000
             });
+        },
+
+        /**
+         * Add a KML layer to the map
+         *
+         * @param params    Configuration to load
+         *                  [[name, url, layer, metadata_id], [name, url, layer, metadata_id], ....]
+         */
+        addKMLLayer:  function(params) {
+        	if (params.length === 0) {
+                return;
+            }
+            if (map) {
+            	var title = params[0][0];
+            	var onlineResource = params[0][1];
+            	if (title && onlineResource)
+                var layer = new OpenLayers.Layer.Vector(title, {
+                    strategies: [new OpenLayers.Strategy.Fixed()],
+                    protocol: new OpenLayers.Protocol.HTTP({
+                        url: onlineResource,
+                        format: new OpenLayers.Format.KML({
+                            extractStyles: true, 
+                            extractAttributes: true,
+                            maxDepth: 2
+                        })
+                    })
+                });
+                if (!GeoNetwork.OGCUtil.layerExistsInMap(layer, map)) {
+                    // TODO: these events are never removed?
+                    layer.events.on({"loadstart": function() {
+                            this.isLoading = true;
+                        }});
+                    layer.events.on({"loadend": function() {
+                            this.isLoading = false;
+                        }});
+                    map.addLayer(layer);
+                }
+            }
         },
 
         getViewport: function() {

@@ -152,6 +152,11 @@ GeoNetwork.OGCUtil.layerExistsInMap = function (layer, map) {
                         break;
                     }
                 } catch(e) {}
+            } else {
+            	if (lr.name && lr.name==layer.name) {
+                    layerExists = lr;
+                    break;
+            	}
             }
         }
     }

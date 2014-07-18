@@ -1355,7 +1355,7 @@
 		<description>Locatie voor online toegang bij gebruik van een Uniform Resource Locator adres of een vergelijkbaar schema.</description>
 		<condition>mandatory</condition>
 		<mandatoryType>inspire</mandatoryType>
-		<mandatoryTooltip>INSPIRE B 1.4: conditioneel - verplicht indien een URL beschikbaar is moet deze aanwezig zijn.</mandatoryTooltip>
+		<mandatoryTooltip>INSPIRE B 1.4: conditioneel - indien een URL beschikbaar is moet deze aanwezig zijn.</mandatoryTooltip>
 	</element>
 	<!-- ==================================================== -->
 	<element name="gmd:maintenanceAndUpdateFrequency">
@@ -2128,7 +2128,7 @@
 	</element>
 	<!-- ==================================================== -->
 	<element name="gmd:scaleFactor">
-		<label>Schaalfaktor</label>
+		<label>Schaalfactor</label>
 		<description>Schaalfactor die toegepast werd op de cellwaarde.</description>
 	</element>
 	<!-- ==================================================== -->
@@ -2150,7 +2150,7 @@
 	<!-- ==================================================== -->
 	<element name="gmd:sequenceIdentifier">
 		<label>Unieke code voor de Sequentie</label>
-		<description>Code die uniek de gollengtebanden identificeert waarop een sensor opereert.</description>
+		<description>Code die uniek de golflengtebanden identificeert waarop een sensor opereert.</description>
 	</element>
 	<!-- ==================================================== -->
 	<element name="gmd:series">

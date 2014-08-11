@@ -253,6 +253,8 @@ GeoNetwork.lang.en = {
     'username': 'User name',
     'password': 'password',
     'login': 'Login',
+    'register': "Register",
+    'forgotten': "Password forgotten",
     'logout': 'Logout',
     'administration': 'Administration',
     'validationReport': 'Validation report',

@@ -804,7 +804,7 @@ public class DefaultStatusActions implements StatusActions {
 					}
 				}
 				// check that iso schematron validation succeeded
-/*
+
 				if (record.getChildText("valtype").equals(
 						"schematron-rules-iso") || record.getChildText("valtype").equals("schematron-rules-inspire")) {
 					if (!record.getChildText("status").equals("1")) {
@@ -815,7 +815,7 @@ public class DefaultStatusActions implements StatusActions {
 						return false;
 					}
 				}
-*/
+
 			}
 		}
 		return true;

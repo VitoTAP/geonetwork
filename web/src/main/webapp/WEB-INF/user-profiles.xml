@@ -535,6 +535,7 @@
 	  <allow service="xml.password.emaillink"/>
 	  <allow service="xml.password.change"/>
 	  <allow service="password.forgotten.form"/>
+	  <allow service="password.forgotten.form.tabsearch"/>
 	  <allow service="password.forgotten.submit"/>
 	  <allow service="password.change.form"/>
 	  <allow service="password.change.submit"/>

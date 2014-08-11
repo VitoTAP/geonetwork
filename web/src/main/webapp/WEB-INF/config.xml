@@ -698,6 +698,10 @@
 			<output sheet="password-forgotten.xsl"/>
 		</service>
 
+		<service name="password.forgotten.form.tabsearch">
+			<output sheet="password-forgotten-tabsearch.xsl"/>
+		</service>
+
 		<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 
 		<service name="password.forgotten.submit">

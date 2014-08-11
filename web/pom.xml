@@ -688,6 +688,7 @@
                 <include>${geonetwork.build.dir}/scripts/openlayers/lib/OpenLayers/Feature/Vector.js</include>
                 <include>${geonetwork.build.dir}/scripts/openlayers/lib/OpenLayers/Format/WKT.js</include>
                 <include>${geonetwork.build.dir}/scripts/openlayers/lib/OpenLayers/Format/XML.js</include>
+                <include>${geonetwork.build.dir}/scripts/openlayers/lib/OpenLayers/Format/KML.js</include>
                 <include>${geonetwork.build.dir}/scripts/openlayers/lib/OpenLayers/Format/WMSGetFeatureInfo.js</include>                
                 <include>${geonetwork.build.dir}/scripts/openlayers/lib/OpenLayers/Geometry.js</include>
                 <include>${geonetwork.build.dir}/scripts/openlayers/lib/OpenLayers/Control.js</include>
@@ -779,6 +780,8 @@
                 <include>${geonetwork.build.dir}/scripts/openlayers/lib/OpenLayers/Format/WMSCapabilities/v1_1_0.js</include>
                 <include>${geonetwork.build.dir}/scripts/openlayers/lib/OpenLayers/Format/WMSCapabilities/v1_1_1.js</include>
                 <include>${geonetwork.build.dir}/scripts/openlayers/lib/OpenLayers/Control/ArgParser.js</include>
+                <include>${geonetwork.build.dir}/scripts/openlayers/lib/OpenLayers/Strategy.js</include>
+                <include>${geonetwork.build.dir}/scripts/openlayers/lib/OpenLayers/Strategy/Fixed.js</include>
                 <include>${geonetwork.build.dir}/scripts/openlayers/addins/LoadingPanel.js</include>      
                 <include>${geonetwork.build.dir}/scripts/openlayers/addins/ScaleBar.js</include>              
               </includes>

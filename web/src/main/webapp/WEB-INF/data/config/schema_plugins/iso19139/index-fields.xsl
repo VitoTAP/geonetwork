@@ -382,7 +382,7 @@
 				<xsl:variable name="title" select="normalize-space(gmd:name/gco:CharacterString|gmd:name/gmx:MimeFileType)"/>
 				<xsl:variable name="desc" select="normalize-space(gmd:description/gco:CharacterString)"/>
 				<xsl:variable name="protocol" select="normalize-space(gmd:protocol/gco:CharacterString)"/>
-				<xsl:variable name="mimetype" select="geonet:protocolMimeType($linkage, $protocol, gmd:name/gmx:MimeFileType/@type)"/>
+				<xsl:variable name="mimetype" select="if (gmd:name/gmx:MimeFileType/@type!='') then gmd:name/gmx:MimeFileType/@type else geonet:protocolMimeType($linkage, $protocol, gmd:name/gmx:MimeFileType/@type)"/>
 				
 				<!-- ignore empty downloads -->
 				<xsl:if test="string($linkage)!='' and not(contains($linkage,$download_check))">  

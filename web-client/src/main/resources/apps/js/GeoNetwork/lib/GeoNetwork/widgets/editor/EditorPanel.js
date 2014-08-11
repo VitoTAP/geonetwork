@@ -268,6 +268,11 @@ GeoNetwork.editor.EditorPanel = Ext.extend(Ext.Panel, {
                                     if (name) {
                                         name.value = fname;
                                     }
+                                    var ftype = o.result.ftype;
+                                    var type = Ext.getDom('_' + ref + "_type");
+                                    if (type) {
+                                    	type.value = ftype;
+                                    }
                                     var url = Ext.getDom('_' + urlRef);
                                     if (url) {
                                         url.value = this.catalogue.services.rootUrl + 'resources.get?uuid=' + uuid + '&fname=' + fname + '&access=' + (publicFieldValue ? 'public' : 'private');

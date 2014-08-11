@@ -414,7 +414,7 @@ public class Aligner
 			                    Element schematronError = dataMan.getSchemaTronXmlReport(metadataSchema, schematronFilenames, response, context.getLanguage(), valTypeAndStatus);
 			        	        // remove editing info added by enumerateTree
 			                    dataMan.getEditLib().removeEditingInfo(response);
-		            			response = new AGIVValidation(context).addConformKeywords(response, valTypeAndStatus, schema);
+//		            			response = new AGIVValidation(context).addConformKeywords(response, valTypeAndStatus, schema);
 		                    } catch (Exception e) {
 		                        log.error("Ignoring schematron erros for AGIVValidation with metadata with uuid " + uuid /*+ " : " + ex*/);
 		                    }

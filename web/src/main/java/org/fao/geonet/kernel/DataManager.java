@@ -63,6 +63,7 @@ import org.fao.geonet.GeonetContext;
 import org.fao.geonet.constants.Edit;
 import org.fao.geonet.constants.Geonet;
 import org.fao.geonet.constants.Params;
+import org.fao.geonet.csw.common.Csw;
 import org.fao.geonet.exceptions.NoSchemaMatchesException;
 import org.fao.geonet.exceptions.SchemaMatchConflictException;
 import org.fao.geonet.exceptions.SchematronValidationErrorEx;
@@ -1842,6 +1843,36 @@ public class DataManager {
 		    xml = updateFixedInfo(schema, id, uuid, xml, parentUuid, DataManager.UpdateDatestamp.yes, dbms, true);
 		}
 		
+		Attribute existingSchemaLocation = xml.getAttribute("schemaLocation", Csw.NAMESPACE_XSI);
+		if (existingSchemaLocation == null) {
+			Namespace gmdNs = xml.getNamespace("gmd");
+			// document has ISO root element and ISO namespace
+			if (gmdNs != null
+					&& gmdNs.getURI()
+							.equals("http://www.isotc211.org/2005/gmd")) {
+				String schemaLocation;
+				// if document has srv namespace then add srv schemaLocation
+				if (xml.getNamespace("srv") != null) {
+					schemaLocation = "http://www.isotc211.org/2005/gmx http://www.isotc211.org/2005/gmd/gmx.xsd http://www.isotc211.org/2005/srv http://schemas.opengis.net/iso/19139/20060504/srv/srv.xsd";
+				}
+				// otherwise add gmd schemaLocation
+				// (but not both! as that is invalid, the schemas describe
+				// partially the same schema types)
+				else {
+					schemaLocation = "http://www.isotc211.org/2005/gmx http://www.isotc211.org/2005/gmd/gmx.xsd http://www.isotc211.org/2005/gmd http://www.isotc211.org/2005/gmd/gmd.xsd";
+				}
+				Attribute schemaLocationA = new Attribute("schemaLocation",
+						schemaLocation, Csw.NAMESPACE_XSI);
+				xml.setAttribute(schemaLocationA);
+			}
+		} else {
+			String schemaLocationValue = existingSchemaLocation.getValue();
+			if (schemaLocationValue!=null && schemaLocationValue.contains("gmd.xsd") && !schemaLocationValue.contains("gmx.xsd")) {
+				xml.removeAttribute(existingSchemaLocation);
+				xml.setAttribute(new Attribute("schemaLocation", "http://www.isotc211.org/2005/gmx http://www.isotc211.org/2005/gmd/gmx.xsd " + schemaLocationValue, Csw.NAMESPACE_XSI));
+			}
+		}
+
 		//--- store metadata
 		//***
 		// xmlSerializer.insert(dbms, schema, xml, id, source, uuid, null, null, isTemplate, null, owner, groupOwner, "", context);
@@ -2027,14 +2058,8 @@ public class DataManager {
 			if (withEditorValidationErrors) {
 			    Map <String, Integer[]> valTypeAndStatus = new HashMap<String, Integer[]>();
 			    doValidate(/*srvContext.getUserSession(), */srvContext, dbms, schema, id, md, /*srvContext.getLanguage(), */forEditing, workspace, valTypeAndStatus).two();
-//        		if (servContext.getServlet().getNodeType().toLowerCase().equals("agiv") || servContext.getServlet().getNodeType().toLowerCase().equals("geopunt")) {
+        		if (servContext.getServlet().getNodeType().toLowerCase().equals("agiv") || servContext.getServlet().getNodeType().toLowerCase().equals("geopunt")) {
 		        	try {
-		        		/*
-		        		GeonetContext gc = (GeonetContext) servContext.getHandlerContext(Geonet.CONTEXT_NAME);
-			            ValidationHookFactory validationHookFactory = new ValidationHookFactory(gc.getValidationHookClass());
-			            IValidationHook validationHook = validationHookFactory.createValidationHook(servContext, dbms);
-			            validationHookFactory.onValidate(validationHook, id, valTypeAndStatus, now, workspace);
-		*/
 	                    if ("iso19139".equals(schema)) {
 	                    	md = new AGIVValidation(srvContext/*, dbms*/).addConformKeywords(md, valTypeAndStatus, schema/*now, workspace*/);
 	                    }
@@ -2043,8 +2068,7 @@ public class DataManager {
 			            System.err.println("validation hook exception: " + x.getMessage());
 			            x.printStackTrace();
 			        }
-//		        }
-		   		
+		        }
 			}
             else {
                 editLib.expandElements(schema, md);
@@ -2190,11 +2214,11 @@ public class DataManager {
             if (withEditorValidationErrors) {
         	    Map <String, Integer[]> valTypeAndStatus = new HashMap<String, Integer[]>();
                 doValidate(srvContext/*.getUserSession()*/, dbms, schema, id, md, /*srvContext.getLanguage(), */forEditing, workspace, valTypeAndStatus).two();
-//        		if (servContext.getServlet().getNodeType().toLowerCase().equals("agiv") || servContext.getServlet().getNodeType().toLowerCase().equals("geopunt")) {
+        		if (servContext.getServlet().getNodeType().toLowerCase().equals("agiv") || servContext.getServlet().getNodeType().toLowerCase().equals("geopunt")) {
                 	if ("iso19139".equals(schema)) {
                 		md = new AGIVValidation(srvContext/*, dbms*/).addConformKeywords(md, valTypeAndStatus, schema/*now, workspace*/);
                 	}
-//        		}
+        		}
             }
             else {
                 editLib.expandElements(schema, md);
@@ -2373,11 +2397,11 @@ public class DataManager {
             if (session != null && validate) {
         	    Map <String, Integer[]> valTypeAndStatus = new HashMap<String, Integer[]>();
                 doValidate(context/*session*/, dbms, schema,id,md,/*lang,*/ false, workspace, valTypeAndStatus).two();
-//        		if (servContext.getServlet().getNodeType().toLowerCase().equals("agiv") || servContext.getServlet().getNodeType().toLowerCase().equals("geopunt")) {
+        		if (servContext.getServlet().getNodeType().toLowerCase().equals("agiv") || servContext.getServlet().getNodeType().toLowerCase().equals("geopunt")) {
                 	if ("iso19139".equals(schema)) {
                 		md = new AGIVValidation(context/*, dbms*/).addConformKeywords(md, valTypeAndStatus, schema/*now, workspace*/);
                 	}
-//        		}
+        		}
     		}
 		}
         finally {
@@ -2488,11 +2512,11 @@ public class DataManager {
             if (session != null && validate) {
         	    Map <String, Integer[]> valTypeAndStatus = new HashMap<String, Integer[]>();
                 doValidate(context/*session*/, dbms, schema,id,md,/*lang,*/ false, workspace, valTypeAndStatus).two();
-//        		if (servContext.getServlet().getNodeType().toLowerCase().equals("agiv") || servContext.getServlet().getNodeType().toLowerCase().equals("geopunt")) {
+        		if (servContext.getServlet().getNodeType().toLowerCase().equals("agiv") || servContext.getServlet().getNodeType().toLowerCase().equals("geopunt")) {
                 	if ("iso19139".equals(schema)) {
                 		md = new AGIVValidation(context/*, dbms*/).addConformKeywords(md, valTypeAndStatus, schema/*now, workspace*/);
                 	}
-//        		}
+        		}
     		}
         } catch (Exception e) {
             if (Log.isDebugEnabled(Geonet.DATA_MANAGER)) {

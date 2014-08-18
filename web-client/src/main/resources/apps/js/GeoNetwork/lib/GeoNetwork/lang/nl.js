@@ -250,6 +250,8 @@ GeoNetwork.Lang.nl = {
     'username': "Gebruikersnaam",
     'password': "Paswoord",
     'login': "Inloggen",
+    'register': "Registreren",
+    'forgotten': "Paswoord vergeten",
     'logout': "Uitloggen",
     'administration': "Beheer",
     'validationReport': "Validatierapport",

@@ -23,6 +23,11 @@
 
 package org.fao.geonet.services.resources;
 
+import java.io.File;
+import java.util.Iterator;
+
+import javax.activation.MimetypesFileTypeMap;
+
 import jeeves.interfaces.Service;
 import jeeves.resources.dbms.Dbms;
 import jeeves.server.ServiceConfig;
@@ -36,9 +41,6 @@ import org.fao.geonet.constants.Params;
 import org.fao.geonet.lib.Lib;
 import org.fao.geonet.services.Utils;
 import org.jdom.Element;
-
-import java.io.File;
-import java.util.Iterator;
 
 //=============================================================================
 
@@ -152,11 +154,19 @@ public class Upload implements Service
 		context.info("UPLOADED:"+fname+","+id+","+mdUuid+","+context.getIpAddress()+","+username);
 
 		// update the metadata
-		Element elem = new Element("_" + ref);
-		params.addContent(elem);
-		elem.setText(fname);
+/*
+		Element elemName = new Element("_" + ref);
+		params.addContent(elemName);
+		elemName.setText(fname);
+		Element elemType = new Element("_" + ref + "_type");
+		params.addContent(elemType);
+*/
+		MimetypesFileTypeMap mimeTypesMap = new MimetypesFileTypeMap();
+//		elemType.setText(mimeTypesMap.getContentType(oldFile.getName()));
+
 		return new Element("response")
 					.addContent(new Element("fname").setText(fname))
+					.addContent(new Element("ftype").setText(mimeTypesMap.getContentType(oldFile.getName())))
 					.addContent(new Element("fsize").setText(fsize));
 	}
 }

@@ -223,7 +223,7 @@ public class Aligner
 		dataMan.setStatusExt(context, dbms, id, new Integer(Params.Status.APPROVED),
 				new ISODate().toString(), "Status veranderd na harvesting");
 
-		dbms.commit();
+//		dbms.commit();
         boolean workspace = false;
         dataMan.indexMetadataGroup(dbms, id, workspace, true);
 		result.addedMetadata++;
@@ -337,7 +337,7 @@ public class Aligner
 				dataMan.setStatusExt(context, dbms, id, new Integer(Params.Status.APPROVED),
 						new ISODate().toString(), "Status veranderd na harvesting");
 
-				dbms.commit();
+//				dbms.commit();
                 boolean workspace = false;
                 dataMan.indexMetadataGroup(dbms, id, workspace, true);
 				result.updatedMetadata++;
@@ -414,7 +414,7 @@ public class Aligner
 			                    Element schematronError = dataMan.getSchemaTronXmlReport(metadataSchema, schematronFilenames, response, context.getLanguage(), valTypeAndStatus);
 			        	        // remove editing info added by enumerateTree
 			                    dataMan.getEditLib().removeEditingInfo(response);
-		            			response = new AGIVValidation(context).addConformKeywords(response, valTypeAndStatus, schema);
+//		            			response = new AGIVValidation(context).addConformKeywords(response, valTypeAndStatus, schema);
 		                    } catch (Exception e) {
 		                        log.error("Ignoring schematron erros for AGIVValidation with metadata with uuid " + uuid /*+ " : " + ex*/);
 		                    }

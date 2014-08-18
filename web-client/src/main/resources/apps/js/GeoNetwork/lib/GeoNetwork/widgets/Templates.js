@@ -262,7 +262,7 @@ GeoNetwork.Templates = Ext.extend(Ext.XTemplate, {
             '<div class="md-links">',
             '<p>Reports links:</p>',
             '<tpl for="links">',
-	            '<tpl if="values.type == \'application/octet-stream\' && values.applicationProfile.length &gt; 0">',
+	            '<tpl if="values.applicationProfile!=null && values.applicationProfile.length &gt; 0">',
 	            '<p><a href="{href}" target="_blank" title="' + OpenLayers.i18n('downloadLink') + '{values.applicationProfile}<tpl if="values.title">: {values.title}</tpl>" alt="Download">{values.name}</a></p>',
 	            '</tpl>',
             '</tpl>',
@@ -294,10 +294,10 @@ GeoNetwork.Templates = Ext.extend(Ext.XTemplate, {
 */
             '<tpl for="links">',
 	            '<tpl if="values.type == \'application/vnd.ogc.wms_xml\' || values.type == \'OGC:WMS\'">',
-	            '<a href="#" class="md-mn addLayer" title="' + OpenLayers.i18n('addToMap') + ' {values.title}" alt="Add layer to map" onclick="app.switchMode(\'1\', true);app.getIMap().addWMSLayer([[\'{[escape(values.title)]}\', \'{href}\', \'{name}\', \'{id}\']]);">&nbsp;</a>',
+	            '<a href="#" class="md-mn addLayer" title="' + OpenLayers.i18n('addToMap') + ' {values.title}" alt="Add layer to map" onclick="app.switchMode(\'1\', true);app.getIMap().addWMSLayer([[\'{[this.getLayerTitle(values)]}\', \'{href}\', \'{name}\', \'{id}\']]);">&nbsp;</a>',
 	            '</tpl>',
 	            '<tpl if="values.type == \'application/vnd.google-earth.kml+xml\'">',
-	            '<a href="#" class="md-mn addLayer" title="' + OpenLayers.i18n('addToMap') + ' {values.title}" alt="Add layer to map" onclick="app.switchMode(\'1\', true);app.getIMap().addKMLLayer([[\'{[escape(values.title)]}\', \'{href}\', \'{name}\', \'{id}\']]);">&nbsp;</a>',
+	            '<a href="#" class="md-mn addLayer" title="' + OpenLayers.i18n('addToMap') + ' {values.title}" alt="Add layer to map" onclick="app.switchMode(\'1\', true);app.getIMap().addKMLLayer([[\'{[this.getLayerTitle(values)]}\', \'{href}\', \'{name}\', \'{id}\']]);">&nbsp;</a>',
 	            '</tpl>',
 //	            '<tpl if="values.type == \'application/vnd.google-earth.kml+xml\'">',
 //	            '<a href="{href}" class="md-mn md-mn-kml" title="' + OpenLayers.i18n('viewKml') + ' {values.title}" alt="Open kml">&nbsp;</a>',
@@ -305,8 +305,8 @@ GeoNetwork.Templates = Ext.extend(Ext.XTemplate, {
 	            '<tpl if="values.type == \'text/html\'">',
 	            '<a href="{href}" class="md-mn md-mn-www" title="' + OpenLayers.i18n('webLink') + ' {values.title}" alt="Web link" target="_blank">&nbsp;</a>',
 	            '</tpl>',
-	            '<tpl if="values.type == \'application/octet-stream\' && values.applicationProfile.length == 0">',
-	            '<a href="{href}" class="md-mn md-mn-zip" title="' + OpenLayers.i18n('downloadLink') + '{values.applicationProfile}<tpl if="values.title">: {values.title}</tpl>" alt="Download">&nbsp;</a>',
+	            '<tpl if="(values.applicationProfile==null || values.applicationProfile.length == 0) && (values.type != \'application/vnd.ogc.wms_xml\' && values.type != \'OGC:WMS\' && values.type != \'application/vnd.google-earth.kml+xml\' && values.type != \'text/html\')">',
+	            '<a href="{href}" class="md-mn md-mn-www" title="' + OpenLayers.i18n('downloadLink') + '{values.applicationProfile}<tpl if="values.title">: {values.title}</tpl>" alt="Download">&nbsp;</a>',
 	            '</tpl>',
 	        '</tpl>',
             '</div>',
@@ -432,12 +432,19 @@ GeoNetwork.Templates = Ext.extend(Ext.XTemplate, {
                 hasDownloadLinks: function(values) {
                     var i;
                     for (i = 0; i < values.length; i ++) {
-                        if (values[i].type === 'application/octet-stream') {
+                        if (values[i].applicationProfile!=null && values[i].applicationProfile.length > 0) {
                             return true;
                         }
                     }
                     return false;
-                }
+                },
+                getLayerTitle: function(values) {
+                	if (values.title!=null && values.title.length>0) {
+                		return escape(values.title); 
+                	} else {
+                		return values.name;
+                	} 
+            	}
             }
         );
 

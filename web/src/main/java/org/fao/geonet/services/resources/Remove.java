@@ -97,6 +97,7 @@ public class Remove implements Service
 					fname = elem.getText();
 				}
 				params.addContent(new Element("_" + elemRef));
+				params.addContent(new Element("_" + elemRef + "_type"));
 			}
 			elemCount++;
 		}

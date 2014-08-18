@@ -124,26 +124,29 @@
     <xsl:param name="linkage" as="xs:string"/>
     <xsl:param name="protocol" as="xs:string?"/>
     <xsl:param name="mimeType" as="xs:string?"/>
-    
+    <xsl:variable name="fname" select="lower-case(geonet:getQueryParameter($linkage,'fname'))"/>
+    <xsl:variable name="linkageLower" select="if ($fname!='') then $fname else lower-case($linkage)"/>
+    <xsl:message select="$linkage"/>
+    <xsl:message select="$fname"/>
+    <xsl:message select="$linkageLower"/>
     <xsl:choose>
-<!--
       <xsl:when test="(starts-with($protocol,'WWW:LINK-') or starts-with($protocol,'WWW:DOWNLOAD-') or starts-with($protocol,'LINK')) and $mimeType!=''">
         <xsl:value-of select="$mimeType"/>
       </xsl:when>
--->
-      <xsl:when test="starts-with($protocol,'WWW:DOWNLOAD-')">application/octet-stream</xsl:when>
       <xsl:when test="starts-with($protocol,'LINK')">text/html</xsl:when>
       <xsl:when test="starts-with($protocol,'WWW:LINK')">text/html</xsl:when>
-<!--
-      <xsl:when test="starts-with($protocol,'WWW:DOWNLOAD') and contains($linkage,'.jpg')">image/jpeg</xsl:when>
-      <xsl:when test="starts-with($protocol,'WWW:DOWNLOAD') and contains($linkage,'.png')">image/png</xsl:when>
-      <xsl:when test="starts-with($protocol,'WWW:DOWNLOAD') and contains($linkage,'.gif')">image/gif</xsl:when>
-      <xsl:when test="starts-with($protocol,'WWW:DOWNLOAD') and contains($linkage,'.doc')">application/word</xsl:when>
-      <xsl:when test="starts-with($protocol,'WWW:DOWNLOAD') and contains($linkage,'.zip')">application/zip</xsl:when>
-      <xsl:when test="starts-with($protocol,'WWW:DOWNLOAD') and contains($linkage,'.pdf')">application/pdf</xsl:when>
--->      
-      <xsl:when test="(starts-with($protocol,'GLG:KML') or starts-with($protocol,'OGC:KML')) and contains($linkage,'.kml')">application/vnd.google-earth.kml+xml</xsl:when>
-      <xsl:when test="(starts-with($protocol,'GLG:KML') or starts-with($protocol,'OGC:KML')) and contains($linkage,'.kmz')">application/vnd.google-earth.kmz</xsl:when>
+      <xsl:when test="starts-with($protocol,'WWW:DOWNLOAD') and ends-with($linkageLower,'.jpg')">image/jpeg</xsl:when>
+      <xsl:when test="starts-with($protocol,'WWW:DOWNLOAD') and ends-with($linkageLower,'.png')">image/png</xsl:when>
+      <xsl:when test="starts-with($protocol,'WWW:DOWNLOAD') and ends-with($linkageLower,'.gif')">image/gif</xsl:when>
+      <xsl:when test="starts-with($protocol,'WWW:DOWNLOAD') and ends-with($linkageLower,'.doc')">application/word</xsl:when>
+      <xsl:when test="starts-with($protocol,'WWW:DOWNLOAD') and ends-with($linkageLower,'.xsl')">application/xls</xsl:when>
+      <xsl:when test="starts-with($protocol,'WWW:DOWNLOAD') and ends-with($linkageLower,'.zip')">application/zip</xsl:when>
+      <xsl:when test="starts-with($protocol,'WWW:DOWNLOAD') and ends-with($linkageLower,'.pdf')">application/pdf</xsl:when>
+      <xsl:when test="starts-with($protocol,'WWW:DOWNLOAD') and ends-with($linkageLower,'.kml')">application/vnd.google-earth.kml+xml</xsl:when>
+      <xsl:when test="starts-with($protocol,'WWW:DOWNLOAD') and ends-with($linkageLower,'.kmz')">application/vnd.google-earth.kmz</xsl:when>
+      <xsl:when test="starts-with($protocol,'WWW:DOWNLOAD-')">application/octet-stream</xsl:when>
+      <xsl:when test="(starts-with($protocol,'GLG:KML') or starts-with($protocol,'OGC:KML')) and ends-with($linkageLower,'.kml')">application/vnd.google-earth.kml+xml</xsl:when>
+      <xsl:when test="(starts-with($protocol,'GLG:KML') or starts-with($protocol,'OGC:KML')) and ends-with($linkageLower,'.kmz')">application/vnd.google-earth.kmz</xsl:when>
       <xsl:when test="starts-with($protocol,'OGC:WFS')">application/vnd.ogc.wfs_xml</xsl:when>
       <xsl:when test="starts-with($protocol,'OGC:WCS')">application/vnd.ogc.wcs_xml</xsl:when>
       <xsl:when test="starts-with($protocol,'OGC:WMS')">application/vnd.ogc.wms_xml</xsl:when>
@@ -155,5 +158,26 @@
     </xsl:choose>
   </xsl:function>
 
+
+	<xsl:function name="geonet:getQueryParameter" as="xs:string">
+	    <xsl:param name="url" as="xs:string"/>
+	    <xsl:param name="parameter" as="xs:string"/>
+	    <xsl:choose>
+			<xsl:when test="contains($url, '?')">
+				<xsl:variable name="parameterValue" select="substring-after(substring-after($url, '?'),concat($parameter,'='))" />
+				<xsl:choose>
+					<xsl:when test="contains($parameterValue,'&amp;')">
+						<xsl:value-of select="substring-before($parameterValue,'&amp;')"/>
+					</xsl:when>
+					<xsl:otherwise>
+						<xsl:value-of select="$parameterValue"/>
+					</xsl:otherwise>
+				</xsl:choose>				
+			</xsl:when>
+			<xsl:otherwise>
+				<xsl:value-of select="''"/>
+			</xsl:otherwise>
+		</xsl:choose>				
+	</xsl:function>
 
 </xsl:stylesheet>

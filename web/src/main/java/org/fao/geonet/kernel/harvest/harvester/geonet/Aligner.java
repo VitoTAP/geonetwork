@@ -29,8 +29,10 @@ import jeeves.server.context.ServiceContext;
 import jeeves.utils.BinaryFile;
 import jeeves.utils.Xml;
 import jeeves.utils.XmlRequest;
+
 import org.fao.geonet.GeonetContext;
 import org.fao.geonet.constants.Geonet;
+import org.fao.geonet.constants.Params;
 import org.fao.geonet.kernel.DataManager;
 import org.fao.geonet.kernel.harvest.harvester.CategoryMapper;
 import org.fao.geonet.kernel.harvest.harvester.GroupMapper;
@@ -329,6 +331,9 @@ public class Aligner
 
 		dataMan.setTemplateExt(dbms, id, isTemplate, null);
 		dataMan.setHarvestedExt(dbms, id, params.uuid);
+		
+		dataMan.setStatusExt(context, dbms, id, new Integer(Params.Status.APPROVED),
+				new ISODate().toString(), "Status veranderd na harvesting");
 		
 		if(!localRating) {
 			String rating = general.getChildText("rating");

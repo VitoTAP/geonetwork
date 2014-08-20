@@ -1176,7 +1176,7 @@
         </xsl:choose>
     </xsl:template>
 
-    <xsl:template mode="simpleAttribute" match="@xsi:type" priority="99"/>
+    <xsl:template mode="simpleAttribute" match="@xsi:type|gmx:MimeFileType/@type" priority="99"/>
 
     <!-- ================================================================= -->
     <!-- some elements that have both attributes and content               -->
@@ -1629,6 +1629,18 @@
         </xsl:apply-templates>
     </xsl:template>
 
+    <xsl:template mode="iso19139" match="gmd:metadataStandardName|gmd:metadataStandardVersion" priority="2">
+        <xsl:param name="schema"/>
+        <xsl:param name="edit"/>
+
+		<xsl:if test="not($flat and name(..)!='gmd:MD_Metadata') or $edit">
+	        <xsl:apply-templates mode="simpleElement" select=".">
+	            <xsl:with-param name="schema"  select="$schema"/>
+	            <xsl:with-param name="edit"    select="$edit"/>
+	        </xsl:apply-templates>
+        </xsl:if>
+    </xsl:template>
+    
     <!-- Attributes
      * deprecated: gmd:PT_Locale/@id is set by update-fixed-info using first 2 letters.
      * gmd:PT_Locale/@id is set by update-fixed-info with 639-2 iso code
@@ -2871,15 +2883,15 @@
                 <!-- if the parent is root then display fields not in tabs -->
                 <xsl:choose>
                     <xsl:when test="name(..)='root' or name(..)='source' or name(..)='target'">
-                        <xsl:apply-templates mode="elementEP" select="gmd:fileIdentifier|geonet:child[string(@name)='fileIdentifier']
-            |gmd:language|geonet:child[string(@name)='language']
-            |gmd:characterSet|geonet:child[string(@name)='characterSet']
+                        <xsl:apply-templates mode="elementEP" select="gmd:fileIdentifier[$edit=true()]|geonet:child[string(@name)='fileIdentifier']
+            |gmd:language[$edit=true()]|geonet:child[string(@name)='language']
+            |gmd:characterSet[$edit=true()]|geonet:child[string(@name)='characterSet']
             |gmd:parentIdentifier|geonet:child[string(@name)='parentIdentifier']
             |gmd:hierarchyLevel|geonet:child[string(@name)='hierarchyLevel']
             |gmd:hierarchyLevelName|geonet:child[string(@name)='hierarchyLevelName']
-            |gmd:dateStamp|geonet:child[string(@name)='dateStamp']
-            |gmd:metadataStandardName|geonet:child[string(@name)='metadataStandardName']
-            |gmd:metadataStandardVersion|geonet:child[string(@name)='metadataStandardVersion']
+            |gmd:dateStamp[$edit=true()]|geonet:child[string(@name)='dateStamp']
+            |gmd:metadataStandardName[$edit=true()]|geonet:child[string(@name)='metadataStandardName']
+            |gmd:metadataStandardVersion[$edit=true()]|geonet:child[string(@name)='metadataStandardVersion']
             |gmd:dataSetURI|geonet:child[string(@name)='dataSetURI']
             |gmd:locale|geonet:child[string(@name)='locale']
             |gmd:series|geonet:child[string(@name)='series']
@@ -3240,7 +3252,7 @@
         <xsl:param name="schema"/>
         <xsl:param name="edit"/>
 
-
+<!--
         <xsl:if test="$edit=false()">
             <xsl:if test="count(gmd:MD_DigitalTransferOptions/gmd:onLine/gmd:CI_OnlineResource/gmd:protocol/gco:CharacterString[contains(string(.),'download')])>1 and
                   ancestor-or-self::*[name(.)='gmd:MD_Metadata' or @gco:isoType='gmd:MD_Metadata']/geonet:info/download='true'">
@@ -3264,7 +3276,7 @@
                     <xsl:with-param name="schema" select="$schema"/>
                 </xsl:call-template>
             </xsl:if>
-        </xsl:if>
+        </xsl:if>-->
         <xsl:apply-templates mode="complexElement" select=".">
             <xsl:with-param name="schema" select="$schema"/>
             <xsl:with-param name="edit"   select="$edit"/>
@@ -3302,7 +3314,7 @@
     Custom element layout
     -->
 
-    <xsl:template mode="iso19139" match="gmd:contact|gmd:pointOfContact|gmd:citedResponsibleParty">
+    <xsl:template mode="iso19139" match="gmd:contact|gmd:pointOfContact|gmd:citedResponsibleParty|gmd:processor">
         <xsl:param name="schema"/>
         <xsl:param name="edit"/>
 
@@ -4204,6 +4216,12 @@
                     <xsl:with-param name="id" select="concat('di_',$ref)"/>
                     <xsl:with-param name="visible" select="not($button)"/>
                 </xsl:call-template>
+                <xsl:if test="gmx:MimeFileType">
+			        <xsl:call-template name="mimetype">
+			            <xsl:with-param name="ref" select="$ref"/>
+			            <xsl:with-param name="type" select="gmx:MimeFileType/@type"/>
+			        </xsl:call-template>
+		        </xsl:if>
             </xsl:when>
             <xsl:otherwise>
                 <xsl:apply-templates mode="element" select=".">
@@ -4220,12 +4238,12 @@
         <xsl:param name="access" select="'public'"/>
         <xsl:param name="id"/>
         <xsl:param name="geo" select="true()"/>
-
+		<xsl:variable name="ref" select="geonet:element/@ref"/>
         <xsl:call-template name="simpleElementGui">
+            <xsl:with-param name="edit" select="true()"/>
             <xsl:with-param name="title" select="/root/gui/strings/file"/>
             <xsl:with-param name="text">
                 <table width="100%"><tr>
-                    <xsl:variable name="ref" select="geonet:element/@ref"/>
 					<xsl:variable name="urlRef" select="../../gmd:linkage/gmd:URL/geonet:element/@ref"/>
                     <td width="70%">
                         <xsl:value-of select="string(.)"/>
@@ -4242,8 +4260,56 @@
             </xsl:with-param>
             <xsl:with-param name="schema"/>
         </xsl:call-template>
+        <xsl:if test="name(.)='gmx:MimeFileType'">
+	        <xsl:call-template name="mimetype">
+	            <xsl:with-param name="ref" select="$ref"/>
+	            <xsl:with-param name="type" select="@type"/>
+	        </xsl:call-template>
+        </xsl:if>
     </xsl:template>
 
+
+    <xsl:template name="mimetype">
+        <xsl:param name="ref"/>
+        <xsl:param name="type"/>
+		<tr>
+			<th class="main {name(.)}"><label class="" for="_">Mime-Type</label></th>
+			<td>
+			    <xsl:variable name="optionValues" select="replace(replace(string-join(/root/gui/strings/mimetypeChoice[@value]/@value, '#,#'), '''', '\\'''), '#', '''')"/>
+			    <xsl:variable name="optionLabels" select="replace(replace(string-join(/root/gui/strings/mimetypeChoice[@value], '#,#'), '''', '\\'''), '#', '''')"/>
+				<xsl:call-template name="combobox">
+					<xsl:with-param name="ref" select="concat($ref,'_type')"/>
+					<xsl:with-param name="value" select="$type"/>
+					<xsl:with-param name="optionValues" select="$optionValues"/>
+					<xsl:with-param name="optionLabels" select="$optionLabels"/>
+				</xsl:call-template>
+<!--
+				<select id="_{$ref}_type" name="_{$ref}_type" size="1" class="md">
+					<option>
+						<xsl:attribute name="value"/>
+						<xsl:if test="$type=''">
+                        	<xsl:attribute name="selected"/>
+						</xsl:if>
+					</option>
+					<option>
+						<xsl:attribute name="value">application/doc</xsl:attribute>
+						<xsl:attribute name="label">application/doc</xsl:attribute>
+						<xsl:if test="$type='application/doc'">
+                        	<xsl:attribute name="selected"/>
+						</xsl:if>
+					</option>
+					<option>
+						<xsl:attribute name="value">application/pdf</xsl:attribute>
+						<xsl:attribute name="label">application/pdf</xsl:attribute>
+						<xsl:if test="$type='application/pdf'">
+                        	<xsl:attribute name="selected"/>
+						</xsl:if>
+					</option>
+			      </select>
+-->
+			</td>
+	    </tr>
+    </xsl:template>
 
     <!-- Add button for publication in GeoServer -->
     <xsl:template mode="iso19139GeoPublisher" match="*">

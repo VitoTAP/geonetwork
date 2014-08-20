@@ -309,6 +309,8 @@ GeoNetwork.Catalogue = Ext.extend(Ext.util.Observable, {
             fileDownload: serviceUrl + 'file.download',
             geopublisher: serviceUrl + 'geoserver.publisher',
             login: serviceUrl + 'xml.user.login',
+            register: serviceUrl + 'user.register.get.tabsearch',
+            forgotten: serviceUrl + 'password.forgotten.form.tabsearch',
             agivLogin: serviceUrl + 'user.agiv.login',
             userSession: serviceUrl + 'user.session',
             logout: serviceUrl + 'xml.user.logout',

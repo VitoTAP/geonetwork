@@ -30,7 +30,7 @@ OpenLayers.ProxyHost = function(url){
 };
 
 
-GeoNetwork.Util.defaultLocale = 'dut';
+GeoNetwork.Util.defaultLocale = 'eng';
 // Restrict locales to a subset of languages
 //GeoNetwork.Util.locales = [
 //            ['fr', 'Français']
@@ -74,5 +74,5 @@ GeoNetwork.Settings.nodeType = "SIGMA";
 GeoNetwork.Settings.useSTS = false;
 GeoNetwork.Settings.ga = true;
 GeoNetwork.Settings.logoutUrlSTS = "https://auth." + (GeoNetwork.Settings.isProduction ? "" : "beta.") + "agiv.be/sts/";
-GeoNetwork.Settings.nodeFooterInfo = "Build: 08/05/2014 - " + GeoNetwork.Settings.nodeType + "-Metadatacenter" + (GeoNetwork.Settings.isProduction ? "" : " (beta)");
+GeoNetwork.Settings.nodeFooterInfo = "Build: 11/08/2014 - " + GeoNetwork.Settings.nodeType + "-Metadatacenter" + (GeoNetwork.Settings.isProduction ? "" : " (beta)");
 

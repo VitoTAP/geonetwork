@@ -63,6 +63,7 @@ import org.fao.geonet.GeonetContext;
 import org.fao.geonet.constants.Edit;
 import org.fao.geonet.constants.Geonet;
 import org.fao.geonet.constants.Params;
+import org.fao.geonet.csw.common.Csw;
 import org.fao.geonet.exceptions.NoSchemaMatchesException;
 import org.fao.geonet.exceptions.SchemaMatchConflictException;
 import org.fao.geonet.exceptions.SchematronValidationErrorEx;
@@ -1842,6 +1843,36 @@ public class DataManager {
 		    xml = updateFixedInfo(schema, id, uuid, xml, parentUuid, DataManager.UpdateDatestamp.yes, dbms, true);
 		}
 		
+		Attribute existingSchemaLocation = xml.getAttribute("schemaLocation", Csw.NAMESPACE_XSI);
+		if (existingSchemaLocation == null) {
+			Namespace gmdNs = xml.getNamespace("gmd");
+			// document has ISO root element and ISO namespace
+			if (gmdNs != null
+					&& gmdNs.getURI()
+							.equals("http://www.isotc211.org/2005/gmd")) {
+				String schemaLocation;
+				// if document has srv namespace then add srv schemaLocation
+				if (xml.getNamespace("srv") != null) {
+					schemaLocation = "http://www.isotc211.org/2005/gmx http://www.isotc211.org/2005/gmd/gmx.xsd http://www.isotc211.org/2005/srv http://schemas.opengis.net/iso/19139/20060504/srv/srv.xsd";
+				}
+				// otherwise add gmd schemaLocation
+				// (but not both! as that is invalid, the schemas describe
+				// partially the same schema types)
+				else {
+					schemaLocation = "http://www.isotc211.org/2005/gmx http://www.isotc211.org/2005/gmd/gmx.xsd http://www.isotc211.org/2005/gmd http://www.isotc211.org/2005/gmd/gmd.xsd";
+				}
+				Attribute schemaLocationA = new Attribute("schemaLocation",
+						schemaLocation, Csw.NAMESPACE_XSI);
+				xml.setAttribute(schemaLocationA);
+			}
+		} else {
+			String schemaLocationValue = existingSchemaLocation.getValue();
+			if (schemaLocationValue!=null && schemaLocationValue.contains("gmd.xsd") && !schemaLocationValue.contains("gmx.xsd")) {
+				xml.removeAttribute(existingSchemaLocation);
+				xml.setAttribute(new Attribute("schemaLocation", "http://www.isotc211.org/2005/gmx http://www.isotc211.org/2005/gmd/gmx.xsd " + schemaLocationValue, Csw.NAMESPACE_XSI));
+			}
+		}
+
 		//--- store metadata
 		//***
 		// xmlSerializer.insert(dbms, schema, xml, id, source, uuid, null, null, isTemplate, null, owner, groupOwner, "", context);
@@ -1944,6 +1975,7 @@ public class DataManager {
 
     public void saveWorkspace(Dbms dbms, String id) throws Exception {
         xmlSerializer.copyToWorkspace(dbms, id);
+        dbms.commit();
     }
 
 	//--------------------------------------------------------------------------
@@ -2026,14 +2058,8 @@ public class DataManager {
 			if (withEditorValidationErrors) {
 			    Map <String, Integer[]> valTypeAndStatus = new HashMap<String, Integer[]>();
 			    doValidate(/*srvContext.getUserSession(), */srvContext, dbms, schema, id, md, /*srvContext.getLanguage(), */forEditing, workspace, valTypeAndStatus).two();
-//        		if (servContext.getServlet().getNodeType().toLowerCase().equals("agiv") || servContext.getServlet().getNodeType().toLowerCase().equals("geopunt")) {
+        		if (servContext.getServlet().getNodeType().toLowerCase().equals("agiv") || servContext.getServlet().getNodeType().toLowerCase().equals("geopunt")) {
 		        	try {
-		        		/*
-		        		GeonetContext gc = (GeonetContext) servContext.getHandlerContext(Geonet.CONTEXT_NAME);
-			            ValidationHookFactory validationHookFactory = new ValidationHookFactory(gc.getValidationHookClass());
-			            IValidationHook validationHook = validationHookFactory.createValidationHook(servContext, dbms);
-			            validationHookFactory.onValidate(validationHook, id, valTypeAndStatus, now, workspace);
-		*/
 	                    if ("iso19139".equals(schema)) {
 	                    	md = new AGIVValidation(srvContext/*, dbms*/).addConformKeywords(md, valTypeAndStatus, schema/*now, workspace*/);
 	                    }
@@ -2042,8 +2068,7 @@ public class DataManager {
 			            System.err.println("validation hook exception: " + x.getMessage());
 			            x.printStackTrace();
 			        }
-//		        }
-		   		
+		        }
 			}
             else {
                 editLib.expandElements(schema, md);
@@ -2086,6 +2111,7 @@ public class DataManager {
         args.add(userId);
         args.add(metadataId);
         dbms.execute(query, args.toArray());
+        dbms.commit();
 /*
         boolean workspace = false;
         indexMetadata(dbms, metadataId, false, workspace, true);
@@ -2109,7 +2135,7 @@ public class DataManager {
         Vector<Serializable> args = new Vector<Serializable>();
         args.add(metadataId);
         dbms.execute(query, args.toArray());
-
+        dbms.commit();        
         boolean workspace = false;
         indexMetadata(dbms, metadataId, false, workspace, true);
         workspace = true;
@@ -2128,6 +2154,7 @@ public class DataManager {
         if(isLocked(dbms, metadataId)) {
             String query = "UPDATE Metadata set owner = '" + userId + "', lockedBy = '" + userId + "' WHERE id=?";
             dbms.execute(query, metadataId);
+            dbms.commit();
             boolean workspace = false;
             indexMetadata(dbms, metadataId, false, workspace, true);
             query = "UPDATE Workspace set owner = '" + userId + "', lockedBy = '" + userId + "' WHERE id=?";
@@ -2187,11 +2214,11 @@ public class DataManager {
             if (withEditorValidationErrors) {
         	    Map <String, Integer[]> valTypeAndStatus = new HashMap<String, Integer[]>();
                 doValidate(srvContext/*.getUserSession()*/, dbms, schema, id, md, /*srvContext.getLanguage(), */forEditing, workspace, valTypeAndStatus).two();
-//        		if (servContext.getServlet().getNodeType().toLowerCase().equals("agiv") || servContext.getServlet().getNodeType().toLowerCase().equals("geopunt")) {
+        		if (servContext.getServlet().getNodeType().toLowerCase().equals("agiv") || servContext.getServlet().getNodeType().toLowerCase().equals("geopunt")) {
                 	if ("iso19139".equals(schema)) {
                 		md = new AGIVValidation(srvContext/*, dbms*/).addConformKeywords(md, valTypeAndStatus, schema/*now, workspace*/);
                 	}
-//        		}
+        		}
             }
             else {
                 editLib.expandElements(schema, md);
@@ -2370,11 +2397,11 @@ public class DataManager {
             if (session != null && validate) {
         	    Map <String, Integer[]> valTypeAndStatus = new HashMap<String, Integer[]>();
                 doValidate(context/*session*/, dbms, schema,id,md,/*lang,*/ false, workspace, valTypeAndStatus).two();
-//        		if (servContext.getServlet().getNodeType().toLowerCase().equals("agiv") || servContext.getServlet().getNodeType().toLowerCase().equals("geopunt")) {
+        		if (servContext.getServlet().getNodeType().toLowerCase().equals("agiv") || servContext.getServlet().getNodeType().toLowerCase().equals("geopunt")) {
                 	if ("iso19139".equals(schema)) {
                 		md = new AGIVValidation(context/*, dbms*/).addConformKeywords(md, valTypeAndStatus, schema/*now, workspace*/);
                 	}
-//        		}
+        		}
     		}
 		}
         finally {
@@ -2441,6 +2468,7 @@ public class DataManager {
 //        System.out.println("** At begin of synchronized method deleteFromWorkspace.");
         Log.debug(Geonet.DATA_MANAGER, "deleting metadata from workspace");
         xmlSerializer.deleteFromWorkspace(dbms, id);
+        dbms.commit();
         boolean workspace = true;
         searchMan.delete(LuceneIndexField._ID, id, workspace);
 //        System.out.println("** At end of synchronized method deleteFromWorkspace.");
@@ -2484,11 +2512,11 @@ public class DataManager {
             if (session != null && validate) {
         	    Map <String, Integer[]> valTypeAndStatus = new HashMap<String, Integer[]>();
                 doValidate(context/*session*/, dbms, schema,id,md,/*lang,*/ false, workspace, valTypeAndStatus).two();
-//        		if (servContext.getServlet().getNodeType().toLowerCase().equals("agiv") || servContext.getServlet().getNodeType().toLowerCase().equals("geopunt")) {
+        		if (servContext.getServlet().getNodeType().toLowerCase().equals("agiv") || servContext.getServlet().getNodeType().toLowerCase().equals("geopunt")) {
                 	if ("iso19139".equals(schema)) {
                 		md = new AGIVValidation(context/*, dbms*/).addConformKeywords(md, valTypeAndStatus, schema/*now, workspace*/);
                 	}
-//        		}
+        		}
     		}
         } catch (Exception e) {
             if (Log.isDebugEnabled(Geonet.DATA_MANAGER)) {
@@ -3432,6 +3460,7 @@ public class DataManager {
 	public void setStatusExt(ServiceContext context, Dbms dbms, String id, int status, String changeDate, String changeMessage) throws Exception {
 		dbms.execute("INSERT into MetadataStatus(metadataId, statusId, userId, changeDate, changeMessage) VALUES (?,?,?,?,?)",
                 id, status, (context.getUserSession()!=null && context.getUserSession().getUserId()!=null)?context.getUserSession().getUserId():"1", changeDate, changeMessage);
+		dbms.commit();
 		if (svnManager != null) {
 		    svnManager.setHistory(dbms, id+"", context);
 		}
@@ -3529,13 +3558,15 @@ public class DataManager {
             Boolean isTemplate = rec != null && !rec.getChildText("istemplate").equals("n");
             
             // don't process templates
+/*
             if(isTemplate) {
                 if(Log.isDebugEnabled(Geonet.DATA_MANAGER))
                 Log.debug(Geonet.DATA_MANAGER, "Not applying update-fixed-info for a template");
                 return md;
             }
             else {
-                uuid = uuid == null ? rec.getChildText("uuid") : uuid;
+*/
+            	uuid = uuid == null ? rec.getChildText("uuid") : uuid;
                 
                 //--- setup environment
                 Element env = new Element("env");
@@ -3566,7 +3597,7 @@ public class DataManager {
                 String styleSheet = getSchemaDir(schema) + Geonet.File.UPDATE_FIXED_INFO;
                 result = Xml.transform(result, styleSheet);
                 return result;
-            }
+//            }
         }
         else {
             if(Log.isDebugEnabled(Geonet.DATA_MANAGER))

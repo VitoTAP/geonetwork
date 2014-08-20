@@ -288,3 +288,23 @@ function getError(response){
         }
     } 
 }
+
+function processForgottenPwdSubmit(mandatoryMessage, successMessage, failureMessage) {
+	
+	var f = $('forgottenpwd');
+	if (Ext.isEmpty(f.username.value)) {
+		Ext.Msg.alert('Username',mandatoryMessage);
+		return false;
+	}
+
+	Ext.Ajax.request({
+        url: $('forgottenpwd').action + "?username=" + f.username.value,
+        method: 'GET', 
+        success: function(response) {
+			Ext.Msg.alert(successMessage,response.responseText);
+        },
+        failure: function(response) {
+			Ext.Msg.alert(failureMessage,response.responseText);
+        }
+    });
+}

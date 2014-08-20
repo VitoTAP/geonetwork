@@ -108,6 +108,28 @@ GeoNetwork.LoginForm = Ext.extend(Ext.FormPanel, {
 	                scope: form
 	            }
 	        }),
+	        registerBt = new Ext.Button({
+	            width: 50,
+	            text: OpenLayers.i18n('register'),
+                id: 'btnRegisterForm',
+	            listeners: {
+	                click: function(){
+	                	this.catalogue.modalAction(OpenLayers.i18n('register'),this.catalogue.services.register);
+	                },
+	                scope: form
+	            }
+	        }),
+	        forgottenBt = new Ext.Button({
+	            width: 50,
+	            text: OpenLayers.i18n('forgotten'),
+                id: 'btnForgottenForm',
+	            listeners: {
+	                click: function(){
+	                	this.catalogue.modalAction(OpenLayers.i18n('forgotten'),this.catalogue.services.forgotten);
+	                },
+	                scope: form
+	            }
+	        }),
 	        logoutBt = new Ext.Button({
 	            width: 80,
 	            text: OpenLayers.i18n('logout'),
@@ -149,13 +171,15 @@ GeoNetwork.LoginForm = Ext.extend(Ext.FormPanel, {
     		this.loginFields.push( 
             		this.username,
                     this.password,
-                    loginBt);
+                    loginBt, registerBt,forgottenBt);
     		if (!GeoNetwork.Settings.useSTS) {
 	    		this.toggledFields.push( 
 	            		this.username,
 	                    this.password);
     		}
     		this.toggledFields.push(loginBt);
+    		this.toggledFields.push(registerBt);
+    		this.toggledFields.push(forgottenBt);
     	} else {
     		// hbox layout does not display TextField labels, create a label then
         	var usernameLb = new Ext.form.Label({hidden:GeoNetwork.Settings.useSTS,html: OpenLayers.i18n('username')}),
@@ -164,7 +188,7 @@ GeoNetwork.LoginForm = Ext.extend(Ext.FormPanel, {
             		this.username,
                     passwordLb,
                     this.password,
-                    loginBt);
+                    loginBt, registerBt,forgottenBt);
     		if (!GeoNetwork.Settings.useSTS) {
 	        	this.toggledFields.push(usernameLb, 
 	            		this.username,
@@ -172,6 +196,8 @@ GeoNetwork.LoginForm = Ext.extend(Ext.FormPanel, {
 	                    this.password);
     		}
         	this.toggledFields.push(loginBt);
+    		this.toggledFields.push(registerBt);
+    		this.toggledFields.push(forgottenBt);
     	}
     	this.toggledFieldsOff.push(this.userInfo, 
                 logoutBt, new Ext.Button({

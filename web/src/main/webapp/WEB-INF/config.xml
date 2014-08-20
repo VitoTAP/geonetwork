@@ -5,7 +5,7 @@
 	<general>
 		<profiles>user-profiles.xml</profiles>
 		<!-- Size must be in megabyte (integer), 100MB by default -->
-		<maxUploadSize>0.5</maxUploadSize> <uploadDir>./data/tmp</uploadDir>
+		<maxUploadSize>50</maxUploadSize> <uploadDir>./data/tmp</uploadDir>
 		<debug>true</debug>
 	</general>
 
@@ -18,7 +18,7 @@
 				 the appHandler org.fao.geonet.Geonetwork
 				 -->
 		<startupErrorService>main.error</startupErrorService>
-		<language>dut</language>
+		<language>eng</language>
 		<localized>true</localized>
 		<contentType>text/html; charset=UTF-8</contentType>
 
@@ -696,6 +696,10 @@
 
 		<service name="password.forgotten.form">
 			<output sheet="password-forgotten.xsl"/>
+		</service>
+
+		<service name="password.forgotten.form.tabsearch">
+			<output sheet="password-forgotten-tabsearch.xsl"/>
 		</service>
 
 		<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->

@@ -687,7 +687,7 @@ public class ServiceManager
 			} else {
     			int cl = (contentLength == null) ? -1 : Integer.parseInt(contentLength);
     
-    			req.beginStream(contentType, cl, context.getService().equals("resources.get") ? null : contentDisposition, cache);
+    			req.beginStream(contentType, cl, /*context.getService().equals("resources.get") ? null : */contentDisposition, cache);
     			BinaryFile.write(response, req.getOutputStream());
     			req.endStream();
     			BinaryFile.removeIfTheCase(response);

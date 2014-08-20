@@ -1222,9 +1222,9 @@ GeoNetwork.app = function(){
 	    	              }
 	    	            })(marker, site));
 	        	  }
-	          }  
+	          }
 	          
-	          
+	          var colorMap = ['#F00', '#00F'];
 	          var regionsmap = new google.maps.Map(document.getElementById('regionsmap'), {
                 zoom: 1,
                 center: new google.maps.LatLng(0.0, 0.0),
@@ -1237,10 +1237,10 @@ GeoNetwork.app = function(){
 	          
 	          for(var region=0;region<regionsKeywords.regions.length;region++){
 	        	  rectangle = new google.maps.Rectangle({
-	          	    strokeColor: '#FF0000',
+	          	    strokeColor: colorMap[region%colorMap.length],
 	          	    strokeOpacity: 0.8,
 	          	    strokeWeight: 2,
-	          	    fillColor: '#FF0000',
+	          	    fillColor: colorMap[region%colorMap.length],
 	          	    fillOpacity: 0.35,
 	          	    map: regionsmap,
 	          	    bounds: regionsKeywords.regions[region].bounds

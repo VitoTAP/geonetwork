@@ -198,7 +198,10 @@
 					</xsl:if>
 					<xsl:if test="contains($thesaurusName,'BEL-AIR DataTypes')">
 	                    <Field name="datatypekeyword" string="{lower-case(.)}" store="true" index="true"/>
-					</xsl:if>					
+					</xsl:if>	
+					<xsl:if test="contains($thesaurusName,'SIGMA DataTypes')">
+	                    <Field name="datatypekeyword" string="{lower-case(.)}" store="true" index="true"/>
+					</xsl:if>				
 					<xsl:if test="contains($thesaurusName,'SIGMA Regions')">
 	                    <Field name="regionkeyword" string="{lower-case(.)}" store="true" index="true"/>
 					</xsl:if>					

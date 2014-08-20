@@ -885,11 +885,11 @@ GeoNetwork.app = function(){
                                     }
                                 },
                                 closable:false,
-                                autoEl: {html:'<h1 style="font-size: 24px; text-align: center; margin-top: 10px;">Click on the region of your interest</h1>'},
+                                //autoEl: {html:'<h1 style="font-size: 24px; text-align: center; margin-top: 10px;">Click on the region of your interest</h1>'},
 //                                autoScroll:true,
                                 items: [//searchForm
                                     new Ext.Panel({
-                                        id:'images-view',
+                                        id:'global-map-view',
                                         plain:true,
                                         layout: 'column',
                                         layoutConfig: { pack: 'center', align: 'center' },
@@ -898,17 +898,17 @@ GeoNetwork.app = function(){
                                         bodyStyle:'border-width:0px',
                                         border:true,
                                         deferredRender: false,
-                                        defaults:{style:'padding:50px;text-align:center;font-size:20px',bodyStyle:'padding:5px'},
+                                        defaults:{style:'padding:20px;text-align:center;font-size:20px',bodyStyle:'padding:5px'},
                                         items:[
                                            	{
                     							border: false,
-                    							columnWidth: 0.15
+                    							columnWidth: 0.32
                                        		},
-                                       		{                    	   	
-                    							xtype: 'box',
+                                       		{
+                                       			xtype: 'box',
                     							border: false,
-                    							columnWidth: 0.25,
-                    							autoEl: {html:'<div style="cursor: pointer;"><span style="text-decoration: underline;">Global data</span></div>'},
+                    							columnWidth: 0.36,
+                    							autoEl: {html:'<p>Search global</p><div style="height: 300px;" id="globalmap"></div>'},
                     							listeners: {
                     								render: function(p) {
                     									p.getEl().on('click', function(){
@@ -916,26 +916,12 @@ GeoNetwork.app = function(){
                     									});
                     								},
                     								single: true
-                    							}								
+                    							}
                                        		},
-                                       		{
+                                       		/*{
                                        			xtype: 'box',
                                        			border: false,
-                                       			columnWidth: 0.20,
-                                       			autoEl : {html:'<div style="cursor: pointer;"><span style="text-decoration: underline;">Regional data</span>' + regionsKeywords.regions + '</div>'},
-                                       			listeners: {
-                                       				render: function(p) {
-                                       					p.getEl().on('click', function(el){
-                                       						searchWithRegionkeyword(el.target.nodeName === 'LI' ? el.target.innerText.toLowerCase() : 'regional');
-                                       					});
-                                       				},
-                                       				single: true
-                                       			}								
-                                       		},
-                                       		{
-                                       			xtype: 'box',
-                                       			border: false,
-                                       			columnWidth: 0.25,
+                                       			columnWidth: 0.30,
                                        			autoEl : {html:'<div style="cursor: pointer;"><span style="text-decoration: underline;">Site data</span>' + regionsKeywords.sites + '</div>'},
                                        			//autoEl : {html:'<div class="thumb"><img style="cursor:pointer;height:150px" src="' + catalogue.URL + '/apps/tabsearch/images/hesbania.png" title="HESBANIA" alt="HESBANIA"></div><br/><div>HESBANIA</div>'},
                                        			listeners: {
@@ -946,10 +932,64 @@ GeoNetwork.app = function(){
                                        				},
                                        				single: true
                                        			}								
+                                       		},*/
+                                           	{
+                    							border: false,
+                    							columnWidth: 0.32
+                                       		}
+                    					]
+                                    }),
+                                    new Ext.Panel({
+                                        id:'regions-sites-map-view',
+                                        plain:true,
+                                        layout: 'column',
+                                        layoutConfig: { pack: 'center', align: 'center' },
+                                        autoHeight: true,
+                                        boxMinWidth: 1000,
+                                        bodyStyle:'border-width:0px',
+                                        border:true,
+                                        deferredRender: false,
+                                        defaults:{style:'padding:20px;text-align:center;font-size:20px',bodyStyle:'padding:5px'},
+                                        items:[
+                                           	{
+                    							border: false,
+                    							columnWidth: 0.10
+                                       		},
+                                       		{
+                                       			xtype: 'box',
+                    							border: false,
+                    							columnWidth: 0.37,
+                    							autoEl: {html:'<p>Select a region on the map</p><div style="height: 300px;" id="regionsmap"></div>'},
+                    							listeners: {
+                    								render: function(p) {
+                    									p.getEl().on('click', function(){
+                                       						//searchWithRegionkeyword("global");
+                    									});
+                    								},
+                    								single: true
+                    							}
+                                       		},
+                                       		{
+                                       			border: false,
+                                       			columnWidth: 0.06
+                                       		},
+                                       		{                    	   	
+                    							xtype: 'box',
+                    							border: false,
+                    							columnWidth: 0.37,
+                    							autoEl: {html:'<p>Select a site on the map</p><div style="height: 300px;" id="sitesmap"></div>'},
+                    							listeners: {
+                    								render: function(p) {
+                    									p.getEl().on('click', function(){
+                                       						//searchWithRegionkeyword("global");
+                    									});
+                    								},
+                    								single: true
+                    							}								
                                        		},
                                            	{
                     							border: false,
-                    							columnWidth: 0.15
+                    							columnWidth: 0.10
                                        		}
                     					]
                                     })]
@@ -1100,7 +1140,138 @@ GeoNetwork.app = function(){
 		            }
             	}
 	   		});
-			
+            
+            /*var map = new OpenLayers.Map("sitesmap");
+            
+            var wms = new OpenLayers.Layer.WMS(
+            	"OpenLayers WMS", "http://vmap0.tiles.osgeo.org/wms/vmap0",
+                {layers: 'basic'}
+            );
+            var pois = new OpenLayers.Layer.Text("Sites", {location: "js/test.txt",
+                projection: map.displayProjection
+            });
+            
+            map.addLayers([wms, pois]);
+            //map.zoomToMaxExtent();
+            
+            var selectControl = new OpenLayers.Control.SelectFeature(pois);
+            map.addControl(selectControl);
+            selectControl.activate();
+            pois.events.on({
+                'featureselected': onFeatureSelect,
+                'featureunselected': onFeatureUnselect
+            });
+            
+            function onPopupClose(evt) {
+                // 'this' is the popup.
+                var feature = this.feature;
+                if (feature.layer) { // The feature is not destroyed
+                    selectControl.unselect(feature);
+                } else { // After "moveend" or "refresh" events on POIs layer all 
+                         //     features have been destroyed by the Strategy.BBOX
+                    this.destroy();
+                }
+            }
+            function onFeatureSelect(evt) {
+                feature = evt.feature;
+                popup = new OpenLayers.Popup.FramedCloud("featurePopup",
+                                         feature.geometry.getBounds().getCenterLonLat(),
+                                         new OpenLayers.Size(100,100),
+                                         "<h2>"+feature.attributes.title + "</h2>" +
+                                         feature.attributes.description,
+                                         null, true, onPopupClose);
+                feature.popup = popup;
+                popup.feature = feature;
+                map.addPopup(popup, true);
+            }
+            function onFeatureUnselect(evt) {
+                feature = evt.feature;
+                if (feature.popup) {
+                    popup.feature = null;
+                    map.removePopup(feature.popup);
+                    feature.popup.destroy();
+                    feature.popup = null;
+                }
+            }*/
+            
+            var sitesmap = new google.maps.Map(document.getElementById('sitesmap'), {
+                zoom: 1,
+                center: new google.maps.LatLng(0.0, 0.0),
+                mapTypeId: google.maps.MapTypeId.ROADMAP,
+                disableDefaultUI: true
+              });
+
+	          var sitesInfowindow = new google.maps.InfoWindow();
+	          var marker;
+	          
+	          for(var site=0;site<regionsKeywords.sites.length;site++){
+	        	  for(var geo=0;geo<regionsKeywords.sites[site].geos.length;geo++){
+	        		  marker = new google.maps.Marker({
+			              position: regionsKeywords.sites[site].geos[geo],
+			              map: sitesmap
+			          });
+	        		  google.maps.event.addListener(marker, 'mouseover', (function(marker, site) {
+	    	              return function() {
+	    	            	sitesInfowindow.setContent(regionsKeywords.sites[site].value);
+	    	            	sitesInfowindow.open(sitesmap, marker);
+	    	              }
+	    	            })(marker, site));
+	        		  google.maps.event.addListener(marker, 'click', (function(marker, site) {
+	    	              return function() {
+	    	            	  searchWithRegionkeyword(regionsKeywords.sites[site].value);
+	    	              }
+	    	            })(marker, site));
+	        	  }
+	          }  
+	          
+	          
+	          var regionsmap = new google.maps.Map(document.getElementById('regionsmap'), {
+                zoom: 1,
+                center: new google.maps.LatLng(0.0, 0.0),
+                mapTypeId: google.maps.MapTypeId.ROADMAP,
+                disableDefaultUI: true
+              });
+	          
+	          var regionsInfowindow = new google.maps.InfoWindow();
+	          var rectangle;
+	          
+	          for(var region=0;region<regionsKeywords.regions.length;region++){
+	        	  rectangle = new google.maps.Rectangle({
+	          	    strokeColor: '#FF0000',
+	          	    strokeOpacity: 0.8,
+	          	    strokeWeight: 2,
+	          	    fillColor: '#FF0000',
+	          	    fillOpacity: 0.35,
+	          	    map: regionsmap,
+	          	    bounds: regionsKeywords.regions[region].bounds
+	          	  });
+	        	  
+	        	  google.maps.event.addListener(rectangle, 'mouseover', (function(rectangle, region) {
+	  	        	return function() {
+	  	        	  regionsInfowindow.setContent(regionsKeywords.regions[region].value);
+	  	        	  regionsInfowindow.setPosition(new google.maps.LatLng(
+	  	        		rectangle.getBounds().getSouthWest().k, rectangle.getBounds().getCenter().B
+	  	        	  ));
+	  	              regionsInfowindow.open(regionsmap);
+	  	        	}
+	  	          })(rectangle, region));
+	        	  
+	        	  google.maps.event.addListener(rectangle, 'click', (function(rectangle, region) {
+		  	        	return function() {
+		  	        		searchWithRegionkeyword(regionsKeywords.regions[region].value);
+		  	        	}
+		  	          })(rectangle, region));
+	          }
+	          
+	          
+	          var globalmap = new google.maps.Map(document.getElementById('globalmap'), {
+                zoom: 1,
+                center: new google.maps.LatLng(0.0, 0.0),
+                mapTypeId: google.maps.MapTypeId.ROADMAP,
+                disableDefaultUI: true
+              });
+	          
+	          
             // Hide advanced search options
             //Ext.get("advSearchTabs").hide();
 

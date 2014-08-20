@@ -1366,8 +1366,8 @@ GeoNetwork.util.SearchFormTools = {
     },
     getRegionsKeywords : function (services) {
     	var regionsKeywords = {
-    		regions: '<ul>',
-    		sites: '<ul>'
+    		regions: [],
+    		sites: []
     	};
         var request = OpenLayers.Request.GET({
             url: services.searchKeyword,
@@ -1384,18 +1384,44 @@ GeoNetwork.util.SearchFormTools = {
 
         if (request.responseXML) {
             var xml = request.responseXML.documentElement;
+            console.log(xml);
             Ext.each(xml.getElementsByTagName('keyword'), function(item, idx){
             	var children = item.getElementsByTagName('value')[0];
+            	var geocoords = item.getElementsByTagName('geo')[0];
             	if(children){
             		var child = children.childNodes[0].nodeValue;
             		switch(child.split(" ")[0]){
 	            		case 'Global':
 	            			break;
 	            		case 'Region':
-	            			regionsKeywords.regions += '<li>' + child.substr(child.split(" ")[0].length + 1) + '</li>';
+	            			var	north = geocoords.getElementsByTagName('north')[0].childNodes[0].nodeValue,
+	            				south = geocoords.getElementsByTagName('south')[0].childNodes[0].nodeValue,
+	            				east = geocoords.getElementsByTagName('east')[0].childNodes[0].nodeValue,
+            					west = geocoords.getElementsByTagName('west')[0].childNodes[0].nodeValue;
+	            			
+	            			regionsKeywords.regions.push({
+	            				value: child.substr(child.split(" ")[0].length + 1),
+	            				bounds: new google.maps.LatLngBounds(
+	            							new google.maps.LatLng(north, west),
+		            	        	    	new google.maps.LatLng(south, east)
+	            						)
+		            	    });
 	            			break;
 	            		case 'Site':
-	            			regionsKeywords.sites += '<li>' + child.substr(child.split(" ")[0].length + 1) + '</li>';
+	            			var	north = geocoords.getElementsByTagName('north')[0].childNodes[0].nodeValue,
+	            				south = geocoords.getElementsByTagName('south')[0].childNodes[0].nodeValue,
+	            				east = geocoords.getElementsByTagName('east')[0].childNodes[0].nodeValue,
+	            				west = geocoords.getElementsByTagName('west')[0].childNodes[0].nodeValue;
+	            				geos = [new google.maps.LatLng(north, east)];
+	            				
+	            			if(north !== south || east !== west){
+	            				geos.push(new google.maps.LatLng(south, west));
+	            			}
+	            			regionsKeywords.sites.push({
+	            				value: child.substr(child.split(" ")[0].length + 1),
+	            				geos: geos
+	            			});
+	            			//regionsKeywords.sites += '<li>' + child.substr(child.split(" ")[0].length + 1) + '</li>';
 	            			break;
 	            		default:
 	            			break;
@@ -1403,8 +1429,6 @@ GeoNetwork.util.SearchFormTools = {
             	}
             });
         }
-        regionsKeywords.regions += '</ul>';
-        regionsKeywords.sites += '</ul>';
         
         return regionsKeywords;
     },

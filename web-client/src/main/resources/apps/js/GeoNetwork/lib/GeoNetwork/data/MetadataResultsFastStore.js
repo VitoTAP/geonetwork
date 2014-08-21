@@ -40,6 +40,26 @@ Ext.namespace('GeoNetwork.data');
  */
 GeoNetwork.data.MetadataResultsFastStore = function(){
 	var separator = "|";
+	var logos = [
+ 	    "Flemish Institute for Technological Research (VITO)",
+ 	    "Stichting Dienst Landbouwkundig Onderzoek (ALTERRA)",
+ 	    "Université Catholique de Louvain (UCL)",
+ 	    "Agricultural Research Institute for Development (CIRAD)",
+ 	    "ITC-UT (Faculty of Geo-information Science & Earth Observation)",
+ 	    "IIASA",
+ 	    "Food and Agricultural Organization of the UN (FAO)",
+ 	    "Space Research Institute (IKI)",
+ 	    "DEIMOS Imaging S.L",
+ 	    "Sarmap SA (SARMAP)",
+ 	    "EFTAS Fernerkundung Technologietransfer GmbH",
+ 	    "GeoVille",
+ 	    "RCMRD (Regional Centre for Mapping Resources for Development)",
+ 	    "AGRHYMET (centre Regional AGRHYMET)",
+ 	    "Geosas Plc",
+ 	    "Instituto Nacional de Tecnologia Agropecuaria (INTA)",
+ 	    "GISAT s.r.o",
+ 	    "SARVISION"
+ 	];
 	
     function getTitle(v, record){
         if (record.title && record.title[0]) {
@@ -100,7 +120,7 @@ GeoNetwork.data.MetadataResultsFastStore = function(){
                 if (!Ext.isEmpty(name) && !addedContacts.contains(name)) {
                     contact.push({
                         applies: tokens[1],
-                        logo: (name && name!='') ? name.toLowerCase().replace(/[êéè ]/g, function(match) {return {"ê": "e", "é": "e", "è": "e", " ":""}[match];}) + '.png' : '',
+                        logo: (name && name!='' && logos.contains(name)) ? name.toLowerCase().replace(/[êéè() ]/g, function(match) {return {"ê": "e", "é": "e", "è": "e", "(": "", ")": "", " ":""}[match];}) + '.png' : '',
                         role: tokens[0],
                         name: name
                     });

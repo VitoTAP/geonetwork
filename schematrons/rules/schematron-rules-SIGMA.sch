@@ -14,7 +14,7 @@
 	<sch:pattern>
 		<sch:title>Minimum one keyword must be selected from the thesaurus ‘SIGMA-Years’ dated on 2014-05-06</sch:title>
 		<sch:rule context="//gmd:MD_DataIdentification">
-			<sch:let name="sigma-thesaurus" value="document(concat('file:///', $thesaurusDir, '/external/thesauri/place/SIGMA-Years.rdf'))"/>
+			<sch:let name="sigma-thesaurus" value="document(concat('file:///', $thesaurusDir, '/external/thesauri/temporal/SIGMA-Years.rdf'))"/>
 			<sch:let name="sigma-theme" value="$sigma-thesaurus//skos:Concept"/>
 			<sch:assert test="count($sigma-theme) > 0">
 				SIGMA Years thesaurus not found. 
@@ -56,7 +56,7 @@
 	<sch:pattern>
 		<sch:title>Minimum one keyword must be selected from the thesaurus ‘SIGMA-Regions’ dated on 2014-05-06</sch:title>
 		<sch:rule context="//gmd:MD_DataIdentification">
-			<sch:let name="sigma-thesaurus" value="document(concat('file:///', $thesaurusDir, '/external/thesauri/temporal/SIGMA-Regions.rdf'))"/>
+			<sch:let name="sigma-thesaurus" value="document(concat('file:///', $thesaurusDir, '/external/thesauri/place/SIGMA-Regions.rdf'))"/>
 			<sch:let name="sigma-theme" value="$sigma-thesaurus//skos:Concept"/>
 			<sch:assert test="count($sigma-theme) > 0">
 				SIGMA Regions thesaurus not found. 

@@ -100,7 +100,7 @@ GeoNetwork.data.MetadataResultsFastStore = function(){
                 if (!Ext.isEmpty(name) && !addedContacts.contains(name)) {
                     contact.push({
                         applies: tokens[1],
-                        logo: (name && name!='') ? name.toLowerCase().replace(/[éè ]/g, function(match) {return {"é": "e", "è": "e", " ":""}[match];}) + '.png' : '',
+                        logo: (name && name!='') ? name.toLowerCase().replace(/[êéè ]/g, function(match) {return {"ê": "e", "é": "e", "è": "e", " ":""}[match];}) + '.png' : '',
                         role: tokens[0],
                         name: name
                     });

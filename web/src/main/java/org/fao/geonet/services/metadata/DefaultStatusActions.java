@@ -806,7 +806,7 @@ public class DefaultStatusActions implements StatusActions {
 				// check that iso schematron validation succeeded
 
 				if (record.getChildText("valtype").equals(
-						"schematron-rules-iso") || record.getChildText("valtype").equals("schematron-rules-inspire") || record.getChildText("valtype").equals("schematron-rules-BEL-AIR")) {
+						"schematron-rules-iso") || record.getChildText("valtype").equals("schematron-rules-inspire") || record.getChildText("valtype").equals("schematron-rules-" + context.getServlet().getNodeType())) {
 					if (!record.getChildText("status").equals("1")) {
 						System.out
 								.println("Metadata with id "

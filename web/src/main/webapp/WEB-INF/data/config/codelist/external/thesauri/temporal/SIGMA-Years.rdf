@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:fn="http://www.w3.org/2005/02/xpath-functions" xmlns:foaf="http://xmlns.com/foaf/0.1/" xmlns:gml="http://www.opengis.net/gml#" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#" xmlns:skos="http://www.w3.org/2004/02/skos/core#" xmlns:xdt="http://www.w3.org/2005/02/xpath-datatypes" xmlns:xs="http://www.w3.org/2001/XMLSchema">
   <!-- Scheme -->
-  <skos:ConceptScheme rdf:about="http://sigmaportal.vgt.vito.be/datatypes">
-    <dc:title>SIGMA DataTypes</dc:title>
-    <dc:description>SIGMA DataTypes</dc:description>
+  <skos:ConceptScheme rdf:about="http://belair.vito.be/v1/SIGMA-Years">
+    <dc:title>SIGMA Years</dc:title>
+    <dc:description>SIGMA Years</dc:description>
     <dc:creator>
       <foaf:Organization>
         <foaf:name>VITO</foaf:name>
@@ -14,8 +14,17 @@
     <dcterms:modified>2014-05-06</dcterms:modified>
   </skos:ConceptScheme>
   <!-- Concept list -->
-  <skos:Concept rdf:about="http://sigmaportal.vgt.vito.be/datatypes#1">
-    <skos:prefLabel xml:lang="en">Bio-geophysical parameter</skos:prefLabel>
+  <skos:Concept rdf:about="http://sigmaportal.vgt.vito.be/years#2014">
+    <skos:prefLabel xml:lang="en">2014</skos:prefLabel>
   </skos:Concept>
-  </rdf:RDF>
+  <skos:Concept rdf:about="http://sigmaportal.vgt.vito.be/years#2015">
+    <skos:prefLabel xml:lang="en">2015</skos:prefLabel>
+  </skos:Concept>
+  <skos:Concept rdf:about="http://sigmaportal.vgt.vito.be/years#2016">
+    <skos:prefLabel xml:lang="en">2016</skos:prefLabel>
+  </skos:Concept>
+  <skos:Concept rdf:about="http://sigmaportal.vgt.vito.be/years#5000">
+    <skos:prefLabel xml:lang="en">Long-term timeseries</skos:prefLabel>
+  </skos:Concept>
+</rdf:RDF>
 

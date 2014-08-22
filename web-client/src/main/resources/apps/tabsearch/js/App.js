@@ -902,13 +902,13 @@ GeoNetwork.app = function(){
                                         items:[
                                            	{
                     							border: false,
-                    							columnWidth: 0.32
+                    							columnWidth: 0.35
                                        		},
                                        		{
                                        			xtype: 'box',
                     							border: false,
-                    							columnWidth: 0.36,
-                    							autoEl: {html:'<p>Search global</p><div style="height: 300px;" id="globalmap"></div>'},
+                    							columnWidth: 0.30,
+                    							autoEl: {html:'<div style="border: 1px solid #203612;"><div style="background-color: #558F30; height: 20px;"></div><div style="background-color: #203612; height: 40px; padding-top: 10px;"><p style="color: #FFF;">Search global</p></div><div style="height: 250px;" id="globalmap"></div></div>'},
                     							listeners: {
                     								render: function(p) {
                     									p.getEl().on('click', function(){
@@ -935,7 +935,7 @@ GeoNetwork.app = function(){
                                        		},*/
                                            	{
                     							border: false,
-                    							columnWidth: 0.32
+                    							columnWidth: 0.35
                                        		}
                     					]
                                     }),
@@ -959,7 +959,7 @@ GeoNetwork.app = function(){
                                        			xtype: 'box',
                     							border: false,
                     							columnWidth: 0.37,
-                    							autoEl: {html:'<p>Select a region on the map</p><div style="height: 300px;" id="regionsmap"></div>'},
+                    							autoEl: {html:'<div style="border: 1px solid #203612;"><div style="height: 300px;" id="regionsmap"></div><div style="background-color: #558F30; height: 20px;"></div><div style="background-color: #203612; height: 40px; padding-top: 10px;"><p style="color: #FFF;">Search a region on the map</p></div></div>'},
                     							listeners: {
                     								render: function(p) {
                     									p.getEl().on('click', function(){
@@ -977,7 +977,7 @@ GeoNetwork.app = function(){
                     							xtype: 'box',
                     							border: false,
                     							columnWidth: 0.37,
-                    							autoEl: {html:'<p>Select a site on the map</p><div style="height: 300px;" id="sitesmap"></div>'},
+                    							autoEl: {html:'<div style="border: 1px solid #203612;"><div style="height: 300px;" id="sitesmap"></div><div style="background-color: #558F30; height: 20px;"></div><div style="background-color: #203612; height: 40px; padding-top: 10px;"><p style="color: #FFF;">Select a site on the map</p></div></div>'},
                     							listeners: {
                     								render: function(p) {
                     									p.getEl().on('click', function(){
@@ -1100,10 +1100,28 @@ GeoNetwork.app = function(){
 							    }
 	                    	},
 	                    	{
-	                    		title: '<img src="images/hyperlink_icon.png" alt="Hyperlink icon" width="14" height="14" />' + OpenLayers.i18n('Geo-wiki'),
+	                    		title: '<img src="images/geowiki.png" alt="Sigma Geo-Wiki icon" width="16" height="16" />' + OpenLayers.i18n('SIGMA Geo-Wiki'),
                                 listeners: {
                                 	activate : function (p) {
-                                		window.open('http://www.geo-wiki.org');
+                                		window.open('http://sigma.geo-wiki.org');
+                                		tabPanel.setActiveTab(previousTab);
+                                    }
+                       			}
+	                    	},
+	                    	{
+	                    		title: '<img src="images/vega.png" alt="VEGA-GEOGLAM icon" width="16" height="16" />' + OpenLayers.i18n('VEGA-GEOGLAM'),
+                                listeners: {
+                                	activate : function (p) {
+                                		window.open('http://vega.geoglam.ru');
+                                		tabPanel.setActiveTab(previousTab);
+                                    }
+                       			}
+	                    	},
+	                    	{
+	                    		title: '<img src="images/padua.png" alt="Time-Series Viewer icon" width="16" height="16" />' + OpenLayers.i18n('Time-Series Viewer'),
+                                listeners: {
+                                	activate : function (p) {
+                                		window.open('http://tsviewer.vito-eodata.be');
                                 		tabPanel.setActiveTab(previousTab);
                                     }
                        			}
@@ -1198,7 +1216,12 @@ GeoNetwork.app = function(){
                 zoom: 1,
                 center: new google.maps.LatLng(0.0, 0.0),
                 mapTypeId: google.maps.MapTypeId.ROADMAP,
-                disableDefaultUI: true
+                disableDefaultUI: true,
+                panControl: true,
+                zoomControl: true,
+                /*zoomControlOptions: {
+	              style: google.maps.ZoomControlStyle.LARGE
+	            }*/
               });
 
 	          var sitesInfowindow = new google.maps.InfoWindow();
@@ -1208,7 +1231,9 @@ GeoNetwork.app = function(){
 	        	  for(var geo=0;geo<regionsKeywords.sites[site].geos.length;geo++){
 	        		  marker = new google.maps.Marker({
 			              position: regionsKeywords.sites[site].geos[geo],
-			              map: sitesmap
+			              map: sitesmap,
+			              icon: 'http://maps.google.com/mapfiles/ms/icons/green-dot.png',
+			              animation:google.maps.Animation.DROP
 			          });
 	        		  google.maps.event.addListener(marker, 'mouseover', (function(marker, site) {
 	    	              return function() {
@@ -1224,7 +1249,6 @@ GeoNetwork.app = function(){
 	        	  }
 	          }
 	          
-	          var colorMap = ['#F00', '#00F'];
 	          var regionsmap = new google.maps.Map(document.getElementById('regionsmap'), {
                 zoom: 1,
                 center: new google.maps.LatLng(0.0, 0.0),
@@ -1237,11 +1261,11 @@ GeoNetwork.app = function(){
 	          
 	          for(var region=0;region<regionsKeywords.regions.length;region++){
 	        	  rectangle = new google.maps.Rectangle({
-	          	    strokeColor: colorMap[region%colorMap.length],
+	          	    strokeColor: '#203612',
 	          	    strokeOpacity: 0.8,
 	          	    strokeWeight: 2,
-	          	    fillColor: colorMap[region%colorMap.length],
-	          	    fillOpacity: 0.35,
+	          	    fillColor: '#558F30',
+	          	    fillOpacity: 0.45,
 	          	    map: regionsmap,
 	          	    bounds: regionsKeywords.regions[region].bounds
 	          	  });

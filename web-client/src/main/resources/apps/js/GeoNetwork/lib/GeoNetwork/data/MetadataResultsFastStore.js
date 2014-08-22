@@ -45,7 +45,7 @@ GeoNetwork.data.MetadataResultsFastStore = function(){
  	    "Stichting Dienst Landbouwkundig Onderzoek (ALTERRA)",
  	    "Université Catholique de Louvain (UCL)",
  	    "Agricultural Research Institute for Development (CIRAD)",
- 	    "ITC-UT (Faculty of Geo-information Science & Earth Observation)",
+ 	    "Faculty of Geo-information Science & Earth Observation (ITC-UT)",
  	    "IIASA",
  	    "Food and Agricultural Organization of the UN (FAO)",
  	    "Space Research Institute (IKI)",
@@ -53,8 +53,8 @@ GeoNetwork.data.MetadataResultsFastStore = function(){
  	    "Sarmap SA (SARMAP)",
  	    "EFTAS Fernerkundung Technologietransfer GmbH",
  	    "GeoVille",
- 	    "RCMRD (Regional Centre for Mapping Resources for Development)",
- 	    "AGRHYMET (centre Regional AGRHYMET)",
+ 	    "Regional Centre for Mapping Resources for Development (RCMRD)",
+ 	    "centre Regional AGRHYMET (AGRHYMET)",
  	    "Geosas Plc",
  	    "Instituto Nacional de Tecnologia Agropecuaria (INTA)",
  	    "GISAT s.r.o",
@@ -117,10 +117,11 @@ GeoNetwork.data.MetadataResultsFastStore = function(){
             for (i = 0; i < record.responsibleParty.length; i++) {
                 var tokens = record.responsibleParty[i].value.split(separator);
                 var name = tokens[2];
+                var typeOfContact = tokens[0];
                 if (!Ext.isEmpty(name) && !addedContacts.contains(name)) {
                     contact.push({
                         applies: tokens[1],
-                        logo: (name && name!='' && logos.contains(name)) ? name.toLowerCase().replace(/[êéè() ]/g, function(match) {return {"ê": "e", "é": "e", "è": "e", "(": "", ")": "", " ":""}[match];}) + '.png' : '',
+                        logo: (name && name!='' && logos.contains(name) && typeOfContact.toLowerCase() === 'originator') ? name.toLowerCase().replace(/[êéè() ]/g, function(match) {return {"ê": "e", "é": "e", "è": "e", "(": "", ")": "", " ":""}[match];}) + '.png' : '',
                         role: tokens[0],
                         name: name
                     });

@@ -40,7 +40,7 @@ Ext.namespace('GeoNetwork.data');
  */
 GeoNetwork.data.MetadataResultsFastStore = function(){
 	var separator = "|";
-	var logos = [
+	/*var logos = [
  	    "Flemish Institute for Technological Research (VITO)",
  	    "Stichting Dienst Landbouwkundig Onderzoek (ALTERRA)",
  	    "Université Catholique de Louvain (UCL)",
@@ -59,7 +59,8 @@ GeoNetwork.data.MetadataResultsFastStore = function(){
  	    "Instituto Nacional de Tecnologia Agropecuaria (INTA)",
  	    "GISAT s.r.o",
  	    "SARVISION"
- 	];
+ 	];*/
+	var logos = ["vito", "alterra", "ucl", "cirad", "itc-ut", "iiasa", "fao", "iki", "deimos", "sarmap", "eftas", "geoville", "rcmrd", "agrhymet", "geosas", "inta", "gisat", "sarvision"];
 	
     function getTitle(v, record){
         if (record.title && record.title[0]) {
@@ -113,23 +114,37 @@ GeoNetwork.data.MetadataResultsFastStore = function(){
         var i, contact = [], el, name;
         
         if (record.responsibleParty) {
-            var addedContacts = [];
+            var addedLogos = [];
             for (i = 0; i < record.responsibleParty.length; i++) {
                 var tokens = record.responsibleParty[i].value.split(separator);
                 var name = tokens[2];
                 var typeOfContact = tokens[0];
-                if (!Ext.isEmpty(name) && !addedContacts.contains(name)) {
-                    contact.push({
-                        applies: tokens[1],
-                        logo: (name && name!='' && logos.contains(name) && typeOfContact.toLowerCase() === 'originator') ? name.toLowerCase().replace(/[êéè() ]/g, function(match) {return {"ê": "e", "é": "e", "è": "e", "(": "", ")": "", " ":""}[match];}) + '.png' : '',
-                        role: tokens[0],
-                        name: name
-                    });
-                    addedContacts.push(name);
+                if (!Ext.isEmpty(name)) {
+                    var logo = getLogo(name, typeOfContact);
+                    if(!addedLogos.contains(name)){
+                    	contact.push({
+                            applies: tokens[1],
+                            logo: logo,
+                            role: tokens[0],
+                            name: name
+                        });
+                        addedLogos.push(logo);
+                    }
                 }
             }
         }
         return contact;
+    }
+    
+    function getLogo(name, typeOfContact){
+    	if(typeOfContact.toLowerCase() !== 'originator') return '';
+    	name = name.toLowerCase().replace(/[êéè ]/g, function(match) {return {"ê": "e", "é": "e", "è": "e", " ":""}[match];});
+    	for(var logo in logos){
+    		if(name.contains(logos[logo])){
+    			return logos[logo] + '.png';
+    		}
+    	}
+    	return '';
     }
     
     function getLinks(v, record){

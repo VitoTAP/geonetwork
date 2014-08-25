@@ -188,26 +188,30 @@
 				<xsl:variable name="thesaurusName" select="gmd:thesaurusName/gmd:CI_Citation/gmd:title/gco:CharacterString"/>
 				<xsl:for-each select="gmd:keyword/gco:CharacterString|gmd:keyword/gmd:PT_FreeText/gmd:textGroup/gmd:LocalisedCharacterString">
                     <xsl:variable name="keywordLower" select="lower-case(.)"/>
-                    <Field name="keyword" string="{string(.)}" store="true" index="true"/>
 					<Field name="any" string="{string($keywordLower)}" store="true" index="true"/>
-					<xsl:if test="contains($thesaurusName,'BEL-AIR Sites')">
-	                    <Field name="sitekeyword" string="{lower-case(.)}" store="true" index="true"/>
-					</xsl:if>
-					<xsl:if test="contains($thesaurusName,'BEL-AIR Campaigns')">
-	                    <Field name="campaignkeyword" string="{lower-case(.)}" store="true" index="true"/>
-					</xsl:if>
-					<xsl:if test="contains($thesaurusName,'BEL-AIR DataTypes')">
-	                    <Field name="datatypekeyword" string="{lower-case(.)}" store="true" index="true"/>
-					</xsl:if>	
-					<xsl:if test="contains($thesaurusName,'SIGMA DataTypes')">
-	                    <Field name="datatypekeyword" string="{lower-case(.)}" store="true" index="true"/>
-					</xsl:if>				
-					<xsl:if test="contains($thesaurusName,'SIGMA Regions')">
-	                    <Field name="regionkeyword" string="{lower-case(.)}" store="true" index="true"/>
-					</xsl:if>					
-					<xsl:if test="contains($thesaurusName,'SIGMA Years')">
-	                    <Field name="yearkeyword" string="{lower-case(.)}" store="true" index="true"/>
-					</xsl:if>					
+					<xsl:choose>
+						<xsl:when test="contains($thesaurusName,'BEL-AIR Sites')">
+		                    <Field name="sitekeyword" string="{lower-case(.)}" store="true" index="true"/>
+						</xsl:when>
+						<xsl:when test="contains($thesaurusName,'BEL-AIR Campaigns')">
+		                    <Field name="campaignkeyword" string="{lower-case(.)}" store="true" index="true"/>
+						</xsl:when>
+						<xsl:when test="contains($thesaurusName,'BEL-AIR DataTypes')">
+		                    <Field name="datatypekeyword" string="{lower-case(.)}" store="true" index="true"/>
+						</xsl:when>	
+						<xsl:when test="contains($thesaurusName,'SIGMA DataTypes')">
+		                    <Field name="datatypekeyword" string="{lower-case(.)}" store="true" index="true"/>
+						</xsl:when>				
+						<xsl:when test="contains($thesaurusName,'SIGMA Regions')">
+		                    <Field name="regionkeyword" string="{lower-case(.)}" store="true" index="true"/>
+						</xsl:when>					
+						<xsl:when test="contains($thesaurusName,'SIGMA Years')">
+		                    <Field name="yearkeyword" string="{lower-case(.)}" store="true" index="true"/>
+						</xsl:when>					
+						<xsl:otherwise>
+		                    <Field name="keyword" string="{string(.)}" store="true" index="true"/>
+						</xsl:otherwise>
+					</xsl:choose>
                     <xsl:if test="$inspire='true'">
                         <xsl:if test="string-length(.) &gt; 0">
                          

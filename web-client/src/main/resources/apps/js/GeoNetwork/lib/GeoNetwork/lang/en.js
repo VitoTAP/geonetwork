@@ -524,7 +524,7 @@ GeoNetwork.lang.en = {
     'mapPanelTitle': 'Overviewmap', 
     'facetsPanelTitle': 'Filter', 
     'removeFilter': 'Remove filter', 
-    'datatypekeywords': "BEL-AIR DataTypes",
+    'datatypekeywords': "SIGMA DataTypes",
     'sitekeywords': "BEL-AIR Sites",
     'regionkeywords': "SIGMA Regions",
     'yearkeywords': "SIGMA Years",

@@ -318,6 +318,7 @@ public class Aligner
         }
 
         md = processMetadata(ri, md);
+        if(md == null) return null;
         
         // insert metadata
         String userid = "1";
@@ -610,6 +611,7 @@ public class Aligner
 		}
 		else {
 			md = processMetadata(ri, md);
+			if(md == null) return;
 	        
             // update metadata
             if(log.isDebugEnabled())
@@ -621,6 +623,7 @@ public class Aligner
             String language = context.getLanguage();
             dataMan.updateMetadata(context, dbms, id, md, validate, ufo, index, language, ri.changeDate, false);
 
+            dataMan.indexMetadataGroup(dbms, id, false, true);
 			result.updatedMetadata++;
 		}
 
@@ -681,6 +684,18 @@ public class Aligner
 				}
 			}
 		}
+		
+		if (!params.importXslt.equals("none")) {
+        	String thisXslt = context.getAppPath() + Geonet.Path.IMPORT_STYLESHEETS + "/";
+			thisXslt = thisXslt + params.importXslt;
+			try {
+				md = Xml.transform(md, thisXslt);
+			} catch (Exception e) {
+	            log.error("Cannot transform metadata with uuid: " + ri.uuid + " Error was: "+e.getMessage());
+				return null;
+			}
+		}
+		
 		return md;
 	}
 

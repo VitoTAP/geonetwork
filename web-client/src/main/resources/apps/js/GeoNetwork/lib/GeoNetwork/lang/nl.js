@@ -542,7 +542,7 @@ GeoNetwork.Lang.nl = {
     'mapPanelTitle': 'Overzichtskaart', 
     'facetsPanelTitle': 'Filter', 
     'removeFilter': 'Verwijder filter', 
-    'datatypekeywords': "BEL-AIR DataTypes",
+    'datatypekeywords': "SIGMA DataTypes",
     'sitekeywords': "BEL-AIR Sites",
     'regionkeywords': "SIGMA Regions",
     'yearkeywords': "SIGMA Years",

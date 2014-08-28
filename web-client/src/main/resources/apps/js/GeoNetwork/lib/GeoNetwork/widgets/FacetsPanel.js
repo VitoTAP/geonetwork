@@ -191,15 +191,23 @@ GeoNetwork.FacetsPanel = Ext.extend(Ext.Panel, {
                     if (facet.nodeName !== '#text') {
                         // Property to see if more action link should be displayed
                         facet.setAttribute('moreAction', 'false');
-                        if (facet.nodeName !== '#text' && facet.childNodes.length > 0) {
+                        if (facet.nodeName !== '#text' && facet.nodeName !== 'keywords' && facet.childNodes.length > 0) {
                             var facetList = "";
-                            var nodeCount = 0;
+                            var nodeCount = 0, regionCount = 0, siteCount = 0;
                             Ext.each(facet.childNodes, function (node) {
                                 if (node.nodeName !== '#text') {
                                     var visible = (nodeCount < panel.maxDisplayedItems);
                                     if (facet.getAttribute('moreAction') === 'false' && !visible) {
                                         facet.setAttribute('moreAction', 'true');
                                         facetList += moreBt;
+                                    }
+                                    if(node.getAttribute('name').split(' ')[0] === 'region' && regionCount === 0){
+                                    	facetList += "<li>region</li>";
+                                    	regionCount++;
+                                    }
+                                    if(node.getAttribute('name').split(' ')[0] === 'site' && siteCount === 0){
+                            			facetList += "<li>site</li>";
+                            			siteCount++;
                                     }
                                     facetList += panel.displayFacetValue(node, visible);
                                     nodeCount ++;
@@ -276,9 +284,10 @@ GeoNetwork.FacetsPanel = Ext.extend(Ext.Panel, {
         if (this.currentFilterStore.getCount() === 0 ||
                 this.currentFilterStore.query('value', data.node).length === 0) {
             var recId = this.facetsStore.getCount() + 1,
-                 r = new this.facetsStore.recordType(data, recId);
+                 r = new this.facetsStore.recordType(data, recId),
+                 isSiteOrRegionKeyword = (data.facet === 'regionkeyword' && data.node !== 'global');
             this.facetsStore.add(r);
-            return "<li class='" + (visible ? '' : 'facet-more') + "' style='" + (visible ? '' : 'display:none;') + "'><a href='javascript:void(0);' class='facet-link' id='" + recId + "'>" + 
+            return "<li class='" + (visible ? '' : 'facet-more') + "' style='" + (isSiteOrRegionKeyword ? 'margin-left: 15px;' : '') + (visible ? '' : 'display:none;') + "'><a href='javascript:void(0);' class='facet-link' id='" + recId + "'>" + 
                     (data.label != null ? data.label : data.node) + "<span class='facet-count'>(" + data.count + ")</span></a></li>";
         }
         return '';

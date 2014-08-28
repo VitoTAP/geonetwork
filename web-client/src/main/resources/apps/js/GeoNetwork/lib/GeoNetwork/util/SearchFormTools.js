@@ -1384,7 +1384,6 @@ GeoNetwork.util.SearchFormTools = {
 
         if (request.responseXML) {
             var xml = request.responseXML.documentElement;
-            console.log(xml);
             Ext.each(xml.getElementsByTagName('keyword'), function(item, idx){
             	var children = item.getElementsByTagName('value')[0];
             	var geocoords = item.getElementsByTagName('geo')[0];

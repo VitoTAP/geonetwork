@@ -754,7 +754,7 @@ GeoNetwork.app = function(){
 
     function createHeader(){
         var info = catalogue.getInfo();
-        Ext.getDom('title').innerHTML = '<img width="100" height="49" class="catLogo" src="images/logo' + GeoNetwork.Settings.nodeType.toLowerCase() + '.png" title="'  + info.name + '"/>';
+        Ext.getDom('title').innerHTML = '<a href="http://www.geoglam-sigma.info"><img width="100" height="49" class="catLogo" src="images/logo' + GeoNetwork.Settings.nodeType.toLowerCase() + '.png" title="'  + info.name + '"/></a>';
         document.title = info.name;
     }
 
@@ -908,7 +908,7 @@ GeoNetwork.app = function(){
                                        			xtype: 'box',
                     							border: false,
                     							columnWidth: 0.30,
-                    							autoEl: {html:'<div style="border: 1px solid #203612;"><div style="background-color: #558F30; height: 20px;"></div><div style="background-color: #203612; height: 40px; padding-top: 10px;"><p style="color: #FFF;">Search global</p></div><div style="height: 250px;" id="globalmap"></div></div>'},
+                    							autoEl: {html:'<div style="border: 1px solid #203612; cursor: pointer;"><div style="background-color: #558F30; height: 20px;"></div><div style="background-color: #203612; height: 40px; padding-top: 10px;"><p style="color: #FFF;">Search global</p></div><div style="height: 250px;" id="globalmap"><div id="globalmapoverlay" style="width: 100%; height: 100%; border: 2px solid #203612; background-color: #558F30;"></div></div></div>'},
                     							listeners: {
                     								render: function(p) {
                     									p.getEl().on('click', function(){
@@ -1294,6 +1294,19 @@ GeoNetwork.app = function(){
                 mapTypeId: google.maps.MapTypeId.ROADMAP,
                 disableDefaultUI: true
               });
+	          
+	          rectangle = new google.maps.Rectangle({
+          	    strokeColor: '#203612',
+          	    strokeOpacity: 0.8,
+          	    strokeWeight: 2,
+          	    fillColor: '#558F30',
+          	    fillOpacity: 0.45,
+          	    map: globalmap,
+          	    bounds: new google.maps.LatLngBounds(
+		      	    	    new google.maps.LatLng(-90.00, -180.00),
+		      	    	    new google.maps.LatLng(90.00, 180.00)
+		      	    	)
+          	  });
 	          
 	          
             // Hide advanced search options

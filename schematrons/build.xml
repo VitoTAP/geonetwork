@@ -53,9 +53,6 @@
         <ant target="compile-schematron">
             <property name="rules" value="GDI-Vlaanderen" />
         </ant>
-        <ant target="compile-schematron">
-            <property name="rules" value="BEL-AIR" />
-        </ant>
 		<ant target="compile-schematron">
 		    <property name="rules" value="SIGMA" />
 		</ant>
@@ -95,10 +92,6 @@
 		</ant>
         <ant target="publish-schematron">
             <property name="rules" value="GDI-Vlaanderen" />
-            <property name="schema" value="iso19139" />
-        </ant>
-        <ant target="publish-schematron">
-            <property name="rules" value="BEL-AIR" />
             <property name="schema" value="iso19139" />
         </ant>
 		<ant target="publish-schematron">

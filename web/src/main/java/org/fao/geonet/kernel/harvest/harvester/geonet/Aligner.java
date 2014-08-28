@@ -631,11 +631,11 @@ public class Aligner
 		if(!localRating) {
 			String rating = general.getChildText("rating");
 			if (rating != null)
-				dbms.execute("UPDATE Metadata SET rating=? WHERE id=?", new Integer(rating), new Integer(id));
+				dbms.execute("UPDATE Metadata SET rating=? WHERE id=?", new Integer(rating), id);
 		}
 		
 		if (popularity != null)
-			dbms.execute("UPDATE Metadata SET popularity=? WHERE id=?", new Integer(popularity), new Integer(id));
+			dbms.execute("UPDATE Metadata SET popularity=? WHERE id=?", new Integer(popularity), id);
 
 		dbms.execute("DELETE FROM MetadataCateg WHERE metadataId=?", id);
 		addCategories(id);

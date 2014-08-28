@@ -23,6 +23,7 @@
 
 package org.fao.geonet.services.thesaurus;
 
+import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,6 +32,7 @@ import jeeves.server.ServiceConfig;
 import jeeves.server.context.ServiceContext;
 import jeeves.utils.Util;
 
+import org.apache.commons.lang.StringUtils;
 import org.fao.geonet.GeonetContext;
 import org.fao.geonet.constants.Geonet;
 import org.fao.geonet.kernel.KeywordBean;
@@ -55,6 +57,9 @@ public class GetKeywordById implements Service {
             throws Exception {
         String sThesaurusName = Util.getParam(params, "thesaurus");
         String uri = Util.getParam(params, "id", null);
+        if(uri != null) {
+        	uri = URLDecoder.decode(uri, "UTF-8");
+        }
         String lang = Util.getParam(params, "lang", context.getLanguage());
         String langForThesaurus = IsoLanguagesMapper.getInstance()
                 .iso639_2_to_iso639_1(lang);

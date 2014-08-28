@@ -224,5 +224,27 @@ Pollution of water resources (rivers, streams and groundwater).</skos:publicNote
       </gml:Envelope>
     </gml:BoundedBy>
   </skos:Concept>
+  <skos:Concept rdf:about="http://sigmaportal.vgt.vito.be/regions#9016">
+    <skos:description></skos:description>
+    <skos:prefLabel xml:lang="en">Site China (Guantao)</skos:prefLabel>
+    <skos:publicNote></skos:publicNote>
+    <gml:BoundedBy>
+      <gml:Envelope gml:srsName="http://www.opengis.net/gml/srs/epsg.xml#epsg:4326">
+        <gml:lowerCorner>115.299524 36.535537</gml:lowerCorner>
+        <gml:upperCorner>115.299524 36.535537</gml:upperCorner>
+      </gml:Envelope>
+    </gml:BoundedBy>
+  </skos:Concept>
+  <skos:Concept rdf:about="http://sigmaportal.vgt.vito.be/regions#9017">
+    <skos:description></skos:description>
+    <skos:prefLabel xml:lang="en">Site China (Yucheng)</skos:prefLabel>
+    <skos:publicNote></skos:publicNote>
+    <gml:BoundedBy>
+      <gml:Envelope gml:srsName="http://www.opengis.net/gml/srs/epsg.xml#epsg:4326">
+        <gml:lowerCorner>115.864942 34.397577</gml:lowerCorner>
+        <gml:upperCorner>115.864942 34.397577</gml:upperCorner>
+      </gml:Envelope>
+    </gml:BoundedBy>
+  </skos:Concept>
   </rdf:RDF>
 

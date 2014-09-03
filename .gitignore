@@ -4,7 +4,6 @@ target
 .build
 *mini*.js
 installer/svn.properties
-schematron-rules-*.xml
 schematron-rules-*.xsl
 .project
 .classpath
@@ -15,3 +14,4 @@ schematron-rules-*.xsl
 */.settings
 */.externalToolBuilders
 .idea
+web/src/main/webapp/WEB-INF/data/config/schema_plugins/iso19139/loc/*/schematron-rules-*.xml

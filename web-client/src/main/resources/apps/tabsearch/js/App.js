@@ -754,7 +754,7 @@ GeoNetwork.app = function(){
 
     function createHeader(){
         var info = catalogue.getInfo();
-        Ext.getDom('title').innerHTML = '<a href="http://www.geoglam-sigma.info"><img width="100" height="49" class="catLogo" src="images/logo' + GeoNetwork.Settings.nodeType.toLowerCase() + '.png" title="'  + info.name + '"/></a>';
+        Ext.getDom('title').innerHTML = '<a target="_blank" href="http://www.geoglam-sigma.info"><img width="100" height="49" class="catLogo" src="images/logo' + GeoNetwork.Settings.nodeType.toLowerCase() + '.png" title="'  + info.name + '"/></a>';
         document.title = info.name;
     }
 

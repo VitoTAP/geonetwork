@@ -210,7 +210,7 @@
     </element>
     <element name="gmd:EX_GeographicBoundingBox" id="343.0">
         <label>Geographic bounding box</label>
-        <description>Geographic position of the dataset</description>
+        <description>Geographic position of the product. You can enter it as WGS 84 coordinates or select a SIGMA region from the listbox</description>
     </element>
     <element name="gmd:EX_GeographicDescription" id="348.0">
         <label>Geographic description</label>
@@ -438,7 +438,7 @@
         <label>Identifier</label>
     </element>
     <element name="gmd:URL" id="608.0">
-        <label>URL</label>
+        <label>URL of the Website of the organisation (e.g. www.vito.be for organiation 'VITO'</label>
         <description>URL</description>
     </element>
     <element name="gmd:address" id="525.0" context="gmd:CI_ResponsibleParty">
@@ -734,7 +734,7 @@
     </element>
     <element name="gmd:credit" id="27.0">
         <label>Credit</label>
-        <description>Recognition of those who contributed to the resource(s)</description>
+        <description>A standard text for the SIGMA project is prefilled. PLEASE ADD MORE IF YOU WANT TO ADD MORE RECOGNITION OF THOSE WHO CONTRIBUTED TO THE RESOURCE, E.G. WHEN BUILT ON A FORMER PROJECT.</description>
     </element>
     <element name="gmd:dataQualityInfo" id="18.0">
         <label>Data quality info</label>
@@ -774,7 +774,7 @@
     <element name="gmd:date" id="362.0" context="gmd:CI_Citation">
         <condition>mandatory</condition>
         <label>Date</label>
-        <description>Reference date for the cited resource</description>
+        <description>Reference date for the cited resource, i.e. the date when the product is created.</description>
         <_condition>M</_condition>
     </element>
     <element name="gmd:date" id="394.0" context="gmd:CI_Date">
@@ -1084,8 +1084,7 @@
     </element>
     <element name="gmd:fileName" id="49.0">
         <label>File name</label>
-        <description>Name of the file that contains a graphic that provides an illustration of the
-            dataset. It could be a public image document URL.</description>
+        <description>URL of the file that contains the quicklook/thumbnail, if this is available. If the quicklook/thumbnail is not published yet, you can leave the blanc and use the function next to upload a file from you computer.</description>
         <condition>mandatory</condition>
     </element>
     <element name="gmd:fileType" id="51.0">
@@ -1140,8 +1139,7 @@
     </element>
     <element name="gmd:graphicOverview" id="31.0">
         <label>Graphic overview</label>
-        <description>Provides a graphic that illustrates the resource(s) (should include a legend
-            for the graphic)</description>
+        <description>Provides a graphic (i.e. quicklook or thumbnail) that illustrates the resource(s) (should include a legend for the graphic)</description>
     </element>
     <element name="gmd:graphicsFile" id="325.0">
         <label>Graphics file</label>
@@ -1664,8 +1662,7 @@
     </element>
     <element name="gmd:purpose" id="26.0">
         <label>Purpose</label>
-        <description>Summary of the intentions with which the resource(s) was
-            developed</description>
+        <description>Use this if you want to add a summary of the intentions with which the resource(s) was developed</description>
     </element>
     <element name="gmd:radiometricCalibrationDataAvailability" id="252.0">
         <label>Radiometric calibration data availability</label>
@@ -2119,7 +2116,7 @@
     </element>
 	<element name="gml:name">
 		<label>Name</label>
-		<description></description>
+		<description>Provide a short name to the temporal extent, e.g. 'dekad' or 'daily'</description>
 	</element>
 	<element name="gml:metaDataProperty">
 		<label>Metadata property</label>
@@ -2131,7 +2128,7 @@
     </element>
 	<element name="gml:description">
 		<label>Description</label>
-		<description>Text description of the element</description>
+		<description>Describe here the Temporal extent, e.g. '30-days composite with a sliding window of 10 days'</description>
 	</element>
 	<element name="gml:descriptionReference">
 		<label>Description reference</label>
@@ -2611,7 +2608,7 @@
     
     <element name="gmd:abstract" id="25.0">
         <label>Abstract</label>
-        <description>Brief narrative summary of the content of the resource(s)</description>
+        <description>Brief narrative summary of the content of the resource(s). This will appear on the geoportal together with the title, so it should explain the product very well.</description>
         <condition>mandatory</condition>
         <mandatoryType>inspire</mandatoryType>
 		<mandatoryTooltip>INSPIRE B.1.2 - summary is mandatory.</mandatoryTooltip>
@@ -2669,15 +2666,13 @@
 	</element>
     <element name="gmd:distance" id="61.0">
         <label>Distance</label>
-        <description>Ground sample distance</description>
+        <description>Ground sample distance expressed in meters. If you want a different magnitude (e.g. deegrees), you should change the 'm' in the right box into 'deg'</description>
         <condition>Provide a distance if no equivalent Scale is documented</condition>
         <helper relAtt="uom">
-            <option value="0.10" title="cm">10 cm</option>
-            <option value="0.25" title="cm">25 cm</option>
-            <option value="0.50" title="cm">50 cm</option>
-            <option value="1" title="m">1 m</option>
-            <option value="30" title="m">30 m</option>
-            <option value="100" title="m">100 m</option>
+            <option value="0.10" title="cm">0.10 means 10 cm</option>
+            <option value="0.25" title="cm">0.25 measn 25 cm</option>
+            <option value="1" title="m">1 means 1 m</option>
+            <option value="100" title="m">100 means 100 m</option>
         </helper> 
         <mandatoryType>inspire</mandatoryType>
 		<mandatoryTooltip>INSPIRE B 6.2: conditional - scale denominator or ground sample distance has to be specified if it exists.</mandatoryTooltip> 
@@ -2955,7 +2950,7 @@
     </element>
     <element name="gmd:title" context="gmd:MD_Metadata/gmd:identificationInfo/gmd:MD_DataIdentification/gmd:citation/gmd:CI_Citation/gmd:title">
 		<label>Title dataset(serie)</label>
-		<description>Title or name</description>
+		<description>Provide a Title for this product</description>
 		<condition>mandatory</condition>
 		<mandatoryType>inspire</mandatoryType>
 		<mandatoryTooltip>INSPIRE B 1.1: title is mandatory.</mandatoryTooltip>

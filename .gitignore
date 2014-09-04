@@ -14,3 +14,4 @@ schematron-rules-*.xsl
 */.classpath
 */.settings
 */.externalToolBuilders
+.idea

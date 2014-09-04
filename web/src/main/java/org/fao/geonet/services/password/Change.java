@@ -104,9 +104,10 @@ public class Change implements Service {
 			throw new UserNotFoundEx(username);
 
 		// only let registered users change their password this way  
+/*
 		if (!elUser.getChild("record").getChild("profile").getText().equals(Geonet.Profile.REGISTERED_USER)) 
 			throw new OperationNotAllowedEx("Only users with profile RegisteredUser can change their password using this option");
-		
+*/		
 		// construct expected change key - only valid today 
 		String scrambledPassword = elUser.getChild("record").getChildText(Params.PASSWORD);
 		Calendar cal = Calendar.getInstance();

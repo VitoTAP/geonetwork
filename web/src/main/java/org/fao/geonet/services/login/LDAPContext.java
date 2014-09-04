@@ -23,26 +23,25 @@
 
 package org.fao.geonet.services.login;
 
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+
+import javax.naming.NamingException;
+import javax.naming.directory.DirContext;
+
 import jeeves.utils.Log;
 
+import org.apache.commons.lang.StringUtils;
 import org.fao.geonet.constants.Geonet;
 import org.fao.geonet.kernel.setting.SettingManager;
 
 import com.ibm.icu.util.Calendar;
 
-import javax.naming.NamingException;
-import javax.naming.directory.DirContext;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Vector;
-
 //=============================================================================
 
-class LDAPContext
+public class LDAPContext
 {
 	//--------------------------------------------------------------------------
 	//---
@@ -50,28 +49,36 @@ class LDAPContext
 	//---
 	//--------------------------------------------------------------------------
 
-	public LDAPContext(SettingManager sm)
+	public LDAPContext(SettingManager sm, String username, String password)
 	{
 		String prefix = "system/ldap";
 
 		use           = sm.getValueAsBool(prefix +"/use");
 		host          = sm.getValue      (prefix +"/host");
 		port          = sm.getValueAsInt (prefix +"/port");
+		this.username = username;
+		this.password = password;
 		defProfile    = sm.getValue      (prefix +"/defaultProfile");
         defGroup      = sm.getValue      (prefix +"/defaultGroup");
 		baseDN        = sm.getValue      (prefix +"/distinguishedNames/base");
 		usersDN       = sm.getValue      (prefix +"/distinguishedNames/users");
+		groupsDN       = sm.getValue      (prefix +"/distinguishedNames/groups");
 		nameAttr      = sm.getValue      (prefix +"/userAttribs/name");
 		profileAttr   = sm.getValue      (prefix +"/userAttribs/profile");
 		emailAttr     = "mail";  //TODO make it configurable
         uidAttr       = sm.getValue      (prefix +"/uidAttr");
         groupAttr     = sm.getValue      (prefix +"/userAttribs/group");
+        groupNameAttr     = sm.getValue      (prefix +"/groupAttribs/name");
+        memberAttr     = sm.getValue      (prefix +"/groupAttribs/member");
 
 		if (profileAttr.trim().length() == 0)
 			profileAttr = null;
 
         if (groupAttr.trim().length() == 0)
 			groupAttr = null;
+        
+        if (memberAttr!=null && memberAttr.trim().length() == 0)
+			memberAttr = null;
 
 		//--- init set of allowed profiles
 
@@ -89,6 +96,38 @@ class LDAPContext
 	//---
 	//--------------------------------------------------------------------------
 
+	public String getUsersDN() {
+		return usersDN;
+	}
+
+	public String getGroupsDN() {
+		return groupsDN;
+	}
+
+	public String[] getUserObjectclass() {
+		return userObjectclass;
+	}
+
+	public String getUidAttr() {
+		return uidAttr;
+	}
+
+	public String getNameAttr() {
+		return nameAttr;
+	}
+
+	public String[] getGroupObjectclass() {
+		return groupObjectclass;
+	}
+
+	public String getGroupNameAttr() {
+		return groupNameAttr;
+	}
+
+	public String getMemberAttr() {
+		return memberAttr;
+	}
+
 	public boolean isInUse() { return use; }
 
 	//--------------------------------------------------------------------------
@@ -98,26 +137,14 @@ class LDAPContext
 		DirContext dc = null;
 		try
 		{
-			String uidFilter = "("+ uidAttr + "=" + username + ")";
-
-			String usersBaseDN = usersDN +","+ baseDN;
-
-            String path = null;
-/*
-            try {
-                path = LDAPUtil.findUserDN(getUrl(), uidFilter, usersBaseDN);
-            } catch (NamingException ex) {
-                Log.warning(Geonet.LDAP, ex.getMessage());
-            }
-*/
-            if (path == null || path.length() == 0) {
-                path = uidAttr + "="+ username +","+ usersDN +","+ baseDN;
-            }
+			String path = uidAttr + "="+ username +","+ usersDN +","+ baseDN;
 			
 			dc   = LDAPUtil.openContext(getUrl(), path, password);
-
-			Map<String, ? extends List<Object>> attr = LDAPUtil.getNodeInfo(dc, path);
 			dc.close();
+
+			dc   = LDAPUtil.openContext(getUrl(), this.username, this.password);
+			String groupsPath = !StringUtils.isBlank(groupsDN) ? (groupsDN + "," + baseDN) : null;
+			Map<String, ? extends List<Object>> attr = LDAPUtil.getNodeInfo(dc, path, groupAttr, groupsPath, groupNameAttr, memberAttr);
 
 			if (attr == null)
 			{
@@ -139,9 +166,7 @@ class LDAPContext
 				}
 				info.email = get(attr, emailAttr);
 
-                info.groups = (groupAttr == null)
-										? new String[] {defGroup}
-										: getAll(attr, groupAttr);
+                info.groups = getAllGroups(attr, groupsPath!=null ? "groups" : groupAttr);
 
 
 				if (!profiles.contains(info.profile))
@@ -168,6 +193,29 @@ class LDAPContext
 			Log.warning(Geonet.LDAP, "  (C) Message :"+ e.getMessage());
 			return null;
 		}
+	}
+
+	public boolean updateGroups(String username, List<String> groups)
+	{
+		DirContext dc = null;
+		try
+		{
+			dc   = LDAPUtil.openContext(getUrl(), this.username, this.password);
+			return LDAPUtil.updateGroups(dc, username, !StringUtils.isBlank(usersDN) ? (usersDN + "," + baseDN) : null, uidAttr, groupAttr, !StringUtils.isBlank(groupsDN) ? (groupsDN + "," + baseDN) : null, groupNameAttr, memberAttr, groups);
+		}
+		catch(NamingException e)
+		{
+			if (dc!=null) {
+				try {
+					dc.close();
+				} catch (NamingException e1) {
+					Log.error(Geonet.LDAP, "Raised exception during LDAP close connection");
+				}
+			}
+			Log.warning(Geonet.LDAP, "Raised exception during LDAP access");
+			Log.warning(Geonet.LDAP, "  (C) Message :"+ e.getMessage());
+		}
+		return false;
 	}
 
 	//--------------------------------------------------------------------------
@@ -206,32 +254,34 @@ class LDAPContext
 		return (obj == null) ? null : obj.toString();
 	}
 
-	private String[] getAll(Map<String, ? extends List<Object>> attr, String name)
+	private String[] getAllGroups(Map<String, ? extends List<Object>> attr, String name)
 	{
 		List<Object> values = attr.get(name);
 
+		ArrayList<String> objs = new ArrayList<String>();
+		
 		if (values == null)
 		{
             if(Log.isDebugEnabled(Geonet.LDAP))
 			Log.debug(Geonet.LDAP, "Attribute '"+ name +"' does not exist");
-			return null;
-		}
-		
-		ArrayList<String> objs = new ArrayList<String>();
-		
-		for (Object obj: values) {
-			if (obj != null) {
-	            if(Log.isDebugEnabled(Geonet.LDAP)) {
-	            	Log.debug(Geonet.LDAP, "Attribute '"+ name +"' is of type : "+obj.getClass().getSimpleName());
-	            }
-	            objs.add(obj.toString());
-			} else {
-	            if(Log.isDebugEnabled(Geonet.LDAP)) {
-	            	Log.debug(Geonet.LDAP, "Attribute '"+ name +"' is null");
-	            }
+			objs.add(defGroup);
+		} else {
+			for (Object obj: values) {
+				if (obj != null) {
+		            if(Log.isDebugEnabled(Geonet.LDAP)) {
+		            	Log.debug(Geonet.LDAP, "Attribute '"+ name +"' is of type : "+obj.getClass().getSimpleName());
+		            }
+		            objs.add(obj.toString());
+				} else {
+		            if(Log.isDebugEnabled(Geonet.LDAP)) {
+		            	Log.debug(Geonet.LDAP, "Attribute '"+ name +"' is null");
+		            }
+				}
+			}
+			if (!objs.contains(defGroup)) {
+				objs.add(defGroup);
 			}
 		}
-
 		return objs.toArray(new String[0]);
 	}
 
@@ -244,14 +294,21 @@ class LDAPContext
 	private boolean use;
 	private String  host;
 	private Integer port;
+	private String username;
+	private String password;
 	private String  defProfile;
 	private String  baseDN;
 	private String  usersDN;
+	private String  groupsDN;
+    private String[]  userObjectclass = {"inetOrgPerson","top"};
 	private String  nameAttr;
 	private String  profileAttr;
 	private String  emailAttr;
     private String  uidAttr;
+    private String[]  groupObjectclass = {"organizationalUnit","top"};
     private String  groupAttr;
+    private String  groupNameAttr;
+    private String  memberAttr;
     private String  defGroup;
 
 

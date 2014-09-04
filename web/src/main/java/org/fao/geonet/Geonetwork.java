@@ -23,7 +23,17 @@
 
 package org.fao.geonet;
 
-import com.vividsolutions.jts.geom.MultiPolygon;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.net.URI;
+import java.net.URL;
+import java.nio.charset.Charset;
+import java.sql.SQLException;
+import java.util.List;
+import java.util.UUID;
+
+import javax.servlet.ServletContext;
+
 import jeeves.JeevesJCS;
 import jeeves.JeevesProxyInfo;
 import jeeves.constants.Jeeves;
@@ -39,6 +49,7 @@ import jeeves.utils.Util;
 import jeeves.utils.Xml;
 import jeeves.utils.XmlResolver;
 import jeeves.xlink.Processor;
+
 import org.apache.commons.lang.StringUtils;
 import org.fao.geonet.constants.Geonet;
 import org.fao.geonet.csw.common.Csw;
@@ -62,6 +73,7 @@ import org.fao.geonet.kernel.search.LuceneConfig;
 import org.fao.geonet.kernel.search.SearchManager;
 import org.fao.geonet.kernel.search.spatial.Pair;
 import org.fao.geonet.kernel.search.spatial.SpatialIndexWriter;
+import org.fao.geonet.kernel.security.ldap.LdapContext;
 import org.fao.geonet.kernel.setting.SettingInfo;
 import org.fao.geonet.kernel.setting.SettingManager;
 import org.fao.geonet.languages.IsoLanguagesMapper;
@@ -88,16 +100,9 @@ import org.opengis.feature.type.AttributeDescriptor;
 import org.opengis.referencing.crs.CoordinateReferenceSystem;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.web.context.support.WebApplicationContextUtils;
 
-import javax.servlet.ServletContext;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.net.URI;
-import java.net.URL;
-import java.nio.charset.Charset;
-import java.sql.SQLException;
-import java.util.List;
-import java.util.UUID;
+import com.vividsolutions.jts.geom.MultiPolygon;
 
 /**
  * This is the main class, it handles http connections and inits the system.
@@ -112,9 +117,12 @@ public class Geonetwork implements ApplicationHandler {
 	private ThreadPool        threadPool;
 	private String   FS         = File.separator;
 	private Element dbConfiguration;
+	private LdapContext ldapContext;
 
 	private static final String       SPATIAL_INDEX_FILENAME    = "spatialindex";
 	private static final String       IDS_ATTRIBUTE_NAME        = "id";
+
+	public LdapContext getLdapContext() { return ldapContext; }
 
 	//---------------------------------------------------------------------------
 	//---
@@ -145,6 +153,7 @@ public class Geonetwork implements ApplicationHandler {
         ServletContext servletContext = null;
         if (context.getServlet() != null) {
             servletContext = context.getServlet().getServletContext();
+    		ldapContext = WebApplicationContextUtils.getWebApplicationContext(servletContext)!=null ? (LdapContext) WebApplicationContextUtils.getWebApplicationContext(servletContext).getBean("ldapContext") : null; 
         }
 		ServerLib sl = new ServerLib(servletContext, path);
 		String version = sl.getVersion();
@@ -430,6 +439,7 @@ public class Geonetwork implements ApplicationHandler {
 		gnContext.svnManager  = svnManager;
 		gnContext.statusActionsClass = statusActionsClass;
         gnContext.validationHookClass = validationHookClass;
+        gnContext.ldapContext = ldapContext;
 
 		logger.info("Site ID is : " + gnContext.getSiteId());
 

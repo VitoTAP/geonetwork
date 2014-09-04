@@ -767,6 +767,14 @@
 					<td/>
 					<td class="padded"><xsl:call-template name="ldapUserAttribs"/></td>
 				</tr>
+				<tr>
+					<td class="padded"><xsl:value-of select="/root/gui/config/groupAttribs"/></td>
+					<td/>
+				</tr>
+				<tr>
+					<td/>
+					<td class="padded"><xsl:call-template name="ldapGroupAttribs"/></td>
+				</tr>
 			</table>
 		</div>
 	</xsl:template>
@@ -827,6 +835,10 @@
 				<td class="padded"><xsl:value-of select="/root/gui/config/usersDN"/></td>
 				<td class="padded"><input id="ldap.usersDN" class="content" type="text" value="" size="20"/></td>
 			</tr>
+			<tr>
+				<td class="padded"><xsl:value-of select="/root/gui/config/groupsDN"/></td>
+				<td class="padded"><input id="ldap.groupsDN" class="content" type="text" value="" size="20"/></td>
+			</tr>
 		</table>
 	</xsl:template>
 	
@@ -849,6 +861,22 @@
 				<td class="padded"><input id="ldap.groupAttr" class="content" type="text" value="" size="20"/></td>
 			</tr>
 
+		</table>
+	</xsl:template>
+	
+	<!-- ============================================================================================= -->
+
+	<xsl:template name="ldapGroupAttribs">
+		<table>
+			<tr>
+				<td class="padded" width="60px"><xsl:value-of select="/root/gui/config/groupName"/></td>
+				<td class="padded"><input id="ldap.groupNameAttr" class="content" type="text" value="" size="20"/></td>
+			</tr>
+			
+            <tr>
+				<td class="padded"><xsl:value-of select="/root/gui/config/member"/></td>
+				<td class="padded"><input id="ldap.memberAttr" class="content" type="text" value="" size="20"/></td>
+			</tr>
 		</table>
 	</xsl:template>
 	

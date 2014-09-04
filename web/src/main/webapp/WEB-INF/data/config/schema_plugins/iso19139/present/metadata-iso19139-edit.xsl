@@ -98,7 +98,7 @@
 						    </xsl:if>
 						</div>
 						<xsl:if test="$isUploadedThumb">
-							<a href="#" onclick="javascript:Ext.getCmp('editorPanel').saveBeforeRemoveThumbnail('{string($fileName)}','{string($fileDescr)}');">Thumbnail verwijderen</a>
+							<a href="#" title="Remove the uploaded thumbnail on the server" onclick="javascript:Ext.getCmp('editorPanel').saveBeforeRemoveThumbnail('{string($fileName)}','{string($fileDescr)}');">Remove thumbnail</a>
 						</xsl:if>
 					</td>
 				</tr>
@@ -106,7 +106,7 @@
 			<xsl:if test="$followingGraphicOverviewSiblingsCount=0">
 	            <tr>
 	            	<td>
-						<a href="#" onclick="javascript:Ext.getCmp('editorPanel').saveBeforeUploadThumbnail();">Thumbnail toevoegen</a>
+						<a href="#" title="Upload a thumbnail from your computer to the server" onclick="javascript:Ext.getCmp('editorPanel').saveBeforeUploadThumbnail();">Add thumbnail</a>
 					</td>
 				</tr>
 			</xsl:if>
@@ -2760,7 +2760,9 @@
         <xsl:param name="schema"/>
         <xsl:param name="edit"/>
 
-        <xsl:apply-templates mode="elementEP" select="gmd:identificationInfo|geonet:child[string(@name)='identificationInfo']">
+		<xsl:variable name="profile" select="/root/gui/session/profile" />
+		
+		<xsl:apply-templates mode="elementEP" select="gmd:identificationInfo|geonet:child[string(@name)='identificationInfo']">
             <xsl:with-param name="schema" select="$schema"/>
             <xsl:with-param name="edit"   select="$edit"/>
         </xsl:apply-templates>
@@ -2780,10 +2782,12 @@
             <xsl:with-param name="edit"   select="$edit"/>
         </xsl:apply-templates>
 
-        <xsl:apply-templates mode="elementEP" select="gmd:dataQualityInfo|geonet:child[string(@name)='dataQualityInfo']	">
-            <xsl:with-param name="schema" select="$schema"/>
-            <xsl:with-param name="edit"   select="$edit"/>
-        </xsl:apply-templates>
+		<xsl:if test="not($edit) or $profile='Administrator'">
+	        <xsl:apply-templates mode="elementEP" select="gmd:dataQualityInfo|geonet:child[string(@name)='dataQualityInfo']	">
+	            <xsl:with-param name="schema" select="$schema"/>
+	            <xsl:with-param name="edit"   select="$edit"/>
+	        </xsl:apply-templates>
+        </xsl:if>
 
         <xsl:apply-templates mode="elementEP" select="gmd:metadataConstraints|geonet:child[string(@name)='metadataConstraints']">
             <xsl:with-param name="schema" select="$schema"/>
@@ -2795,41 +2799,42 @@
             <xsl:with-param name="edit"   select="$edit"/>
         </xsl:apply-templates>
 
-        <xsl:call-template name="complexElementGuiWrapper">
-            <xsl:with-param name="title" select="/root/gui/strings/metametadata"/>
-            <xsl:with-param name="content">
-
-                <xsl:apply-templates mode="elementEP" select="gmd:fileIdentifier|geonet:child[string(@name)='fileIdentifier']
-          |gmd:language|geonet:child[string(@name)='language']
-          |gmd:characterSet|geonet:child[string(@name)='characterSet']
-          |gmd:parentIdentifier|geonet:child[string(@name)='parentIdentifier']
-          |gmd:hierarchyLevel|geonet:child[string(@name)='hierarchyLevel']
-          |gmd:hierarchyLevelName|geonet:child[string(@name)='hierarchyLevelName']
-          |gmd:dateStamp|geonet:child[string(@name)='dateStamp']
-          |gmd:metadataStandardName|geonet:child[string(@name)='metadataStandardName']
-          |gmd:metadataStandardVersion|geonet:child[string(@name)='metadataStandardVersion']
-          |gmd:dataSetURI|geonet:child[string(@name)='dataSetURI']
-          |gmd:locale|geonet:child[string(@name)='locale']
-          |gmd:series|geonet:child[string(@name)='series']
-          |gmd:describes|geonet:child[string(@name)='describes']
-          |gmd:propertyType|geonet:child[string(@name)='propertyType']
-          |gmd:featureType|geonet:child[string(@name)='featureType']
-          |gmd:featureAttribute|geonet:child[string(@name)='featureAttribute']
-          ">
-                    <xsl:with-param name="schema" select="$schema"/>
-                    <xsl:with-param name="edit"   select="$edit"/>
-                </xsl:apply-templates>
-
-                <xsl:apply-templates mode="elementEP" select="gmd:contact|geonet:child[string(@name)='contact']">
-                    <xsl:with-param name="schema" select="$schema"/>
-                    <xsl:with-param name="edit"   select="$edit"/>
-                </xsl:apply-templates>
-            </xsl:with-param>
-            <xsl:with-param name="schema" select="$schema"/>
-            <xsl:with-param name="group" select="/root/gui/strings/metadataTab"/>
-            <xsl:with-param name="edit" select="$edit"/>
-        </xsl:call-template>
-
+		<xsl:if test="not($edit) or $profile='Administrator'">
+	        <xsl:call-template name="complexElementGuiWrapper">
+	            <xsl:with-param name="title" select="/root/gui/strings/metametadata"/>
+	            <xsl:with-param name="content">
+	
+	                <xsl:apply-templates mode="elementEP" select="gmd:fileIdentifier|geonet:child[string(@name)='fileIdentifier']
+	          |gmd:language|geonet:child[string(@name)='language']
+	          |gmd:characterSet|geonet:child[string(@name)='characterSet']
+	          |gmd:parentIdentifier|geonet:child[string(@name)='parentIdentifier']
+	          |gmd:hierarchyLevel|geonet:child[string(@name)='hierarchyLevel']
+	          |gmd:hierarchyLevelName|geonet:child[string(@name)='hierarchyLevelName']
+	          |gmd:dateStamp|geonet:child[string(@name)='dateStamp']
+	          |gmd:metadataStandardName|geonet:child[string(@name)='metadataStandardName']
+	          |gmd:metadataStandardVersion|geonet:child[string(@name)='metadataStandardVersion']
+	          |gmd:dataSetURI|geonet:child[string(@name)='dataSetURI']
+	          |gmd:locale|geonet:child[string(@name)='locale']
+	          |gmd:series|geonet:child[string(@name)='series']
+	          |gmd:describes|geonet:child[string(@name)='describes']
+	          |gmd:propertyType|geonet:child[string(@name)='propertyType']
+	          |gmd:featureType|geonet:child[string(@name)='featureType']
+	          |gmd:featureAttribute|geonet:child[string(@name)='featureAttribute']
+	          ">
+	                    <xsl:with-param name="schema" select="$schema"/>
+	                    <xsl:with-param name="edit"   select="$edit"/>
+	                </xsl:apply-templates>
+	
+	                <xsl:apply-templates mode="elementEP" select="gmd:contact|geonet:child[string(@name)='contact']">
+	                    <xsl:with-param name="schema" select="$schema"/>
+	                    <xsl:with-param name="edit"   select="$edit"/>
+	                </xsl:apply-templates>
+	            </xsl:with-param>
+	            <xsl:with-param name="schema" select="$schema"/>
+	            <xsl:with-param name="group" select="/root/gui/strings/metadataTab"/>
+	            <xsl:with-param name="edit" select="$edit"/>
+	        </xsl:call-template>
+		</xsl:if>
         <xsl:apply-templates mode="elementEP" select="gmd:contentInfo|geonet:child[string(@name)='contentInfo']">
             <xsl:with-param name="schema" select="$schema"/>
             <xsl:with-param name="edit"   select="$edit"/>
@@ -2963,6 +2968,7 @@
         <xsl:param name="schema"/>
         <xsl:param name="edit"/>
         <xsl:param name="flat"/>
+		<xsl:variable name="profile" select="/root/gui/session/profile" />
 
         <!-- Display simple edit fields first for identificationInfo-->
         <xsl:for-each select="gmd:identificationInfo/gmd:MD_DataIdentification|
@@ -3102,11 +3108,13 @@
 			</xsl:apply-templates>
 		</xsl:if>
 
-        <xsl:apply-templates mode="elementEP" select="gmd:dataQualityInfo|geonet:child[string(@name)='dataQualityInfo']">
-            <xsl:with-param name="schema" select="$schema"/>
-            <xsl:with-param name="edit"   select="$edit"/>
-            <xsl:with-param name="flat"   select="$flat"/>
-        </xsl:apply-templates>
+		<xsl:if test="not($edit) or $profile='Administrator'">
+	        <xsl:apply-templates mode="elementEP" select="gmd:dataQualityInfo|geonet:child[string(@name)='dataQualityInfo']">
+	            <xsl:with-param name="schema" select="$schema"/>
+	            <xsl:with-param name="edit"   select="$edit"/>
+	            <xsl:with-param name="flat"   select="$flat"/>
+	        </xsl:apply-templates>
+        </xsl:if>
 
         <xsl:for-each select="gmd:identificationInfo/gmd:MD_DataIdentification|
             gmd:identificationInfo/srv:SV_ServiceIdentification|
@@ -3152,18 +3160,19 @@
             <xsl:with-param name="edit"   select="$edit"/>
             <xsl:with-param name="flat"   select="$flat"/>
         </xsl:apply-templates>
-
-        <xsl:call-template name="complexElementGui">
-            <xsl:with-param name="title" select="/root/gui/strings/metametadata"/>
-            <xsl:with-param name="content">
-                <xsl:call-template name="iso19139Metadata">
-                    <xsl:with-param name="schema" select="$schema"/>
-                    <xsl:with-param name="edit"   select="$edit"/>
-                    <xsl:with-param name="flat"   select="$flat"/>
-                </xsl:call-template>
-            </xsl:with-param>
-            <xsl:with-param name="schema" select="$schema"/>
-        </xsl:call-template>
+		<xsl:if test="not($edit) or $profile='Administrator'">
+	        <xsl:call-template name="complexElementGui">
+	            <xsl:with-param name="title" select="/root/gui/strings/metametadata"/>
+	            <xsl:with-param name="content">
+	                <xsl:call-template name="iso19139Metadata">
+	                    <xsl:with-param name="schema" select="$schema"/>
+	                    <xsl:with-param name="edit"   select="$edit"/>
+	                    <xsl:with-param name="flat"   select="$flat"/>
+	                </xsl:call-template>
+	            </xsl:with-param>
+	            <xsl:with-param name="schema" select="$schema"/>
+	        </xsl:call-template>
+        </xsl:if>
 
         <xsl:apply-templates mode="elementEP" select="gmd:contentInfo|geonet:child[string(@name)='contentInfo']
 	      |gmd:metadataExtensionInfo|geonet:child[string(@name)='metadataExtensionInfo']">
@@ -3827,17 +3836,6 @@
 	            and string(gmd:name/gco:CharacterString|gmd:name/gmx:MimeFileType)!='')"/>
         </xsl:apply-templates>
 
-        <!-- use elementEP for geonet:child only -->
-        <xsl:apply-templates mode="elementEP" select="geonet:child[string(@name)='protocol']">
-            <xsl:with-param name="schema" select="$schema"/>
-            <xsl:with-param name="edit"   select="$edit"/>
-        </xsl:apply-templates>
-
-        <xsl:apply-templates mode="iso19139" select="gmd:protocol">
-            <xsl:with-param name="schema" select="$schema"/>
-            <xsl:with-param name="edit"   select="$edit"/>
-        </xsl:apply-templates>
-
 
 		<xsl:if test="name(../..)='gmd:MD_DigitalTransferOptions'">
             <xsl:variable name="applicationProfileCount"   select="count(gmd:applicationProfile)"/>
@@ -3885,6 +3883,17 @@
 				</xsl:call-template>
 			</xsl:if>
 		</xsl:if>
+        <!-- use elementEP for geonet:child only -->
+        <xsl:apply-templates mode="elementEP" select="geonet:child[string(@name)='protocol']">
+            <xsl:with-param name="schema" select="$schema"/>
+            <xsl:with-param name="edit"   select="$edit"/>
+        </xsl:apply-templates>
+
+        <xsl:apply-templates mode="iso19139" select="gmd:protocol">
+            <xsl:with-param name="schema" select="$schema"/>
+            <xsl:with-param name="edit"   select="$edit"/>
+        </xsl:apply-templates>
+
 		<xsl:if test="name(../..)!='gmd:MD_DigitalTransferOptions'">
 	        <xsl:apply-templates mode="elementEP" select="gmd:applicationProfile|geonet:child[string(@name)='applicationProfile']">
 	            <xsl:with-param name="schema" select="$schema"/>
@@ -4120,8 +4129,8 @@
 							<xsl:variable name="onchangeParams" select="concat($fref,',',$ref,',',$value)"/>
 							<xsl:variable name="onkeyupFunction" select="$onchangeFunction"/>
 							<xsl:variable name="onkeyupParams" select="$onchangeParams"/>
-						    <xsl:variable name="optionValues" select="replace(replace(string-join(/root/gui/strings/protocolChoice[@value]/@value, '#,#'), '''', '\\'''), '#', '''')"/>
-						    <xsl:variable name="optionLabels" select="replace(replace(string-join(/root/gui/strings/protocolChoice[@value], '#,#'), '''', '\\'''), '#', '''')"/>
+						    <xsl:variable name="optionValues" select="replace(replace(string-join(/root/gui/strings/protocolChoice[@value and @show='y']/@value, '#,#'), '''', '\\'''), '#', '''')"/>
+						    <xsl:variable name="optionLabels" select="replace(replace(string-join(/root/gui/strings/protocolChoice[@value and @show='y'], '#,#'), '''', '\\'''), '#', '''')"/>
 	                        <xsl:call-template name="combobox">
 	                            <xsl:with-param name="ref" select="$ref"/>
 	<!-- 

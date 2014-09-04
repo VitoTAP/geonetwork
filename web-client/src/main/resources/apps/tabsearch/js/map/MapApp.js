@@ -1554,7 +1554,7 @@ var processLayersSuccess = function(response) {
             	}
             }
         	if (!bVersionExists) {
-    			newRequestParams.push("version=1.1.1");            			
+    			newRequestParams.push("version=1.3.0");            			
         	}
         	if (!bServiceExists) {
     			newRequestParams.push("service=WMS");            			

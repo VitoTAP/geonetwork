@@ -23,6 +23,10 @@
 
 package org.fao.geonet.services.user;
 
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+
 import jeeves.constants.Jeeves;
 import jeeves.interfaces.Service;
 import jeeves.resources.dbms.Dbms;
@@ -30,12 +34,15 @@ import jeeves.server.ServiceConfig;
 import jeeves.server.UserSession;
 import jeeves.server.context.ServiceContext;
 import jeeves.utils.Util;
+
+import org.fao.geonet.GeonetContext;
 import org.fao.geonet.constants.Geonet;
 import org.fao.geonet.constants.Params;
+import org.fao.geonet.kernel.security.ldap.Person;
+import org.fao.geonet.kernel.setting.SettingManager;
+import org.fao.geonet.services.login.LDAPContext;
 import org.fao.geonet.util.IDFactory;
 import org.jdom.Element;
-
-import java.util.ArrayList;
 
 //=============================================================================
 
@@ -44,13 +51,18 @@ import java.util.ArrayList;
 
 public class Update implements Service
 {
+	private String ldapUsername;
+	private String ldapPassword;
 	//--------------------------------------------------------------------------
 	//---
 	//--- Init
 	//---
 	//--------------------------------------------------------------------------
 
-	public void init(String appPath, ServiceConfig params) throws Exception {}
+	public void init(String appPath, ServiceConfig params) throws Exception {
+		ldapUsername = params.getValue("ldapUsername", "cn=reader,ou=ldap_accounts,ou=pdf,dc=eodata,dc=vito,dc=be");
+		ldapPassword = params.getValue("ldapPassword", "reader");		
+	}
 
 	//--------------------------------------------------------------------------
 	//---
@@ -79,7 +91,6 @@ public class Update implements Service
 		UserSession usrSess = context.getUserSession();
 		String      myProfile = usrSess.getProfile();
 		String      myUserId  = usrSess.getUserId();
-
 		java.util.List<Element> userGroups = params.getChildren(Params.GROUPS);
 
 		if (!operation.equals(Params.Operation.RESETPW)) {
@@ -94,9 +105,14 @@ public class Update implements Service
 				myProfile.equals("UserAdmin") ||
 				myUserId.equals(id)) {
 
-
+			GeonetContext  gc = (GeonetContext) context.getHandlerContext(Geonet.CONTEXT_NAME);
+			SettingManager sm = gc.getSettingManager();
 			Dbms dbms = (Dbms) context.getResourceManager().open (Geonet.Res.MAIN_DB);
 
+
+			LDAPContext lc = new LDAPContext(sm, ldapUsername, ldapPassword);
+			boolean bUpdateLDAPGroups = false;
+			java.util.List<String> groupsToAddToLdap = new ArrayList<String>();
 			// Before we do anything check (for UserAdmin) that they are not trying
 			// to add a user to any group outside of their own - if they are then
 			// raise an exception - this shouldn't happen unless someone has
@@ -137,13 +153,22 @@ public class Update implements Service
 
 				dbms.execute(query, id, username, Util.scramble(password), surname, name, profile, address, city, state,
                         zip, country, email, organ, kind);
-
+				Person person = new Person();
+				person.setPassword(gc.getLdapContext().getShaPassword(password));
+				person.setCommonName(username);
+				person.setSurname(surname);
+				person.setCompany(organ);
+				gc.getLdapContext().addPerson(person);
 			//--- add groups
-
 				for(Element userGroup : userGroups) {
 					String group = userGroup.getText();
+					if (!isAdmin(dbms, username) && lc.isInUse())
+					{
+						//groupsToAddToLdap.add(group);
+					}
 					addGroup(dbms, id, group);
 				}
+				bUpdateLDAPGroups = true;
 			}
 
 			else {
@@ -161,8 +186,13 @@ public class Update implements Service
 
 					for(Element userGroup : userGroups) {
 						String group = userGroup.getText();
+						if (!isAdmin(dbms, username) && lc.isInUse())
+						{
+							groupsToAddToLdap.add(group);
+						}
 						addGroup(dbms, id, group);
 					}
+					bUpdateLDAPGroups = true;
 
 			// -- edit user info
 				} else if (operation.equals(Params.Operation.EDITINFO)) {
@@ -173,8 +203,13 @@ public class Update implements Service
 					dbms.execute ("DELETE FROM UserGroups WHERE userId=?", id);
 					for(Element userGroup : userGroups) {
 						String group = userGroup.getText();
+						if (!isAdmin(dbms, username) && lc.isInUse())
+						{
+							groupsToAddToLdap.add(group);
+						}
 						addGroup(dbms, id, group);
 					}
+					bUpdateLDAPGroups = true;
 
 			// -- reset password
 				}
@@ -186,6 +221,10 @@ public class Update implements Service
 					throw new IllegalArgumentException("unknown user update operation "+operation);
 				}
 			} 
+			if (!isAdmin(dbms, username) && lc.isInUse() && bUpdateLDAPGroups)
+			{
+				lc.updateGroups(username,groupsToAddToLdap);
+			}
 		} else {
 			throw new IllegalArgumentException("you don't have rights to do this");
 		}
@@ -202,7 +241,17 @@ public class Update implements Service
 	/** Adds a user to a group
 	  */
 
-	private void addGroup(Dbms dbms, String user, String group) throws Exception {
+	public static void addGroup(Dbms dbms, String user, String group) throws Exception {
 		dbms.execute("INSERT INTO UserGroups(userId, groupId) VALUES (?, ?)", user, group);
 	}
+
+	private boolean isAdmin(Dbms dbms, String username) throws SQLException
+	{
+		String query = "SELECT id FROM Users WHERE username=? AND profile=?";
+
+		List list = dbms.select(query, username, "Administrator").getChildren();
+
+		return (list.size() != 0);
+	}
+
 }

@@ -108,9 +108,12 @@ ConfigModel.prototype.getConfig_OK = function(node)
             LDAP_ATTR_UID     : xml.evalXPath(node, 'ldap/uidAttr'),
 			LDAP_DN_BASE      : xml.evalXPath(node, 'ldap/distinguishedNames/base'),
 			LDAP_DN_USERS     : xml.evalXPath(node, 'ldap/distinguishedNames/users'),
+			LDAP_DN_GROUPS     : xml.evalXPath(node, 'ldap/distinguishedNames/groups'),
 			LDAP_ATTR_NAME    : xml.evalXPath(node, 'ldap/userAttribs/name'),
 			LDAP_ATTR_PROFILE : xml.evalXPath(node, 'ldap/userAttribs/profile'),
             LDAP_ATTR_GROUP   : xml.evalXPath(node, 'ldap/userAttribs/group'),
+            LDAP_ATTR_GROUP_NAME  : xml.evalXPath(node, 'ldap/groupAttribs/name'),
+            LDAP_ATTR_MEMBER  : xml.evalXPath(node, 'ldap/groupAttribs/member'),
             LDAP_DEF_GROUP    : xml.evalXPath(node, 'ldap/defaultGroup'),
 
 			SHIB_USE              : xml.evalXPath(node, 'shib/use'),
@@ -280,12 +283,17 @@ ConfigModel.updateTemp =
 '		<distinguishedNames>'+
 '			<base>{LDAP_DN_BASE}</base>'+
 '			<users>{LDAP_DN_USERS}</users>'+
+'			<groups>{LDAP_DN_GROUPS}</groups>'+
 '		</distinguishedNames>'+
 '		<userAttribs>'+
 '			<name>{LDAP_ATTR_NAME}</name>'+
 '			<profile>{LDAP_ATTR_PROFILE}</profile>'+
 '			<group>{LDAP_ATTR_GROUP}</group>'+
 '		</userAttribs>'+
+'		<groupAttribs>'+
+'			<name>{LDAP_ATTR_GROUP_NAME}</name>'+
+'			<member>{LDAP_ATTR_MEMBER}</member>'+
+'		</groupAttribs>'+
 '	</ldap>'+
 '	<shib>'+
 '		<use>{SHIB_USE}</use>'+

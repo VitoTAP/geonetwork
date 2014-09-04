@@ -477,7 +477,7 @@
         <description>Amendment number of the format version</description>
     </element>
     <element name="gmd:applicationProfile" id="399.0">
-        <label>Application profile</label>
+        <label>File type</label>
         <description>Name of an application profile that can be used with the online
             resource</description>
     </element>
@@ -2638,6 +2638,8 @@
         <condition>mandatory</condition>
 
         <helper rel="gmd:codeSpace">
+            <option value="4326" title="EPSG">WGS 84 (EPSG:4326)</option>
+<!-- 
             <option value="TAW" title="NGI">Tweede Algemene Waterpassing</option>
             <option value="LAT" title="IHO-S44">Lowest Astronomical Tide</option>
             <option value="1094" title="EPSG">High Water (EPSG(version 8.0 released 10/8/2012):1094)</option>
@@ -2646,6 +2648,7 @@
             <option value="23031" title="EPSG">ED50 /UTM zone 31N (EPSG:23031)</option>
             <option value="23032" title="EPSG">ED50 / UTM zone 32N (EPSG:23032)</option>
             <option value="3812" title="EPSG">ETRS89/ Belgian Lambert 2008 (EPSG:3812)</option>
+-->
         </helper>
         <mandatoryType>gdi</mandatoryType>
 		<mandatoryTooltip>GDI-Flanders Best Practices - SC-2</mandatoryTooltip>

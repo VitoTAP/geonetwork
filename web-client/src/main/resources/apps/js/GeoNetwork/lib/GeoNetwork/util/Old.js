@@ -289,22 +289,67 @@ function getError(response){
     } 
 }
 
-function processForgottenPwdSubmit(mandatoryMessage, successMessage, failureMessage) {
+function processRegSub(spacesNot,firstNameMandatory,lastNameMandatory,emailAddressInvalid,successMessage, failureMessage)
+{
+	var f = $('userregisterform');
+	// check start
+	var minLength = 6; // Minimum length
+    var title = "Invalid fieldvalue";    
+	if (Ext.isEmpty(f.name.value)) {
+		Ext.Msg.alert("First name",firstNameMandatory);
+		return;
+	}    
+	if (f.name.value.indexOf(' ') > -1) {
+		Ext.Msg.alert(title,"First name: " + spacesNot);
+		return;
+	}	
+		
+	if (Ext.isEmpty(f.surname.value)) {
+		Ext.Msg.alert("Last name",lastNameMandatory);
+		return;
+	}  
+	if (f.surname.value.indexOf(' ') > -1) {
+		Ext.Msg.alert(title,"Last name: " + spacesNot);
+		return;
+	}
+		
+	if (!Ext.form.VTypes.email(f.email.value)) {
+		Ext.Msg.alert("Email:" + emailAddressInvalid);
+		return;
+	}
+		
+	Ext.Ajax.request({
+        url: f.action,
+        form: f,
+        method: 'POST', 
+        success: function(response) {
+			Ext.Msg.alert(successMessage,response.responseText);
+            Ext.getCmp('modalWindow').close();
+        },
+        failure: function(response) {
+			Ext.Msg.alert(failureMessage,response.responseText);
+        }
+    });
+}
+
+function processForgottenPwdSubmit(mandatoryMessage) {
 	
 	var f = $('forgottenpwd');
 	if (Ext.isEmpty(f.username.value)) {
 		Ext.Msg.alert('Username',mandatoryMessage);
 		return false;
 	}
-
+	var title = "Forgotten password";
 	Ext.Ajax.request({
-        url: $('forgottenpwd').action + "?username=" + f.username.value,
-        method: 'GET', 
+        url: f.action,
+        form: f,
+        method: 'POST', 
         success: function(response) {
-			Ext.Msg.alert(successMessage,response.responseText);
-        },
+			Ext.Msg.alert(title,response.responseText);
+            Ext.getCmp('modalWindow').close();
+       },
         failure: function(response) {
-			Ext.Msg.alert(failureMessage,response.responseText);
+			Ext.Msg.alert(title,response.responseText);
         }
     });
 }

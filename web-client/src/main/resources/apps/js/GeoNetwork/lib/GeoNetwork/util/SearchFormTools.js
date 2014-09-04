@@ -1413,9 +1413,9 @@ GeoNetwork.util.SearchFormTools = {
 	            				west = geocoords.getElementsByTagName('west')[0].childNodes[0].nodeValue;
 	            				geos = [new google.maps.LatLng(north, east)];
 	            				
-	            			if(north !== south || east !== west){
+	            			/*if(north !== south || east !== west){
 	            				geos.push(new google.maps.LatLng(south, west));
-	            			}
+	            			}*/
 	            			regionsKeywords.sites.push({
 	            				value: child.substr(child.split(" ")[0].length + 1),
 	            				geos: geos

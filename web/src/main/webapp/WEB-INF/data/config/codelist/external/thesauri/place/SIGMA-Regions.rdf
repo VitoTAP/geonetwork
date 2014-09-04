@@ -52,8 +52,8 @@
     <skos:publicNote>Diffuse nitrate pollutions, impacts of agricultural inputs (eg. Phytosanitary), soil degradation and maintaining biodiversity.</skos:publicNote>
     <gml:BoundedBy>
       <gml:Envelope gml:srsName="http://www.opengis.net/gml/srs/epsg.xml#epsg:4326">
-        <gml:lowerCorner>4.469936 50.503887</gml:lowerCorner>
-        <gml:upperCorner>2.213749 46.227638</gml:upperCorner>
+        <gml:lowerCorner>5.8 49.6</gml:lowerCorner>
+        <gml:upperCorner>5 51</gml:upperCorner>
       </gml:Envelope>
     </gml:BoundedBy>
   </skos:Concept>
@@ -140,8 +140,8 @@
     <skos:publicNote>The intensive cropping practices have led to water and soil contamination.</skos:publicNote>
     <gml:BoundedBy>
       <gml:Envelope gml:srsName="http://www.opengis.net/gml/srs/epsg.xml#epsg:4326">
-        <gml:lowerCorner>126.661665 45.742367</gml:lowerCorner>
-        <gml:upperCorner>126.661665 45.742367</gml:upperCorner>
+        <gml:lowerCorner>127.239 48.046</gml:lowerCorner>
+        <gml:upperCorner>126.831 48.286</gml:upperCorner>
       </gml:Envelope>
     </gml:BoundedBy>
   </skos:Concept>
@@ -151,8 +151,8 @@
     <skos:publicNote>Fast developing economy is threatening the rice fields. The agricultural area is shrinking fast, Paddy field are converted into urban or industrial area.</skos:publicNote>
     <gml:BoundedBy>
       <gml:Envelope gml:srsName="http://www.opengis.net/gml/srs/epsg.xml#epsg:4326">
-        <gml:lowerCorner>117.135354 36.192084</gml:lowerCorner>
-        <gml:upperCorner>117.135354 36.192084</gml:upperCorner>
+        <gml:lowerCorner>113.033 21.746</gml:lowerCorner>
+        <gml:upperCorner>112.332 22.463</gml:upperCorner>        
       </gml:Envelope>
     </gml:BoundedBy>
   </skos:Concept>
@@ -162,8 +162,8 @@
     <skos:publicNote>Cropping pattern is changing from previous major crops to cash crops, which needs more fertilizer and pesticides, on top of this, cash crops are planted all year around with green houses. The green house's impact to environment is quite significant, but the scale not well known.</skos:publicNote>
     <gml:BoundedBy>
       <gml:Envelope gml:srsName="http://www.opengis.net/gml/srs/epsg.xml#epsg:4326">
-        <gml:lowerCorner>117.020359 36.66853</gml:lowerCorner>
-        <gml:upperCorner>117.020359 36.66853</gml:upperCorner>
+        <gml:lowerCorner>116.819 36.331</gml:lowerCorner>
+        <gml:upperCorner>116.319 37.331</gml:upperCorner>
       </gml:Envelope>
     </gml:BoundedBy>
   </skos:Concept>

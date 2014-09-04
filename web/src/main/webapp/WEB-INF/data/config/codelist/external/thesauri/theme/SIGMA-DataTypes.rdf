@@ -15,7 +15,52 @@
   </skos:ConceptScheme>
   <!-- Concept list -->
   <skos:Concept rdf:about="http://sigmaportal.vgt.vito.be/datatypes#1">
-    <skos:prefLabel xml:lang="en">Bio-geophysical parameter</skos:prefLabel>
+    <skos:prefLabel xml:lang="en">Input data</skos:prefLabel>
   </skos:Concept>
-  </rdf:RDF>
-
+  <skos:Concept rdf:about="http://sigmaportal.vgt.vito.be/datatypes#2">
+    <skos:prefLabel xml:lang="en">Pre-processed data</skos:prefLabel>
+  </skos:Concept>
+  <skos:Concept rdf:about="http://sigmaportal.vgt.vito.be/datatypes#3">
+    <skos:prefLabel xml:lang="en">Calibrated time series</skos:prefLabel>
+  </skos:Concept>
+  <skos:Concept rdf:about="http://sigmaportal.vgt.vito.be/datatypes#4">
+    <skos:prefLabel xml:lang="en">Bio-physical parameters</skos:prefLabel>
+  </skos:Concept>
+  <skos:Concept rdf:about="http://sigmaportal.vgt.vito.be/datatypes#5">
+    <skos:prefLabel xml:lang="en">Yield estimates</skos:prefLabel>
+  </skos:Concept>
+  
+  <skos:Concept rdf:about="http://sigmaportal.vgt.vito.be/datatypes#6">
+    <skos:prefLabel xml:lang="en">Land cover classification</skos:prefLabel>
+  </skos:Concept>
+  <skos:Concept rdf:about="http://sigmaportal.vgt.vito.be/datatypes#7">
+    <skos:prefLabel xml:lang="en">Crop classification</skos:prefLabel>
+  </skos:Concept>
+  <skos:Concept rdf:about="http://sigmaportal.vgt.vito.be/datatypes#8">
+    <skos:prefLabel xml:lang="en">Stratification</skos:prefLabel>
+  </skos:Concept>
+  <skos:Concept rdf:about="http://sigmaportal.vgt.vito.be/datatypes#9">
+    <skos:prefLabel xml:lang="en">Cropping practices</skos:prefLabel>
+  </skos:Concept>
+  
+  <skos:Concept rdf:about="http://sigmaportal.vgt.vito.be/datatypes#10">
+    <skos:prefLabel xml:lang="en">Yield estimates</skos:prefLabel>
+  </skos:Concept>
+  <skos:Concept rdf:about="http://sigmaportal.vgt.vito.be/datatypes#11">
+    <skos:prefLabel xml:lang="en">Environmental model outputs</skos:prefLabel>
+  </skos:Concept>
+  
+  <skos:Concept rdf:about="http://sigmaportal.vgt.vito.be/datatypes#12">
+    <skos:prefLabel xml:lang="en">Crop type</skos:prefLabel>
+  </skos:Concept>
+  <skos:Concept rdf:about="http://sigmaportal.vgt.vito.be/datatypes#13">
+    <skos:prefLabel xml:lang="en">Bio-physical parameters</skos:prefLabel>
+  </skos:Concept>
+  <skos:Concept rdf:about="http://sigmaportal.vgt.vito.be/datatypes#14">
+    <skos:prefLabel xml:lang="en">Weather data</skos:prefLabel>
+  </skos:Concept>
+  
+  <skos:Concept rdf:about="http://sigmaportal.vgt.vito.be/datatypes#15">
+    <skos:prefLabel xml:lang="en">Economic info</skos:prefLabel>
+  </skos:Concept>
+</rdf:RDF>

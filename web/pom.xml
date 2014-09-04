@@ -269,7 +269,7 @@
       		<groupId>com.vividsolutions.jts</groupId>
       		<artifactId>jtsio</artifactId>
       	</exclusion>
-		<exclusion>
+      	<exclusion>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-web</artifactId>
 		</exclusion>

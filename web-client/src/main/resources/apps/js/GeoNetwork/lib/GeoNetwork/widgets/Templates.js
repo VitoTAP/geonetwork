@@ -259,6 +259,13 @@ GeoNetwork.Templates = Ext.extend(Ext.XTemplate, {
             '</tpl></p>',
             '</tpl>',
             '<table style="border: 1px solid"><tr><th></th><th>File type</th><th>Title</th><th>Description</th></tr>',
+            '<tpl if="this.hasLinksOfType(values.links,\'datafile\')">',
+	            '<tpl for="links">',
+		            '<tpl if="values.applicationProfile!=null && values.applicationProfile==\'datafile\'">',
+		            '<tr><td><a href="{href}" target="_blank"><img src="{catalogue.URL}/apps/images/default/datafile.png"/></a></td><td>Datafile</td><td><tpl if="values.title">{values.name}:{values.title}</tpl></td><td><tpl if="values.description">{values.description}</tpl></td></tr>',
+		            '</tpl>',
+	            '</tpl>',
+	        '</tpl>',
             '<tpl if="this.hasLinksOfType(values.links,\'report\')">',
 	            '<tpl for="links">',
 		            '<tpl if="values.applicationProfile!=null && values.applicationProfile==\'report\'">',
@@ -273,7 +280,7 @@ GeoNetwork.Templates = Ext.extend(Ext.XTemplate, {
 		            '</tpl>',
 	            '</tpl>',
             '</tpl>',
-            '<tr><td><a href="?uuid={uuid}&hl={catalogue.lang}" target="_blank" class="md-mn md-mn-bookmark" alt="{[OpenLayers.i18n(\'view\')]}">&nbsp;</a></td><td>Metadata</td><td>-</td><td>-</td></tr>',
+            '<tr><td><a href="?uuid={uuid}&hl={catalogue.lang}" target="_blank" class="md-mn md-mn-bookmark" alt="{[OpenLayers.i18n(\'view\')]}">&nbsp;</a></td><td>Metadata</td><td>Permalink to this metadata record</td><td>-</td></tr>',
             // FIXME : this call require the catalogue to be named catalogue, static call ?
             // FIXME : ref to app
 /*
@@ -314,10 +321,10 @@ GeoNetwork.Templates = Ext.extend(Ext.XTemplate, {
 	            '</tpl>',
             '</tpl>',
             '<tpl for="links">',
-	            '<tpl if="(values.applicationProfile==null || (values.applicationProfile!=\'report\' && values.applicationProfile!=\'validator\')) && (values.type != \'application/vnd.ogc.wms_xml\' && values.type != \'OGC:WMS\' && values.type != \'application/vnd.google-earth.kml+xml\' && values.type != \'text/html\')">',
+	            '<tpl if="(values.applicationProfile==null || (values.applicationProfile!=\'report\' && values.applicationProfile!=\'validator\' && values.applicationProfile!=\'datafile\')) && (values.type != \'application/vnd.ogc.wms_xml\' && values.type != \'OGC:WMS\' && values.type != \'application/vnd.google-earth.kml+xml\' && values.type != \'text/html\')">',
 	            '<tr><td><a href="{href}" class="md-mn md-mn-www" alt="Web link">&nbsp;</a></td><td>{values.applicationProfile}</td><td><tpl if="values.title">{values.title}</tpl></td><td><tpl if="values.description">{values.description}</tpl></td></tr>',
 	            '</tpl>',
-            '</tpl>',
+	        '</tpl>',
             '</table>',
             '</div>',
 

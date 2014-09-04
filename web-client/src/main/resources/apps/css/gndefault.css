@@ -277,6 +277,9 @@ table.related * a:hover,
 .md-mn-report {
   background-image : url(../images/default/report.png);
 }
+.md-mn-datafile {
+  background-image : url(../images/default/datafile.png);
+}
 .xmlIcon {
   background-image : url(../images/default/page_code.png);
 }

@@ -6,15 +6,15 @@
 	version="3.0" metadata-complete="true">
 
     <display-name>geonetwork</display-name>
-    <!--<context-param>-->
-        <!--<param-name>JSON_FACTORY_ATTRIBUTE</param-name>-->
-        <!--<param-value>Joe</param-value>-->
-    <!--</context-param>-->
-    <!-- H2 DB starter configuration / remove if you don't use H2 -->
-    <listener>
-      <listener-class>org.h2.server.web.DbStarter</listener-class>
-    </listener>
-  
+	<context-param>
+	    <param-name>contextConfigLocation</param-name>
+	    <param-value>/WEB-INF/applicationContext*.xml</param-value>
+	</context-param>
+
+	<listener>
+		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+	</listener>
+
     <!-- shut down java cache used for xlinks and spatial index -->
     <listener>
         <listener-class>

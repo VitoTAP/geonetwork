@@ -152,10 +152,14 @@
 	<distNames>Gedist. Namen</distNames>
 	<baseDN>Basis</baseDN>
 	<usersDN>Gebruikers</usersDN>
-	<userAttribs>Gebruikers eigenschappen</userAttribs>
+	<groupsDN>Groepen</groupsDN>
+	<userAttribs>Gebruikerseigenschappen</userAttribs>
+	<groupAttribs>Groepeigenschappen</groupAttribs>
 	<password>Wachtwoord</password>
 	<profile>Profiel</profile>
     <group>Groep</group>
+	<groupName>Naam</groupName>
+	<member>Lid</member>
     <defGroup>Standaard groep</defGroup>
 
 	<shib>Shibboleth Authenticatie</shib>

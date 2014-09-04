@@ -35,7 +35,6 @@ Dear User,
   Your account is: 
   username :	<xsl:value-of select="/root/request/email"/>
   password :	<xsl:value-of select="/root/password"/>
-  usergroup:	GUEST
   usertype :	REGISTEREDUSER
 <xsl:if test="/root/request/profile != 'RegisteredUser'">
   You've told us that you want to be "<xsl:value-of select="/root/request/profile"/>", you will be contacted by our office soon.

@@ -266,9 +266,12 @@ ConfigView.prototype.setData = function(data)
     $('ldap.uidAttr')     .value = data['LDAP_ATTR_UID'];
 	$('ldap.baseDN')      .value = data['LDAP_DN_BASE'];
 	$('ldap.usersDN')     .value = data['LDAP_DN_USERS'];
+	$('ldap.groupsDN')     .value = data['LDAP_DN_GROUPS'];
 	$('ldap.nameAttr')    .value = data['LDAP_ATTR_NAME'];
 	$('ldap.profileAttr') .value = data['LDAP_ATTR_PROFILE'];
 	$('ldap.groupAttr') .value = data['LDAP_ATTR_GROUP'];
+	$('ldap.groupNameAttr') .value = data['LDAP_ATTR_GROUP_NAME'];
+	$('ldap.memberAttr') .value = data['LDAP_ATTR_MEMBER'];
     $('ldap.defGroup')  .value = data['LDAP_DEF_GROUP'];
 
 	$('shib.use')           .checked = data['SHIB_USE'] == 'true';
@@ -400,9 +403,12 @@ ConfigView.prototype.getData = function()
         LDAP_ATTR_UID      : $F('ldap.uidAttr'),                
 		LDAP_DN_BASE       : $F('ldap.baseDN'),
 		LDAP_DN_USERS      : $F('ldap.usersDN'),
+		LDAP_DN_GROUPS      : $F('ldap.groupsDN'),
 		LDAP_ATTR_NAME     : $F('ldap.nameAttr'),
 		LDAP_ATTR_PROFILE  : $F('ldap.profileAttr'),
         LDAP_ATTR_GROUP    : $F('ldap.groupAttr'),
+        LDAP_ATTR_GROUP_NAME    : $F('ldap.groupNameAttr'),
+        LDAP_ATTR_MEMBER   : $F('ldap.memberAttr'),
         LDAP_DEF_GROUP    : $F('ldap.defGroup'),
 
 		SHIB_USE              : $('shib.use').checked,

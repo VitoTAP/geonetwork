@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:ldap="http://www.springframework.org/schema/ldap"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/ldap http://www.springframework.org/schema/ldap/spring-ldap.xsd">
+
+   <ldap:context-source
+          url="ldap://localhost:389"
+          base="ou=sigma,dc=eodata,dc=vito,dc=be"
+          username="cn=replicator,ou=ldap_accounts"
+          password="cvsXQdDf" />
+
+   <ldap:ldap-template id="ldapTemplate" />
+
+   <bean id="groupDao" class="org.fao.geonet.kernel.security.ldap.GroupDaoImpl">
+	   <property name="ldapTemplate" ref="ldapTemplate" />
+   </bean>
+
+   <bean id="personDao" class="org.fao.geonet.kernel.security.ldap.PersonDaoImpl">
+	   <property name="ldapTemplate" ref="ldapTemplate" />
+   </bean>
+
+   <bean id="organizationalUnitDao" class="org.fao.geonet.kernel.security.ldap.OrganizationalUnitDaoImpl">
+	   <property name="ldapTemplate" ref="ldapTemplate" />
+   </bean>
+
+   <bean id="ldapContext" class="org.fao.geonet.kernel.security.ldap.LdapContext">
+      <property name="ldapTemplate" ref="ldapTemplate" />
+      <property name="defaultProfile" value="RegisteredUser" />
+      <property name="defaultGroup" value="RegisteredUser" />
+      <property name="uidAttribute" value="uid" />
+      <constructor-arg name="personDao" ref="personDao"/>
+      <constructor-arg name="groupDao" ref="groupDao"/>
+   </bean>
+</beans>

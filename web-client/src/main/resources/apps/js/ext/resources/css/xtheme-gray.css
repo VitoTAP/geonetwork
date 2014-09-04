@@ -1329,6 +1329,7 @@ a.x-menu-item {
 
 .x-combo-list-item {
     border-color:#fff;
+    min-height: 14px;
 }
 
 .x-combo-list .x-combo-selected{

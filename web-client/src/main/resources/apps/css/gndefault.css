@@ -271,6 +271,12 @@ table.related * a:hover,
 .md-mn-www {
   background-image : url(../images/default/link.png);
 }
+.md-mn-validator {
+  background-image : url(../images/default/geowiki60.png);
+}
+.md-mn-report {
+  background-image : url(../images/default/report.png);
+}
 .xmlIcon {
   background-image : url(../images/default/page_code.png);
 }

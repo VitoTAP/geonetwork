@@ -303,7 +303,7 @@ public class SelfRegister implements Service {
 	 */
 	String getGroupID(Dbms dbms) throws SQLException {
 		String sql = "select id from Groups where name=?";
-		Element e = dbms.select(sql, "GUEST");
+		Element e = dbms.select(sql, "Registered users");
 		return e.getChild("record").getChild("id").getText();
 	}
 

@@ -443,14 +443,89 @@ GeoNetwork.map.ExtentMap = function(){
         
     }
     
-    
+    function getCoords(v, record){
+        var coords = {};
+        var i;
+        var label = record.getElementsByTagName('geo');
+        if (label.length === 1) {
+            var children = label[0].childNodes;
+            var child;
+            for (i = 0, len = children.length; i < len; ++i) {
+                child = children[i];
+                if (child.nodeType === 1) {
+                    coords[child.nodeName] = child.firstChild.nodeValue;
+                }
+            }
+        }
+        return coords;
+    }
     function createRegionMenu(cb){
-                
-        var store = GeoNetwork.data.RegionStore(catalogue.services.getRegions); // FIXME : global var
+    	
+    	var keywordRecord = Ext.data.Record.create([ {
+            name : 'north'
+        }, {
+            name : 'south'
+        }, {
+            name : 'east'
+        }, {
+            name : 'west'
+        }, {
+            name : 'value'
+        }, {
+        	name: 'id'
+        }]);
+    	
+    	var regionsStore = new Ext.data.XmlStore({
+            autoDestroy: true,
+            autoLoad: true,
+            proxy: new Ext.data.HttpProxy({
+                method: 'GET',
+                url: catalogue.services.searchKeyword
+            }),
+            baseParams : {
+                pNewSearch : true,
+                pTypeSearch : 1,
+                pKeyword: '*',
+                pThesauri : 'external.place.SIGMA-Regions',
+                pMode : 'searchBox'/*,
+                maxResults : '35'*/
+            },
+            record: 'keyword',
+            idPath: 'value',
+            /*reader : new Ext.data.XmlReader({
+                record : 'keyword',
+                id : 'id'
+            }, keywordRecord),*/
+            fields: [{
+                name: 'north',
+                mapping: 'geo > north'
+            }, {
+                name: 'south',
+                mapping: 'geo > south'
+            }, {
+                name: 'east',
+                mapping: 'geo > east'
+            }, {
+                name: 'west',
+                mapping: 'geo > west'
+            }, {
+                name: 'value'
+            }],
+            sortInfo : {
+                field : "value"
+            }/*,
+            listeners: {
+                'load': function(store, records, options ) {
+                	alert(records.length);
+                }
+            }*/
+        });
+
+//        var store = GeoNetwork.data.RegionStore(catalogue.services.getRegions); // FIXME : global var
         var combo = new Ext.form.ComboBox({
-            store: store,
+            store: regionsStore,
             //displayField: "labels['en']",
-            tpl: '<tpl for="."><div class="x-combo-list-item">{[values.label[\'' + GeoNetwork.Util.getCatalogueLang(OpenLayers.Lang.getCode()) + '\']]}</div></tpl>',// TODO if language code does not exist in labels field store
+            tpl: '<tpl for="."><div class="x-combo-list-item">{value}</div></tpl>',// TODO if language code does not exist in labels field store
             typeAhead: true,
             mode: 'local',
             triggerAction: 'all',
@@ -608,10 +683,10 @@ GeoNetwork.map.ExtentMap = function(){
                         
                         tbarItems.push(createRegionMenu(function(c, r, idx){
                             var wsen = this.watchedBbox.split(','); // Here we don't round coordinates to store full value
-                            Ext.get("_" + wsen[0]).dom.value = r.data.west;
-                            Ext.get("_" + wsen[1]).dom.value = r.data.south;
-                            Ext.get("_" + wsen[2]).dom.value = r.data.east;
-                            Ext.get("_" + wsen[3]).dom.value = r.data.north;
+                            Ext.get("_" + wsen[0]).dom.value = r.data.west == r.data.east ? r.data.west - 0.0001 : r.data.west;
+                            Ext.get("_" + wsen[1]).dom.value = r.data.south == r.data.north ? r.data.south - 0.0001 : r.data.south;
+                            Ext.get("_" + wsen[2]).dom.value = r.data.east == r.data.west ? r.data.east + 0.0001 : r.data.east;
+                            Ext.get("_" + wsen[3]).dom.value = r.data.north == r.data.south ? r.data.north + 0.0001 : r.data.north;
                             updateBboxForRegion(maps[eltRef], watchedBbox, eltRef, true); // Region are in WGS84
                             if (Ext.get("_" + this.descRef) !== null) {
                                 Ext.get("_" + this.descRef).dom.value = r.data.label[GeoNetwork.Util.getCatalogueLang(OpenLayers.Lang.getCode())];

@@ -57,9 +57,9 @@
   <editAttributes>Add more details</editAttributes>
   <subtemplate.admin>Manage directories</subtemplate.admin>
   <subtemplate.admin.desc>Add/modify/delete directories (eg. contact directories)</subtemplate.admin.desc>  
-	<surnameMandatory>Last name/surname is Mandatory</surnameMandatory>
-	<firstnameMandatory>First name is Mandatory</firstnameMandatory>
-	<emailMandatory>email address is Mandatory</emailMandatory>
+	<surnameMandatory>The last name/surname field is mandatory</surnameMandatory>
+	<firstnameMandatory>The first name field is mandatory</firstnameMandatory>
+	<emailMandatory>The email address field is mandatory</emailMandatory>
 	<forgottenPassword>Forgot your password?</forgottenPassword>
   <selectTemplate>Select schemas</selectTemplate>
 	<useStopwords>The Lucene index uses stopwords for these languages:</useStopwords>    
@@ -513,8 +513,8 @@
 	<file>File</file>
 	<fileType>File type:</fileType>
 	<fileUploadSuccessful>File Upload Successful</fileUploadSuccessful>
-	<firstName>First Name</firstName>
-	<firstNameMandatory js="true">The First Name field is mandatory</firstNameMandatory>
+	<firstName>First name</firstName>
+	<firstNameMandatory js="true">The first name field is mandatory</firstNameMandatory>
 	<foundWords>Number of terms found:</foundWords>
 	<freeKeyword>Free Keywords</freeKeyword>
 	<from>From</from>
@@ -584,7 +584,7 @@
 	<label>Label</label>
 	<language>en</language>
 	<large_thumbnail>Click to see a large preview image</large_thumbnail>
-	<lastNameMandatory js="true">The Last Name field is mandatory</lastNameMandatory>
+	<lastNameMandatory js="true">The last name field is mandatory</lastNameMandatory>
 	<latitude>Latitude (between -90 and 90) in degrees</latitude>
 	<latMax>lat (max)</latMax>
 	<latMin>lat (min)</latMin>
@@ -733,8 +733,9 @@
 	<progressChoice value="planned">planned</progressChoice>
 	<progressChoice/>
 	<protocol>Protocol</protocol>
-  <protocolChoice show="y" value="ESRI:AIMS--http--configuration">ArcIMS Map Service Configuration File (*.AXL)</protocolChoice>
-  <protocolChoice show="y" value="ESRI:AIMS--http-get-feature">ArcIMS Internet Feature Map Service</protocolChoice>
+
+  <protocolChoice show="-" value="ESRI:AIMS--http--configuration">ArcIMS Map Service Configuration File (*.AXL)</protocolChoice>
+  <protocolChoice show="-" value="ESRI:AIMS--http-get-feature">ArcIMS Internet Feature Map Service</protocolChoice>
   <protocolChoice show="-" value="ESRI:AIMS--http-get-image">ArcIMS Internet Image Map Service</protocolChoice>
   <protocolChoice show="y" value="GLG:KML-2.0-http-get-map">Google Earth KML service (ver 2.0)</protocolChoice>
   <protocolChoice show="-" value="OGC:CSW">OGC-CSW Catalogue Service for the Web</protocolChoice>
@@ -751,11 +752,11 @@
   <protocolChoice show="-" value="OGC:WCS">OGC-WCS Web Coverage Service</protocolChoice>
   <protocolChoice show="y" value="OGC:WCS-1.1.0-http-get-capabilities">OGC-WCS Web Coverage Service (ver 1.1.0)</protocolChoice>
   <protocolChoice show="-" value="OGC:WCTS">OGC-WCTS Web Coordinate Transformation Service</protocolChoice>
-  <protocolChoice show="-" value="OGC:WFS">OGC-WFS Web Feature Service</protocolChoice>
-  <protocolChoice show="y" value="OGC:WFS-1.0.0-http-get-capabilities">OGC-WFS Web Feature Service (ver 1.0.0)</protocolChoice>
+  <protocolChoice show="y" value="OGC:WFS">OGC-WFS Web Feature Service</protocolChoice>
+  <protocolChoice show="-" value="OGC:WFS-1.0.0-http-get-capabilities">OGC-WFS Web Feature Service (ver 1.0.0)</protocolChoice>
   <protocolChoice show="-" value="OGC:WFS-G">OGC-WFS-G Gazzetteer Service</protocolChoice>
-  <protocolChoice show="y" value="OGC:WMC-1.1.0-http-get-capabilities">OGC-WMC Web Map Context (ver 1.1)</protocolChoice>
-  <protocolChoice show="-" value="OGC:WMS">OGC-WMS Web Map Service</protocolChoice>
+  <protocolChoice show="-" value="OGC:WMC-1.1.0-http-get-capabilities">OGC-WMC Web Map Context (ver 1.1)</protocolChoice>
+  <protocolChoice show="y" value="OGC:WMS">OGC-WMS Web Map Service</protocolChoice>
   <protocolChoice show="-" value="WMS">OGC-WMS Web Map Service</protocolChoice>
   <protocolChoice show="-" value="OGC:WMS-1.1.1-http-get-capabilities">OGC-WMS Capabilities service (ver 1.1.1)</protocolChoice>
   <protocolChoice show="-" value="OGC:WMS-1.3.0-http-get-capabilities">OGC-WMS Capabilities service (ver 1.3.0)</protocolChoice>
@@ -765,20 +766,20 @@
   <protocolChoice show="-" value="OGC:SOS-1.0.0-http-post-observation">OGC-SOS Get Observation (POST) (ver 1.0.0)</protocolChoice>
   <protocolChoice show="-" value="OGC:WNS">OGC-WNS Web Notification Service</protocolChoice>
   <protocolChoice show="-" value="OGC:WPS">OGC-WPS Web Processing Service</protocolChoice>
-  <protocolChoice show="-" value="WWW:DOWNLOAD-1.0-ftp--download">File for download through FTP</protocolChoice>
-  <protocolChoice show="-" value="WWW:DOWNLOAD-1.0-http--download">File for download</protocolChoice>
+  <protocolChoice show="y" value="WWW:DOWNLOAD-1.0-ftp--download">File for download through FTP</protocolChoice>
+  <protocolChoice show="y" value="WWW:DOWNLOAD-1.0-http--download">File for download</protocolChoice>
   <protocolChoice show="-" value="FILE:GEO">GIS file</protocolChoice>
   <protocolChoice show="-" value="FILE:RASTER">GIS RASTER file</protocolChoice>
-  <protocolChoice show="y" value="WWW:LINK-1.0-http--ical">iCalendar (URL)</protocolChoice>
+  <protocolChoice show="-" value="WWW:LINK-1.0-http--ical">iCalendar (URL)</protocolChoice>
   <protocolChoice show="y" value="WWW:LINK-1.0-http--link">Web address (URL)</protocolChoice>
-  <protocolChoice show="y" value="WWW:LINK-1.0-http--partners">Partner web address (URL)</protocolChoice>
-  <protocolChoice show="y" value="WWW:LINK-1.0-http--related">Related link (URL)</protocolChoice>
-  <protocolChoice show="y" value="WWW:LINK-1.0-http--rss">RSS News feed (URL)</protocolChoice>
-  <protocolChoice show="y" value="WWW:LINK-1.0-http--samples">Showcase product (URL)</protocolChoice>
+  <protocolChoice show="-" value="WWW:LINK-1.0-http--partners">Partner web address (URL)</protocolChoice>
+  <protocolChoice show="-" value="WWW:LINK-1.0-http--related">Related link (URL)</protocolChoice>
+  <protocolChoice show="-" value="WWW:LINK-1.0-http--rss">RSS News feed (URL)</protocolChoice>
+  <protocolChoice show="-" value="WWW:LINK-1.0-http--samples">Showcase product (URL)</protocolChoice>
   <protocolChoice show="-" value="DB:POSTGIS">PostGIS database table</protocolChoice>
 	<protocolChoice show="-" value="DB:ORACLE">ORACLE database table</protocolChoice>
-	<protocolChoice show="y" value="WWW:LINK-1.0-http--opendap">OPeNDAP URL</protocolChoice>
-	<protocolChoice show="y" value="RBNB:DATATURBINE">Data Turbine</protocolChoice>
+	<protocolChoice show="-" value="WWW:LINK-1.0-http--opendap">OPeNDAP URL</protocolChoice>
+	<protocolChoice show="-" value="RBNB:DATATURBINE">Data Turbine</protocolChoice>
   <protocolChoice show="-" value="UKST">Unknown Service Type</protocolChoice>
 	<pubdate>Publication Date</pubdate>
 	<publicationDate>Publication date</publicationDate>
@@ -872,7 +873,7 @@
 	<subtemplate>Subtemplate</subtemplate>
 	<subtemplateTitle>subtemplate title</subtemplateTitle>
 	<summaryTab>Summary</summaryTab>
-	<surName>Last Name</surName>
+	<surName>Last name</surName>
 	<systemConfig>System configuration</systemConfig>
 	<systemConfigDes>Allows to change some system's parameters</systemConfigDes>
 	<systemInfo>System information</systemInfo>
@@ -1420,8 +1421,9 @@
     <crsType value="VerticalCRS">Vertical CRS</crsType>
     <crsType value="ProjectedCRS">Projected CRS</crsType>
     <crsType value="GeographicCRS">Geographic CRS</crsType>
+	<applicationProfileChoice show="y" value="datafile">Datafile</applicationProfileChoice>
 	<applicationProfileChoice show="y" value="report">Report</applicationProfileChoice>
-	<applicationProfileChoice show="y" value="chart">Chart</applicationProfileChoice>
+	<applicationProfileChoice show="y" value="validator">Validator</applicationProfileChoice>
 	<mimetypeChoice show="y" value="text/xml">text/xml</mimetypeChoice>
 	<mimetypeChoice show="y" value="text/plain">text/plain</mimetypeChoice>
 	<mimetypeChoice show="y" value="text/html">text/html</mimetypeChoice>

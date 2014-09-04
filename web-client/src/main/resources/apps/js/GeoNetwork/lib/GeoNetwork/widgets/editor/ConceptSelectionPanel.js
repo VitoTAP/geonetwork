@@ -198,7 +198,7 @@ GeoNetwork.editor.ConceptSelectionPanel = Ext.extend(Ext.Panel, {
         this.keywordStore.baseParams.maxResults = this.maxKeywords;
         this.keywordStore.reload();
         this.keywordStore.on('load', function () {
-            
+        	self.keywordStore.insert(0,new self.keywordStore.recordType('',''));
             // Custom callback which load response to the selected set
             // and set the combo box value.
             var cb = function (response) {

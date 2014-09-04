@@ -10,29 +10,27 @@
 	<sch:ns prefix="geonet" uri="http://www.fao.org/geonetwork"/>
 	<sch:ns prefix="skos" uri="http://www.w3.org/2004/02/skos/core#"/>
 	<sch:ns prefix="xlink" uri="http://www.w3.org/1999/xlink"/>
-	<!-- GDI-Vlaanderen SC-1 -->
+	<!-- General SC-1 -->
 	<sch:pattern>
-		<sch:title>GDI-Vlaanderen SC-1: gmd:MD_Metadata/gmd:fileIdentifier (Iso element nr. 2) is verplicht aanwezig en niet leeg.</sch:title>
+		<sch:title>$loc/strings/identification</sch:title>
 		<sch:rule context="//gmd:MD_Metadata">
 			<sch:let name="fileIdentifier" value="gmd:fileIdentifier and not(normalize-space(gmd:fileIdentifier) = '')"/>
 			<sch:let name="fileIdentifierValue" value="gmd:fileIdentifier/*/text()"/>
-			<sch:assert test="$fileIdentifier">gmd:fileIdentifier ontbreekt of is leeg</sch:assert>
-			<sch:report test="$fileIdentifier">gmd:fileIdentifier is aanwezig: <sch:value-of select="$fileIdentifierValue"/>
+			<sch:assert test="$fileIdentifier">$loc/strings/fileIdentifierMissing</sch:assert>
+			<sch:report test="$fileIdentifier">$loc/strings/fileIdentifierPresent <sch:value-of select="$fileIdentifierValue"/>
 			</sch:report>
 		</sch:rule>
 	</sch:pattern>
-	<!-- GDI-Vlaanderen SC2-->
+	<!-- General SC2-->
 	<sch:pattern>
-		<sch:title>GDI-Vlaanderen SC-2: MD_Metadata.referenceSystemInfo/*/RS_identifier/code (ISO element nr 207) is aanwezig en niet leeg. </sch:title>
-
+		<sch:title>$loc/strings/identification-2</sch:title>
+		
         <sch:rule context="//gmd:MD_Metadata[
              gmd:hierarchyLevel/gmd:MD_ScopeCode/@codeListValue/normalize-space(.) = 'series'
              or gmd:hierarchyLevel/gmd:MD_ScopeCode/@codeListValue/normalize-space(.) = 'dataset'
              or gmd:hierarchyLevel/gmd:MD_ScopeCode/@codeListValue/normalize-space(.) = '']">
                             <sch:let name="referenceSystemInfo" value="gmd:referenceSystemInfo"/>
-             <sch:assert test="$referenceSystemInfo">
-                   Referentie systeem ontbreekt Er dient een horizontaal of verticaal referentiesysteem gedocumenteerd te worden.
-                  </sch:assert>
+             <sch:assert test="$referenceSystemInfo">$loc/strings/referenceSystemInfoMissing</sch:assert>
         </sch:rule>
 
 		<sch:rule context="//gmd:MD_Metadata[
@@ -41,44 +39,35 @@
         			or gmd:hierarchyLevel/gmd:MD_ScopeCode/@codeListValue/normalize-space(.) = '']/gmd:referenceSystemInfo">
                         <sch:let name="ReferenceSystemInfo" value="not(normalize-space(gmd:MD_ReferenceSystem/gmd:referenceSystemIdentifier/gmd:RS_Identifier/gmd:code)= '')"/>
         			<sch:let name="ReferenceSystemInfoCodeValue" value="gmd:MD_ReferenceSystem/gmd:referenceSystemIdentifier/gmd:RS_Identifier/gmd:code/*/text()"/>
-        			<sch:assert test="$ReferenceSystemInfo">
-              		Referentie systeem code ontbreekt of is leeg.  Er dient een horizontaal of verticaal referentiesysteem gedocumenteerd te worden.
-              </sch:assert>
-        			<sch:report test="$ReferenceSystemInfo">Code van een horizontaal of verticaal referentiesysteem is aanwezig:  <sch:value-of select="$ReferenceSystemInfoCodeValue"/>
+        			<sch:assert test="$ReferenceSystemInfo">$loc/strings/referenceSystemInfoCodeMissing</sch:assert>
+        			<sch:report test="$ReferenceSystemInfo">$loc/strings/referenceSystemInfoCodePresent <sch:value-of select="$ReferenceSystemInfoCodeValue"/>
         			</sch:report>
         		</sch:rule>
 	</sch:pattern>
-	<!-- GDI-Vlaanderen SC3 -->
+	<!-- General SC3 -->
 	<sch:pattern>
-		<sch:title>GDI-Vlaanderen SC-3: organisationName (ISO-element 376) is aanwezig binnen elk voorkomen van CI_ResponsibleParty en is niet leeg.</sch:title>
+		<sch:title>$loc/strings/identification-3</sch:title>
 		<sch:rule context="//*/gmd:CI_ResponsibleParty/gmd:organisationName">
 			<sch:let name="organisationName" value=". and not(normalize-space(.)= '')"/>
 			<sch:let name="organisationNameValue" value="./*/text()"/>
-			<sch:assert test="$organisationName">Naam van de verantwoordelijke organisatie ontbreekt of is leeg.</sch:assert>
-			<sch:report test="$organisationName">Naam van de verantwoordelijke organisatie is aanwezig : <sch:value-of select="$organisationNameValue"/>
-			</sch:report>
+			<sch:assert test="$organisationName">$loc/strings/organisationNameMissing</sch:assert>
+			<sch:report test="$organisationName">$loc/strings/organisationNamePresent <sch:value-of select="$organisationNameValue"/></sch:report>
 		</sch:rule>
 	</sch:pattern>
-	<!-- GDI-Vlaanderen SC5 -->
+	<!-- General SC5 -->
 	<sch:pattern>
-		<sch:title>Er moet minstens één Nederlandstalig trefwoord aanwezig zijn uit de thesaurus ‘GEMET - INSPIRE thema’s, versie 1.0’ met als datum 2008-06-01 indien de MD_Metadata.language gelijk is aan NL (ISO-element 55)</sch:title>
+		<sch:title>$loc/strings/identification-5</sch:title>
 		<sch:rule context="//gmd:MD_DataIdentification[/gmd:MD_Metadata/gmd:language/*/text()='dut']">
 			<sch:let name="inspire-thesaurus" value="document(concat('file:///', $thesaurusDir, '/external/thesauri/theme/inspire-theme.rdf'))"/>
 			<sch:let name="inspire-theme" value="$inspire-thesaurus//skos:Concept"/>
-			<sch:assert test="count($inspire-theme) > 0">
-				INSPIRE Thema thesaurus niet gevonden. 
-			</sch:assert>
+			<sch:assert test="count($inspire-theme) > 0">$loc/strings/inspireThemeError</sch:assert>
 			<sch:let name="keyword" value="gmd:descriptiveKeywords/*/gmd:keyword/gco:CharacterString
 					[../../gmd:thesaurusName/*/gmd:title/*/text()='GEMET - INSPIRE thema''s, versie 1.0' and
 					../../gmd:thesaurusName/*/gmd:date/*/gmd:date/gco:Date/text()='2008-06-01' and
 					../../gmd:thesaurusName/*/gmd:date/*/gmd:dateType/gmd:CI_DateTypeCode/@codeListValue='publication']"/>
 			<sch:let name="inspire-theme-selected" value="count($inspire-thesaurus//skos:Concept[skos:prefLabel[@xml:lang='nl'] = $keyword])"/>
-			<sch:assert test="$inspire-theme-selected >0">
-				Er werd geen Nederlandstalig sleutelwoord gevonden afkomstig uit de GEMET - INSPIRE thema''s, versie 1.0 thesaurus gedateerd op 2008-06-01.
-			</sch:assert>
-			<sch:report test="$inspire-theme-selected > 0">
-				Er werd een Nederlandstalig sleutelwoord: <sch:value-of select="$keyword"/> gevonden dat afkomstig is uit de GEMET - INSPIRE thema''s, versie 1.0 thesaurus gedateerd op 2008-06-01.
-			</sch:report>
+			<sch:assert test="$inspire-theme-selected >0">$loc/strings/noKeywordFound</sch:assert>
+			<sch:report test="$inspire-theme-selected > 0">$loc/strings/keywordFound-1 <sch:value-of select="$keyword"/> $loc/strings/keywordFound-2</sch:report>
 		</sch:rule>
 	</sch:pattern>
 </sch:schema>

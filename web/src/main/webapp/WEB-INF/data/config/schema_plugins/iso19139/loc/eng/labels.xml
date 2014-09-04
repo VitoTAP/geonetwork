@@ -477,7 +477,7 @@
         <description>Amendment number of the format version</description>
     </element>
     <element name="gmd:applicationProfile" id="399.0">
-        <label>Application profile</label>
+        <label>File type</label>
         <description>Name of an application profile that can be used with the online
             resource</description>
     </element>
@@ -2635,8 +2635,7 @@
         <condition>mandatory</condition>
 
         <helper rel="gmd:codeSpace">
-            <option value="4326" title="EPSG">EPSG:4326</option>
-            <option value="WGS84" title="World Geodetic System">WGS84</option>
+            <option value="4326" title="EPSG">WGS 84 (EPSG:4326)</option>
 <!-- 
             <option value="TAW" title="NGI">Tweede Algemene Waterpassing</option>
             <option value="LAT" title="IHO-S44">Lowest Astronomical Tide</option>

@@ -152,10 +152,14 @@
 	<distNames>Distinguished names</distNames>
 	<baseDN>Base</baseDN>
 	<usersDN>Users</usersDN>
+	<groupsDN>Groups</groupsDN>
 	<userAttribs>User's attributes</userAttribs>
+	<groupAttribs>Group's attributes</groupAttribs>
 	<password>Password</password>
 	<profile>Profile</profile>
     <group>Group</group>
+	<groupName>Naam</groupName>
+	<member>Lid</member>
     <defGroup>Default group</defGroup>
 
 	<shib>Shibboleth</shib>

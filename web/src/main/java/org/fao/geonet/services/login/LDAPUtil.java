@@ -23,23 +23,28 @@
 
 package org.fao.geonet.services.login;
 
-import jeeves.utils.Log;
-import org.fao.geonet.constants.Geonet;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Hashtable;
+import java.util.List;
+import java.util.Map;
 
 import javax.naming.Context;
 import javax.naming.NamingEnumeration;
 import javax.naming.NamingException;
 import javax.naming.directory.Attribute;
 import javax.naming.directory.Attributes;
+import javax.naming.directory.BasicAttribute;
+import javax.naming.directory.BasicAttributes;
 import javax.naming.directory.DirContext;
 import javax.naming.directory.InitialDirContext;
+import javax.naming.directory.ModificationItem;
 import javax.naming.directory.SearchResult;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Hashtable;
-import java.util.List;
-import java.util.Map;
+import jeeves.utils.Log;
+
+import org.fao.geonet.constants.Geonet;
+import org.springframework.ldap.query.LdapQueryBuilder;
 
 //=============================================================================
 
@@ -104,11 +109,116 @@ public class LDAPUtil
 		}
 	}
 
-
-	//--------------------------------------------------------------------------
+	public static List<String> getGroupsByFilter(DirContext dc, String groupsPath, String groupFilter, String groupNameAttr) throws NamingException
+	{
+		List<String> groups = new ArrayList<String>();
+		NamingEnumeration<SearchResult> searchResultEnum = dc.search(groupsPath, groupFilter, null);
+		while (searchResultEnum.hasMore()) {
+			SearchResult searchResult = searchResultEnum.next();
+			Attributes groupAttributes = searchResult.getAttributes();
+			Attribute nameAttr = groupAttributes.get(groupNameAttr);
+			if (nameAttr!=null) {
+				NamingEnumeration<?> valueEnum = nameAttr.getAll();
+				while (valueEnum.hasMore())
+					groups.add(valueEnum.next().toString());
+			}
+		}
+		return groups;
+	}
+	
+	public static boolean updateGroups(DirContext dc, String username, String usersPath, String uidAttr, String groupAttr, String groupsPath, String groupNameAttr, String memberAttr, List<String> groups) throws NamingException
+	{
+		List<String> ldapAllGroups = new ArrayList<String>();
+		List<String> ldapUserGroups = new ArrayList<String>();
+		List<String> userGroupsToRemove = new ArrayList<String>();
+		boolean bResult = false;
+		try
+		{
+			if (groupsPath!=null) {
+				ldapAllGroups = getGroupsByFilter(dc, groupsPath, "(" + memberAttr + "=" + uidAttr + "="+ username +","+ usersPath + ")", groupNameAttr);
+				ldapUserGroups = getGroupsByFilter(dc, groupsPath, "(" + memberAttr + "=" + uidAttr + "="+ username +","+ usersPath + ")", groupNameAttr);
+				userGroupsToRemove.addAll(ldapUserGroups);
+				userGroupsToRemove.removeAll(groups);
+				BasicAttribute memberAttribute = new BasicAttribute(memberAttr, uidAttr + "="+ username +","+ usersPath);
+				for(String group : userGroupsToRemove) {
+					Log.info(Geonet.LDAP, "Removing group from LDAP : "+ group);
+					ModificationItem[] roleMods = new ModificationItem[] {  
+							new ModificationItem(DirContext.REMOVE_ATTRIBUTE, memberAttribute)  
+					};  
+					try {
+						dc.modifyAttributes(groupNameAttr + "=" + group + "," + groupsPath, roleMods);
+					}
+					catch(NamingException e)
+					{
+						Log.error(Geonet.LDAP, "Cannot remove group " + group + " for "+ username +" from LDAP : "+ e.getMessage());
+					}
+				}
+				groups.removeAll(ldapUserGroups);
+				for(String group : groups) {
+					if (!ldapAllGroups.contains(group)) {
+						Log.info(Geonet.LDAP, "Adding group to LDAP : "+ group);
+						BasicAttributes groupAttributes = new BasicAttributes();
+						groupAttributes.put("objectclass", "groupOfNames");
+//						groupAttributes.put("objectclass", "top (abstract)");
+						groupAttributes.put(groupNameAttr, group);
+						groupAttributes.put(memberAttribute);
+						try {
+							dc.createSubcontext(groupNameAttr + "=" + group + "," + groupsPath, groupAttributes); 
+						}
+						catch(NamingException e)
+						{
+							Log.error(Geonet.LDAP, "Cannot create subcontext " + group + " for "+ username +" to LDAP : "+ e.getMessage());
+						}
+					} else {
+						Log.info(Geonet.LDAP, "Adding user to LDAP group : "+ group);
+						ModificationItem[] roleMods = new ModificationItem[] {  
+								new ModificationItem(DirContext.ADD_ATTRIBUTE, memberAttribute)  
+					    };
+						try {
+							dc.modifyAttributes(groupNameAttr + "=" + group + "," + groupsPath, roleMods); 
+						}
+						catch(NamingException e)
+						{
+							Log.error(Geonet.LDAP, "Cannot add group " + group + " for "+ username +" to LDAP : "+ e.getMessage());
+						}
+					}
+				}
+				bResult = true;
+			} else {
+				System.out.println("Updating groups defined as attribute for users not implemented");
+/*
+				NamingEnumeration<SearchResult> searchResultEnum = dc.search(usersPath,"("+ uidAttr + "=" + username + ")",null);
+				while (searchResultEnum.hasMore()) {
+					SearchResult searchResult = searchResultEnum.next();
+					Attributes userAttributes = searchResult.getAttributes();
+					Attribute csvGroupAttr = userAttributes.get(groupAttr);
+					if (csvGroupAttr!=null) {
+						NamingEnumeration<?> valueEnum = csvGroupAttr.getAll();
+						while (valueEnum.hasMore()) {
+							Object object = valueEnum.next();
+							if (object!=null) {
+								String[] groupArray = object.toString().split(",");
+								for (String group : groupArray) {
+									ldapUserGroups.add(group);
+								}
+							}
+						}
+					}
+				}
+*/
+			}
+		}
+		catch(NamingException e)
+		{
+			Log.warning(Geonet.LDAP, "Cannot retrieve node info for : "+ username);
+			Log.warning(Geonet.LDAP, " (C) Reason : "+ e.getMessage());
+			throw e;
+		}
+		return bResult;
+	}
 
 	public static Map<String, ? extends List<Object>> getNodeInfo(DirContext dc,
-																			  String dname) throws NamingException
+																			  String dname, String groupAttr, String groupsPath, String groupNameAttr, String memberAttr) throws NamingException
 	{
 		try
 		{
@@ -122,6 +232,7 @@ public class LDAPUtil
 
 			Map<String, ArrayList<Object>> info = new HashMap<String, ArrayList<Object>>();
 
+			ArrayList<Object> values = null;
 			//--- scan all attributes
 
 			while (en.hasMore())
@@ -132,7 +243,7 @@ public class LDAPUtil
 
 				//--- retrieve attrib's list of values (create it if the case)
 
-				ArrayList<Object> values = info.get(id);
+				values = info.get(id);
 
 				if (values == null)
 				{
@@ -142,12 +253,26 @@ public class LDAPUtil
 
 				//--- loop on all attribute's values
 
-				NamingEnumeration valueEnum = attr.getAll();
+				NamingEnumeration<?> valueEnum = attr.getAll();
 
 				while (valueEnum.hasMore())
 					values.add(valueEnum.next());
 			}
-
+			if (groupsPath!=null) {
+				ArrayList<Object> groups = new ArrayList<Object>();
+				NamingEnumeration<SearchResult> searchResultEnum = dc.search(groupsPath,"(" + memberAttr + "=" + dname + ")",null);
+				while (searchResultEnum.hasMore()) {
+					SearchResult searchResult = searchResultEnum.next();
+					Attributes groupAttributes = searchResult.getAttributes();
+					Attribute nameAttr = groupAttributes.get(groupNameAttr);
+					if (nameAttr!=null) {
+						NamingEnumeration<?> valueEnum = nameAttr.getAll();
+						while (valueEnum.hasMore())
+							groups.add(valueEnum.next());
+					}
+				}
+				info.put("groups",groups);
+			}
 			return info;
 		}
 		catch(NamingException e)

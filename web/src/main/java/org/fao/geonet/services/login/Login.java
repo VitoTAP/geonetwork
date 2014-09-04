@@ -23,6 +23,10 @@
 
 package org.fao.geonet.services.login;
 
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+
 import jeeves.exceptions.UserLoginEx;
 import jeeves.interfaces.Service;
 import jeeves.resources.dbms.Dbms;
@@ -38,10 +42,7 @@ import org.fao.geonet.kernel.setting.SettingManager;
 import org.fao.geonet.lib.Lib;
 import org.fao.geonet.util.IDFactory;
 import org.jdom.Element;
-
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
+import org.springframework.web.context.support.WebApplicationContextUtils;
 
 //=============================================================================
 
@@ -50,13 +51,18 @@ import java.util.List;
 
 public class Login implements Service
 {
+	private String ldapUsername;
+	private String ldapPassword;
 	//--------------------------------------------------------------------------
 	//---
 	//--- Init
 	//---
 	//--------------------------------------------------------------------------
 
-	public void init(String appPath, ServiceConfig params) throws Exception {}
+	public void init(String appPath, ServiceConfig params) throws Exception {
+		ldapUsername = params.getValue("ldapUsername", "cn=reader,ou=ldap_accounts,ou=pdf,dc=eodata,dc=vito,dc=be");
+		ldapPassword = params.getValue("ldapPassword", "reader");
+	}
 
 	//--------------------------------------------------------------------------
 	//---
@@ -74,10 +80,11 @@ public class Login implements Service
 
 		Dbms dbms = (Dbms) context.getResourceManager().open(Geonet.Res.MAIN_DB);
 
-		LDAPContext lc = new LDAPContext(sm);
+		LDAPContext lc = new LDAPContext(sm, ldapUsername, ldapPassword);
 
-		if (!isAdmin(dbms, username) && lc.isInUse())
+		if (!isAdmin(dbms, username) && sm.getValueAsBool("system/ldap/use"))
 		{
+			gc.getLdapContext().authenticate(sm.getValue("system/ldap/uidAttr")+"="+username, password);
 			LDAPInfo info = lc.lookUp(username, password);
 
 			if (info == null)

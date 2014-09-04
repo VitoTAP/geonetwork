@@ -34,6 +34,7 @@
           </class>
 
           <output sheet="metadata/diff/diff.edit.xsl">
+			  <call name="session" class="jeeves.guiservices.session.Get" />
               <call name="services" class="jeeves.guiservices.services.Get"/>
               <call name="relation" class =".guiservices.metadata.GetRelated"/>
               <call name="isoLang"  class=".guiservices.isolanguages.Get"/>
@@ -67,6 +68,7 @@
 
       <output sheet="metadata/edit/edit.xsl">
         <call name="currTab" class=".guiservices.util.GetCurrentMDTab"/>
+		<call name="session" class="jeeves.guiservices.session.Get" />
         <call name="position" class=".guiservices.util.GetPositionMD"/>
         <call name="groups" class=".guiservices.groups.GetMine"/>
         <call name="sources" class=".guiservices.util.Sources"/>

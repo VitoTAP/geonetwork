@@ -102,9 +102,10 @@ public class SendLink implements Service {
 			throw new UserNotFoundEx(username);
 
 		// only let registered users change their password  
+/*
 		if (!elUser.getChild("record").getChild("profile").getText().equals(Geonet.Profile.REGISTERED_USER)) 
 			throw new OperationNotAllowedEx("Only users with profile RegisteredUser can change their password using this option");
-		
+*/		
 		// get mail settings		
 		GeonetContext  gc = (GeonetContext) context.getHandlerContext(Geonet.CONTEXT_NAME);
 		SettingManager sm = gc.getSettingManager();

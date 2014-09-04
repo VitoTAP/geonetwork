@@ -304,33 +304,6 @@
         <validationQuery>SELECT 1</validationQuery>
 			</config>
 		</resource>
-
-        <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
-		<!-- sqlserver 2008 agiv en geopunt (beta en productie)-->
-		<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
-<!-- 		<resource enabled="true">-->
-		<resource enabled="false">
-			<name>main-db</name>
-			<provider>jeeves.resources.dbms.ApacheDBCPool</provider>
-			<config>
-<!-- 
-				<user>www-data</user>
-				<password>www-data</password>
--->
- 				<driver>com.microsoft.sqlserver.jdbc.SQLServerDriver</driver>
-<!-- 			Productie agiv --> 				
-<!--                 <url>jdbc:sqlserver://agivsqlGeoNetworkAGIV;database=GeoNetWorkAGIV;integratedSecurity=true;</url> -->
-<!-- 			Productie geopunt --> 				
-<!--                 <url>jdbc:sqlserver://agivsqlGeoNetworkGeopunt;database=GeoNetWorkGeopunt;integratedSecurity=true;</url> -->
-<!-- 			Beta agiv nieuwe databank ter vervanging van de huidige geonetwork database)--> 				
-<!--                 <url>jdbc:sqlserver://agivsqlGeoNetworkAGIVBeta;database=GeoNetWorkAGIV;integratedSecurity=true;</url> -->
-<!-- 			Beta geopunt)--> 				
-<!--                 <url>jdbc:sqlserver://agivsqlGeoNetworkGeopuntBeta;database=GeoNetWorkGeopunt;integratedSecurity=true;</url> -->
-                <url>jdbc:sqlserver://agivsqlgeonettest;database=geonetwork;integratedSecurity=true;</url>
-				<poolSize>30</poolSize>
-                <validationQuery>SELECT 1</validationQuery>
-			</config>
-		</resource>	    	    
 	</resources>
 
 	<!-- ====================================================================== -->
@@ -391,7 +364,8 @@
 
 		<param name="statusActionsClass" value="org.fao.geonet.services.metadata.DefaultStatusActions"/>
         <param name="validationHook" value="org.fao.geonet.services.metadata.validation.agiv.AGIVValidationHook"/>
-
+        <param name="ldapUsername" value="cn=reader,ou=ldap_accounts,ou=pdf,dc=eodata,dc=vito,dc=be" />
+		<param name="ldapPassword" value="reader" />
     </appHandler>
 
 	<!-- ====================================================================== -->
@@ -856,6 +830,10 @@
 
 		<service name="user.register.get">
 			<output sheet="user-selfregistration.xsl" />
+		</service>
+
+		<service name="user.register.get.tabsearch">
+			<output sheet="user-selfregistration-tabsearch.xsl" />
 		</service>
 
 		<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->

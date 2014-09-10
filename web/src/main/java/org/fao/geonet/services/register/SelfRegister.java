@@ -106,7 +106,8 @@ public class SelfRegister implements Service {
 				.open(Geonet.Res.MAIN_DB);
 		
 		String username = email;
-		String password = getInitPassword();
+		String password = Util.getParam(params, Params.PASSWORD);
+//		String password = getInitPassword();
 
 		GeonetContext  gc = (GeonetContext) context.getHandlerContext(Geonet.CONTEXT_NAME);
 		SettingManager sm = gc.getSettingManager();

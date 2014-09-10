@@ -113,7 +113,7 @@ GeoNetwork.IdentifiedUserActionsMenu = Ext.extend(Ext.menu.Menu, {
     updateMenuItems: function() {
     	var visible = this.catalogue.isIdentified();
 	    this.newMetadataMenu.setVisible(visible);
-	    this.importMetadataMenu.setVisible(visible);
+	    this.importMetadataMenu.setVisible(visible && this.catalogue.identifiedUser.role=='Administrator');
 	    this.administrationMenu.setVisible(visible && this.catalogue.identifiedUser.role=='Administrator')
     },
     isUserLoggedIn: function() {

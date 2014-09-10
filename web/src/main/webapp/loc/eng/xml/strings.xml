@@ -57,9 +57,13 @@
   <editAttributes>Add more details</editAttributes>
   <subtemplate.admin>Manage directories</subtemplate.admin>
   <subtemplate.admin.desc>Add/modify/delete directories (eg. contact directories)</subtemplate.admin.desc>  
-	<surnameMandatory>The last name/surname field is mandatory</surnameMandatory>
 	<firstnameMandatory>The first name field is mandatory</firstnameMandatory>
+	<usernameMandatory>The username field is mandatory.</usernameMandatory>
+	<surnameMandatory>The last name/surname field is mandatory</surnameMandatory>
+	<passwordMandatory>The password fields are mandatory</passwordMandatory>
 	<emailMandatory>The email address field is mandatory</emailMandatory>
+	<countryMandatory>The country field is mandatory</countryMandatory>
+	<organisationMandatory>The organisation field is mandatory</organisationMandatory>
 	<forgottenPassword>Forgot your password?</forgottenPassword>
   <selectTemplate>Select schemas</selectTemplate>
 	<useStopwords>The Lucene index uses stopwords for these languages:</useStopwords>    
@@ -513,8 +517,7 @@
 	<file>File</file>
 	<fileType>File type:</fileType>
 	<fileUploadSuccessful>File Upload Successful</fileUploadSuccessful>
-	<firstName>First name</firstName>
-	<firstNameMandatory js="true">The first name field is mandatory</firstNameMandatory>
+	<firstname>First name</firstname>
 	<foundWords>Number of terms found:</foundWords>
 	<freeKeyword>Free Keywords</freeKeyword>
 	<from>From</from>
@@ -573,7 +576,7 @@
 	<keyword>keyword</keyword>
 	<keywords js="true">Keywords</keywords>
 	<keywordshelp>Select multiple keywords by holding the Ctrl-key when selecting with the mouse</keywordshelp>
-	<kind>Kind</kind>
+	<kind>Organisation type</kind>
 	<kindChoice value="company">Private company</kindChoice>
 	<kindChoice value="consultant">Independent consultant</kindChoice>
 	<kindChoice value="gov">Government</kindChoice>
@@ -584,7 +587,6 @@
 	<label>Label</label>
 	<language>en</language>
 	<large_thumbnail>Click to see a large preview image</large_thumbnail>
-	<lastNameMandatory js="true">The last name field is mandatory</lastNameMandatory>
 	<latitude>Latitude (between -90 and 90) in degrees</latitude>
 	<latMax>lat (max)</latMax>
 	<latMin>lat (min)</latMin>
@@ -706,7 +708,7 @@
 	<password>Password</password>
 	<passwordDoNotMatch>You did not enter the same new password twice. Please re-enter your password.</passwordDoNotMatch>
 	<passwordEntry>Please enter your password twice.</passwordEntry>
-	<passwordLength>Your password must be at least " + minLength + " characters long. Try again.</passwordLength>
+	<passwordLength>Your password must be at least 6 characters long. Try again.</passwordLength>
 	<passwordOldRequired>Your old password is mandatory</passwordOldRequired>
 	<passwordSpace>Sorry, spaces are not allowed in password.</passwordSpace>
 	<persInfo>Personal info</persInfo>
@@ -873,7 +875,7 @@
 	<subtemplate>Subtemplate</subtemplate>
 	<subtemplateTitle>subtemplate title</subtemplateTitle>
 	<summaryTab>Summary</summaryTab>
-	<surName>Last name</surName>
+	<surname>Last name</surname>
 	<systemConfig>System configuration</systemConfig>
 	<systemConfigDes>Allows to change some system's parameters</systemConfigDes>
 	<systemInfo>System information</systemInfo>
@@ -912,7 +914,6 @@
 	<userManagement>User management</userManagement>
 	<userManDes>Add/modify/delete and show users</userManDes>
 	<username>Username</username>
-	<usernameMandatory>The username field is mandatory.</usernameMandatory>
 	<userPw>Change password</userPw>
 	<userPwDes>Allow current user to change password</userPwDes>
 	<uuidAction>Import actions:</uuidAction>

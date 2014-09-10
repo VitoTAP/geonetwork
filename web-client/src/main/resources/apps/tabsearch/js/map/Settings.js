@@ -52,8 +52,8 @@ GeoNetwork.map.NUMZOOMLEVELS = 23;
 GeoNetwork.map.TILESIZE = new OpenLayers.Size(256,256);
 
 GeoNetwork.map.BACKGROUND_LAYERS=[
-      new OpenLayers.Layer.WMS('Demis WorldMap', 'http://demis.vito.be/wms/wms.ashx', {layers: 'Topography,Hillshading,Coastlines,Borders', format: 'image/jpeg'}, {isBaseLayer: true}),
       new OpenLayers.Layer.WMS('OSM', 'http://129.206.228.72/cached/osm', {layers: 'osm_auto:all', format: 'image/jpeg'}, {isBaseLayer: true}),
+      new OpenLayers.Layer.WMS('Demis WorldMap', 'http://demis.vito.be/wms/wms.ashx', {layers: 'Topography,Hillshading,Coastlines,Borders', format: 'image/jpeg'}, {isBaseLayer: true}),
       new OpenLayers.Layer.WMS('mapbender', 'http://mapbender.wheregroup.com/cgi-bin/mapserv?map=/data/umn/osm/osm_basic.map', {layers: 'osm_basic', format: 'image/jpeg'}, {isBaseLayer: true}),
       new OpenLayers.Layer.WMS('OSM irs', 'http://irs.gis-lab.info', {layers: 'osm', format: 'image/jpeg'}, {isBaseLayer: true})
     ];

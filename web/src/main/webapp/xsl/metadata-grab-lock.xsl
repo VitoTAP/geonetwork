@@ -17,8 +17,8 @@
                     <table>
                         <tr>
 <!--                             <th class="padded"><b><xsl:value-of select="/root/gui/strings/username"/></b></th>-->
-                            <th class="padded"><b><xsl:value-of select="/root/gui/strings/surName"/></b></th>
-                            <th class="padded"><b><xsl:value-of select="/root/gui/strings/firstName"/></b></th>
+                            <th class="padded"><b><xsl:value-of select="/root/gui/strings/surname"/></b></th>
+                            <th class="padded"><b><xsl:value-of select="/root/gui/strings/firstname"/></b></th>
                             <th class="padded"><b><xsl:value-of select="/root/gui/strings/profile"/></b></th>
                         </tr>
 

@@ -125,7 +125,7 @@ GeoNetwork.app = function(){
         var loginForm = new GeoNetwork.LoginForm({
             renderTo: 'login-form',
             catalogue: catalogue,
-            layout: 'hbox',
+            layout: 'column',
             bodyStyle:{"background-color":"transparent"},
             hideLoginLabels: GeoNetwork.hideLoginLabels
         });

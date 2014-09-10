@@ -258,73 +258,26 @@ GeoNetwork.Templates = Ext.extend(Ext.XTemplate, {
             '{value}{[xindex==xcount?"":", "]}',
             '</tpl></p>',
             '</tpl>',
-            '<table style="border: 1px solid"><tr><th></th><th>File type</th><th>Title</th><th>Description</th></tr>',
-            '<tpl if="this.hasLinksOfType(values.links,\'datafile\')">',
-	            '<tpl for="links">',
-		            '<tpl if="values.applicationProfile!=null && values.applicationProfile==\'datafile\'">',
-		            '<tr><td><a href="{href}" target="_blank"><img src="{catalogue.URL}/apps/images/default/datafile.png"/></a></td><td>Datafile</td><td><tpl if="values.title">{values.name}:{values.title}</tpl></td><td><tpl if="values.description">{values.description}</tpl></td></tr>',
-		            '</tpl>',
-	            '</tpl>',
-	        '</tpl>',
-            '<tpl if="this.hasLinksOfType(values.links,\'report\')">',
-	            '<tpl for="links">',
-		            '<tpl if="values.applicationProfile!=null && values.applicationProfile==\'report\'">',
-		            '<tr><td><a href="{href}" target="_blank"><img src="{catalogue.URL}/apps/images/default/report.png"/></a></td><td>Report</td><td><tpl if="values.title">{values.name}:{values.title}</tpl></td><td><tpl if="values.description">{values.description}</tpl></td></tr>',
-		            '</tpl>',
-	            '</tpl>',
+            '<table><tr><th style="width:30px"></th><th>Title</th></tr>',
+            '<tpl for="this.getApplicationProfileLinks(values.links)">',
+            	'<tr><td style="width:30px"><a href="{href}" target="_blank" title="File type {applicationProfile}"><img src="{catalogue.URL}/apps/images/default/{applicationProfile}.png"/></a></td><td><a href="{href}" target="_blank">{[this.getTitle(values)]}</a></td></tr>',
             '</tpl>',
-            '<tpl if="this.hasLinksOfType(values.links,\'validator\')">',
-	            '<tpl for="links">',
-		            '<tpl if="values.applicationProfile!=null && values.applicationProfile==\'validator\'">',
-		            '<tr><td><a href="{href}" target="_blank"><img width="30" src="{catalogue.URL}/apps/images/default/geowiki60.png"/></a></td><td>Validator</td><td><tpl if="values.title">{values.title}</tpl></td><td><tpl if="values.description">{values.description}</tpl></td></tr>',
-		            '</tpl>',
-	            '</tpl>',
-            '</tpl>',
-            '<tr><td><a href="?uuid={uuid}&hl={catalogue.lang}" target="_blank" class="md-mn md-mn-bookmark" alt="{[OpenLayers.i18n(\'view\')]}">&nbsp;</a></td><td>Metadata</td><td>Permalink to this metadata record</td><td>-</td></tr>',
-            // FIXME : this call require the catalogue to be named catalogue, static call ?
-            // FIXME : ref to app
-/*
+            '<tr><td><a href="?uuid={uuid}&hl={catalogue.lang}" target="_blank" class="md-mn md-mn-bookmark" title="{[OpenLayers.i18n(\'view\')]}">&nbsp;</a></td><td><a href="?uuid={uuid}&hl={catalogue.lang}" target="_blank">Permalink to this metadata record</a></td></tr>',
             '<tpl for="links">',
 	            '<tpl if="values.type == \'application/vnd.ogc.wms_xml\' || values.type == \'OGC:WMS\'">',
-	            '<a href="#" class="md-mn addLayer" title="' + OpenLayers.i18n('addToMap') + ' {title}" alt="Add layer to map" onclick="app.switchMode(\'1\', true);app.getIMap().addWMSLayer([[\'{[escape(values.title)]}\', \'{href}\', \'{name}\', \'{id}\']]);">&nbsp;</a>',
-	            '</tpl>',
-	            '<tpl if="values.type == \'application/vnd.google-earth.kml+xml\'">',
-	            '<a href="{href}" class="md-mn md-mn-kml" title="' + OpenLayers.i18n('viewKml') + ' {title}" alt="Open kml">&nbsp;</a>',
-	            '</tpl>',
-	            '<tpl if="values.type == \'application/zip\' || values.type == \'application/x-compressed\'">',
-	            '<a href="{href}" class="md-mn md-mn-zip" title="' + OpenLayers.i18n('downloadLink') + ' {title}" alt="Download">&nbsp;</a>',
-	            '</tpl>',
-	            '<tpl if="values.type == \'text/html\'">',
-	            '<a href="{href}" class="md-mn md-mn-www" title="' + OpenLayers.i18n('webLink') + ' {title}" alt="Web link" target="_blank">&nbsp;</a>',
-	            '</tpl>',
-            '</tpl>',
-            '<tpl if="this.hasDownloadLinks(values.links)">',//type == \'application/vnd.ogc.wms_xml\'">',
-            '<a href="#" onclick="catalogue.metadataPrepareDownload(\'{id}\');" class="md-mn downloadAllIcon" title="' + OpenLayers.i18n('prepareDownload') + '" alt="download">&nbsp;</a>',
-            '</tpl>',
-*/
-            '<tpl for="links">',
-	            '<tpl if="values.type == \'application/vnd.ogc.wms_xml\' || values.type == \'OGC:WMS\'">',
-	            '<tr><td><a href="#" class="md-mn addLayer" class="md-mn md-mn-bookmark" alt="Add layer to map" onclick="app.switchMode(\'1\', true);app.getIMap().addWMSLayer([[\'{[this.getLayerTitle(values)]}\', \'{href}\', \'{name}\', \'{id}\']]);">&nbsp;</a></td><td>WMS</td><td><tpl if="values.title">{values.title}</tpl></td><td><tpl if="values.description">{values.description}</tpl></td></tr>',
+	            '<tr><td style="width:30px"><a href="#" class="md-mn addLayer" class="md-mn md-mn-bookmark" title="Add WMS layer to map" onclick="app.switchMode(\'1\', true);app.getIMap().addWMSLayer([[\'{[this.getTitle(values)]}\', \'{href}\', \'{name}\', \'{id}\']]);">&nbsp;</a></td><td><a href="#" onclick="app.switchMode(\'1\', true);app.getIMap().addWMSLayer([[\'{[this.getTitle(values)]}\', \'{href}\', \'{name}\', \'{id}\']]);">{[this.getTitle(values)]}</a></td></tr>',
 	            '</tpl>',
             '</tpl>',
             '<tpl for="links">',
 	            '<tpl if="values.type == \'application/vnd.google-earth.kml+xml\'">',
-	            '<tr><td><a href="#" class="md-mn addLayer" alt="Add layer to map" onclick="app.switchMode(\'1\', true);app.getIMap().addKMLLayer([[\'{[this.getLayerTitle(values)]}\', \'{href}\', \'{name}\', \'{id}\']]);">&nbsp;</a></td><td>KML</td><td><tpl if="values.title">{values.title}</tpl></td><td><tpl if="values.description">{values.description}</tpl></td></tr>',
+	            '<tr><td style="width:30px"><a href="#" class="md-mn addLayer" title="Add KML layer to map" onclick="app.switchMode(\'1\', true);app.getIMap().addKMLLayer([[\'{[this.getTitle(values)]}\', \'{href}\', \'{name}\', \'{id}\']]);">&nbsp;</a></td><td><a href="#" onclick="app.switchMode(\'1\', true);app.getIMap().addKMLLayer([[\'{[this.getTitle(values)]}\', \'{href}\', \'{name}\', \'{id}\']]);">{[this.getTitle(values)]}</a></td></tr>',
 	            '</tpl>',
             '</tpl>',
-//	            '<tpl if="values.type == \'application/vnd.google-earth.kml+xml\'">',
-//	            '<a href="{href}" class="md-mn md-mn-kml" title="' + OpenLayers.i18n('viewKml') + ' {values.title}" alt="Open kml">&nbsp;</a>',
-//	            '</tpl>',
             '<tpl for="links">',
 	            '<tpl if="values.type == \'text/html\'">',
-	            '<tr><td><a href="{href}" class="md-mn md-mn-www" alt="Web link">&nbsp;</a></td><td>HTML</td><td><tpl if="values.title">{values.title}</tpl></td><td><tpl if="values.description">{values.description}</tpl></td></tr>',
+	            '<tr><td style="width:30px"><a href="{href}" target="_blank" class="md-mn md-mn-www" title="Web link">&nbsp;</a></td><td><a href="{href}" target="_blank>{[this.getTitle(values)]}</a></td></tr>',
 	            '</tpl>',
             '</tpl>',
-            '<tpl for="links">',
-	            '<tpl if="(values.applicationProfile==null || (values.applicationProfile!=\'report\' && values.applicationProfile!=\'validator\' && values.applicationProfile!=\'datafile\')) && (values.type != \'application/vnd.ogc.wms_xml\' && values.type != \'OGC:WMS\' && values.type != \'application/vnd.google-earth.kml+xml\' && values.type != \'text/html\')">',
-	            '<tr><td><a href="{href}" class="md-mn md-mn-www" alt="Web link">&nbsp;</a></td><td>{values.applicationProfile}</td><td><tpl if="values.title">{values.title}</tpl></td><td><tpl if="values.description">{values.description}</tpl></td></tr>',
-	            '</tpl>',
-	        '</tpl>',
             '</table>',
             '</div>',
 
@@ -446,22 +399,23 @@ GeoNetwork.Templates = Ext.extend(Ext.XTemplate, {
             '</tpl>',
             '</ul>',
             {
-            	hasLinksOfType: function(values,type) {
-                    var i;
-                    for (i = 0; i < values.length; i ++) {
-                        if (values[i].applicationProfile!=null && values[i].applicationProfile==type) {
-                            return true;
-                        }
-                    }
-                    return false;
-                },
-                getLayerTitle: function(values) {
+                getTitle: function(values) {
                 	if (values.title!=null && values.title.length>0) {
                 		return escape(values.title); 
                 	} else {
                 		return values.name;
                 	} 
-            	}
+            	},
+            	getApplicationProfileLinks: function(links){
+            		var supportedProfiles = ['datafile','report','validator'];
+                	var selectedLinks = {datafile:[],report:[],validator:[]};
+                	for (var i = 0; i < links.length; i++) {
+                		if (supportedProfiles.contains(links[i].applicationProfile)) {
+                			selectedLinks[links[i].applicationProfile].push(links[i]);
+                		}
+                    }
+                    return selectedLinks.datafile.concat(selectedLinks.report,selectedLinks.validator);
+                }
             }
         );
 

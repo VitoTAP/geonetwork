@@ -63,7 +63,7 @@ GeoNetwork.LoginForm = Ext.extend(Ext.FormPanel, {
          * In hbox layout, labels are not displayed, set to true to display field labels.
          */
     	hideLoginLabels: true,
-    	width: 340
+    	width: 400
     },
     defaultType: 'textfield',
     /** private: property[userInfo]
@@ -96,10 +96,11 @@ GeoNetwork.LoginForm = Ext.extend(Ext.FormPanel, {
     	Ext.applyIf(this, this.defaultConfig);
 
     	var form = this;
-    	var loginBt = new Ext.Button({
-	            width: 50,
+    	var loginBt = new Ext.LinkButton({
+//	            width: 50,
+    		columnWidth: 0.25,
 	            text: OpenLayers.i18n('login'),
-	            iconCls: 'md-mn mn-login',
+//	            iconCls: 'md-mn mn-login',
                 id: 'btnLoginForm',
 	            listeners: {
 	                click: function(){
@@ -108,8 +109,9 @@ GeoNetwork.LoginForm = Ext.extend(Ext.FormPanel, {
 	                scope: form
 	            }
 	        }),
-	        registerBt = new Ext.Button({
-	            width: 50,
+	        registerBt = new Ext.LinkButton({
+//	            width: 80,
+	    		columnWidth: 0.25,
 	            text: OpenLayers.i18n('register'),
                 id: 'btnRegisterForm',
 	            listeners: {
@@ -119,8 +121,9 @@ GeoNetwork.LoginForm = Ext.extend(Ext.FormPanel, {
 	                scope: form
 	            }
 	        }),
-	        forgottenBt = new Ext.Button({
-	            width: 50,
+	        forgottenBt = new Ext.LinkButton({
+//	            width: 125,
+	    		columnWidth: 0.50,
 	            text: OpenLayers.i18n('forgotten'),
                 id: 'btnForgottenForm',
 	            listeners: {
@@ -130,10 +133,12 @@ GeoNetwork.LoginForm = Ext.extend(Ext.FormPanel, {
 	                scope: form
 	            }
 	        }),
-	        logoutBt = new Ext.Button({
-	            width: 80,
+	        logoutBt = new Ext.LinkButton({
+//	            width: 80,
+	    		columnWidth: 0.75,
+	    		style: "text-align:right",
 	            text: OpenLayers.i18n('logout'),
-	            iconCls: 'md-mn mn-logout',
+//	            iconCls: 'md-mn mn-logout',
 	            listeners: {
 	                click: function(){
 	                    catalogue.logout();
@@ -142,6 +147,7 @@ GeoNetwork.LoginForm = Ext.extend(Ext.FormPanel, {
 	            }
 	        });
     	this.username = new Ext.form.TextField({
+    		columnWidth: this.hideLoginLabels ? 0.5 : 0.25,
     		id: 'username',
     		name: 'username',
             width: 70,
@@ -152,6 +158,7 @@ GeoNetwork.LoginForm = Ext.extend(Ext.FormPanel, {
             emptyText: OpenLayers.i18n('username')
         });
         this.password = new Ext.form.TextField({
+    		columnWidth: this.hideLoginLabels ? 0.5 : 0.25,
             name: 'password',
             width: 70,
             hidden: GeoNetwork.Settings.useSTS,
@@ -161,13 +168,17 @@ GeoNetwork.LoginForm = Ext.extend(Ext.FormPanel, {
             emptyText: OpenLayers.i18n('password'),
             inputType: 'password'
         });
+		var labelStyle = "color:#fff;font-size:1.2em;font-weight:bold;top:2px;";
     	this.userInfo = new Ext.form.Label({
+    		columnWidth: 1.0,
             width: 170,
             text: '',
-            cls: 'loginInfo'
+            cls: 'loginInfo',
+            style: labelStyle
         });
     	
-    	if (this.hideLoginLabels) {
+		var loginItems = null;
+		if (this.hideLoginLabels) {
     		this.loginFields.push( 
             		this.username,
                     this.password,
@@ -180,10 +191,11 @@ GeoNetwork.LoginForm = Ext.extend(Ext.FormPanel, {
     		this.toggledFields.push(loginBt);
     		this.toggledFields.push(registerBt);
     		this.toggledFields.push(forgottenBt);
+    		loginItems = [this.username,this.password];
     	} else {
     		// hbox layout does not display TextField labels, create a label then
-        	var usernameLb = new Ext.form.Label({hidden:GeoNetwork.Settings.useSTS,html: OpenLayers.i18n('username')}),
-    			passwordLb = new Ext.form.Label({hidden:GeoNetwork.Settings.useSTS,html: OpenLayers.i18n('password')});
+        	var usernameLb = new Ext.form.Label({columnWidth:0.25,style:labelStyle,hidden:GeoNetwork.Settings.useSTS,html: OpenLayers.i18n('username')}),
+    			passwordLb = new Ext.form.Label({columnWidth:0.25,style:labelStyle,hidden:GeoNetwork.Settings.useSTS,html: OpenLayers.i18n('password')});
     		this.loginFields.push(usernameLb, 
             		this.username,
                     passwordLb,
@@ -198,16 +210,24 @@ GeoNetwork.LoginForm = Ext.extend(Ext.FormPanel, {
         	this.toggledFields.push(loginBt);
     		this.toggledFields.push(registerBt);
     		this.toggledFields.push(forgottenBt);
+    		loginItems = [usernameLb,this.username,passwordLb,this.password];
     	}
+    	var actionsBt = new Ext.Button({
+    		columnWidth: 0.25,
+    		style: {
+                marginLeft: '20px'
+            },
+    		text: OpenLayers.i18n('Actions'),
+    		menu: new GeoNetwork.IdentifiedUserActionsMenu({
+        		catalogue: this.catalogue
+    		})});
     	this.toggledFieldsOff.push(this.userInfo, 
-                logoutBt, new Ext.Button({
-            		text: OpenLayers.i18n('Actions'),
-            		menu: new GeoNetwork.IdentifiedUserActionsMenu({
-                		catalogue: this.catalogue
-            		})}));
-        this.items = [this.loginFields, this.toggledFieldsOff];
+                logoutBt, actionsBt);
+    	this.items = [loginItems,this.userInfo,loginBt,registerBt,logoutBt,forgottenBt,actionsBt];
+/*
+    	this.items = [this.loginFields, this.toggledFieldsOff];
+*/
         GeoNetwork.LoginForm.superclass.initComponent.call(this);
-        
         // check user on startup with a kind of ping service
         this.catalogue.on('afterLogin', this.login, this);
         this.catalogue.on('afterLogout', this.login, this);
@@ -234,12 +254,7 @@ GeoNetwork.LoginForm = Ext.extend(Ext.FormPanel, {
         	}
         });
         if (cat.identifiedUser && cat.identifiedUser.username) {
-            this.userInfo.setText(cat.identifiedUser.name +
-            ' ' +
-            cat.identifiedUser.surname +
-            ' <br/>(' +
-            cat.identifiedUser.role +
-            ')', false);
+            this.userInfo.setText("Hello " + cat.identifiedUser.name + " " + cat.identifiedUser.surname, false);
         } else {
             this.userInfo.setText('');
         }

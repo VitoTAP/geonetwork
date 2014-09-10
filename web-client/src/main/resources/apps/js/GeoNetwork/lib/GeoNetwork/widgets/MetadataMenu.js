@@ -57,6 +57,8 @@ GeoNetwork.MetadataMenu = Ext.extend(Ext.menu.Menu, {
     catalogue: undefined,
     editAction: undefined,
     deleteAction: undefined,
+    submitAction: undefined,
+    approveAction: undefined,
     zoomToAction: undefined,
     otherActions: undefined,
     adminMenuSeparator: undefined,
@@ -108,6 +110,81 @@ GeoNetwork.MetadataMenu = Ext.extend(Ext.menu.Menu, {
         });
         this.add(this.deleteAction);
         
+        this.submitAction = new Ext.Action({
+            text: 'Set to submitted status',
+//            iconCls: 'md-mn-del',
+            handler: function(){
+                catalogue.doAction('metadata.status', {uuid:this.record.get('uuid'),status:4,changeMessage:'Submitted by owner'}, null, /*title*/null,
+        		function(response){
+                    if (response.responseXML) {
+		            	var errorst = "";
+    		            Ext.each(response.responseXML.getElementsByTagName("error"), 
+    		                    function(e) {
+    		            	errorst += e.textContent || e.innerText || e.text;});
+    		            if (errorst.length>0) {
+        		            Ext.MessageBox.alert(OpenLayers.i18n('error'), OpenLayers.i18n(errorst));
+    		            } else {
+            		        catalogue.onAfterStatusChange.bind(catalogue)();
+    		            }
+		            } else {
+    		            Ext.MessageBox.alert(OpenLayers.i18n('error'), "Operation failed");
+		            }
+                }, function(response){
+                	if (response.status==408 || response.status==504) {
+            	    	Ext.MessageBox.alert(OpenLayers.i18n('error'), "Request timeout");
+                	} else {
+    		            if (response.responseXML) {
+        		            Ext.each(response.responseXML.getElementsByTagName("error"), 
+    		                    function(e) {
+        		            	errorst += e.textContent || e.innerText || e.text;});
+        		            Ext.MessageBox.alert(OpenLayers.i18n('error'), OpenLayers.i18n(errorst));
+    		            } else {
+        		            Ext.MessageBox.alert(OpenLayers.i18n('error'), "Operation failed");
+    		            }
+                	}
+                });
+            },
+            scope: this
+        });
+        this.add(this.submitAction);
+
+        this.approveAction = new Ext.Action({
+            text: 'Set to approved status',
+//            iconCls: 'md-mn-del',
+            handler: function(){
+                catalogue.doAction('metadata.status', {uuid:this.record.get('uuid'),status:2,changeMessage:'Approved by owner'}, null, /*title*/null,
+        		function(response){
+                    if (response.responseXML) {
+		            	var errorst = "";
+    		            Ext.each(response.responseXML.getElementsByTagName("error"), 
+    		                    function(e) {
+    		            	errorst += e.textContent || e.innerText || e.text;});
+    		            if (errorst.length>0) {
+        		            Ext.MessageBox.alert(OpenLayers.i18n('error'), OpenLayers.i18n(errorst));
+    		            } else {
+            		        catalogue.onAfterStatusChange.bind(catalogue)();
+    		            }
+		            } else {
+    		            Ext.MessageBox.alert(OpenLayers.i18n('error'), "Operation failed");
+		            }
+                }, function(response){
+                	if (response.status==408 || response.status==504) {
+            	    	Ext.MessageBox.alert(OpenLayers.i18n('error'), "Request timeout");
+                	} else {
+    		            if (response.responseXML) {
+        		            Ext.each(response.responseXML.getElementsByTagName("error"), 
+    		                    function(e) {
+        		            	errorst += e.textContent || e.innerText || e.text;});
+        		            Ext.MessageBox.alert(OpenLayers.i18n('error'), OpenLayers.i18n(errorst));
+    		            } else {
+        		            Ext.MessageBox.alert(OpenLayers.i18n('error'), "Operation failed");
+    		            }
+                	}
+                });
+            },
+            scope: this
+        });
+        this.add(this.approveAction);
         /* Other actions */
         this.duplicateAction = new Ext.Action({
             text: OpenLayers.i18n('duplicate'),
@@ -402,6 +479,8 @@ GeoNetwork.MetadataMenu = Ext.extend(Ext.menu.Menu, {
         if (!identified || isUserRegistered) {
             this.editAction.hide();
             this.deleteAction.hide();
+            this.submitAction.hide();
+            this.approveAction.hide();
             this.viewWorkspaceCopyAction.hide();
             this.printWorkspaceCopyAction.hide();
             this.diffWorkspaceCopyAction.hide();
@@ -411,6 +490,12 @@ GeoNetwork.MetadataMenu = Ext.extend(Ext.menu.Menu, {
         } else {
             this.editAction.show();
             this.deleteAction.show();
+            if (this.record.get('status')=='1') {
+                this.submitAction.show();
+            }
+            if (isAdmin) {
+                this.approveAction.show();
+            }
             this.viewAction.show();
 
             if (!isLocked) {
@@ -492,6 +577,8 @@ GeoNetwork.MetadataMenu = Ext.extend(Ext.menu.Menu, {
         if (this.versioningAction) this.versioningAction.setDisabled(!((!isLocked || sameLockedByAndLoggedUser)  && (!isHarvested || GeoNetwork.Settings.editor.editHarvested)));
 
         this.deleteAction.setDisabled(!((isLocked && sameLockedByAndLoggedUser) || (!isLocked && isEditable)));
+        this.submitAction.setDisabled(!(isLocked && sameLockedByAndLoggedUser && this.record.get('status')=='1'));
+        this.approveAction.setDisabled(!(isLocked && isAdmin));
         
         if (this.ratingWidget) {
             this.ratingWidget.reset();

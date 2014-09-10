@@ -96,6 +96,7 @@
                 <include>${project.build.directory}/classes/apps/js/ext-ux/TwinTriggerComboBox/TwinTriggerComboBox.js</include>
                 <include>${project.build.directory}/classes/apps/js/ext-ux/Rating/RatingItem.js</include>
                 <include>${project.build.directory}/classes/apps/js/ext-ux/FileUploadField/FileUploadField.js</include>
+                <include>${project.build.directory}/classes/apps/js/ext-ux/LinkButton/LinkButton.js</include>
                 <include>${project.build.directory}/classes/apps/js/ext-ux/DateTime/DateTime.js</include>
                 <include>${project.build.directory}/classes/apps/js/ext-ux/RowExpander/RowExpander.js</include>
                 <include>${project.build.directory}/classes/apps/js/ext-ux/MultiselectItemSelector-3.0/DDView.js</include>

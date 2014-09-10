@@ -5565,7 +5565,13 @@ to build the XML fragment in the editor. -->
       }'}}"/>
     
     <!-- The widget container -->
-    <div class="thesaurusPicker" id="thesaurusPicker_{$elementRef}_panel"/>
+    <xsl:if test="$widgetMode!='combo'">
+	    <div class="thesaurusPicker" id="thesaurusPicker_{$elementRef}_panel"/>
+    </xsl:if>
+    <xsl:if test="$widgetMode='combo'">
+    	<table><tr><td><div class="thesaurusPicker" id="thesaurusPicker_{$elementRef}_panel"/></td><td style="padding-top:26px"><img class="project" src="../../apps/images/default/project.png" title="Mandatory for this project"/></td></tr></table>
+	</xsl:if>
+    
     
     <!-- Create a textarea which contains the XML snippet for updates.
     The name of the element starts with _X which means XML snippet update mode.

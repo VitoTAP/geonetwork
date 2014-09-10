@@ -179,11 +179,13 @@ GeoNetwork.editor.ConceptSelectionPanel = Ext.extend(Ext.Panel, {
         var combo = new Ext.form.ComboBox({
             store: this.keywordStore,
             editable: false,
+            //groupsArray: ['Remote sensing data', 'Classification products', 'Model outputs', 'In situ data', 'Economic info'],
             width: 300,
             triggerAction: 'all',
             mode: 'local',
             displayField: 'value',
             valueField: 'uri',
+            //tpl: '<tpl for="."><tpl if="{' + this.displayField + '}.substring(0, {' + this.displayField + '}.indexOf(\'_\')))==\'Remote sensing data\'"><div>{' + this.displayField + '}.substring(0, {' + this.displayField + '}.indexOf(\'_\'))</div></tpl><div class="x-combo-list-item">{' + this.displayField + '}.substring({' + this.displayField + '}.indexOf(\'_\')+1)</div></tpl>',
             listeners: {
                 select: function (combo, record, index) {
                     this.selectedKeywordStore.removeAll();

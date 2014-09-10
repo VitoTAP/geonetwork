@@ -1389,41 +1389,30 @@ GeoNetwork.util.SearchFormTools = {
             	var geocoords = item.getElementsByTagName('geo')[0];
             	if(children){
             		var child = children.childNodes[0].nodeValue;
-            		switch(child.split(" ")[0]){
-	            		case 'Global':
-	            			break;
-	            		case 'Region':
-	            			var	north = geocoords.getElementsByTagName('north')[0].childNodes[0].nodeValue,
-	            				south = geocoords.getElementsByTagName('south')[0].childNodes[0].nodeValue,
-	            				east = geocoords.getElementsByTagName('east')[0].childNodes[0].nodeValue,
-            					west = geocoords.getElementsByTagName('west')[0].childNodes[0].nodeValue;
-	            			
-	            			regionsKeywords.regions.push({
-	            				value: child.substr(child.split(" ")[0].length + 1),
-	            				bounds: new google.maps.LatLngBounds(
-	            							new google.maps.LatLng(north, west),
-		            	        	    	new google.maps.LatLng(south, east)
-	            						)
-		            	    });
-	            			break;
-	            		case 'Site':
-	            			var	north = geocoords.getElementsByTagName('north')[0].childNodes[0].nodeValue,
-	            				south = geocoords.getElementsByTagName('south')[0].childNodes[0].nodeValue,
-	            				east = geocoords.getElementsByTagName('east')[0].childNodes[0].nodeValue,
-	            				west = geocoords.getElementsByTagName('west')[0].childNodes[0].nodeValue;
-	            				geos = [new google.maps.LatLng(north, east)];
-	            				
-	            			/*if(north !== south || east !== west){
-	            				geos.push(new google.maps.LatLng(south, west));
-	            			}*/
-	            			regionsKeywords.sites.push({
-	            				value: child.substr(child.split(" ")[0].length + 1),
-	            				geos: geos
-	            			});
-	            			//regionsKeywords.sites += '<li>' + child.substr(child.split(" ")[0].length + 1) + '</li>';
-	            			break;
-	            		default:
-	            			break;
+            		var type = child.split(" ")[0];
+            		if(type === 'Region' || type === 'Site'){
+            			var	north = geocoords.getElementsByTagName('north')[0].childNodes[0].nodeValue,
+        					south = geocoords.getElementsByTagName('south')[0].childNodes[0].nodeValue,
+        					east = geocoords.getElementsByTagName('east')[0].childNodes[0].nodeValue,
+        					west = geocoords.getElementsByTagName('west')[0].childNodes[0].nodeValue;
+            			
+            			var regionName = child.substr(child.split(" ")[0].length + 1),
+            				bounds = new google.maps.LatLngBounds(
+	        							new google.maps.LatLng(north, type === 'Region' ? west : east),
+	            	        	    	new google.maps.LatLng(south, type === 'Region' ? east : west)
+	        						);
+            			
+            			if(type === 'Region'){
+            				regionsKeywords.regions.push({
+                				value: regionName,
+                				bounds: bounds
+    	            	    });
+            			}else if(type === 'Site'){
+            				regionsKeywords.sites.push({
+                				value: regionName,
+                				bounds: bounds
+    	            	    });
+            			}
             		}
             	}
             });

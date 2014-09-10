@@ -1228,25 +1228,23 @@ GeoNetwork.app = function(){
 	          var marker;
 	          
 	          for(var site=0;site<regionsKeywords.sites.length;site++){
-	        	  for(var geo=0;geo<regionsKeywords.sites[site].geos.length;geo++){
-	        		  marker = new google.maps.Marker({
-			              position: regionsKeywords.sites[site].geos[geo],
-			              map: sitesmap,
-			              icon: 'http://maps.google.com/mapfiles/ms/icons/green-dot.png',
-			              animation:google.maps.Animation.DROP
-			          });
-	        		  google.maps.event.addListener(marker, 'mouseover', (function(marker, site) {
-	    	              return function() {
-	    	            	sitesInfowindow.setContent(regionsKeywords.sites[site].value);
-	    	            	sitesInfowindow.open(sitesmap, marker);
-	    	              }
-	    	            })(marker, site));
-	        		  google.maps.event.addListener(marker, 'click', (function(marker, site) {
-	    	              return function() {
-	    	            	  searchWithRegionkeyword(regionsKeywords.sites[site].value);
-	    	              }
-	    	            })(marker, site));
-	        	  }
+        		  marker = new google.maps.Marker({
+		              position: regionsKeywords.sites[site].bounds.getCenter(),
+		              map: sitesmap,
+		              icon: 'http://maps.google.com/mapfiles/ms/icons/green-dot.png',
+		              animation:google.maps.Animation.DROP
+		          });
+        		  google.maps.event.addListener(marker, 'mouseover', (function(marker, site) {
+    	              return function() {
+    	            	sitesInfowindow.setContent(regionsKeywords.sites[site].value);
+    	            	sitesInfowindow.open(sitesmap, marker);
+    	              }
+    	            })(marker, site));
+        		  google.maps.event.addListener(marker, 'click', (function(marker, site) {
+    	              return function() {
+    	            	  searchWithRegionkeyword(regionsKeywords.sites[site].value);
+    	              }
+    	            })(marker, site));
 	          }
 	          
 	          var regionsmap = new google.maps.Map(document.getElementById('regionsmap'), {

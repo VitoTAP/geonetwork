@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:fn="http://www.w3.org/2005/02/xpath-functions" xmlns:foaf="http://xmlns.com/foaf/0.1/" xmlns:gml="http://www.opengis.net/gml#" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#" xmlns:skos="http://www.w3.org/2004/02/skos/core#" xmlns:xdt="http://www.w3.org/2005/02/xpath-datatypes" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <!-- Scheme -->
+  <skos:ConceptScheme rdf:about="http://belair.vgt.vito.be/regions">
+    <dc:title>BEL-AIR Sites</dc:title>
+    <dc:description>BEL-AIR Sites</dc:description>
+    <dc:creator>
+      <foaf:Organization>
+        <foaf:name>VITO</foaf:name>
+      </foaf:Organization>
+    </dc:creator>
+    <dc:rights>Free usage</dc:rights>
+    <dcterms:issued>2014-05-06</dcterms:issued>
+    <dcterms:modified>2014-05-06</dcterms:modified>
+  </skos:ConceptScheme>
+  <!-- Concept list -->
+  <skos:Concept rdf:about="http://belair.vgt.vito.be/regions#9001">
+    <skos:prefLabel xml:lang="en">Litora</skos:prefLabel>
+    <gml:BoundedBy>
+      <gml:Envelope gml:srsName="http://www.opengis.net/gml/srs/epsg.xml#epsg:4326">
+        <gml:lowerCorner>2.798 50.877</gml:lowerCorner>
+        <gml:upperCorner>3.629 51.482</gml:upperCorner>
+      </gml:Envelope>
+    </gml:BoundedBy>
+  </skos:Concept>
+  <skos:Concept rdf:about="http://belair.vgt.vito.be/regions#9002">
+    <skos:prefLabel xml:lang="en">Sonia</skos:prefLabel>
+    <gml:BoundedBy>
+      <gml:Envelope gml:srsName="http://www.opengis.net/gml/srs/epsg.xml#epsg:4326">
+        <gml:lowerCorner>5.144 50.538</gml:lowerCorner>
+        <gml:upperCorner>4.369 50.967</gml:upperCorner>
+      </gml:Envelope>
+    </gml:BoundedBy>
+  </skos:Concept>
+  <skos:Concept rdf:about="http://belair.vgt.vito.be/regions#9003">
+    <skos:prefLabel xml:lang="en">Hesbania</skos:prefLabel>
+    <gml:BoundedBy>
+      <gml:Envelope gml:srsName="http://www.opengis.net/gml/srs/epsg.xml#epsg:4326">
+        <gml:lowerCorner>5.03 50.878</gml:lowerCorner>
+        <gml:upperCorner>5.635 50.443</gml:upperCorner>
+      </gml:Envelope>
+    </gml:BoundedBy>
+  </skos:Concept>
+  </rdf:RDF>
+

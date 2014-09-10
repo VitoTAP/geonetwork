@@ -25,14 +25,10 @@ tr.inspire th label {
 }
 */
 /**GDI MANDATORY**/
-tr.gdi th + td span textarea, tr.gdi th + td input {
+tr.project th + td span textarea, tr.project th + td input {
 	border-color: #0000ff;
 }
 
-tr.gdi th + td span textarea.error, tr.gdi th + td input.error {
+tr.project th + td span textarea.error, tr.project th + td input.error {
 	border-color: #ff0000;
 }
-/*
-tr.gdi th label {
-	color: #0000ff;
-}*/

@@ -127,7 +127,7 @@ GeoNetwork.app = function(){
         var loginForm = new GeoNetwork.LoginForm({
             renderTo: 'login-form',
             catalogue: catalogue,
-            layout: 'hbox',
+            layout: 'column',
             bodyStyle:{"background-color":"transparent"},
             hideLoginLabels: GeoNetwork.hideLoginLabels
         });
@@ -1144,7 +1144,7 @@ GeoNetwork.app = function(){
                         id:'footer',
                         region:'south',
                         border:true,
-                        html:"<div><span class='madeBy' style='text-align:left;padding:0px 3px'>"+ OpenLayers.i18n('Powered by') + " GeoNetwork OpenSource"/* + "<a href='http://geonetwork-opensource.org/'><img style='width:80px' src='../images/default/gn-logo.png' title='GeoNetwork OpenSource' border='0' /></a>"*/ + "</span><span class='madeBy' style='text-align:right;padding:0px 3px'>" + GeoNetwork.Settings.nodeFooterInfo + "</span></div>",
+                        html:"<div><span class='madeBy' style='text-align:right;padding:0px 3px'>" + GeoNetwork.Settings.nodeFooterInfo + "</span></div>",
                         layout:'fit'
                  }
                 ],

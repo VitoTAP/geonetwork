@@ -296,7 +296,7 @@
 		        </xsl:call-template>
 	        </xsl:variable>
 	        <xsl:choose>
-	            <xsl:when test="$type = 'iso' or $type = 'gdi' or $type = 'inspire' ">
+	            <xsl:when test="$type = 'iso' or $type = 'project' or $type = 'inspire' ">
 				    <img src="../../apps/images/default/{$type}.png" >
 						<xsl:attribute name="class"><xsl:value-of select="$type"/></xsl:attribute>
 				        <xsl:if test="$tooltip">

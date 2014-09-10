@@ -325,6 +325,9 @@ table.related * a:hover,
 .md-mn-validator {
   background-image : url(../../images/default/geowiki60.png);
 }
+.md-mn-datafile {
+  background-image : url(../../images/default/datafile.png);
+}
 .xmlIcon {
   background-image : url(../../images/default/page_code.png);
 }

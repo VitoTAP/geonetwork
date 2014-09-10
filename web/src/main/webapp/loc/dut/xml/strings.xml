@@ -62,9 +62,13 @@
   <editAttributes>Voeg meer details toe</editAttributes>
   <subtemplate.admin>Beheer folders.</subtemplate.admin>
   <subtemplate.admin.desc>Toevoegen/wijzigen/verwijderen folders (vb. contact folders)</subtemplate.admin.desc>  
-  <surnameMandatory>Familienaam/achternaam is vereist</surnameMandatory>
-	<firstnameMandatory>Voornaam is vereist</firstnameMandatory>
-	<emailMandatory>e-mail adres is vereist</emailMandatory>
+	<firstnameMandatory>Het Voornaam veld is verplicht</firstnameMandatory>
+	<usernameMandatory>Het Gebruikersnaam veld is verplicht</usernameMandatory>
+	<surnameMandatory>Het Familienaam/Achternaam veld is verplicht</surnameMandatory>
+	<passwordMandatory>De paswoord velden zijn verplicht</passwordMandatory>
+	<emailMandatory>Het email adres veld is verplicht</emailMandatory>
+	<countryMandatory>Het Land veld is verplicht</countryMandatory>
+	<organisationMandatory>Het organisatie veld is verplicht</organisationMandatory>
 	<forgottenPassword>Paswoord vergeten?</forgottenPassword>
   <selectTemplate>Select schemas</selectTemplate>	
 	<notificationsDes>Remote Wijzigingen</notificationsDes>
@@ -732,7 +736,7 @@
 	<password>Wachtwoord</password>
 	<passwordDoNotMatch>U heeft het wachtwoord niet tweemaal hetzelfde ingevoerd. Voer het wachtwoord nogmaals in.</passwordDoNotMatch>
 	<passwordEntry>Voer uw wachtwoord tweemaal in.</passwordEntry>
-	<passwordLength>Uw wachtwoord moet tenminste " + minLength + " tekens lang zijn. Probeer nogmaals.</passwordLength>
+	<passwordLength>Uw wachtwoord moet tenminste 6 tekens lang zijn. Probeer nogmaals.</passwordLength>
 	<passwordOldRequired>Uw oude wachtwoord is verplicht</passwordOldRequired>
 	<passwordSpace>Spaties zijn niet toegestaan in een wachtwoord.</passwordSpace>
 	<persInfo>Persoonlijke informatie</persInfo>
@@ -918,7 +922,6 @@
 	<userManagement>Gebruikersbeheer</userManagement>
 	<userManDes>Toevoegen/wijzigen/verwijderen en tonen van gebruikers</userManDes>
 	<username>Gebruikersnaam</username>
-	<usernameMandatory>Het gebruikersnaam veld is verplicht.</usernameMandatory>
 	<userPw>Wijzig wachtwoord</userPw>
 	<userPwDes>Sta de huidige gebruiker toe het wachtwoord te wijzigen</userPwDes>
 	<uuidAction>Import acties:</uuidAction>

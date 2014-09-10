@@ -106,7 +106,8 @@ public class SelfRegister implements Service {
 				.open(Geonet.Res.MAIN_DB);
 		
 		String username = email;
-		String password = getInitPassword();
+		String password = Util.getParam(params, Params.PASSWORD);
+//		String password = getInitPassword();
 
 		GeonetContext  gc = (GeonetContext) context.getHandlerContext(Geonet.CONTEXT_NAME);
 		SettingManager sm = gc.getSettingManager();
@@ -302,9 +303,12 @@ public class SelfRegister implements Service {
 	 * @throws SQLException
 	 */
 	String getGroupID(Dbms dbms) throws SQLException {
+/*		
 		String sql = "select id from Groups where name=?";
 		Element e = dbms.select(sql, "Registered users");
 		return e.getChild("record").getChild("id").getText();
+*/
+		return "3";
 	}
 
 	// --------------------------------------------------------------------------

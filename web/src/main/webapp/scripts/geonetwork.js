@@ -466,11 +466,11 @@ function get_cookie ( cookie_name )
 		var minLength = 6; // Minimum length
             
 		if (document.userregisterform.name.value.length == 0) {
-			alert(translate('firstNameMandatory'));
+			alert(translate('firstnameMandatory'));
 			return;
 		} 
 		if (isWhitespace(document.userregisterform.name.value)) {
-			alert(translate('firstNameMandatory'));
+			alert(translate('firstnameMandatory'));
 			return;
 		}    
 		if (document.userregisterform.name.value.indexOf(invalid) > -1) {
@@ -479,11 +479,11 @@ function get_cookie ( cookie_name )
 		}	
 			
 		if (document.userregisterform.surname.value.length == 0) {
-			alert(translate('lastNameMandatory'));
+			alert(translate('surnameMandatory'));
 			return;
 		}  
 		if (isWhitespace(document.userregisterform.surname.value)) {
-			alert(translate('lastNameMandatory'));
+			alert(translate('surnameMandatory'));
 			return;
 		}
 		if (document.userregisterform.surname.value.indexOf(invalid) > -1) {

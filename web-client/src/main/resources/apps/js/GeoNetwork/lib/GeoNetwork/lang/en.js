@@ -251,7 +251,7 @@ GeoNetwork.lang.en = {
     'allInPage': 'all in page',
     'select': 'Select ',
     'username': 'User name',
-    'password': 'password',
+    'password': 'Password',
     'login': 'Login',
     'register': "Register",
     'forgotten': "Password forgotten",

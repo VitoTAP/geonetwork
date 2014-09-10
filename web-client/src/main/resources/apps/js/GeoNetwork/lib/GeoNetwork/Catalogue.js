@@ -739,14 +739,14 @@ GeoNetwork.Catalogue = Ext.extend(Ext.util.Observable, {
         
 //        for (i = 0; i < uuids.length; i++) {
 		if (uuids.length>0) {
-	        Ext.Ajax.request({
+            OpenLayers.Request.POST({
                 url: this.services.mdSelect,
-	            method: 'POST', 
-//            OpenLayers.Request.GET({
-//                url: this.services.mdSelect,
-                params: {
+                data: OpenLayers.Util.getParameterString({
                     id: uuids.join(",")/*[i]*/,
                     selected: type
+                }),
+                headers: {
+                    "Content-Type": "application/x-www-form-urlencoded"
                 },
                 success: function(response){
                     var nb = response.responseXML.documentElement.getElementsByTagName("Selected")[0].childNodes[0].nodeValue;
@@ -1274,11 +1274,12 @@ GeoNetwork.Catalogue = Ext.extend(Ext.util.Observable, {
             }
 	        scope.loadingMask.show();
         }
-	        Ext.Ajax.request({
-	            method: 'POST', 
-//        OpenLayers.Request.GET({
+        OpenLayers.Request.POST({
             url: url,
-            params: params,
+            data: OpenLayers.Util.getParameterString(params),
+            headers: {
+                "Content-Type": "application/x-www-form-urlencoded"
+            },
             success: function(response){
 		        if (scope!=null && scope.loadingMask !== null) {
 		            scope.loadingMask.hide();

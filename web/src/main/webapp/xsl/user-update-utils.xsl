@@ -3,11 +3,11 @@
 	
 	<xsl:template name="userinfofields">
 				<tr>
-					<th class="padded"><xsl:value-of select="/root/gui/strings/surName"/> (*)</th>
+					<th class="padded"><xsl:value-of select="/root/gui/strings/surname"/> (*)</th>
 					<td class="padded"><input class="content" type="text" name="surname" value="{/root/response/record/surname}"/></td>
 				</tr>
 				<tr>
-					<th class="padded"><xsl:value-of select="/root/gui/strings/firstName"/> (*)</th>
+					<th class="padded"><xsl:value-of select="/root/gui/strings/firstname"/> (*)</th>
 					<td class="padded"><input class="content" type="text" name="name" value="{/root/response/record/name}"/></td>
 				</tr>
 				<tr>

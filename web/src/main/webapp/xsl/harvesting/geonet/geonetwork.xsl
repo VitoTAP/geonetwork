@@ -111,7 +111,7 @@
 		<h1 align="left"><xsl:value-of select="/root/gui/harvesting/content"/></h1>
 
 		<table border="0">
-			<tr style="display:none;"> <!-- UNUSED -->
+			<tr>
 				<td class="padded"><xsl:value-of select="/root/gui/harvesting/importxslt"/></td>
 				<td class="padded">
 					&#160;

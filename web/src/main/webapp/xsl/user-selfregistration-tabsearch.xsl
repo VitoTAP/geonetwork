@@ -6,13 +6,21 @@
 	        <form id="userregisterform" name="userregisterform" accept-charset="UTF-8" action="{/root/gui/locService}/user.register.submit" method="POST">
 	             <table align="center">                
 	                <tr>
-	                    <th class="padded"><xsl:value-of select="/root/gui/strings/firstName"/> (*)</th>
+	                    <th class="padded"><xsl:value-of select="/root/gui/strings/firstname"/> (*)</th>
 	                    <td class="padded"><input class="content" type="text" name="name" value=""/></td>
 	                </tr>
 	                <tr>
-	                    <th class="padded"><xsl:value-of select="/root/gui/strings/surName"/> (*)</th>
+	                    <th class="padded"><xsl:value-of select="/root/gui/strings/surname"/> (*)</th>
 	                    <td class="padded"><input class="content" type="text" name="surname" value=""/></td>
 	                </tr>
+					<tr>
+						<th class="padded"><xsl:value-of select="/root/gui/strings/password"/> (*)</th>
+						<td class="padded"><input class="content" type="password" name="password" value=""/></td>
+					</tr>
+					<tr>
+						<th class="padded"><xsl:value-of select="/root/gui/strings/confirmPassword"/> (*)</th>
+						<td class="padded"><input class="content" type="password" name="password2" value=""/></td>
+					</tr>
 	                <tr>
 	                    <th class="padded"><xsl:value-of select="/root/gui/strings/email"/> (*)</th>
 	                    <td class="padded"><input class="content" type="text" name="email" value=""/></td>
@@ -29,12 +37,14 @@
 	                     <th class="padded"><xsl:value-of select="/root/gui/strings/zip"/></th>
 	                     <td class="padded"><input class="content" type="text" name="zip" value="" size="8"/></td>
 	                 </tr>
+<!--
 	                 <tr>
 	                    <th class="padded"><xsl:value-of select="/root/gui/strings/state"/></th>
 	                    <td class="padded"><input class="content" type="text" name="state" value="" size="8"/></td>
 	                </tr>
+-->
 	                <tr>
-	                    <th class="padded"><xsl:value-of select="/root/gui/strings/country"/></th>
+	                    <th class="padded"><xsl:value-of select="/root/gui/strings/country"/> (*)</th>
 	                    <td class="padded">
 	                        <select class="content" size="1" name="country"> 
 	                            <option value=""/> 
@@ -51,7 +61,7 @@
 	                </tr>
 	                
 	                <tr>
-	                    <th class="padded"><xsl:value-of select="/root/gui/strings/organisation"/></th>
+	                    <th class="padded"><xsl:value-of select="/root/gui/strings/organisation"/> (*)</th>
 	                    <td class="padded"><input class="content" type="text" name="org" value="{/root/response/record/organisation}"/></td>
 	                </tr>
 	                <tr>
@@ -90,7 +100,8 @@
 				<div align="center">
 		                <input type="button" class="content" onclick="$('userregisterform').reset()" value="{/root/gui/strings/reset}"/>
 		                &#160;
-		                <input type="button" class="content" onclick="processRegSub('{/root/gui/strings/spacesNot}','{/root/gui/strings/firstNameMandatory}','{/root/gui/strings/lastNameMandatory}','{/root/gui/strings/emailAddressInvalid}', '{/root/gui/strings/yourRegistration}','{/root/gui/strings/registrationFailed}')" value="{/root/gui/strings/register}"/>
+		                <input type="button" class="content" onclick="processRegSub('{/root/gui/strings/spacesNot}','{/root/gui/strings/firstnameMandatory}', '{/root/gui/strings/surnameMandatory}',
+		                '{/root/gui/strings/passwordLength}','{/root/gui/strings/passwordDoNotMatch}','{/root/gui/strings/emailAddressInvalid}', '{/root/gui/strings/countryMandatory}', '{/root/gui/strings/organisationMandatory}', '{/root/gui/strings/yourRegistration}','{/root/gui/strings/registrationFailed}')" value="{/root/gui/strings/register}"/>
 				</div>
 			</form>
 		</div>

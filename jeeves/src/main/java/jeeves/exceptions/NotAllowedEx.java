@@ -36,7 +36,7 @@ public abstract class NotAllowedEx extends JeevesClientEx
 
 	public NotAllowedEx(String message, Object object)
 	{
-		super("Session has expired and login again. Or you are allowed to execute this action."/*message*/, object);
+		super("Your session has expired, please login again."/*message*/, object);
 
 		id = "not-allowed";
 	}

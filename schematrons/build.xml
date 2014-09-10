@@ -53,9 +53,6 @@
         <ant target="compile-schematron">
             <property name="rules" value="BEL-AIR" />
         </ant>
-		<ant target="compile-schematron">
-		    <property name="rules" value="SIGMA" />
-		</ant>
 
 		<!-- 
 		Add publish statements here to propagate rules to other schema if needed.
@@ -92,10 +89,6 @@
 		</ant>
         <ant target="publish-schematron">
             <property name="rules" value="BEL-AIR" />
-            <property name="schema" value="iso19139" />
-        </ant>
-		<ant target="publish-schematron">
-            <property name="rules" value="SIGMA" />
             <property name="schema" value="iso19139" />
         </ant>
 	</target>

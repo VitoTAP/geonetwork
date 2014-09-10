@@ -50,7 +50,7 @@ GeoNetwork.Settings.editor = {
 GeoNetwork.printDefaultForTabs = false;
 
 // Define if label needs to be displayed for login form next to username/password fields
-GeoNetwork.hideLoginLabels = true;
+GeoNetwork.hideLoginLabels = false;
 
 
 // Define which type of search to use
@@ -74,5 +74,5 @@ GeoNetwork.Settings.nodeType = "BEL-AIR";
 GeoNetwork.Settings.useSTS = false;
 GeoNetwork.Settings.ga = true;
 GeoNetwork.Settings.logoutUrlSTS = "https://auth." + (GeoNetwork.Settings.isProduction ? "" : "beta.") + "agiv.be/sts/";
-GeoNetwork.Settings.nodeFooterInfo = "Build: 11/08/2014 - " + GeoNetwork.Settings.nodeType + "-Metadatacenter" + (GeoNetwork.Settings.isProduction ? "" : " (beta)");
+GeoNetwork.Settings.nodeFooterInfo = "Build: 11/08/2014 - &copy; 2013-2014 - VITO NV. all rights reserved. <a target='_blank' href='http://www.vito-eodata.be/PDF/image/TermsOfUse.pdf'>Terms of use</a>";
 

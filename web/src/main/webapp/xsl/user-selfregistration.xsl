@@ -16,7 +16,7 @@
             </xsl:with-param>
             <xsl:with-param name="buttons">
 							<div align="center">
-                <button class="content" onclick="goReset('userregisterform')"><xsl:value-of select="/root/gui/strings/reset"/></button>
+                <button class="content" onclick="goReset('userRegisterform')"><xsl:value-of select="/root/gui/strings/reset"/></button>
                 &#160;
                 <button class="content" onclick="processRegSub('{/root/gui/locService}/user.register.submit')"><xsl:value-of select="/root/gui/strings/register"/></button>
 							</div>
@@ -28,14 +28,14 @@
     form
     -->
     <xsl:template name="form">
-        <form id="userregisterform" name="userregisterform" accept-charset="UTF-8" action="{/root/gui/locService}/user.register.submit" method="post">
+        <form id="userRegisterform" name="userRegisterform" accept-charset="UTF-8" action="{/root/gui/locService}/user.register.submit" method="post">
              <table align="center">                
                 <tr>
-                    <th class="padded"><xsl:value-of select="/root/gui/strings/firstName"/> (*)</th>
+                    <th class="padded"><xsl:value-of select="/root/gui/strings/firstname"/> (*)</th>
                     <td class="padded"><input class="content" type="text" name="name" value=""/></td>
                 </tr>
                 <tr>
-                    <th class="padded"><xsl:value-of select="/root/gui/strings/surName"/> (*)</th>
+                    <th class="padded"><xsl:value-of select="/root/gui/strings/surname"/> (*)</th>
                     <td class="padded"><input class="content" type="text" name="surname" value=""/></td>
                 </tr>
                 <tr>
@@ -74,7 +74,6 @@
                         </select>
                     </td>
                 </tr>
-                
                 <tr>
                     <th class="padded"><xsl:value-of select="/root/gui/strings/organisation"/></th>
                     <td class="padded"><input class="content" type="text" name="org" value="{/root/response/record/organisation}"/></td>

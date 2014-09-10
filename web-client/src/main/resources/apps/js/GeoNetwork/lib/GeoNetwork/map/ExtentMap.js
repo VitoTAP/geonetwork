@@ -486,7 +486,7 @@ GeoNetwork.map.ExtentMap = function(){
                 pNewSearch : true,
                 pTypeSearch : 1,
                 pKeyword: '*',
-                pThesauri : 'external.place.SIGMA-Regions',
+                pThesauri : GeoNetwork.Settings.nodeType.toLowerCase() == "bel-air" ? 'external.place.BEL-AIR-Sites' : 'external.place.SIGMA-Regions',
                 pMode : 'searchBox'/*,
                 maxResults : '35'*/
             },
@@ -524,7 +524,7 @@ GeoNetwork.map.ExtentMap = function(){
 //        var store = GeoNetwork.data.RegionStore(catalogue.services.getRegions); // FIXME : global var
         var combo = new Ext.form.ComboBox({
             store: regionsStore,
-            //displayField: "labels['en']",
+            displayField: 'value',
             tpl: '<tpl for="."><div class="x-combo-list-item">{value}</div></tpl>',// TODO if language code does not exist in labels field store
             typeAhead: true,
             mode: 'local',

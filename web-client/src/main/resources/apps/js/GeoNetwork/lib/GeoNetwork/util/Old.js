@@ -289,14 +289,14 @@ function getError(response){
     } 
 }
 
-function processRegSub(spacesNot,firstNameMandatory,lastNameMandatory,emailAddressInvalid,successMessage, failureMessage)
+function processRegSub(spacesNot, firstnameMandatory, surnameMandatory, passwordLength, passwordDoNotMatch, emailAddressInvalid, countryMandatory, organisationMandatory, successMessage, failureMessage)
 {
 	var f = $('userregisterform');
 	// check start
 	var minLength = 6; // Minimum length
     var title = "Invalid fieldvalue";    
 	if (Ext.isEmpty(f.name.value)) {
-		Ext.Msg.alert("First name",firstNameMandatory);
+		Ext.Msg.alert("First name", firstnameMandatory);
 		return;
 	}    
 	if (f.name.value.indexOf(' ') > -1) {
@@ -305,19 +305,49 @@ function processRegSub(spacesNot,firstNameMandatory,lastNameMandatory,emailAddre
 	}	
 		
 	if (Ext.isEmpty(f.surname.value)) {
-		Ext.Msg.alert("Last name",lastNameMandatory);
+		Ext.Msg.alert("Last name", surnameMandatory);
 		return;
 	}  
 	if (f.surname.value.indexOf(' ') > -1) {
 		Ext.Msg.alert(title,"Last name: " + spacesNot);
 		return;
 	}
-		
+
+	if (Ext.isEmpty(f.password.value) || Ext.isEmpty(f.password2.value)) {
+		Ext.Msg.alert("Password", passwordMandatory);
+		return;
+	}  
+	if (f.password.value.length < 6)
+	{
+		Ext.Msg.alert("Password", passwordLength);
+		return;
+	}
+	if (f.password.value.indexOf(' ') > -1) {
+		Ext.Msg.alert(title,"Password: " + spacesNot);
+		return;
+	}
+
+	if (f.password.value != f.password2.value)
+	{
+		Ext.Msg.alert("Password", passwordDoNotMatch);
+		return;
+	}
+
 	if (!Ext.form.VTypes.email(f.email.value)) {
-		Ext.Msg.alert("Email:" + emailAddressInvalid);
+		Ext.Msg.alert("Email:", emailAddressInvalid);
 		return;
 	}
 		
+	if (Ext.isEmpty(f.country.value)) {
+		Ext.Msg.alert("Country", countryMandatory);
+		return;
+	}  
+
+	if (Ext.isEmpty(f.org.value)) {
+		Ext.Msg.alert("Organisation", organisationMandatory);
+		return;
+	}  
+
 	Ext.Ajax.request({
         url: f.action,
         form: f,

@@ -1,8 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <strings>
+	<!-- SIGMA metadata rules translation / START -->
+	<SIGMA-identification>Minimum one keyword must be selected from the thesaurus ‘SIGMA-Years’ dated on 2014-05-06</SIGMA-identification>
+	<SIGMAYearsThesaurusNotFound>SIGMA Years thesaurus not found.</SIGMAYearsThesaurusNotFound>
+	<NoSIGMAThemeSelected>No English keyword found from the SIGMA Sites thesaurus dated on 2014-05-06.</SIGMAThemeSelected>
+	<SIGMAKeywordFound-1>An English keyword: </SIGMAKeywordFound-1>
+	<SIGMAKeywordFound-2>is found from the SIGMA Years thesaurus dated on 2014-05-06.</SIGMAKeywordFound-2>
+	
+	<SIGMA-identification-2>Minimum one keyword must be selected from the thesaurus ‘SIGMA-DataTypes’ dated on 2014-05-06</SIGMA-identification-2>
+	<SIGMADatatypesThesaurusNotFound>SIGMA DataTypes thesaurus not found.</SIGMADatatypesThesaurusNotFound>
+	
+	
+	<SIGMA-identification-3>Minimum one keyword must be selected from the thesaurus ‘SIGMA-Regions’ dated on 2014-05-06</SIGMA-identification-3>
+
     <!-- GENERAL metadata rules translation / START -->
-    
-    <!-- List of pattern title -->
     <identification>General SC-1: gmd:MD_Metadata/gmd:fileIdentifier (Iso element nr. 2) has to be present and not empty.</identification>
     <fileIdentifierMissing>gmd:fileIdentifier is missing or empty</fileIdentifierMissing>
     <fileIdentifierPresent>gmd:fileIdentifier is present: </fileIdentifierPresent>

@@ -50,9 +50,9 @@
 		<ant target="compile-schematron">
 			<property name="rules" value="geonetwork" />
 		</ant>
-        <ant target="compile-schematron">
-            <property name="rules" value="BEL-AIR" />
-        </ant>
+		<ant target="compile-schematron">
+		    <property name="rules" value="SIGMA" />
+		</ant>
 
 		<!-- 
 		Add publish statements here to propagate rules to other schema if needed.
@@ -87,8 +87,8 @@
 			<property name="rules" value="geonetwork" />
 			<property name="schema" value="iso19139" />
 		</ant>
-        <ant target="publish-schematron">
-            <property name="rules" value="BEL-AIR" />
+		<ant target="publish-schematron">
+            <property name="rules" value="SIGMA" />
             <property name="schema" value="iso19139" />
         </ant>
 	</target>

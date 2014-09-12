@@ -12,12 +12,12 @@
 	<sch:ns prefix="xlink" uri="http://www.w3.org/1999/xlink"/>
 	<!-- SIGMA SC-1 -->
 	<sch:pattern>
-		<sch:title>Minimum one keyword must be selected from the thesaurus ‘SIGMA-Years’ dated on 2014-05-06</sch:title>
+		<sch:title>$loc/strings/SIGMA-identification</sch:title>
 		<sch:rule context="//gmd:MD_DataIdentification">
 			<sch:let name="sigma-thesaurus" value="document(concat('file:///', $thesaurusDir, '/external/thesauri/temporal/SIGMA-Years.rdf'))"/>
 			<sch:let name="sigma-theme" value="$sigma-thesaurus//skos:Concept"/>
 			<sch:assert test="count($sigma-theme) > 0">
-				SIGMA Years thesaurus not found. 
+				$loc/strings/SIGMAYearsThesaurusNotFound
 			</sch:assert>
 			<sch:let name="keyword" value="gmd:descriptiveKeywords/*/gmd:keyword/gco:CharacterString
 					[../../gmd:thesaurusName/*/gmd:title/*/text()='SIGMA Years' and
@@ -25,20 +25,20 @@
 					../../gmd:thesaurusName/*/gmd:date/*/gmd:dateType/gmd:CI_DateTypeCode/@codeListValue='publication']"/>
 			<sch:let name="sigma-theme-selected" value="count($sigma-thesaurus//skos:Concept[skos:prefLabel[@xml:lang='en'] = $keyword])"/>
 			<sch:assert test="$sigma-theme-selected >0">
-				No English keyword found from the SIGMA Sites thesaurus dated on 2014-05-06.
+				$loc/strings/NoSIGMAThemeSelected
 			</sch:assert>
 			<sch:report test="$sigma-theme-selected > 0">
-				An English keyword: <sch:value-of select="$keyword"/> is found from the SIGMA Years thesaurus dated on 2014-05-06.
+				$loc/strings/SIGMAKeywordFound-1 <sch:value-of select="$keyword"/> $loc/strings/SIGMAKeywordFound-2
 			</sch:report>
 		</sch:rule>
 	</sch:pattern>
 	<sch:pattern>
-		<sch:title>Minimum one keyword must be selected from the thesaurus ‘SIGMA-DataTypes’ dated on 2014-05-06</sch:title>
+		<sch:title>$loc/strings/SIGMA-identification-2</sch:title>
 		<sch:rule context="//gmd:MD_DataIdentification">
 			<sch:let name="sigma-thesaurus" value="document(concat('file:///', $thesaurusDir, '/external/thesauri/theme/SIGMA-DataTypes.rdf'))"/>
 			<sch:let name="sigma-theme" value="$sigma-thesaurus//skos:Concept"/>
 			<sch:assert test="count($sigma-theme) > 0">
-				SIGMA DataTypes thesaurus not found. 
+				$loc/strings/SIGMADatatypesThesaurusNotFound
 			</sch:assert>
 			<sch:let name="keyword" value="gmd:descriptiveKeywords/*/gmd:keyword/gco:CharacterString
 					[../../gmd:thesaurusName/*/gmd:title/*/text()='SIGMA DataTypes' and
@@ -54,7 +54,7 @@
 		</sch:rule>
 	</sch:pattern>
 	<sch:pattern>
-		<sch:title>Minimum one keyword must be selected from the thesaurus ‘SIGMA-Regions’ dated on 2014-05-06</sch:title>
+		<sch:title>$loc/strings/SIGMA-identification-3</sch:title>
 		<sch:rule context="//gmd:MD_DataIdentification">
 			<sch:let name="sigma-thesaurus" value="document(concat('file:///', $thesaurusDir, '/external/thesauri/place/SIGMA-Regions.rdf'))"/>
 			<sch:let name="sigma-theme" value="$sigma-thesaurus//skos:Concept"/>

@@ -364,8 +364,8 @@
 
 		<param name="statusActionsClass" value="org.fao.geonet.services.metadata.DefaultStatusActions"/>
         <param name="validationHook" value="org.fao.geonet.services.metadata.validation.agiv.AGIVValidationHook"/>
-        <param name="ldapUsername" value="cn=reader,ou=ldap_accounts,ou=pdf,dc=eodata,dc=vito,dc=be" />
-		<param name="ldapPassword" value="reader" />
+        <param name="ldapUsername" value="cn=reader,ou=ldap_accounts,ou=sigma,dc=eodata,dc=vito,dc=be" />
+		<param name="ldapPassword" value="Tnec7GFu" />
     </appHandler>
 
 	<!-- ====================================================================== -->

@@ -18,16 +18,18 @@
 					<th class="padded"><xsl:value-of select="/root/gui/strings/city"/></th>
 					<td class="padded"><input class="content" type="text" name="city" value="{/root/response/record/city}"/></td>
 				</tr>
+<!--
 				<tr>
 					<th class="padded"><xsl:value-of select="/root/gui/strings/state"/></th>
 					<td class="padded"><input class="content" type="text" name="state" value="{/root/response/record/state}" size="8"/></td>
 				</tr>
+-->
 				<tr>
 					<th class="padded"><xsl:value-of select="/root/gui/strings/zip"/></th>
 					<td class="padded"><input class="content" type="text" name="zip" value="{/root/response/record/zip}"/></td>
 				</tr>
 				<tr>
-					<th class="padded"><xsl:value-of select="/root/gui/strings/country"/></th>
+					<th class="padded"><xsl:value-of select="/root/gui/strings/country"/> (*)</th>
 					<td class="padded">
 						<select class="content" size="1" name="country">
 							<xsl:if test="string(/root/response/record/country)=''">
@@ -50,7 +52,7 @@
 					<td class="padded"><input class="content" type="text" name="email" value="{/root/response/record/email}"/></td>
 				</tr>
 				<tr>
-					<th class="padded"><xsl:value-of select="/root/gui/strings/organisation"/></th>
+					<th class="padded"><xsl:value-of select="/root/gui/strings/organisation"/> (*)</th>
 					<td class="padded"><input class="content" type="text" name="org" value="{/root/response/record/organisation}"/></td>
 				</tr>
 				<tr>

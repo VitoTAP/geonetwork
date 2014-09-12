@@ -111,6 +111,8 @@ public class Update implements Service
 
 
 			LDAPContext lc = new LDAPContext(sm, ldapUsername, ldapPassword);
+			boolean bAddLDAPUser = false;
+			boolean bUpdateLDAPUser = false;
 			boolean bUpdateLDAPGroups = false;
 			java.util.List<String> groupsToAddToLdap = new ArrayList<String>();
 			// Before we do anything check (for UserAdmin) that they are not trying
@@ -153,12 +155,6 @@ public class Update implements Service
 
 				dbms.execute(query, id, username, Util.scramble(password), surname, name, profile, address, city, state,
                         zip, country, email, organ, kind);
-				Person person = new Person();
-				person.setPassword(gc.getLdapContext().getShaPassword(password));
-				person.setCommonName(username);
-				person.setSurname(surname);
-				person.setCompany(organ);
-				gc.getLdapContext().addPerson(person);
 			//--- add groups
 				for(Element userGroup : userGroups) {
 					String group = userGroup.getText();
@@ -168,6 +164,7 @@ public class Update implements Service
 					}
 					addGroup(dbms, id, group);
 				}
+				bAddLDAPUser = true;
 				bUpdateLDAPGroups = true;
 			}
 
@@ -192,6 +189,7 @@ public class Update implements Service
 						}
 						addGroup(dbms, id, group);
 					}
+					bUpdateLDAPUser = true;
 					bUpdateLDAPGroups = true;
 
 			// -- edit user info
@@ -209,8 +207,8 @@ public class Update implements Service
 						}
 						addGroup(dbms, id, group);
 					}
+					bUpdateLDAPUser = true;
 					bUpdateLDAPGroups = true;
-
 			// -- reset password
 				}
                 else if (operation.equals(Params.Operation.RESETPW)) {
@@ -221,9 +219,29 @@ public class Update implements Service
 					throw new IllegalArgumentException("unknown user update operation "+operation);
 				}
 			} 
-			if (!isAdmin(dbms, username) && lc.isInUse() && bUpdateLDAPGroups)
-			{
-				lc.updateGroups(username,groupsToAddToLdap);
+			if (!isAdmin(dbms, username) && lc.isInUse()) {
+				if (bAddLDAPUser || bUpdateLDAPUser) {
+					Person person = new Person();
+					person.setUid(username);
+					person.setCommonName(name);
+					person.setSurname(surname);
+					person.setPostalAddress(address);
+					person.setPostalCode(zip);
+					person.setCommune(city);
+					person.setMail(email);
+					person.setCompany(organ);
+					person.setBusinessCategory(kind);
+					person.setCountry(country);
+					if (bAddLDAPUser) {
+						gc.getLdapContext().addPerson(person);
+					}
+					if (bUpdateLDAPUser) {
+						gc.getLdapContext().updatePerson(person);					
+					}
+				}
+				if (bUpdateLDAPGroups) {
+//					lc.updateGroups(username,groupsToAddToLdap);
+				}
 			}
 		} else {
 			throw new IllegalArgumentException("you don't have rights to do this");

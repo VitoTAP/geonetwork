@@ -401,7 +401,8 @@ GeoNetwork.Templates = Ext.extend(Ext.XTemplate, {
             {
                 getTitle: function(values) {
                 	if (values.title!=null && values.title.length>0) {
-                		return escape(values.title); 
+//                		return escape(values.title);
+                		return values.title;
                 	} else {
                 		return values.name;
                 	} 

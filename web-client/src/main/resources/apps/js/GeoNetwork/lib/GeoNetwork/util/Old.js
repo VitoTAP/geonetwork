@@ -362,7 +362,7 @@ function processRegSub(spacesNot, firstnameMandatory, surnameMandatory, password
     });
 }
 
-function processForgottenPwdSubmit(mandatoryMessage) {
+function processForgottenPwdSubmit(/*url, */mandatoryMessage) {
 	
 	var f = $('forgottenpwd');
 	if (Ext.isEmpty(f.username.value)) {
@@ -371,7 +371,7 @@ function processForgottenPwdSubmit(mandatoryMessage) {
 	}
 	var title = "Forgotten password";
 	Ext.Ajax.request({
-        url: f.action,
+        url: f.action/*url*/,
         form: f,
         method: 'POST', 
         success: function(response) {

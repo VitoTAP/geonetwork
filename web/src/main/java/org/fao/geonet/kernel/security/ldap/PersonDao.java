@@ -13,5 +13,5 @@ public interface PersonDao {
 
 	List<Person> findAll();
 
-	Person findByPrimaryKey(String commonName);
+	Person findByPrimaryKey(String uid);
 }

@@ -31,6 +31,8 @@ import jeeves.server.ServiceConfig;
 import jeeves.server.UserSession;
 import jeeves.server.context.ServiceContext;
 import jeeves.utils.Util;
+
+import org.fao.geonet.GeonetContext;
 import org.fao.geonet.constants.Geonet;
 import org.fao.geonet.constants.Params;
 import org.jdom.Element;
@@ -86,6 +88,10 @@ public class PwUpdate implements Service
 		
 		// all ok so change password
 		dbms.execute("UPDATE Users SET password=? WHERE id=?", newPassword, userId);
+		GeonetContext gc = (GeonetContext) context.getHandlerContext(Geonet.CONTEXT_NAME);
+		if (! "Administrator".equals(((Element) elUser.getChildren().get(0)).getChildText(Geonet.Elem.PROFILE)) && gc.getSettingManager().getValueAsBool("system/ldap/use")) {
+			gc.getLdapContext().changePassword(((Element) elUser.getChildren().get(0)).getChildText("username"), newPassword);
+		}
 
 		return new Element(Jeeves.Elem.RESPONSE);
 	}

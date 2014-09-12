@@ -3311,6 +3311,16 @@ public class DataManager {
 	//---
 	//--------------------------------------------------------------------------
 
+	public String getUsernameById(Dbms dbms, String userId) throws Exception {
+		String username = "";
+		String query = "SELECT username FROM Users WHERE id=?";
+		Element elRes = dbms.select(query, userId);
+		if (elRes.getChildren().size() == 1) {
+			username = ((Element)elRes.getChildren().get(0)).getChildText("username");
+		}
+		return username;
+	}
+
 	public boolean isUserMetadataOwner(Dbms dbms, String userId) throws Exception {
 		String query = "SELECT id FROM Metadata WHERE owner=?";
 		Element elRes = dbms.select(query, userId);

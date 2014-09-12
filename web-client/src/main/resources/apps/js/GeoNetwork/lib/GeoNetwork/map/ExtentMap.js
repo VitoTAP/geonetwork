@@ -683,10 +683,10 @@ GeoNetwork.map.ExtentMap = function(){
                         
                         tbarItems.push(createRegionMenu(function(c, r, idx){
                             var wsen = this.watchedBbox.split(','); // Here we don't round coordinates to store full value
-                            Ext.get("_" + wsen[0]).dom.value = r.data.west == r.data.east ? r.data.west - 0.0001 : r.data.west;
-                            Ext.get("_" + wsen[1]).dom.value = r.data.south == r.data.north ? r.data.south - 0.0001 : r.data.south;
-                            Ext.get("_" + wsen[2]).dom.value = r.data.east == r.data.west ? r.data.east + 0.0001 : r.data.east;
-                            Ext.get("_" + wsen[3]).dom.value = r.data.north == r.data.south ? r.data.north + 0.0001 : r.data.north;
+                            Ext.get("_" + wsen[0]).dom.value = r.data.west;
+                            Ext.get("_" + wsen[1]).dom.value = r.data.south;
+                            Ext.get("_" + wsen[2]).dom.value = r.data.east;
+                            Ext.get("_" + wsen[3]).dom.value = r.data.north;
                             updateBboxForRegion(maps[eltRef], watchedBbox, eltRef, true); // Region are in WGS84
                             if (Ext.get("_" + this.descRef) !== null) {
                                 Ext.get("_" + this.descRef).dom.value = r.data.label[GeoNetwork.Util.getCatalogueLang(OpenLayers.Lang.getCode())];

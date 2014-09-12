@@ -23,6 +23,9 @@
 
 package org.fao.geonet.services.user;
 
+import java.sql.SQLException;
+import java.util.List;
+
 import jeeves.constants.Jeeves;
 import jeeves.interfaces.Service;
 import jeeves.resources.dbms.Dbms;
@@ -30,6 +33,8 @@ import jeeves.server.ServiceConfig;
 import jeeves.server.UserSession;
 import jeeves.server.context.ServiceContext;
 import jeeves.utils.Util;
+
+import org.apache.commons.lang.StringUtils;
 import org.fao.geonet.GeonetContext;
 import org.fao.geonet.constants.Geonet;
 import org.fao.geonet.constants.Params;
@@ -94,14 +99,30 @@ public class Remove implements Service
 			if (dataMan.isUserMetadataStatus(dbms, id)) {
 				throw new IllegalArgumentException("Cannot delete a user that has set a metadata status");
 			}
-
+			String username = null;
+			boolean bDeleteLDAPUser = !isAdmin(dbms, id) && gc.getSettingManager().getValueAsBool("system/ldap/use");
+			if (bDeleteLDAPUser) {
+				username = dataMan.getUsernameById(dbms, id);
+			}
 			dbms.execute ("DELETE FROM UserGroups WHERE userId=?", id);
 			dbms.execute ("DELETE FROM Users      WHERE     id=?", id);
+			if (bDeleteLDAPUser && !StringUtils.isEmpty(username)) {
+				gc.getLdapContext().removePerson(gc.getLdapContext().findPerson(username));
+			}
 		} else {
 			throw new IllegalArgumentException("You don't have rights to delete this user");
 		}
 
 		return new Element(Jeeves.Elem.RESPONSE);
+	}
+
+	private boolean isAdmin(Dbms dbms, String userId) throws SQLException
+	{
+		String query = "SELECT id FROM Users WHERE id=? AND profile=?";
+
+		List list = dbms.select(query, userId, "Administrator").getChildren();
+
+		return (list.size() != 0);
 	}
 }
 

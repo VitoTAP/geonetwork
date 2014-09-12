@@ -9,14 +9,13 @@ import org.springframework.ldap.odm.annotations.DnAttribute;
 import org.springframework.ldap.odm.annotations.Entry;
 import org.springframework.ldap.odm.annotations.Id;
 
-@Entry(objectClasses = { "top", "groupOfUniqueNames" }, base = "ou=groups")
+@Entry(objectClasses = { "top", "groupOfUniqueNames" })
 public class Group {
 
 	@Id
 	private Name dn;
 
 	@Attribute(name = "cn")
-	@DnAttribute("cn")
 	private String commonName;
 
 	@Attribute(name = "uniqueMember")

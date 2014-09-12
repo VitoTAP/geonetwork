@@ -99,7 +99,11 @@ GeoNetwork.data.ValidationRuleStore = function(url, params, grouping){
             }),
             record: 'rule',
             idPath: '@id',
-            fields: fields
+            fields: fields,
+            sortInfo: {
+                field: 'status',
+                direction: "ASC"
+            }
         });
     }
 };

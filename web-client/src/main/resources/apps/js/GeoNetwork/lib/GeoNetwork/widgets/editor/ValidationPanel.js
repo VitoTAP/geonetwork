@@ -92,11 +92,11 @@ GeoNetwork.editor.ValidationPanel = Ext.extend(Ext.Panel, {
         }*/];
         
         GeoNetwork.editor.ValidationPanel.superclass.initComponent.call(this);
-        
+        var grouping = false;
         this.store = new GeoNetwork.data.ValidationRuleStore( 
                             this.serviceUrl, 
                             {id: this.metadataId}, 
-                            true
+                            grouping
                          );
         
         var xg = Ext.grid;
@@ -128,6 +128,7 @@ GeoNetwork.editor.ValidationPanel = Ext.extend(Ext.Panel, {
                 dataIndex: 'statusIcon'
             }, {
                 header: OpenLayers.i18n('title'),
+//              sortable: true,
                 hidden: false,
                 dataIndex: 'title'
             }]
@@ -139,13 +140,13 @@ GeoNetwork.editor.ValidationPanel = Ext.extend(Ext.Panel, {
             loadMask: true,
             layout: 'fit',
             plugins: expander,
-            view: new Ext.grid.GroupingView({
+            view: grouping ? new Ext.grid.GroupingView({
                 forceFit: true,
                 groupTextTpl: '{text} ({[values.rs.length]} {[values.rs.length > 1 ? "' + 
                                     OpenLayers.i18n('items') + '" : "' + 
                                     OpenLayers.i18n('item') + '"]})'
-            }),
-            
+            }) : new Ext.grid.GridView({
+                forceFit: true}),
             frame: false,
             height: 300,
             autoWidth: true

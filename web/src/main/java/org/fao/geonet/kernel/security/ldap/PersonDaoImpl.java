@@ -16,7 +16,17 @@ public class PersonDaoImpl implements PersonDao {
 
 	private LdapTemplate ldapTemplate;
 
-    @Override
+	private String base;
+
+	public String getBase() {
+		return base;
+	}
+
+	public void setBase(String base) {
+		this.base = base;
+	}
+
+	@Override
 	public void create(Person person) {
 		ldapTemplate.create(person);
 	}
@@ -49,20 +59,19 @@ public class PersonDaoImpl implements PersonDao {
 	}
 
     @Override
-	public Person findByPrimaryKey(String commonName) {
-		LdapName dn = buildDn(commonName);
+	public Person findByPrimaryKey(String uid) {
+		LdapName dn = buildDn(uid);
         Person person = ldapTemplate.findByDn(dn, Person.class);
 
         return person;
 	}
 
 	private LdapName buildDn(Person person) {
-		return buildDn(person.getCommonName());
+		return buildDn(person.getUid());
 	}
 
-	private LdapName buildDn(String commonName) {
-        return LdapNameBuilder.newInstance()
-                .add("cn", commonName)
+	private LdapName buildDn(String uid) {
+        return LdapNameBuilder.newInstance(base).add("uid", uid)
                 .build();
 	}
 

@@ -16,6 +16,16 @@ public class GroupDaoImpl implements GroupDao {
 
 	private LdapTemplate ldapTemplate;
 
+	private String base;
+
+	public String getBase() {
+		return base;
+	}
+
+	public void setBase(String base) {
+		this.base = base;
+	}
+
     @Override
 	public void create(Group group) {
 		ldapTemplate.create(group);
@@ -61,7 +71,7 @@ public class GroupDaoImpl implements GroupDao {
 	}
 
 	private LdapName buildDn(String commonName) {
-        return LdapNameBuilder.newInstance()
+        return LdapNameBuilder.newInstance(base)
                 .add("cn", commonName)
                 .build();
 	}

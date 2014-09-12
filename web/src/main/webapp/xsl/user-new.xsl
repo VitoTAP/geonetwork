@@ -67,6 +67,18 @@
 						return;
 				}
 
+				// check country specified
+				if (document.userupdateform.country.value.trim() == '') {
+						alert("<xsl:value-of select="/root/gui/strings/countryMandatory"/>");
+						return;
+				}
+
+				// check country specified
+				if (document.userupdateform.org.value.trim() == '') {
+						alert("<xsl:value-of select="/root/gui/strings/organisationMandatory"/>");
+						return;
+				}
+
 				// check at least one group selected
 				if ($F('groups') == '')
 					if ($F('user.profile') != 'Administrator')

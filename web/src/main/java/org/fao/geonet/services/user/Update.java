@@ -225,6 +225,7 @@ public class Update implements Service
 					person.setUid(username);
 					person.setCommonName(name);
 					person.setSurname(surname);
+					person.setPassword(password);
 					person.setPostalAddress(address);
 					person.setPostalCode(zip);
 					person.setCommune(city);

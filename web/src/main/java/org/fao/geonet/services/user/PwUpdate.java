@@ -90,7 +90,7 @@ public class PwUpdate implements Service
 		dbms.execute("UPDATE Users SET password=? WHERE id=?", Util.scramble256(newPassword), userId);
 		GeonetContext gc = (GeonetContext) context.getHandlerContext(Geonet.CONTEXT_NAME);
 		if (! "Administrator".equals(((Element) elUser.getChildren().get(0)).getChildText(Geonet.Elem.PROFILE)) && gc.getSettingManager().getValueAsBool("system/ldap/use")) {
-			gc.getLdapContext().changePassword(((Element) elUser.getChildren().get(0)).getChildText("username"), Util.scramble256ForLDAP(newPassword));
+			gc.getLdapContext().changePassword(((Element) elUser.getChildren().get(0)).getChildText("username"), gc.getLdapContext().getShaPassword(newPassword));
 		}
 
 		return new Element(Jeeves.Elem.RESPONSE);

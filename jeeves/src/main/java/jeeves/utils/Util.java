@@ -330,7 +330,7 @@ public final class Util
 	
 	public static String scramble256ForLDAP(String text)
 	{
-		return "{sha}" + scramble(text, "SHA-256");
+		return "{sha256}" + scramble(text, "SHA-256");
 	}
 	
 	/**

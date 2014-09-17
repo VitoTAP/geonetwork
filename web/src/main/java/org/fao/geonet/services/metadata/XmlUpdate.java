@@ -24,26 +24,19 @@
 package org.fao.geonet.services.metadata;
 
 import jeeves.constants.Jeeves;
-import jeeves.exceptions.BadParameterEx;
 import jeeves.interfaces.Service;
 import jeeves.resources.dbms.Dbms;
 import jeeves.server.ServiceConfig;
 import jeeves.server.context.ServiceContext;
 import jeeves.utils.Util;
 import jeeves.utils.Xml;
+
+import org.apache.commons.lang.StringUtils;
 import org.fao.geonet.GeonetContext;
 import org.fao.geonet.constants.Geonet;
 import org.fao.geonet.constants.Params;
 import org.fao.geonet.kernel.DataManager;
-import org.fao.geonet.kernel.mef.Importer;
-import org.fao.geonet.util.ISODate;
 import org.jdom.Element;
-import org.jdom.Namespace;
-import org.tuckey.web.filters.urlrewrite.utils.StringUtils;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
 
 //=============================================================================
 
@@ -86,8 +79,6 @@ public class XmlUpdate implements Service
         if (!style.equals("_none_") && !StringUtils.isBlank(scope) && (scope.equals("0") || scope.equals("1"))) {
 
     		GeonetContext gc = (GeonetContext) context.getHandlerContext(Geonet.CONTEXT_NAME);
-
-    		DataManager dataMan = gc.getDataManager();
 
 			DataManager dm = gc.getDataManager();
 	        Dbms dbms = (Dbms) context.getResourceManager().open(Geonet.Res.MAIN_DB);

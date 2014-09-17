@@ -86,7 +86,7 @@ public class Login implements Service
 		if (!isAdmin(dbms, username) && sm.getValueAsBool("system/ldap/use"))
 		{
 			LdapContext ldapContext = gc.getLdapContext();
-			if (ldapContext.authenticate(username, Util.scramble256ForLDAP(password))) {
+			if (ldapContext.authenticate(username, ldapContext.getShaPassword(password))) {
 				Person person = ldapContext.findPerson(username);
 				if (person!=null) {
 					updateUser(context, dbms, person, password, ldapContext.getDefaultProfile());

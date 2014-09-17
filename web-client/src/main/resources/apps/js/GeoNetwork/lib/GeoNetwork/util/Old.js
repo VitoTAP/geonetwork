@@ -376,7 +376,7 @@ function processForgottenPwdSubmit(/*url, */mandatoryMessage) {
         method: 'POST', 
         success: function(response) {
 			Ext.Msg.alert(title,response.responseText);
-            Ext.getCmp('modalWindow').close();
+            Ext.getCmp('forgotten').close();
        },
         failure: function(response) {
 			Ext.Msg.alert(title,response.responseText);

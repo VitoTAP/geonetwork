@@ -131,7 +131,7 @@
 					../../gmd:thesaurusName/*/gmd:date/*/gmd:dateType/gmd:CI_DateTypeCode/@codeListValue='publication']"/>
 			<sch:let name="inspire-theme-selected" value="count($inspire-thesaurus//skos:Concept[skos:prefLabel[@xml:lang='nl'] = $keyword])"/>
 			<sch:assert test="$inspire-theme-selected >0">$loc/strings/noKeywordFound</sch:assert>
-			<sch:report test="$inspire-theme-selected > 0">$loc/strings/keywordFound-1 <sch:value-of select="$keyword"/> $loc/strings/keywordFound-2</sch:report>
+			<sch:report test="$inspire-theme-selected > 0"><sch:value-of select="document(concat($loc/strings/keywordFound-1,' ', $keyword,' ', $loc/strings/keywordFound-2))"/></sch:report>
 		</sch:rule>
 	</sch:pattern>
 </sch:schema>

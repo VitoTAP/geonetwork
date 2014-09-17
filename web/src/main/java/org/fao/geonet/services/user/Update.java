@@ -111,6 +111,7 @@ public class Update implements Service
 
 
 			LDAPContext lc = new LDAPContext(sm, ldapUsername, ldapPassword);
+			boolean bUpdatePassword = false;
 			boolean bAddLDAPUser = false;
 			boolean bUpdateLDAPUser = false;
 			boolean bUpdateLDAPGroups = false;
@@ -153,7 +154,7 @@ public class Update implements Service
 							"address, city, state, zip, country, email, organisation, kind) "+
 							"VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
-				dbms.execute(query, id, username, Util.scramble(password), surname, name, profile, address, city, state,
+				dbms.execute(query, id, username, Util.scramble256(password), surname, name, profile, address, city, state,
                         zip, country, email, organ, kind);
 			//--- add groups
 				for(Element userGroup : userGroups) {
@@ -174,7 +175,7 @@ public class Update implements Service
 				if (operation.equals(Params.Operation.FULLUPDATE)) {
 					String query = "UPDATE Users SET username=?, password=?, surname=?, name=?, profile=?, address=?, city=?, state=?, zip=?, country=?, email=?, organisation=?, kind=? WHERE id=?";
 
-					dbms.execute (query, username, Util.scramble(password), surname, name, profile, address, city,
+					dbms.execute (query, username, Util.scramble256(password), surname, name, profile, address, city,
                             state, zip, country, email, organ, kind, id);
 
 					//--- add groups
@@ -190,6 +191,7 @@ public class Update implements Service
 						addGroup(dbms, id, group);
 					}
 					bUpdateLDAPUser = true;
+					bUpdatePassword = true;
 					bUpdateLDAPGroups = true;
 
 			// -- edit user info
@@ -213,7 +215,7 @@ public class Update implements Service
 				}
                 else if (operation.equals(Params.Operation.RESETPW)) {
 					String query = "UPDATE Users SET password=? WHERE id=?";
-					dbms.execute (query, Util.scramble(password), id);
+					dbms.execute (query, Util.scramble256(password), id);
 				}
                 else {
 					throw new IllegalArgumentException("unknown user update operation "+operation);
@@ -225,7 +227,9 @@ public class Update implements Service
 					person.setUid(username);
 					person.setCommonName(name);
 					person.setSurname(surname);
-					person.setPassword(password);
+					if (bUpdatePassword) {
+						person.setPassword(Util.scramble256ForLDAP(password));
+					}
 					person.setPostalAddress(address);
 					person.setPostalCode(zip);
 					person.setCommune(city);

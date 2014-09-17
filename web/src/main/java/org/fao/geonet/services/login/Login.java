@@ -86,7 +86,7 @@ public class Login implements Service
 		if (!isAdmin(dbms, username) && sm.getValueAsBool("system/ldap/use"))
 		{
 			LdapContext ldapContext = gc.getLdapContext();
-			if (ldapContext.authenticate(username, password)) {
+			if (ldapContext.authenticate(username, Util.scramble256ForLDAP(password))) {
 				Person person = ldapContext.findPerson(username);
 				if (person!=null) {
 					updateUser(context, dbms, person, password, ldapContext.getDefaultProfile());
@@ -109,7 +109,7 @@ public class Login implements Service
 
 		String query = "SELECT * FROM Users WHERE username = ? AND password = ?";
 	
-		List list = dbms.select(query, username, Util.scramble(password)).getChildren();
+		List list = dbms.select(query, username, Util.scramble256(password)).getChildren();
 		if (list.size() == 0) {
 			// Check old password hash method
 			list = dbms.select(query, username, Util.oldScramble(password)).getChildren();
@@ -244,14 +244,14 @@ public class Login implements Service
         String userId = "-1";
 		String query = "UPDATE Users SET password=?, name=? WHERE username=?";
 
-		int res = dbms.execute(query, Util.scramble(password), person.getCommonName(), person.getUid());
+		int res = dbms.execute(query, Util.scramble256(password), person.getCommonName(), person.getUid());
 
 		if (res == 0)
 		{
 			userId = IDFactory.newID();
 			query = "INSERT INTO Users(id, username, password, surname, name, profile) VALUES(?,?,?,?,?,?)";
 
-			dbms.execute(query, userId, person.getUid(), Util.scramble(password), person.getSurname(), person.getCommonName(), defaultProfile);
+			dbms.execute(query, userId, person.getUid(), Util.scramble256(password), person.getSurname(), person.getCommonName(), defaultProfile);
 		} else {
 			query = "SELECT id FROM Users WHERE username=?";
             List list  = dbms.select(query, person.getUid()).getChildren();

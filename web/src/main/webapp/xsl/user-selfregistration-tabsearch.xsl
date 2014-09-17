@@ -100,7 +100,7 @@
 				<div align="center">
 		                <input type="button" class="content" onclick="$('userregisterform').reset()" value="{/root/gui/strings/reset}"/>
 		                &#160;
-		                <input type="button" class="content" onclick="processRegSub('{/root/gui/strings/spacesNot}','{/root/gui/strings/firstnameMandatory}', '{/root/gui/strings/surnameMandatory}',
+		                <input type="button" class="content" onclick="processRegSub('{/root/gui/strings/spacesNot}','{/root/gui/strings/firstnameMandatory}', '{/root/gui/strings/surnameMandatory}', '{/root/gui/strings/passwordMandatory}',
 		                '{/root/gui/strings/passwordLength}','{/root/gui/strings/passwordDoNotMatch}','{/root/gui/strings/emailAddressInvalid}', '{/root/gui/strings/countryMandatory}', '{/root/gui/strings/organisationMandatory}', '{/root/gui/strings/yourRegistration}','{/root/gui/strings/registrationFailed}')" value="{/root/gui/strings/register}"/>
 				</div>
 			</form>

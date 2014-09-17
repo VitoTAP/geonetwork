@@ -434,9 +434,8 @@ GeoNetwork.mapApp = function() {
         action = new GeoExt.Action({
             control: new OpenLayers.Control.ZoomToMaxExtent(),
             map: map,
-            iconCls: 'zoomfull'
-            	//,
-            //tooltip: {title: OpenLayers.i18n("zoomToMaxExtentTooltipTitle"), text: OpenLayers.i18n("zoomToMaxExtentTooltipText")}
+            iconCls: 'zoomfull',
+            tooltip: {title: OpenLayers.i18n("zoomToMaxExtentTooltipTitle"), text: OpenLayers.i18n("zoomToMaxExtentTooltipText")}
         });
 
         toolbar.push(action);
@@ -445,17 +444,24 @@ GeoNetwork.mapApp = function() {
 
         action = new GeoExt.Action({
             iconCls: 'zoomlayer',
-            disabled: true,
+//            disabled: true,
             id: 'btnZoomToExtent',
-            //tooltip: {title: OpenLayers.i18n("zoomlayerTooltipTitle"), text: OpenLayers.i18n("zoomlayerTooltipText")},
+            tooltip: {title: OpenLayers.i18n("zoomlayerTooltipTitle"), text: OpenLayers.i18n("zoomlayerTooltipText")},
             handler: function() {
+            	var bLayerActive = false;
                 if (activeNode) {
-                    if (activeNode.attributes.layer) {
-                    	var extent = activeNode.attributes.layer.getDataExtent();
+                    var layer = activeNode.attributes.layer;
+                    if (layer) {
+                    	bLayerActive = true;
+                    	var extent = layer.getDataExtent();
                     	if (extent!=null) {
                     		map.zoomToExtent(extent);
                     	}
                     }
+                }
+                if (!bLayerActive) {
+                    Ext.MessageBox.alert(OpenLayers.i18n("zoomlayer.selectLayerTitle"),
+                           OpenLayers.i18n("zoomlayer.selectLayerText"));
                 }
 /*            	
                 var node = activeNode;
@@ -522,7 +528,7 @@ GeoNetwork.mapApp = function() {
         });
 
         toolbar.push(action);
-*/
+
         action = new GeoExt.Action({
             control: new OpenLayers.Control.DragPan({
                     isDefault: true
@@ -535,12 +541,11 @@ GeoNetwork.mapApp = function() {
             //tooltip:  {title: OpenLayers.i18n("dragTooltipTitle"), text: OpenLayers.i18n("dragTooltipText")}
         });
 
-        toolbar.push(action);
-        
+        toolbar.push(action);        
         toolbar.push("-");
-
+*/
 //        featureinfo = new OpenLayers.Control.WMSGetFeatureInfo({drillDown: true, infoFormat: 'application/vnd.ogc.gml'});
-
+/*
         var moveLayerToTop = function(layertomove) {
             var idx = -1;
             for (var i=0, len = map.layers.length; i<len; i++) {
@@ -555,7 +560,6 @@ GeoNetwork.mapApp = function() {
             }
         };
 
-/*
         featureinfolayer = new OpenLayers.Layer.Vector("Feature info", {displayInLayerSwitcher: false,
             styleMap: new OpenLayers.StyleMap({
                 externalGraphic: OpenLayers.Util.getImagesLocation() + "marker.png",
@@ -693,8 +697,8 @@ GeoNetwork.mapApp = function() {
             control: ctrl.previous,
             disabled: true,
             map: map,
-            iconCls: 'back'
-            //tooltip: {title: OpenLayers.i18n("previousTooltipTitle"), text: OpenLayers.i18n("previosTooltipText")}
+            iconCls: 'back',
+            tooltip: {title: OpenLayers.i18n("previousTooltipTitle"), text: OpenLayers.i18n("previosTooltipText")}
         });
         toolbar.push(action);
 
@@ -702,8 +706,8 @@ GeoNetwork.mapApp = function() {
             control: ctrl.next,
             disabled: true,
             map: map,
-            iconCls: 'next'
-            //tooltip: {title: OpenLayers.i18n("nextTooltipTitle"), text: OpenLayers.i18n("nextTooltipText")}
+            iconCls: 'next',
+            tooltip: {title: OpenLayers.i18n("nextTooltipTitle"), text: OpenLayers.i18n("nextTooltipText")}
         });
         toolbar.push(action);
 /*
@@ -1074,7 +1078,7 @@ GeoNetwork.mapApp = function() {
               new GeoExt.plugins.TreeNodeRadioButton({
 	              listeners: {
 	                  "radiochange": function(node) {
-	                      Ext.getCmp("btnZoomToExtent").enable();
+//	                      Ext.getCmp("btnZoomToExtent").enable();
 	                	  activeNode = node;
 	                  }
 	              }
@@ -1224,7 +1228,7 @@ GeoNetwork.mapApp = function() {
             autoScroll: true,
 	        store: store,
 	        tbar: [new Ext.Button({
-				text: OpenLayers.i18n('view'),
+				text: OpenLayers.i18n('show-metadata'),
 				iconCls: 'md-mn-view',
 				handler: function() {
 				    var record = featureGridPanel.getSelectionModel().getSelected();
@@ -1234,6 +1238,7 @@ GeoNetwork.mapApp = function() {
 				        Ext.MessageBox.alert("Metadata",OpenLayers.i18n("noneSelected"));
 				    }
 				},
+				tooltip: OpenLayers.i18n('show-metadata-tooltip'),
                 scope: featureGridPanel
             })],
 	        columns: [{
@@ -1593,7 +1598,9 @@ var processLayersSuccess = function(response) {
                         format: new OpenLayers.Format.KML({
                             extractStyles: true, 
                             extractAttributes: true,
-                            maxDepth: 2
+                            maxDepth: 2,
+                            'internalProjection': new OpenLayers.Projection(map.projection),
+  							'externalProjection': new OpenLayers.Projection("EPSG:4326")
                         })
                     })
                 });

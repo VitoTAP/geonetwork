@@ -1093,6 +1093,7 @@ GeoNetwork.editor.EditorPanel = Ext.extend(Ext.Panel, {
         
         this.initCalendar();
         GeoNetwork.Util.initComboBox(this.editorMainPanel);
+        GeoNetwork.Util.initThesaurusComboBox(this.catalogue);
         this.initMultipleSelect();
         this.validateMetadataFields();
         this.catalogue.extentMap.initMapDiv();

@@ -120,9 +120,11 @@ public class LdapContext {
 		groupDao.delete(group);
 	}
 
+/*	
 	public String getShaPassword(String password) {
 		LdapShaPasswordEncoder ldapShaPasswordEncoder = new LdapShaPasswordEncoder();
+		ldapShaPasswordEncoder.setForceLowerCasePrefix(true);
 		return ldapShaPasswordEncoder.encodePassword(password, null);
 	}
-
+*/
 }

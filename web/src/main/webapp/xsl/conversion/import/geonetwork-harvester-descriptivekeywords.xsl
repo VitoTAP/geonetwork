@@ -90,7 +90,7 @@
 			<gmd:descriptiveKeywords>
 				<gmd:MD_Keywords>
 				   <gmd:keyword>
-					  <gco:CharacterString>Bio-geophysical parameter</gco:CharacterString>
+					  <gco:CharacterString>Remote sensing data_Bio-physical parameters</gco:CharacterString>
 				   </gmd:keyword>
 				   <gmd:type gco:nilReason="missing">
 					  <gmd:MD_KeywordTypeCode codeList="http://standards.iso.org/ittf/PubliclyAvailableStandards/ISO_19139_Schemas/resources/Codelist/ML_gmxCodelists.xml#MD_KeywordTypeCode"

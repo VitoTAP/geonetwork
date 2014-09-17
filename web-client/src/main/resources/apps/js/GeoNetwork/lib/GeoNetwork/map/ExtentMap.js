@@ -401,8 +401,8 @@ GeoNetwork.map.ExtentMap = function(){
         vectorLayer.addFeatures(feature);
         // optionally, zoom on the layer features extent
         if (options.zoomToFeatures) {
-            //zoomToFeatures(map, vectorLayer);
-            map.zoomToExtent(map.restrictedExtent);
+            zoomToFeatures(map, vectorLayer);
+            //map.zoomToExtent(map.restrictedExtent);
         }
         return true;
     }

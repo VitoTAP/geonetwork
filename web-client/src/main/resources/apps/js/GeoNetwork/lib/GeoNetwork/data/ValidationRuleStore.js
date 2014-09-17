@@ -34,12 +34,26 @@ Ext.namespace('GeoNetwork.data');
  *  
  *  :param grouping: ``boolean`` Set to true to return a Ext.data.GroupingStore
  */
-GeoNetwork.data.ValidationRuleStore = function(url, params, grouping){
-
+GeoNetwork.data.ValidationRuleStore = function(gridPanel, grouping){
+/*
     function getStatusIcon(v, record){
         var status = record.getAttribute('type');
         return '<span class="' + status + '" onclick="GeoNetwork.Util.scrollEditorPanelElement(\'' + record.getAttribute('parent') + '\',\'' + record.getAttribute('ref') + '\')">&#160;</span>';
     }
+*/    
+    function countInvalidRecords(store, records, options) {
+		var valids = 0;
+		var invalids = 0;
+    	for (var i=0;i<records.length;i++) {
+			if ("success"==records[i].get("status")) {
+				valids++
+			} else {
+				invalids++;
+			}
+    	}
+		gridPanel.setTitle(OpenLayers.i18n('validationReport') + ": <span style='color:red'> <b>" + invalids + " invalid(s)</b></span><span style='color:#fff'>" + valids + " valid(s) </span>");
+	}
+
     
     var fields = [{
         name: 'id',
@@ -50,10 +64,10 @@ GeoNetwork.data.ValidationRuleStore = function(url, params, grouping){
     }, {
         name: 'status',
         mapping: '@type'
-    }, {
+    },/* {
         name: 'statusIcon',
         convert: getStatusIcon
-    }, {
+    },*/ {
         name: 'parent',
         mapping: '@parent'
     }, {
@@ -66,18 +80,19 @@ GeoNetwork.data.ValidationRuleStore = function(url, params, grouping){
     }, {
         name: 'msg'
     }];
-    
+    var store;
+    var params = {id: gridPanel.metadataId};
     if (grouping) {
         var reader = new Ext.data.XmlReader({
             record: 'rule',
             idProperty: 'id'
         }, fields);
         
-        return new Ext.data.GroupingStore({
+        store = new Ext.data.GroupingStore({
             autoDestroy: true,
             proxy: new Ext.data.HttpProxy({
                 method: 'POST',
-                url: url,
+                url: gridPanel.serviceUrl,
                 params: params,
                 disableCaching: false
             }),
@@ -86,14 +101,17 @@ GeoNetwork.data.ValidationRuleStore = function(url, params, grouping){
             sortInfo: {
                 field: 'status',
                 direction: "ASC"
-            }
+            },
+            listeners: {
+            	load: countInvalidRecords
+        	}
         });
     } else {
-        return new Ext.data.XmlStore({
+        store = new Ext.data.XmlStore({
             autoDestroy: true,
             proxy: new Ext.data.HttpProxy({
                 method: 'GET',
-                url: url,
+                url: gridPanel.serviceUrl,
                 params: params,
                 disableCaching: false
             }),
@@ -103,7 +121,11 @@ GeoNetwork.data.ValidationRuleStore = function(url, params, grouping){
             sortInfo: {
                 field: 'status',
                 direction: "ASC"
-            }
+            },
+            listeners: {
+            	load: countInvalidRecords
+        	}
         });
     }
+    return store;
 };

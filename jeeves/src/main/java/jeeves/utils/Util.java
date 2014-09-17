@@ -23,15 +23,6 @@
 
 package jeeves.utils;
 
-import jeeves.exceptions.BadInputEx;
-import jeeves.exceptions.BadParameterEx;
-import jeeves.exceptions.MissingParameterEx;
-
-import org.apache.cxf.fediz.core.Claim;
-import org.apache.cxf.fediz.core.ClaimCollection;
-import org.apache.cxf.fediz.core.FederationPrincipal;
-import org.jdom.Element;
-
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.io.UnsupportedEncodingException;
@@ -40,6 +31,15 @@ import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import jeeves.exceptions.BadInputEx;
+import jeeves.exceptions.BadParameterEx;
+import jeeves.exceptions.MissingParameterEx;
+
+import org.apache.cxf.fediz.core.Claim;
+import org.apache.cxf.fediz.core.ClaimCollection;
+import org.apache.cxf.fediz.core.FederationPrincipal;
+import org.jdom.Element;
 
 //=============================================================================
 
@@ -297,17 +297,40 @@ public final class Util
 	 * See #191
 	 * 
 	 * @param text	password to digest
+	 * @param algorithm	algorithm to digest
 	 * @return	the hexadecimal encoded string
 	 */
-	public static String scramble(String text)
+	public static String scramble(String text, String algorithm)
 	{
 		try {
-			MessageDigest md = MessageDigest.getInstance("SHA-1") ;
+			MessageDigest md = MessageDigest.getInstance(algorithm) ;
 			md.update(text.getBytes("UTF-8"));
 			return getHex(md.digest());
 		}
 		catch (UnsupportedEncodingException e) { return null; }
 		catch (NoSuchAlgorithmException e)     { return null; }
+	}
+	
+	/**
+	 * SHA-1 Cryptographic hash algorithm
+	 * See #191
+	 * 
+	 * @param text	password to digest
+	 * @return	the hexadecimal encoded string
+	 */
+	public static String scramble(String text)
+	{
+		return scramble(text, "SHA-1");
+	}
+	
+	public static String scramble256(String text)
+	{
+		return scramble(text, "SHA-256");
+	}
+	
+	public static String scramble256ForLDAP(String text)
+	{
+		return "{sha}" + scramble(text, "SHA-256");
 	}
 	
 	/**
@@ -319,6 +342,8 @@ public final class Util
 	 */
 	public static String oldScramble(String text)
 	{
+		return scramble(text, "SHA-1");				
+/*
 		try
 		{
 			MessageDigest md = MessageDigest.getInstance("SHA-1") ;
@@ -334,6 +359,7 @@ public final class Util
 		}
 		catch (UnsupportedEncodingException e) { return null; }
 		catch (NoSuchAlgorithmException e)     { return null; }
+*/
 	}
 
 	public static String getClaimValue(FederationPrincipal fp, String claimType) {

@@ -39,6 +39,7 @@ import org.fao.geonet.GeonetContext;
 import org.fao.geonet.constants.Geonet;
 import org.fao.geonet.constants.Params;
 import org.fao.geonet.kernel.DataManager;
+import org.fao.geonet.kernel.security.ldap.Person;
 import org.jdom.Element;
 
 //=============================================================================
@@ -107,7 +108,10 @@ public class Remove implements Service
 			dbms.execute ("DELETE FROM UserGroups WHERE userId=?", id);
 			dbms.execute ("DELETE FROM Users      WHERE     id=?", id);
 			if (bDeleteLDAPUser && !StringUtils.isEmpty(username)) {
-				gc.getLdapContext().removePerson(gc.getLdapContext().findPerson(username));
+				Person person = gc.getLdapContext().findPerson(username);
+				if (person!=null) {
+					gc.getLdapContext().removePerson(person);
+				}
 			}
 		} else {
 			throw new IllegalArgumentException("You don't have rights to delete this user");

@@ -502,7 +502,7 @@ GeoNetwork.app = function(){
 
         var previousAction = new Ext.Action({
             id: 'previousBt',
-            text: '&lt;&lt;',
+            text: '<span style="color: #50A302;font-weight: bold;font-size:larger;">&lt;&lt;</style>',
             handler: function(){
                 var from = catalogue.startRecord - parseInt(Ext.getCmp('E_hitsperpage').getValue(), 10);
                 if (from > 0) {
@@ -515,18 +515,25 @@ GeoNetwork.app = function(){
 
         var nextAction = new Ext.Action({
             id: 'nextBt',
-            text: '&gt;&gt;',
+            text: '<span style="color: #50A302;font-weight: bold;font-size:larger;">&gt;&gt;</style>',
             handler: function(){
                 catalogue.startRecord += parseInt(Ext.getCmp('E_hitsperpage').getValue(), 10);
                 search();
             },
             scope: this
         });
+        
+        var splitter = {
+        	xtype: 'tbtext',
+        	text: '|',
+        	style: 'color: #50A302;font-weight: bold;font-size:larger;'
+        }
 
         return new Ext.Toolbar({
-            items: [previousAction, '|', nextAction, '|', {
+            items: [previousAction, splitter, nextAction, splitter, {
                 xtype: 'tbtext',
                 text: '',
+                style: 'color: #50A302;font-weight: bold;font-size:larger;',
                 id: 'info'
             }]
         });
@@ -872,6 +879,7 @@ GeoNetwork.app = function(){
                         margins:'10',
                         border: false,
                         activeTab: 0,
+                        //autoScroll: true,
                         items:[
                             {//basic search panel
                                 title:OpenLayers.i18n('Home'),
@@ -886,12 +894,12 @@ GeoNetwork.app = function(){
                                 },
                                 closable:false,
                                 //autoEl: {html:'<h1 style="font-size: 24px; text-align: center; margin-top: 10px;">Click on the region of your interest</h1>'},
-//                                autoScroll:true,
-                                items: [//searchForm
+                                autoScroll:true,
+                                items: //searchForm
                                     new Ext.Panel({
                                         id:'global-map-view',
                                         plain:true,
-                                        layout: 'column',
+                                        layout: 'anchor',
                                         layoutConfig: { pack: 'center', align: 'center' },
                                         autoHeight: true,
                                         boxMinWidth: 1000,
@@ -899,12 +907,13 @@ GeoNetwork.app = function(){
                                         border:true,
                                         deferredRender: false,
                                         defaults:{style:'padding:20px;text-align:center;font-size:20px',bodyStyle:'padding:5px'},
-                                        items:[
-                                           	{
+                                        items: [{
+                                            xtype: 'container',
+                                            layout: 'column',
+                                            items: [{
                     							border: false,
                     							columnWidth: 0.35
-                                       		},
-                                       		{
+                                       		}, {
                                        			xtype: 'box',
                     							border: false,
                     							columnWidth: 0.30,
@@ -917,45 +926,17 @@ GeoNetwork.app = function(){
                     								},
                     								single: true
                     							}
-                                       		},
-                                       		/*{
-                                       			xtype: 'box',
-                                       			border: false,
-                                       			columnWidth: 0.30,
-                                       			autoEl : {html:'<div style="cursor: pointer;"><span style="text-decoration: underline;">Site data</span>' + regionsKeywords.sites + '</div>'},
-                                       			//autoEl : {html:'<div class="thumb"><img style="cursor:pointer;height:150px" src="' + catalogue.URL + '/apps/tabsearch/images/hesbania.png" title="HESBANIA" alt="HESBANIA"></div><br/><div>HESBANIA</div>'},
-                                       			listeners: {
-                                       				render: function(p) {
-                                       					p.getEl().on('click', function(el){
-                                       						searchWithRegionkeyword(el.target.nodeName === 'LI' ? el.target.innerText.toLowerCase() : 'sites');
-                                       					});
-                                       				},
-                                       				single: true
-                                       			}								
-                                       		},*/
-                                           	{
+                                       		}, {
                     							border: false,
                     							columnWidth: 0.35
-                                       		}
-                    					]
-                                    }),
-                                    new Ext.Panel({
-                                        id:'regions-sites-map-view',
-                                        plain:true,
-                                        layout: 'column',
-                                        layoutConfig: { pack: 'center', align: 'center' },
-                                        autoHeight: true,
-                                        boxMinWidth: 1000,
-                                        bodyStyle:'border-width:0px',
-                                        border:true,
-                                        deferredRender: false,
-                                        defaults:{style:'padding:20px;text-align:center;font-size:20px',bodyStyle:'padding:5px'},
-                                        items:[
-                                           	{
+                                       		}]
+                                         }, {
+                                            xtype: 'container',
+                                            layout: 'column',
+                                            items: [{
                     							border: false,
                     							columnWidth: 0.10
-                                       		},
-                                       		{
+                                       		}, {
                                        			xtype: 'box',
                     							border: false,
                     							columnWidth: 0.37,
@@ -968,12 +949,10 @@ GeoNetwork.app = function(){
                     								},
                     								single: true
                     							}
-                                       		},
-                                       		{
+                                       		}, {
                                        			border: false,
                                        			columnWidth: 0.06
-                                       		},
-                                       		{                    	   	
+                                       		}, {                    	   	
                     							xtype: 'box',
                     							border: false,
                     							columnWidth: 0.37,
@@ -986,13 +965,12 @@ GeoNetwork.app = function(){
                     								},
                     								single: true
                     							}								
-                                       		},
-                                           	{
+                                       		}, {
                     							border: false,
                     							columnWidth: 0.10
-                                       		}
-                    					]
-                                    })]
+                                       		}]
+                                         }]
+                                    })
                                 },
                             {//search results panel
                                 id:'results',
@@ -1251,7 +1229,12 @@ GeoNetwork.app = function(){
                 zoom: 1,
                 center: new google.maps.LatLng(0.0, 0.0),
                 mapTypeId: google.maps.MapTypeId.ROADMAP,
-                disableDefaultUI: true
+                disableDefaultUI: true,
+                panControl: true,
+                zoomControl: true,
+                /*zoomControlOptions: {
+	              style: google.maps.ZoomControlStyle.LARGE
+	            }*/
               });
 	          
 	          var regionsInfowindow = new google.maps.InfoWindow();

@@ -1404,12 +1404,12 @@ GeoNetwork.util.SearchFormTools = {
             			
             			if(type === 'Region'){
             				regionsKeywords.regions.push({
-                				value: regionName,
+                				value: '<p style="min-width: 100%; line-height:1.15; overflow:hidden; white-space:nowrap;">' + regionName + '</p>',
                 				bounds: bounds
     	            	    });
             			}else if(type === 'Site'){
             				regionsKeywords.sites.push({
-                				value: regionName,
+                				value: '<p style="min-width: 100%; line-height:1.15; overflow:hidden; white-space:nowrap;">' + regionName + '</p>',
                 				bounds: bounds
     	            	    });
             			}

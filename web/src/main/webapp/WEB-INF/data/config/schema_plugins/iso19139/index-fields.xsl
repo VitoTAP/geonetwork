@@ -190,15 +190,6 @@
                     <xsl:variable name="keywordLower" select="lower-case(.)"/>
 					<Field name="any" string="{string($keywordLower)}" store="true" index="true"/>
 					<xsl:choose>
-						<xsl:when test="contains($thesaurusName,'BEL-AIR Sites')">
-		                    <Field name="sitekeyword" string="{lower-case(.)}" store="true" index="true"/>
-						</xsl:when>
-						<xsl:when test="contains($thesaurusName,'BEL-AIR Campaigns')">
-		                    <Field name="campaignkeyword" string="{lower-case(.)}" store="true" index="true"/>
-						</xsl:when>
-						<xsl:when test="contains($thesaurusName,'BEL-AIR DataTypes')">
-		                    <Field name="datatypekeyword" string="{lower-case(.)}" store="true" index="true"/>
-						</xsl:when>	
 						<xsl:when test="contains($thesaurusName,'SIGMA DataTypes')">
 		                    <Field name="datatypekeyword" string="{lower-case(.)}" store="true" index="true"/>
 						</xsl:when>				

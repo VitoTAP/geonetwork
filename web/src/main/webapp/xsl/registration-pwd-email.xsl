@@ -26,26 +26,26 @@
     -->
     <xsl:template match="/">
     	<email>
-    		<subject>Your registration at <xsl:value-of select="/root/site"/></subject>
+    		<subject>Welcome to <xsl:value-of select="/root/site"/> <xsl:value-of select="/root/request/name"/> <xsl:value-of select="/root/request/surname"/></subject>
 			<content>
-Dear User,
+Dear <xsl:value-of select="/root/request/name"/> <xsl:value-of select="/root/request/surname"/>,
 
-  Your registration at <xsl:value-of select="/root/site"/> was successful.
+You are successfully registered on <xsl:value-of select="/root/site"/>.
   
-  Your account is: 
-  username :	<xsl:value-of select="/root/request/email"/>
-  password :	<xsl:value-of select="/root/password"/>
-  usertype :	REGISTEREDUSER
+Your account is: 
+username :	<xsl:value-of select="/root/request/email"/>
+password :	******** <!-- <xsl:value-of select="/root/password"/>-->
+usertype :	REGISTEREDUSER
 <xsl:if test="/root/request/profile != 'RegisteredUser'">
-  You've told us that you want to be "<xsl:value-of select="/root/request/profile"/>", you will be contacted by our office soon.
+You've told us that you want to be "<xsl:value-of select="/root/request/profile"/>", you will be contacted by our office soon.
 </xsl:if>
-  To log in and access your account, please click on the link below.
-  <xsl:value-of select="/root/siteURL"/> 
+To log in and access your account, please click on the link below.
+<xsl:value-of select="/root/siteURL"/> 
 
-  Thanks for your registration. 
+Thanks for your registration. 
 
 
-Yours sincerely,
+Best regards,
 The team at <xsl:value-of select="/root/site"/>
 			</content>
     	</email>

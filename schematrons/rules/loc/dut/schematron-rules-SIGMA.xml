@@ -1,8 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <strings>
+    <!-- SIGMA metadata rules translation / START -->
+	<SIGMA-identification>Er moet minstens één trefwoord geselecteerd zijn van de ‘SIGMA-Years’ thesaurus gedateerd op 2014-05-06</SIGMA-identification>
+	<SIGMAYearsThesaurusNotFound>SIGMA Years thesaurus niet gevonden.</SIGMAYearsThesaurusNotFound>
+	<NoSIGMAYearsKeywordFound>Er is geen Engels trefwoord gevonden van de SIGMA Years thesaurus gedateerd op 2014-05-06.</NoSIGMAYearsKeywordFound>
+	<SIGMAKeywordFound-1>Een Engels trefwoord: </SIGMAKeywordFound-1>
+	<SIGMAKeywordFound-2>is gevonden van de SIGMA Years thesaurus gedateerd op 2014-05-06.</SIGMAKeywordFound-2>
+	
+	<SIGMA-identification-2>Er moet minstens één trefwoord geselecteerd zijn van de ‘SIGMA-DataTypes’ thesaurus gedateerd op 2014-05-06</SIGMA-identification-2>
+	<SIGMADatatypesThesaurusNotFound>SIGMA DataTypes thesaurus niet gevonden.</SIGMADatatypesThesaurusNotFound>
+	<NoSIGMADatatypeKeywordFound>Er is geen Engels trefwoord gevonden van de SIGMA DataTypes thesaurus gedateerd op 2014-05-06.</NoSIGMADatatypeKeywordFound>
+	<SIGMAKeywordFound-3>is gevonden van de SIGMA DataTypes thesaurus gedateerd op 2014-05-06.</SIGMAKeywordFound-3>
+	
+	<SIGMA-identification-3>Er moet minstens één trefwoord geselecteerd zijn van de ‘SIGMA-Regions’ thesaurus gedateerd op 2014-05-06</SIGMA-identification-3>
+	<SIGMARegionsThesaurusNotFound>SIGMA Regions thesaurus niet gevonden.</SIGMARegionsThesaurusNotFound>
+	<NoSIGMARegionsKeywordFound>Er is geen Engels trefwoord gevonden van de SIGMA Regions thesaurus gedateerd op 2014-05-06.</NoSIGMARegionsKeywordFound>
+	<SIGMAKeywordFound-4>is gevonden van de SIGMA Regions thesaurus gedateerd op 2014-05-06.</SIGMAKeywordFound-4>
+
     <!-- GENERAL metadata rules translation / START -->
-    
-    <!-- List of pattern title -->
     <identification>General SC-1: gmd:MD_Metadata/gmd:fileIdentifier (Iso element nr. 2) is verplicht aanwezig en niet leeg.</identification>
     <fileIdentifierMissing>gmd:fileIdentifier ontbreekt of is leeg</fileIdentifierMissing>
     <fileIdentifierPresent>gmd:fileIdentifier is present: </fileIdentifierPresent>

@@ -46,10 +46,10 @@
 					../../gmd:thesaurusName/*/gmd:date/*/gmd:dateType/gmd:CI_DateTypeCode/@codeListValue='publication']"/>
 			<sch:let name="sigma-theme-selected" value="count($sigma-thesaurus//skos:Concept[skos:prefLabel[@xml:lang='en'] = $keyword])"/>
 			<sch:assert test="$sigma-theme-selected >0">
-				No English keyword found from the SIGMA DataTypes thesaurus dated on 2014-05-06.
+				$loc/strings/NoSIGMADatatypeKeywordFound
 			</sch:assert>
 			<sch:report test="$sigma-theme-selected > 0">
-				An English keyword: <sch:value-of select="$keyword"/> is found from the SIGMA DataTypes thesaurus dated on 2014-05-06.
+				$loc/strings/SIGMAKeywordFound-1 <sch:value-of select="$keyword"/> $loc/strings/SIGMAKeywordFound-3
 			</sch:report>
 		</sch:rule>
 	</sch:pattern>
@@ -59,7 +59,7 @@
 			<sch:let name="sigma-thesaurus" value="document(concat('file:///', $thesaurusDir, '/external/thesauri/place/SIGMA-Regions.rdf'))"/>
 			<sch:let name="sigma-theme" value="$sigma-thesaurus//skos:Concept"/>
 			<sch:assert test="count($sigma-theme) > 0">
-				SIGMA Regions thesaurus not found. 
+				$loc/strings/SIGMARegionsThesaurusNotFound
 			</sch:assert>
 			<sch:let name="keyword" value="gmd:descriptiveKeywords/*/gmd:keyword/gco:CharacterString
 					[../../gmd:thesaurusName/*/gmd:title/*/text()='SIGMA Regions' and
@@ -67,10 +67,10 @@
 					../../gmd:thesaurusName/*/gmd:date/*/gmd:dateType/gmd:CI_DateTypeCode/@codeListValue='publication']"/>
 			<sch:let name="sigma-theme-selected" value="count($sigma-thesaurus//skos:Concept[skos:prefLabel[@xml:lang='en'] = $keyword])"/>
 			<sch:assert test="$sigma-theme-selected >0">
-				No English keyword found from the SIGMA Regions thesaurus dated on 2014-05-06.
+				$loc/strings/NoSIGMARegionsKeywordFound
 			</sch:assert>
 			<sch:report test="$sigma-theme-selected > 0">
-				An English keyword: <sch:value-of select="$keyword"/> is found from the SIGMA Regions thesaurus dated on 2014-05-06.
+				$loc/strings/SIGMAKeywordFound-1 <sch:value-of select="$keyword"/> $loc/strings/SIGMAKeywordFound-1
 			</sch:report>
 		</sch:rule>
 	</sch:pattern>

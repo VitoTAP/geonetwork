@@ -1853,13 +1853,13 @@ public class DataManager {
 				String schemaLocation;
 				// if document has srv namespace then add srv schemaLocation
 				if (xml.getNamespace("srv") != null) {
-					schemaLocation = "http://www.isotc211.org/2005/gmx http://www.isotc211.org/2005/gmd/gmx.xsd http://www.isotc211.org/2005/srv http://schemas.opengis.net/iso/19139/20060504/srv/srv.xsd";
+					schemaLocation = "http://www.isotc211.org/2005/gmx http://www.isotc211.org/2005/gmx/gmx.xsd http://www.isotc211.org/2005/srv http://schemas.opengis.net/iso/19139/20060504/srv/srv.xsd";
 				}
 				// otherwise add gmd schemaLocation
 				// (but not both! as that is invalid, the schemas describe
 				// partially the same schema types)
 				else {
-					schemaLocation = "http://www.isotc211.org/2005/gmx http://www.isotc211.org/2005/gmd/gmx.xsd http://www.isotc211.org/2005/gmd http://www.isotc211.org/2005/gmd/gmd.xsd";
+					schemaLocation = "http://www.isotc211.org/2005/gmx http://www.isotc211.org/2005/gmx/gmx.xsd http://www.isotc211.org/2005/gmd http://www.isotc211.org/2005/gmd/gmd.xsd";
 				}
 				Attribute schemaLocationA = new Attribute("schemaLocation",
 						schemaLocation, Csw.NAMESPACE_XSI);
@@ -1869,7 +1869,7 @@ public class DataManager {
 			String schemaLocationValue = existingSchemaLocation.getValue();
 			if (schemaLocationValue!=null && schemaLocationValue.contains("gmd.xsd") && !schemaLocationValue.contains("gmx.xsd")) {
 				xml.removeAttribute(existingSchemaLocation);
-				xml.setAttribute(new Attribute("schemaLocation", "http://www.isotc211.org/2005/gmx http://www.isotc211.org/2005/gmd/gmx.xsd " + schemaLocationValue, Csw.NAMESPACE_XSI));
+				xml.setAttribute(new Attribute("schemaLocation", "http://www.isotc211.org/2005/gmx http://www.isotc211.org/2005/gmx/gmx.xsd " + schemaLocationValue, Csw.NAMESPACE_XSI));
 			}
 		}
 

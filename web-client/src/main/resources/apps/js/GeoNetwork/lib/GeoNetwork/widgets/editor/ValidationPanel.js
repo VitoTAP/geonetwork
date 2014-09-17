@@ -92,22 +92,46 @@ GeoNetwork.editor.ValidationPanel = Ext.extend(Ext.Panel, {
         }*/];
         
         GeoNetwork.editor.ValidationPanel.superclass.initComponent.call(this);
-        var grouping = false;
+        var grouping = true;
         this.store = new GeoNetwork.data.ValidationRuleStore( 
-                            this.serviceUrl, 
-                            {id: this.metadataId}, 
+                            this, 
                             grouping
                          );
         
-        var xg = Ext.grid;
-        
         // TODO : check exist 
-        var expander = new xg.RowExpander({
+        var expander = new Ext.grid.RowExpander({
             tpl: new Ext.XTemplate('<div title="{details}"><b>{title}</b></div>' +
             '{msg}')
         });
+        this.add(this.createGrid(expander, grouping, "success"));
         
-        var colModel = new Ext.grid.ColumnModel({
+        this.editor.on('editorClosed', this.clear, this);
+        this.editor.on('metadataUpdated', this.reload, this);
+//        this.on('expand', this.reload);
+    },
+    
+    createGrid: function(expander, grouping, statusFilterValue) {
+        return new Ext.grid.GridPanel({
+            store: this.store,
+            colModel: this.createColModel(expander, statusFilterValue),
+            loadMask: true,
+            layout: 'fit',
+            plugins: expander,
+            view: grouping ? new Ext.grid.GroupingView({
+                forceFit: true,
+                groupTextTpl: '{text} ({[values.rs.length]} {[values.rs.length > 1 ? "' + 
+                                    OpenLayers.i18n('items') + '" : "' + 
+                                    OpenLayers.i18n('item') + '"]})'
+            }) : new Ext.grid.GridView({
+                forceFit: true}),
+            frame: false,
+            height: 300,
+            autoWidth: true
+        });    	
+    },
+    
+    createColModel: function(expander, statusFilterValue) {
+        return new Ext.grid.ColumnModel({
             defaults: {
                 width: 120,
                 resizable: false,
@@ -122,40 +146,26 @@ GeoNetwork.editor.ValidationPanel = Ext.extend(Ext.Panel, {
                 hidden: true,
                 dataIndex: 'group'
             }, {
+                xtype: 'actioncolumn',
                 header: /*OpenLayers.i18n('status')*/' ',
-                width: 10,
+                width: 15,
 //                sortable: true,
-                dataIndex: 'statusIcon'
+                dataIndex: 'status',
+/*
+                getClass: function (value, metadata, record) {
+                	return record.get("status");
+                },
+*/
+                renderer: function (value, metadata, record) {
+                	return '<span class="' + record.get("status") + '" onclick="GeoNetwork.Util.scrollEditorPanelElement(\'' + record.get('parent') + '\',\'' + record.get('ref') + '\')">&#160;</span>';
+            	}
             }, {
                 header: OpenLayers.i18n('title'),
 //              sortable: true,
                 hidden: false,
                 dataIndex: 'title'
             }]
-        });
-        
-        var grid = new xg.GridPanel({
-            store: this.store,
-            colModel: colModel,
-            loadMask: true,
-            layout: 'fit',
-            plugins: expander,
-            view: grouping ? new Ext.grid.GroupingView({
-                forceFit: true,
-                groupTextTpl: '{text} ({[values.rs.length]} {[values.rs.length > 1 ? "' + 
-                                    OpenLayers.i18n('items') + '" : "' + 
-                                    OpenLayers.i18n('item') + '"]})'
-            }) : new Ext.grid.GridView({
-                forceFit: true}),
-            frame: false,
-            height: 300,
-            autoWidth: true
-        });
-        this.add(grid);
-        
-        this.editor.on('editorClosed', this.clear, this);
-        this.editor.on('metadataUpdated', this.reload, this);
-//        this.on('expand', this.reload);
+        });    	
     }
 });
 

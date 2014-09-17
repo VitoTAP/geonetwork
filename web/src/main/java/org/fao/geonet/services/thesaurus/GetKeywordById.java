@@ -23,6 +23,7 @@
 
 package org.fao.geonet.services.thesaurus;
 
+import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -55,6 +56,9 @@ public class GetKeywordById implements Service {
             throws Exception {
         String sThesaurusName = Util.getParam(params, "thesaurus");
         String uri = Util.getParam(params, "id", null);
+        if(uri != null) {
+        	uri = URLDecoder.decode(uri, "UTF-8");
+        }
         String lang = Util.getParam(params, "lang", context.getLanguage());
         String langForThesaurus = IsoLanguagesMapper.getInstance()
                 .iso639_2_to_iso639_1(lang);

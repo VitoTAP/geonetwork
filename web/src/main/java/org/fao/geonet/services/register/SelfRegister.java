@@ -53,6 +53,7 @@ import org.fao.geonet.kernel.setting.SettingInfo;
 import org.fao.geonet.kernel.setting.SettingManager;
 import org.fao.geonet.util.IDFactory;
 import org.jdom.Element;
+import org.tuckey.web.filters.urlrewrite.utils.StringUtils;
 
 //=============================================================================
 
@@ -141,7 +142,7 @@ public class SelfRegister implements Service {
 				+ "address, city, state, zip, country, email, organisation, kind) "
 				+ "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
-		dbms.execute(query, id, username, Util.scramble(password), surname, name, PROFILE, address, city, state, zip,
+		dbms.execute(query, id, username, Util.scramble256(password), surname, name, PROFILE, address, city, state, zip,
                 country, email, organ, kind);
 
 		dbms.execute("INSERT INTO UserGroups(userId, groupId) VALUES (?, ?)", id, group);
@@ -151,10 +152,16 @@ public class SelfRegister implements Service {
 			person.setUid(username);
 			person.setCommonName(name);
 			person.setSurname(surname);
-			person.setPassword(password);
-			person.setPostalAddress(address);
-			person.setPostalCode(zip);
-			person.setCommune(city);
+			person.setPassword(Util.scramble256ForLDAP(password));
+			if (!StringUtils.isBlank(address)) {
+				person.setPostalAddress(address);
+			}
+			if (!StringUtils.isBlank(zip)) {
+				person.setPostalCode(zip);
+			}
+			if (!StringUtils.isBlank(city)) {
+				person.setCommune(city);
+			}
 			person.setMail(email);
 			person.setCompany(organ);
 			person.setBusinessCategory(kind);

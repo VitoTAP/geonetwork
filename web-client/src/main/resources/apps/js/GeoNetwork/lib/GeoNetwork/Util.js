@@ -661,5 +661,164 @@ GeoNetwork.Util = {
     			parentNode.scrollTop = thisTop-200;
     		}
     	}
+    },
+    
+    initThesaurusComboBox: function(catalogue){
+        var combos = Ext.DomQuery.select('div.thesaurusCombobox'), i;
+        var scope = this;
+        for (i = 0; i < combos.length; i++) {
+            var combo = combos[i];
+            var id = "s" + combo.id.substring(0,combo.id.indexOf("_thesaurusCombobox"));
+            if (combo.firstChild === null || combo.childNodes.length === 0) {
+                var config = combo.getAttribute("config");
+                var jsonConfig = Ext.decode(config);
+                var value = (jsonConfig.value ? jsonConfig.value : '');
+                var thesaurusId = jsonConfig.thesaurusId.replace('geonetwork.thesaurus.', '');
+                var keywordStore = new Ext.data.Store({
+                    proxy: new Ext.data.HttpProxy({
+                        url: catalogue.services.searchKeyword,
+                        method: 'GET'
+                    }),
+                    baseParams: {
+                        pNewSearch: true,
+                        pTypeSearch: 1,
+                        pMode: 'searchBox',
+                        pThesauri: thesaurusId,
+                        pKeyword: '*'
+                    },
+                    reader: new Ext.data.XmlReader({
+                        record: 'keyword',
+                        id: 'uri'
+                    }, Ext.data.Record.create([{
+                        name: 'value'
+                    }, {
+                        name: 'thesaurus',
+                        mapping: 'thesaurus/key'
+                    }, {
+                        name: 'uri'
+                    }])),
+                    fields: ["value", "thesaurus", "uri"],
+                    comboId: id,
+                    sortInfo: {
+                        field: "thesaurus"
+                    },
+                    autoLoad: false,
+                    initKeyword: value,
+                    listeners: {
+                        exception: function (misc) {
+                        	Ext.MessageBox.alert("Keywords", misc);
+                        },
+                        load: function (store, records, options) {
+                        	store.insert(0,new store.recordType('',''));
+                        	var combo = Ext.getCmp(this.comboId);
+                            if (!Ext.isEmpty(this.initKeyword)) {
+                                Ext.Ajax.request({
+                                    url: catalogue.services.searchKeyword,
+                                    method: 'POST', 
+                                    params: {
+                                        pNewSearch: true,
+                                        multiple: false,
+                                        pTypeSearch: 2, // Exact match
+                                        pMode: 'searchBox',
+                                        pKeyword: this.initKeyword,
+                                        pThesauri: combo.thesaurusId
+                                    },
+                                    success: function (response) {
+                                    	var uriValue = "";
+                                        var uriElems = response.responseXML.documentElement.getElementsByTagName('uri');
+                                        if (uriElems && uriElems[0].childNodes[0]) {
+                                        	uriValue = uriElems[0].childNodes[0].nodeValue;
+                                        }
+                                        combo.setValue(uriValue);
+                                    	GeoNetwork.Util.generateXML(catalogue, combo.thesaurusId, uriValue, 'thesaurusCombobox' + combo.id.substring(1) + '_xml');
+                                    },
+                                    failure: function (response) {
+                                        Ext.MessageBox.alert('Keywords', "De geslecteerde trefwoorden konden niet geladen worden.  Annuleer en probeer de metadata opnieuw te editeren");
+                                    }
+                                });
+                            }
+                        }
+                    }
+                });
+                var dCombo = new Ext.form.ComboBox({
+                    renderTo: combo,
+                    id: id,
+//                    style: 'width: 60%',
+                    name: id,
+                    thesaurusId: thesaurusId,
+                    mode:'local',
+                    editable:true,
+                    triggerAction:'all',
+                    selectOnFocus:true,
+                    width: 300,
+                    displayField: 'value',
+                    valueField: 'uri',
+                    forceSelection:false,
+                    autoShow:true,
+                    store: keywordStore,
+                    onchangeFunction: jsonConfig.onchangeFunction,
+                    onchangeParams: jsonConfig.onchangeParams,
+                    onkeyupFunction: jsonConfig.onkeyupFunction,
+                    onkeyupParams: jsonConfig.onkeyupParams,
+                    listeners: {
+                        change: function(cb, newValue, oldValue){
+                        	GeoNetwork.Util.generateXML(catalogue, this.thesaurusId, this.getValue(), 'thesaurusCombobox' + this.id.substring(1) + '_xml');
+                            if (this.onchangeFunction && this.onchangeFunction.length>0) {
+                                if (this.onchangeParams && this.onchangeParams.length>0) {
+                                	scope.executeFunctionByName(this.onchangeFunction,window,this.onchangeParams.split(','));
+                                } else {
+                                	scope.executeFunctionByName(this.onchangeFunction,window);
+                                }
+                            }
+                        }/*,
+                        keyup: function(textField, e){
+                            if (this.onkeyupFunction && this.onkeyupFunction.length>0) {
+                                if (this.onkeyupParams && this.onkeyupParams.length>0) {
+                                	scope.executeFunctionByName(this.onchangeFunction,window,this.onkeyupParams.split(','));
+                                } else {
+                                	scope.executeFunctionByName(this.onkeyupFunction,window);
+                                }
+                            }
+                        }*/
+                    }
+                });
+
+                //Small hack to put date button on its place
+                if (Ext.isChrome){
+                    dCombo.getEl().parent().setHeight("18");
+                }
+/*
+                dCombo.on('change', function() {
+                    Ext.get(this.id.substring(1)).dom.value =  this.getValue();
+                });
+*/                
+                keywordStore.reload();
+            }
+        }
+    },
+
+    /** private: method[generateXML]
+     *  
+     *  Build XML fragment according to configuration and popuplate the hidden
+     *  textarea which contains the XML fragment.
+     */
+    generateXML: function (catalogue, thesaurusId, keywordId, xmlField) {
+        Ext.Ajax.request({
+            url: catalogue.services.getKeyword,
+            method: 'POST', 
+            params: {
+            	thesaurus:thesaurusId,
+             	id: keywordId.replace("#", "%23"),
+             	multiple: false,
+             	transformation: 'to-iso19139-keyword'
+         	},
+            success: function (response) {
+                // Populate formField
+                document.getElementById(xmlField).value = response.responseText;
+            },
+            failure: function (response) {
+                Ext.MessageBox.alert('Keywords', "The xml couldn't be generated for the selected keyword.  Cancel and try to load the metadata again for editing.");
+            }
+        });
     }
 };

@@ -126,7 +126,7 @@ CREATE TABLE Users
   (
     id            varchar(36),
     username      varchar(256)    not null,
-    password      varchar(40)    not null,
+    password      varchar(300)    not null,
     surname       varchar(32),
     name          varchar(32),
     profile       varchar(32)    not null,

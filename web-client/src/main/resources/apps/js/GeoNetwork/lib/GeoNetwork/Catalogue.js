@@ -1534,10 +1534,10 @@ GeoNetwork.Catalogue = Ext.extend(Ext.util.Observable, {
     modalAction: function(title, url, cb, onClose){
         if (url) {
             var win = new Ext.Window({
-                id: 'modalWindow',
+                id: (url==this.services.forgotten ? 'forgotten' : 'modalWindow'),
                 layout: 'fit',
                 width: 700,
-                height: 500,
+                height: (url==this.services.forgotten ? 150 : 500),
                 closeAction: 'destroy',
                 plain: true,
                 modal: true,
@@ -1561,7 +1561,7 @@ GeoNetwork.Catalogue = Ext.extend(Ext.util.Observable, {
                 })
             });
             win.show(this);
-            win.alignTo(Ext.getBody(), 't-t');
+//            win.alignTo(Ext.getBody(), 't-t');
 
 
             if (onClose) {

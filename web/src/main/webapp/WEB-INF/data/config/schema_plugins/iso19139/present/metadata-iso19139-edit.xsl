@@ -5555,29 +5555,33 @@ to build the XML fragment in the editor. -->
     <xsl:param name="listOfTransformations"/>
     <xsl:param name="transformation"/>
     
-    <!-- The widget configuration -->
-    <div class="thesaurusPickerCfg" id="thesaurusPicker_{$elementRef}" 
-      config="{{mode: '{$widgetMode}', thesaurus:'{$thesaurusId
-      }',keywords: ['{$listOfKeywords
-      }'], transformations: ['{$listOfTransformations
-      }'], transformation: '{$transformation
-      }'}}"/>
-    
     <!-- The widget container -->
-    <xsl:if test="$widgetMode!='combo'">
+    <xsl:if test="$widgetMode!='combo'">-->
+	    <!-- The widget configuration -->
+	    <div class="thesaurusPickerCfg" id="thesaurusPicker_{$elementRef}" 
+	      config="{{mode: '{$widgetMode}', thesaurus:'{$thesaurusId
+	      }',keywords: ['{$listOfKeywords
+	      }'], transformations: ['{$listOfTransformations
+	      }'], transformation: '{$transformation
+	      }'}}"/>
+	    
 	    <div class="thesaurusPicker" id="thesaurusPicker_{$elementRef}_panel"/>
-    </xsl:if>
-    <xsl:if test="$widgetMode='combo'">
-    	<table><tr><td><div class="thesaurusPicker" id="thesaurusPicker_{$elementRef}_panel"/></td><td style="padding-top:26px"><img class="project" src="../../apps/images/default/project.png" title="Mandatory for this project"/></td></tr></table>
-	</xsl:if>
-    
-    
     <!-- Create a textarea which contains the XML snippet for updates.
     The name of the element starts with _X which means XML snippet update mode.
     -->
-    <textarea id="thesaurusPicker_{$elementRef}_xml" name="_X{$elementRef}" rows="" cols="" class="debug">
-      <xsl:apply-templates mode="geonet-cleaner" select="."/>
-    </textarea>
+	    <textarea id="thesaurusPicker_{$elementRef}_xml" name="_X{$elementRef}" rows="" cols="" class="debug">
+	      <xsl:apply-templates mode="geonet-cleaner" select="."/>
+	    </textarea>
+    </xsl:if>
+    <xsl:if test="$widgetMode='combo'">
+<!--    	<table><tr><td><div class="thesaurusPicker" id="thesaurusPicker_{$elementRef}_panel"/></td><td style="padding-top:26px"><img class="project" src="../../apps/images/default/project.png" title="Mandatory for this project"/></td></tr></table>-->
+           <xsl:call-template name="thesaurusCombobox">
+				<xsl:with-param name="ref" select="$elementRef"/>
+				<xsl:with-param name="value" select="$listOfKeywords"/>
+				<xsl:with-param name="thesaurusId" select="$thesaurusId"/>
+				<xsl:with-param name="thesaurusTitle" select="normalize-space(gmd:thesaurusName/gmd:CI_Citation/gmd:title/gco:CharacterString)"/>
+           </xsl:call-template>
+	</xsl:if>
     
   </xsl:template>
   

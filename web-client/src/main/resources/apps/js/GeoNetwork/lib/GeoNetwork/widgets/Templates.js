@@ -258,26 +258,29 @@ GeoNetwork.Templates = Ext.extend(Ext.XTemplate, {
             '{value}{[xindex==xcount?"":", "]}',
             '</tpl></p>',
             '</tpl>',
-            '<table><tr><th style="width:30px"></th><th>Title</th></tr>',
+            '<table>',
             '<tpl for="this.getApplicationProfileLinks(values.links)">',
             	'<tr><td style="width:30px"><a href="{href}" target="_blank" title="File type {applicationProfile}"><img src="{catalogue.URL}/apps/images/default/{applicationProfile}.png"/></a></td><td><a href="{href}" target="_blank">{[this.getTitle(values)]}</a></td></tr>',
             '</tpl>',
-            '<tr><td><a href="?uuid={uuid}&hl={catalogue.lang}" target="_blank" class="md-mn md-mn-bookmark" title="{[OpenLayers.i18n(\'view\')]}">&nbsp;</a></td><td><a href="?uuid={uuid}&hl={catalogue.lang}" target="_blank">Permalink to this metadata record</a></td></tr>',
+            '<tpl for="this.getOtherLinks(values.links)">',
+            	'<tr><td style="width:30px"><a href="{href}" target="_blank" class="md-mn md-mn-www" title="Web link">&nbsp;</a></td><td><a href="{href}" target="_blank">{[this.getTitle(values)]}</a></td></tr>',
+        	'</tpl>',
             '<tpl for="links">',
 	            '<tpl if="values.type == \'application/vnd.ogc.wms_xml\' || values.type == \'OGC:WMS\'">',
-	            '<tr><td style="width:30px"><a href="#" class="md-mn addLayer" class="md-mn md-mn-bookmark" title="Add WMS layer to map" onclick="app.switchMode(\'1\', true);app.getIMap().addWMSLayer([[\'{[this.getTitle(values)]}\', \'{href}\', \'{name}\', \'{id}\']]);">&nbsp;</a></td><td><a href="#" onclick="app.switchMode(\'1\', true);app.getIMap().addWMSLayer([[\'{[this.getTitle(values)]}\', \'{href}\', \'{name}\', \'{id}\']]);">{[this.getTitle(values)]}</a></td></tr>',
+	            	'<tr><td style="width:30px"><a href="#" class="md-mn addLayer" class="md-mn md-mn-bookmark" title="Add WMS layer to map" onclick="app.switchMode(\'1\', true);app.getIMap().addWMSLayer([[\'{[this.getTitle(values)]}\', \'{href}\', \'{name}\', \'{id}\']]);">&nbsp;</a></td><td><a href="#" onclick="app.switchMode(\'1\', true);app.getIMap().addWMSLayer([[\'{[this.getTitle(values)]}\', \'{href}\', \'{name}\', \'{id}\']]);">{[this.getTitle(values)]}</a></td></tr>',
 	            '</tpl>',
             '</tpl>',
             '<tpl for="links">',
 	            '<tpl if="values.type == \'application/vnd.google-earth.kml+xml\'">',
-	            '<tr><td style="width:30px"><a href="#" class="md-mn addLayer" title="Add KML layer to map" onclick="app.switchMode(\'1\', true);app.getIMap().addKMLLayer([[\'{[this.getTitle(values)]}\', \'{href}\', \'{name}\', \'{id}\']]);">&nbsp;</a></td><td><a href="#" onclick="app.switchMode(\'1\', true);app.getIMap().addKMLLayer([[\'{[this.getTitle(values)]}\', \'{href}\', \'{name}\', \'{id}\']]);">{[this.getTitle(values)]}</a></td></tr>',
+	            	'<tr><td style="width:30px"><a href="#" class="md-mn addLayer" title="Add KML layer to map" onclick="app.switchMode(\'1\', true);app.getIMap().addKMLLayer([[\'{[this.getTitle(values)]}\', \'{href}\', \'{name}\', \'{id}\']]);">&nbsp;</a></td><td><a href="#" onclick="app.switchMode(\'1\', true);app.getIMap().addKMLLayer([[\'{[this.getTitle(values)]}\', \'{href}\', \'{name}\', \'{id}\']]);">{[this.getTitle(values)]}</a></td></tr>',
 	            '</tpl>',
             '</tpl>',
             '<tpl for="links">',
 	            '<tpl if="values.type == \'text/html\'">',
-	            '<tr><td style="width:30px"><a href="{href}" target="_blank" class="md-mn md-mn-www" title="Web link">&nbsp;</a></td><td><a href="{href}" target="_blank>{[this.getTitle(values)]}</a></td></tr>',
+	            	'<tr><td style="width:30px"><a href="{href}" target="_blank" class="md-mn md-mn-www" title="Web link">&nbsp;</a></td><td><a href="{href}" target="_blank">{[this.getTitle(values)]}</a></td></tr>',
 	            '</tpl>',
             '</tpl>',
+            '<tr><td><a href="?uuid={uuid}&hl={catalogue.lang}" target="_blank" class="md-mn md-mn-bookmark" title="{[OpenLayers.i18n(\'view\')]}">&nbsp;</a></td><td><a href="?uuid={uuid}&hl={catalogue.lang}" target="_blank">Permalink to this metadata record</a></td></tr>',
             '</table>',
             '</div>',
 
@@ -411,11 +414,39 @@ GeoNetwork.Templates = Ext.extend(Ext.XTemplate, {
             		var supportedProfiles = ['datafile','report','validator'];
                 	var selectedLinks = {datafile:[],report:[],validator:[]};
                 	for (var i = 0; i < links.length; i++) {
-                		if (supportedProfiles.contains(links[i].applicationProfile)) {
-                			selectedLinks[links[i].applicationProfile].push(links[i]);
-                		}
+                        switch(links[i].type) {
+	                        case 'application/vnd.ogc.wms_xml':
+	                        case 'OGC:WMS':
+	                        case 'application/vnd.google-earth.kml+xml':
+	                        case 'text/html':
+	                        	break;
+	                    	default:
+	                    		if (supportedProfiles.contains(links[i].applicationProfile)) {
+	                    			selectedLinks[links[i].applicationProfile].push(links[i]);
+	                    		}
+	                    		break;
+	                    }
                     }
                     return selectedLinks.datafile.concat(selectedLinks.report,selectedLinks.validator);
+            	},
+            	getOtherLinks: function(links){
+            		var alreadyProcessedProfiles = ['datafile','report','validator'];
+                	var selectedLinks = [];
+                	for (var i = 0; i < links.length; i++) {
+                		if (!alreadyProcessedProfiles.contains(links[i].applicationProfile)) {
+                            switch(links[i].type) {
+	                            case 'application/vnd.ogc.wms_xml':
+	                            case 'OGC:WMS':
+	                            case 'application/vnd.google-earth.kml+xml':
+	                            case 'text/html':
+	                            	break;
+                            	default:
+                        			selectedLinks.push(links[i]);
+                            		break;
+                            }
+                		}
+                    }
+                    return selectedLinks;
                 }
             }
         );

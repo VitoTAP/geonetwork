@@ -289,7 +289,7 @@ function getError(response){
     } 
 }
 
-function processRegSub(spacesNot, firstnameMandatory, surnameMandatory, passwordLength, passwordDoNotMatch, emailAddressInvalid, countryMandatory, organisationMandatory, successMessage, failureMessage)
+function processRegSub(spacesNot, firstnameMandatory, surnameMandatory, passwordMandatory, passwordLength, passwordDoNotMatch, emailAddressInvalid, countryMandatory, organisationMandatory, successMessage, failureMessage)
 {
 	var f = $('userregisterform');
 	// check start

@@ -4,9 +4,14 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
        http://www.springframework.org/schema/ldap http://www.springframework.org/schema/ldap/spring-ldap.xsd">
 
+<!-- 
 	<ldap:context-source url="ldap://localhost:389"
 		base="ou=sigma,dc=eodata,dc=vito,dc=be" username="cn=replicator,ou=ldap_accounts,ou=sigma,dc=eodata,dc=vito,dc=be"
 		password="cvsXQdDf" />
+-->
+        <ldap:context-source url="ldap://localhost:389"
+                base="ou=pdf,dc=eodata,dc=vito,dc=be" username="cn=reader,ou=ldap_accounts,ou=pdf,dc=eodata,dc=vito,dc=be"
+                password="qBKLrW6y" />
 
 	<ldap:ldap-template id="ldapTemplate" />
 

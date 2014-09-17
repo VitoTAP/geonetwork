@@ -7,7 +7,7 @@
  */
 Ext.LinkButton = Ext.extend(Ext.Button, {
 
-    template: new Ext.Template('<span><a href="void:new function(){}" target="{7}" style="color:#fff"><button>{0}</button></a></span>').compile(),
+    template: new Ext.Template('<span><a href="javascript:void(0);" target="{7}" style="color:#fff"><button>{0}</button></a></span>').compile(),
 
     buttonSelector : 'a:first',
 

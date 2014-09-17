@@ -35,6 +35,7 @@ import jeeves.server.UserSession;
 import jeeves.server.context.ServiceContext;
 import jeeves.utils.Util;
 
+import org.apache.commons.lang.StringUtils;
 import org.fao.geonet.GeonetContext;
 import org.fao.geonet.constants.Geonet;
 import org.fao.geonet.constants.Params;
@@ -228,11 +229,17 @@ public class Update implements Service
 					person.setCommonName(name);
 					person.setSurname(surname);
 					if (bUpdatePassword) {
-						person.setPassword(Util.scramble256ForLDAP(password));
+						person.setPassword(gc.getLdapContext().getShaPassword(password));
 					}
-					person.setPostalAddress(address);
-					person.setPostalCode(zip);
-					person.setCommune(city);
+					if (!StringUtils.isBlank(address)) {
+						person.setPostalAddress(address);
+					}
+					if (!StringUtils.isBlank(zip)) {
+						person.setPostalCode(zip);
+					}
+					if (!StringUtils.isBlank(city)) {
+						person.setCommune(city);
+					}
 					person.setMail(email);
 					person.setCompany(organ);
 					person.setBusinessCategory(kind);

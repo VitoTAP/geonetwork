@@ -35,6 +35,7 @@ import jeeves.server.context.ServiceContext;
 import jeeves.utils.Log;
 import jeeves.utils.Util;
 
+import org.apache.commons.lang.StringUtils;
 import org.fao.geonet.GeonetContext;
 import org.fao.geonet.constants.Geonet;
 import org.fao.geonet.constants.Params;
@@ -44,7 +45,6 @@ import org.fao.geonet.kernel.MdInfo;
 import org.fao.geonet.kernel.setting.SettingManager;
 import org.fao.geonet.services.Utils;
 import org.jdom.Element;
-import org.tuckey.web.filters.urlrewrite.utils.StringUtils;
 
 /**
  *  Grab lock of metadata, moving it from the current lock owner to the indicated user.

@@ -121,7 +121,7 @@ GeoNetwork.MetadataResultsToolbar = Ext.extend(Ext.Toolbar, {
         var sortOption = this.getSortByCombo();
         cmp.push(/*OpenLayers.i18n('sortBy'), */sortOption/*, '|'*/);
         
-//        cmp.push(this.createTemplateMenu());
+        cmp.push(this.createTemplateMenu());
         cmp.push(this.createOtherActionMenu());
         
         GeoNetwork.MetadataResultsToolbar.superclass.initComponent.call(this);

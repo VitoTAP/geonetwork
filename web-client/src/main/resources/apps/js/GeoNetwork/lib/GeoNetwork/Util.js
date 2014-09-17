@@ -736,6 +736,8 @@ GeoNetwork.Util = {
                                         Ext.MessageBox.alert('Keywords', "De geslecteerde trefwoorden konden niet geladen worden.  Annuleer en probeer de metadata opnieuw te editeren");
                                     }
                                 });
+                            } else {
+                            	GeoNetwork.Util.generateXML(catalogue, combo.thesaurusId, '', 'thesaurusCombobox' + combo.id.substring(1) + '_xml');
                             }
                         }
                     }

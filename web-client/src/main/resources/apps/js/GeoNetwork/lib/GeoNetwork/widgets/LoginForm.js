@@ -66,7 +66,7 @@ GeoNetwork.LoginForm = Ext.extend(Ext.FormPanel, {
     	width: 400
     },
 //    nodeType: GeoNetwork.Settings.nodeType.toLowerCase(),
-    nodeType: 'belair',
+    nodeType: 'sigma',
     defaultType: 'textfield',
     /** private: property[userInfo]
      * Use to display user information (name, password, profil).

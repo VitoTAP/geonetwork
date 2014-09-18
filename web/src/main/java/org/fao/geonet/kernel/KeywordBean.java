@@ -44,6 +44,8 @@ public class KeywordBean {
     private String coordWest;
     private String coordSouth;
     private String coordNorth;
+    private String description;
+    private String publicNote;
     private String thesaurus;
     private boolean selected;
     private String thesaurusTitle;
@@ -65,6 +67,8 @@ public class KeywordBean {
      * @param coordWest
      * @param coordSouth
      * @param coordNorth
+     * @param description
+     * @param publicNote
      * @param thesaurus
      * @param selected
      * @param lang
@@ -74,6 +78,7 @@ public class KeywordBean {
     public KeywordBean(int id, String value, String definition, String code,
                        String coordEast, String coordWest,
                        String coordSouth, String coordNorth,
+                       String description, String publicNote,
                        String thesaurus, boolean selected, String lang, String thesaurusTitle, String thesaurusDate, String downloadUrl) {
         super();
         this.id = id;
@@ -85,6 +90,8 @@ public class KeywordBean {
         this.coordWest = coordWest;
         this.coordSouth = coordSouth;
         this.coordNorth = coordNorth;
+        this.description = description;
+        this.publicNote = publicNote;
         this.thesaurus = thesaurus;
         this.selected = selected;
         this.thesaurusTitle = thesaurusTitle;

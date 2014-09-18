@@ -119,7 +119,7 @@ public class KeywordsSearcher {
                 sUri = uri.toString();
             }
 
-            KeywordBean kb = new KeywordBean(idKeyword, sValue, "", sUri, "", "", "", "", sThesaurusName, false, _lang, thesaurus.getTitle(), thesaurus.getDate(), thesaurus.getDownloadUrl());
+            KeywordBean kb = new KeywordBean(idKeyword, sValue, "", sUri, "", "", "", "", "", "", sThesaurusName, false, _lang, thesaurus.getTitle(), thesaurus.getDate(), thesaurus.getDownloadUrl());
             idKeyword++;
 
             return kb;
@@ -302,8 +302,22 @@ public class KeywordsSearcher {
                     sEast = sUpperCorner.substring(0, sUpperCorner.indexOf(' ')).trim();
                     sNorth = sUpperCorner.substring(sUpperCorner.indexOf(' ')).trim();
                 }
+                
+                // description
+                Value description = resultsTable.getValue(row, 5);
+                String sDescription = "";
+                if (description != null) {
+                	sDescription = description.toString();
+                }
+                // publicNote
+                Value publicNote = resultsTable.getValue(row, 6);
+                String sPublicNote = "";
+                if (publicNote != null) {
+                	sPublicNote = publicNote.toString();
+                }
+                
 
-                KeywordBean kb = new KeywordBean(idKeyword, sValue, sDefinition, sUri, sEast, sWest, sSouth, sNorth, thesaurusName.getTextTrim(),
+                KeywordBean kb = new KeywordBean(idKeyword, sValue, sDefinition, sUri, sEast, sWest, sSouth, sNorth, sDescription, sPublicNote, thesaurusName.getTextTrim(),
                         false, _lang, thesaurus.getTitle(), thesaurus.getDate(), thesaurus.getDownloadUrl());
                 _results.add(kb);
                 idKeyword++;
@@ -421,7 +435,7 @@ public class KeywordsSearcher {
                 sUri = uri.toString();
             }
 
-            KeywordBean kb = new KeywordBean(idKeyword, sValue, "", sUri, "", "", "", "", sThesaurusName, false, _lang, thesaurus.getTitle(), thesaurus.getDate(), thesaurus.getDownloadUrl());
+            KeywordBean kb = new KeywordBean(idKeyword, sValue, "", sUri, "", "", "", "", "", "", sThesaurusName, false, _lang, thesaurus.getTitle(), thesaurus.getDate(), thesaurus.getDownloadUrl());
             _results.add(kb);
             idKeyword++;
         }

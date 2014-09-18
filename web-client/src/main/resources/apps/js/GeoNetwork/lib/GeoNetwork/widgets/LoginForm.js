@@ -63,7 +63,7 @@ GeoNetwork.LoginForm = Ext.extend(Ext.FormPanel, {
          * In hbox layout, labels are not displayed, set to true to display field labels.
          */
     	hideLoginLabels: true,
-    	width: 500
+    	width: 400
     },
 //    nodeType: GeoNetwork.Settings.nodeType.toLowerCase(),
     nodeType: 'sigma',
@@ -113,7 +113,7 @@ GeoNetwork.LoginForm = Ext.extend(Ext.FormPanel, {
 	        }),
 	        registerBt = new Ext.LinkButton({
 //	            width: 80,
-	    		columnWidth: this.hideLoginLabels ? 0.40 : 0.25,
+	    		columnWidth: this.hideLoginLabels ? 0.5 : 0.25,
 	            text: OpenLayers.i18n('register'),
                 id: 'btnRegisterForm',
 	            listeners: {
@@ -149,7 +149,7 @@ GeoNetwork.LoginForm = Ext.extend(Ext.FormPanel, {
 	            }
 	        });
     	this.username = new Ext.form.TextField({
-    		columnWidth: this.hideLoginLabels ? 0.40 : 0.25,
+    		columnWidth: this.hideLoginLabels ? 0.5 : 0.25,
     		id: 'username',
     		name: 'username',
             width: 70,
@@ -163,7 +163,7 @@ GeoNetwork.LoginForm = Ext.extend(Ext.FormPanel, {
             }
         });
         this.password = new Ext.form.TextField({
-    		columnWidth: this.hideLoginLabels ? 0.40 : 0.25,
+    		columnWidth: this.hideLoginLabels ? 0.5 : 0.25,
             name: 'password',
             width: 70,
             hidden: GeoNetwork.Settings.useSTS,

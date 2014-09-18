@@ -63,7 +63,7 @@ GeoNetwork.LoginForm = Ext.extend(Ext.FormPanel, {
          * In hbox layout, labels are not displayed, set to true to display field labels.
          */
     	hideLoginLabels: true,
-    	width: 400
+    	width: 500
     },
 //    nodeType: GeoNetwork.Settings.nodeType.toLowerCase(),
     nodeType: 'sigma',
@@ -98,11 +98,11 @@ GeoNetwork.LoginForm = Ext.extend(Ext.FormPanel, {
     	Ext.applyIf(this, this.defaultConfig);
 
     	var form = this;
-    	var loginBt = new Ext.LinkButton({
-//	            width: 50,
-    		columnWidth: 0.25,
+    	var loginBt = new Ext.Button({
+	            width: 60,
+//    		columnWidth: 0.25,
 	            text: OpenLayers.i18n('login'),
-//	            iconCls: 'md-mn mn-login',
+	            iconCls: 'md-mn mn-login',
                 id: 'btnLoginForm',
 	            listeners: {
 	                click: function(){
@@ -113,7 +113,7 @@ GeoNetwork.LoginForm = Ext.extend(Ext.FormPanel, {
 	        }),
 	        registerBt = new Ext.LinkButton({
 //	            width: 80,
-	    		columnWidth: 0.25,
+	    		columnWidth: this.hideLoginLabels ? 0.40 : 0.25,
 	            text: OpenLayers.i18n('register'),
                 id: 'btnRegisterForm',
 	            listeners: {
@@ -135,12 +135,12 @@ GeoNetwork.LoginForm = Ext.extend(Ext.FormPanel, {
 	                scope: form
 	            }
 	        }),
-	        logoutBt = new Ext.LinkButton({
-//	            width: 80,
-	    		columnWidth: 0.75,
+	        logoutBt = new Ext.Button({
+	            width: 60,
+//	    		columnWidth: 0.75,
 	    		style: "text-align:right",
 	            text: OpenLayers.i18n('logout'),
-//	            iconCls: 'md-mn mn-logout',
+	            iconCls: 'md-mn mn-logout',
 	            listeners: {
 	                click: function(){
 	                    catalogue.logout();
@@ -149,26 +149,32 @@ GeoNetwork.LoginForm = Ext.extend(Ext.FormPanel, {
 	            }
 	        });
     	this.username = new Ext.form.TextField({
-    		columnWidth: this.hideLoginLabels ? 0.5 : 0.25,
+    		columnWidth: this.hideLoginLabels ? 0.40 : 0.25,
     		id: 'username',
     		name: 'username',
             width: 70,
             hidden: GeoNetwork.Settings.useSTS,
             hideLabel: false,
             allowBlank: false,
-            fieldLabel: OpenLayers.i18n('username')/*,
-            emptyText: OpenLayers.i18n('username')*/
+            fieldLabel: OpenLayers.i18n('username'),
+            emptyText: OpenLayers.i18n('username'),
+            style: {
+            	marginRight: '3px'
+            }
         });
         this.password = new Ext.form.TextField({
-    		columnWidth: this.hideLoginLabels ? 0.5 : 0.25,
+    		columnWidth: this.hideLoginLabels ? 0.40 : 0.25,
             name: 'password',
             width: 70,
             hidden: GeoNetwork.Settings.useSTS,
             hideLabel: false,
             allowBlank: false,
             fieldLabel: OpenLayers.i18n('password'),
-//            emptyText: OpenLayers.i18n('password'),
-            inputType: 'password'
+            emptyText: OpenLayers.i18n('password'),
+            inputType: 'password',
+            style: {
+            	marginRight: '3px'
+            }
         });
 		var labelStyle = "color:#fff;font-size:1.2em;font-weight:bold;top:2px;";
     	this.userInfo = new Ext.form.Label({

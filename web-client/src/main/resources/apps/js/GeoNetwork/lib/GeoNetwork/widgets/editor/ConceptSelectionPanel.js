@@ -504,11 +504,11 @@ GeoNetwork.editor.ConceptSelectionPanel = Ext.extend(Ext.Panel, {
             baseParams: {
                 pNewSearch: true,
                 pTypeSearch: 1,
-                pThesauri: '',
                 pMode: 'searchBox',
                 pThesauri: self.thesaurusIdentifier,
                 maxResults: self.maxKeywords,
-                pKeyword: '*'            },
+                pKeyword: '*'
+        	},
             reader: new Ext.data.XmlReader({
                 record: 'keyword',
                 id: 'uri'

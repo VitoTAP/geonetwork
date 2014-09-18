@@ -24,15 +24,10 @@
 package org.fao.geonet.services.password;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.sql.SQLException;
-import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Properties;
-import java.util.Random;
 
 import javax.mail.Message;
 import javax.mail.MessagingException;
@@ -44,9 +39,7 @@ import javax.mail.internet.MimeMessage;
 
 import jeeves.constants.Jeeves;
 import jeeves.exceptions.BadParameterEx;
-import jeeves.exceptions.BadResponseEx;
 import jeeves.exceptions.OperationAbortedEx;
-import jeeves.exceptions.OperationNotAllowedEx;
 import jeeves.exceptions.UserNotFoundEx;
 import jeeves.interfaces.Service;
 import jeeves.resources.dbms.Dbms;
@@ -58,7 +51,6 @@ import jeeves.utils.Xml;
 import org.fao.geonet.GeonetContext;
 import org.fao.geonet.constants.Geonet;
 import org.fao.geonet.constants.Params;
-import org.fao.geonet.kernel.DataManager;
 import org.fao.geonet.kernel.setting.SettingInfo;
 import org.fao.geonet.kernel.setting.SettingManager;
 import org.jdom.Element;
@@ -138,7 +130,10 @@ public class Change implements Service {
 		}
 		
 		// All ok so update password
-		dbms.execute ( "UPDATE Users SET password=? WHERE username=?", Util.scramble(password), username);
+		dbms.execute ( "UPDATE Users SET password=? WHERE username=?", Util.scramble256(password), username);
+		if (! "Administrator".equals(((Element) elUser.getChildren().get(0)).getChildText(Geonet.Elem.PROFILE)) && gc.getSettingManager().getValueAsBool("system/ldap/use")) {
+			gc.getLdapContext().changePassword(((Element) elUser.getChildren().get(0)).getChildText("username"), gc.getLdapContext().getShaPassword(password));
+		}
 
 		// generate email details using customisable stylesheet
 		//TODO: allow internationalised emails

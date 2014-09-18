@@ -31,6 +31,8 @@ import jeeves.server.ServiceConfig;
 import jeeves.server.UserSession;
 import jeeves.server.context.ServiceContext;
 import jeeves.utils.Util;
+
+import org.fao.geonet.GeonetContext;
 import org.fao.geonet.constants.Geonet;
 import org.fao.geonet.constants.Params;
 import org.jdom.Element;
@@ -59,7 +61,7 @@ public class PwUpdate implements Service
 	public Element exec(Element params, ServiceContext context) throws Exception
 	{
 		String password    = Util.getParam(params, Params.PASSWORD);
-		String newPassword = Util.scramble(Util.getParam(params, Params.NEW_PASSWORD));
+		String newPassword = Util.getParam(params, Params.NEW_PASSWORD);
 
 		Dbms dbms = (Dbms) context.getResourceManager().open (Geonet.Res.MAIN_DB);
 
@@ -75,7 +77,7 @@ public class PwUpdate implements Service
 
 		// check old password
 		String query = "SELECT * FROM Users WHERE id=? AND password=?";
-		elUser = dbms.select(query, userId, Util.scramble(password));
+		elUser = dbms.select(query, userId, Util.scramble256(password));
 		if (elUser.getChildren().size() == 0) {
 			// Check old password hash method
 			elUser = dbms.select(query, userId, Util.oldScramble(password));
@@ -85,7 +87,11 @@ public class PwUpdate implements Service
 		}
 		
 		// all ok so change password
-		dbms.execute("UPDATE Users SET password=? WHERE id=?", newPassword, userId);
+		dbms.execute("UPDATE Users SET password=? WHERE id=?", Util.scramble256(newPassword), userId);
+		GeonetContext gc = (GeonetContext) context.getHandlerContext(Geonet.CONTEXT_NAME);
+		if (! "Administrator".equals(((Element) elUser.getChildren().get(0)).getChildText(Geonet.Elem.PROFILE)) && gc.getSettingManager().getValueAsBool("system/ldap/use")) {
+			gc.getLdapContext().changePassword(((Element) elUser.getChildren().get(0)).getChildText("username"), gc.getLdapContext().getShaPassword(newPassword));
+		}
 
 		return new Element(Jeeves.Elem.RESPONSE);
 	}

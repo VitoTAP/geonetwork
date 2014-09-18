@@ -23,20 +23,11 @@
 
 package org.fao.geonet.services.register;
 
-import jeeves.constants.Jeeves;
-import jeeves.interfaces.Service;
-import jeeves.resources.dbms.Dbms;
-import jeeves.server.ServiceConfig;
-import jeeves.server.context.ServiceContext;
-import jeeves.utils.Util;
-import jeeves.utils.Xml;
-import org.fao.geonet.GeonetContext;
-import org.fao.geonet.constants.Geonet;
-import org.fao.geonet.constants.Params;
-import org.fao.geonet.kernel.setting.SettingInfo;
-import org.fao.geonet.kernel.setting.SettingManager;
-import org.fao.geonet.util.IDFactory;
-import org.jdom.Element;
+import java.io.File;
+import java.sql.SQLException;
+import java.util.Date;
+import java.util.Properties;
+import java.util.Random;
 
 import javax.mail.Message;
 import javax.mail.MessagingException;
@@ -45,11 +36,24 @@ import javax.mail.Transport;
 import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
-import java.io.File;
-import java.sql.SQLException;
-import java.util.Date;
-import java.util.Properties;
-import java.util.Random;
+
+import jeeves.constants.Jeeves;
+import jeeves.interfaces.Service;
+import jeeves.resources.dbms.Dbms;
+import jeeves.server.ServiceConfig;
+import jeeves.server.context.ServiceContext;
+import jeeves.utils.Util;
+import jeeves.utils.Xml;
+
+import org.apache.commons.lang.StringUtils;
+import org.fao.geonet.GeonetContext;
+import org.fao.geonet.constants.Geonet;
+import org.fao.geonet.constants.Params;
+import org.fao.geonet.kernel.security.ldap.Person;
+import org.fao.geonet.kernel.setting.SettingInfo;
+import org.fao.geonet.kernel.setting.SettingManager;
+import org.fao.geonet.util.IDFactory;
+import org.jdom.Element;
 
 //=============================================================================
 
@@ -138,10 +142,32 @@ public class SelfRegister implements Service {
 				+ "address, city, state, zip, country, email, organisation, kind) "
 				+ "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
-		dbms.execute(query, id, username, Util.scramble(password), surname, name, PROFILE, address, city, state, zip,
+		dbms.execute(query, id, username, Util.scramble256(password), surname, name, PROFILE, address, city, state, zip,
                 country, email, organ, kind);
 
 		dbms.execute("INSERT INTO UserGroups(userId, groupId) VALUES (?, ?)", id, group);
+
+		if (gc.getSettingManager().getValueAsBool("system/ldap/use")) {
+			Person person = new Person();
+			person.setUid(username);
+			person.setCommonName(name);
+			person.setSurname(surname);
+			person.setPassword(gc.getLdapContext().getShaPassword(password));
+			if (!StringUtils.isBlank(address)) {
+				person.setPostalAddress(address);
+			}
+			if (!StringUtils.isBlank(zip)) {
+				person.setPostalCode(zip);
+			}
+			if (!StringUtils.isBlank(city)) {
+				person.setCommune(city);
+			}
+			person.setMail(email);
+			person.setCompany(organ);
+			person.setBusinessCategory(kind);
+			person.setCountry(country);
+			gc.getLdapContext().addPerson(person);
+		}
 
 		// Send email to user confirming registration
 

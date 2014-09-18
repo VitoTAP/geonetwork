@@ -3720,6 +3720,36 @@
                 </xsl:apply-templates>
             </xsl:when>
             <xsl:when test="string($linkage)!=''">
+				<xsl:if test="name(../..)!='gmd:MD_DigitalTransferOptions'">
+			        <xsl:apply-templates mode="elementEP" select="gmd:applicationProfile|geonet:child[string(@name)='applicationProfile']">
+			            <xsl:with-param name="schema" select="$schema"/>
+			            <xsl:with-param name="edit"   select="$edit"/>
+			        </xsl:apply-templates>
+				</xsl:if>
+				<xsl:if test="name(../..)='gmd:MD_DigitalTransferOptions'">
+        		    <xsl:variable name="applicationProfileCount"   select="count(gmd:applicationProfile)"/>
+					<xsl:if test="$applicationProfileCount > 0">
+						<xsl:variable name="applicationProfileValue" select="gmd:applicationProfile/gco:CharacterString/text()"/>
+				        <xsl:call-template name="simpleElementGui">
+				            <xsl:with-param name="schema" select="$schema"/>
+				            <xsl:with-param name="edit" select="$edit"/>
+				            <xsl:with-param name="title">
+				                <xsl:call-template name="getTitle">
+				                    <xsl:with-param name="name"   select="name(gmd:applicationProfile)"/>
+				                    <xsl:with-param name="schema" select="$schema"/>
+				                </xsl:call-template>
+				            </xsl:with-param>
+				            <xsl:with-param name="text">
+								<xsl:for-each select="/root/gui/strings/applicationProfileChoice[@value]">
+									<xsl:if test="string(@value)=$applicationProfileValue">
+				                    	<xsl:value-of select="string(.)"/><br/>
+									</xsl:if>
+								</xsl:for-each>
+								<xsl:text> </xsl:text>(<xsl:value-of select="string($applicationProfileValue)"/>)
+							</xsl:with-param>
+						</xsl:call-template>
+					</xsl:if>
+				</xsl:if>
                 <xsl:apply-templates mode="simpleElement" select=".">
                     <xsl:with-param name="schema"  select="$schema"/>
                     <xsl:with-param name="text">
@@ -3749,36 +3779,6 @@
                         </xsl:if>
                     </xsl:with-param>
                 </xsl:apply-templates>
-				<xsl:if test="name(../..)='gmd:MD_DigitalTransferOptions'">
-        		    <xsl:variable name="applicationProfileCount"   select="count(gmd:applicationProfile)"/>
-					<xsl:if test="$applicationProfileCount > 0">
-						<xsl:variable name="applicationProfileValue" select="gmd:applicationProfile/gco:CharacterString/text()"/>
-				        <xsl:call-template name="simpleElementGui">
-				            <xsl:with-param name="schema" select="$schema"/>
-				            <xsl:with-param name="edit" select="$edit"/>
-				            <xsl:with-param name="title">
-				                <xsl:call-template name="getTitle">
-				                    <xsl:with-param name="name"   select="name(gmd:applicationProfile)"/>
-				                    <xsl:with-param name="schema" select="$schema"/>
-				                </xsl:call-template>
-				            </xsl:with-param>
-				            <xsl:with-param name="text">
-								<xsl:for-each select="/root/gui/strings/applicationProfileChoice[@value]">
-									<xsl:if test="string(@value)=$applicationProfileValue">
-				                    	<xsl:value-of select="string(.)"/><br/>
-									</xsl:if>
-								</xsl:for-each>
-								<xsl:text> </xsl:text>(<xsl:value-of select="string($applicationProfileValue)"/>)
-							</xsl:with-param>
-						</xsl:call-template>
-					</xsl:if>
-				</xsl:if>
-				<xsl:if test="name(../..)!='gmd:MD_DigitalTransferOptions'">
-			        <xsl:apply-templates mode="elementEP" select="gmd:applicationProfile|geonet:child[string(@name)='applicationProfile']">
-			            <xsl:with-param name="schema" select="$schema"/>
-			            <xsl:with-param name="edit"   select="$edit"/>
-			        </xsl:apply-templates>
-				</xsl:if>
             </xsl:when>
         </xsl:choose>
 <!-- 
@@ -3830,13 +3830,12 @@
         <xsl:param name="edit"/>
         <xsl:param name="id"/>
 
-        <xsl:apply-templates mode="elementEP" select="gmd:linkage|geonet:child[string(@name)='linkage']">
-            <xsl:with-param name="schema" select="$schema"/>
-            <xsl:with-param name="edit"   select="not(string(gmd:protocol[1]/gco:CharacterString)='WWW:DOWNLOAD-1.0-http--download'
-	            and string(gmd:name/gco:CharacterString|gmd:name/gmx:MimeFileType)!='')"/>
-        </xsl:apply-templates>
-
-
+		<xsl:if test="name(../..)!='gmd:MD_DigitalTransferOptions'">
+	        <xsl:apply-templates mode="elementEP" select="gmd:applicationProfile|geonet:child[string(@name)='applicationProfile']">
+	            <xsl:with-param name="schema" select="$schema"/>
+	            <xsl:with-param name="edit"   select="$edit"/>
+	        </xsl:apply-templates>
+		</xsl:if>
 		<xsl:if test="name(../..)='gmd:MD_DigitalTransferOptions'">
             <xsl:variable name="applicationProfileCount"   select="count(gmd:applicationProfile)"/>
 			<xsl:if test="$edit=true()">
@@ -3894,12 +3893,12 @@
             <xsl:with-param name="edit"   select="$edit"/>
         </xsl:apply-templates>
 
-		<xsl:if test="name(../..)!='gmd:MD_DigitalTransferOptions'">
-	        <xsl:apply-templates mode="elementEP" select="gmd:applicationProfile|geonet:child[string(@name)='applicationProfile']">
-	            <xsl:with-param name="schema" select="$schema"/>
-	            <xsl:with-param name="edit"   select="$edit"/>
-	        </xsl:apply-templates>
-		</xsl:if>
+        <xsl:apply-templates mode="elementEP" select="gmd:linkage|geonet:child[string(@name)='linkage']">
+            <xsl:with-param name="schema" select="$schema"/>
+            <xsl:with-param name="edit"   select="not(string(gmd:protocol[1]/gco:CharacterString)='WWW:DOWNLOAD-1.0-http--download'
+	            and string(gmd:name/gco:CharacterString|gmd:name/gmx:MimeFileType)!='')"/>
+        </xsl:apply-templates>
+
 		<xsl:if test="$edit=true()">
 	        <xsl:choose>
 	            <xsl:when test="string(gmd:protocol[1]/gco:CharacterString)='WWW:DOWNLOAD-1.0-http--download'
@@ -5556,29 +5555,33 @@ to build the XML fragment in the editor. -->
     <xsl:param name="listOfTransformations"/>
     <xsl:param name="transformation"/>
     
-    <!-- The widget configuration -->
-    <div class="thesaurusPickerCfg" id="thesaurusPicker_{$elementRef}" 
-      config="{{mode: '{$widgetMode}', thesaurus:'{$thesaurusId
-      }',keywords: ['{$listOfKeywords
-      }'], transformations: ['{$listOfTransformations
-      }'], transformation: '{$transformation
-      }'}}"/>
-    
     <!-- The widget container -->
-    <xsl:if test="$widgetMode!='combo'">
+    <xsl:if test="$widgetMode!='combo'">-->
+	    <!-- The widget configuration -->
+	    <div class="thesaurusPickerCfg" id="thesaurusPicker_{$elementRef}" 
+	      config="{{mode: '{$widgetMode}', thesaurus:'{$thesaurusId
+	      }',keywords: ['{$listOfKeywords
+	      }'], transformations: ['{$listOfTransformations
+	      }'], transformation: '{$transformation
+	      }'}}"/>
+	    
 	    <div class="thesaurusPicker" id="thesaurusPicker_{$elementRef}_panel"/>
-    </xsl:if>
-    <xsl:if test="$widgetMode='combo'">
-    	<table><tr><td><div class="thesaurusPicker" id="thesaurusPicker_{$elementRef}_panel"/></td><td style="padding-top:26px"><img class="project" src="../../apps/images/default/project.png" title="Mandatory for this project"/></td></tr></table>
-	</xsl:if>
-    
-    
     <!-- Create a textarea which contains the XML snippet for updates.
     The name of the element starts with _X which means XML snippet update mode.
     -->
-    <textarea id="thesaurusPicker_{$elementRef}_xml" name="_X{$elementRef}" rows="" cols="" class="debug">
-      <xsl:apply-templates mode="geonet-cleaner" select="."/>
-    </textarea>
+	    <textarea id="thesaurusPicker_{$elementRef}_xml" name="_X{$elementRef}" rows="" cols="" class="debug">
+	      <xsl:apply-templates mode="geonet-cleaner" select="."/>
+	    </textarea>
+    </xsl:if>
+    <xsl:if test="$widgetMode='combo'">
+<!--    	<table><tr><td><div class="thesaurusPicker" id="thesaurusPicker_{$elementRef}_panel"/></td><td style="padding-top:26px"><img class="project" src="../../apps/images/default/project.png" title="Mandatory for this project"/></td></tr></table>-->
+           <xsl:call-template name="thesaurusCombobox">
+				<xsl:with-param name="ref" select="$elementRef"/>
+				<xsl:with-param name="value" select="$listOfKeywords"/>
+				<xsl:with-param name="thesaurusId" select="$thesaurusId"/>
+				<xsl:with-param name="thesaurusTitle" select="normalize-space(gmd:thesaurusName/gmd:CI_Citation/gmd:title/gco:CharacterString)"/>
+           </xsl:call-template>
+	</xsl:if>
     
   </xsl:template>
   

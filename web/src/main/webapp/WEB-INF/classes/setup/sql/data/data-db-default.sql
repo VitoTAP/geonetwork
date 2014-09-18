@@ -51,6 +51,7 @@ INSERT INTO Groups VALUES ('-1','GUEST','self-registered users',NULL,NULL,'y');
 INSERT INTO Groups VALUES ('0','intranet',NULL,NULL,NULL,'y');
 INSERT INTO Groups VALUES ('1','all',NULL,NULL,NULL,'y');
 INSERT INTO Groups VALUES ('2','sample',NULL,NULL,NULL,'n');
+insert into groups (id, name, description, internal) values ('3', 'BEL-AIR registered users', 'Regular users who browse the metadata catalogue.','n');
 
 -- ======================================================================
 -- === Table: IsoLanguages

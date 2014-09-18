@@ -17,8 +17,11 @@ public class Person {
 	@Id
 	private Name dn;
 
+	@Attribute(name = "uid")
+	@DnAttribute(value = "uid", index = 1)
+	private String uid;
+
 	@Attribute(name = "cn")
-	@DnAttribute(value = "cn", index = 0)
 	private String commonName;
 
 	@Attribute(name = "sn")
@@ -27,17 +30,26 @@ public class Person {
 	@Attribute(name = "userPassword")
 	private String password;
 
-	@Attribute(name = "description")
-	private String description;
+	@Attribute(name = "postalAddress")
+	private String postalAddress;
 
-	@Attribute(name = "c")
+	@Attribute(name = "postalCode")
+	private String postalCode;
+
+	@Attribute(name = "st")
+	private String commune;
+
+	@Attribute(name = "mail")
+	private String mail;
+
+	@Attribute(name = "l")
 	private String country;
 
 	@Attribute(name = "ou")
 	private String company;
 
-	@Attribute(name = "telephoneNumber")
-	private String phone;
+	@Attribute(name = "businessCategory")
+	private String businessCategory;
 
 	public Name getDn() {
 		return dn;
@@ -47,20 +59,12 @@ public class Person {
 		this.dn = dn;
 	}
 
-	public String getPassword() {
-		return password;
+	public String getUid() {
+		return uid;
 	}
 
-	public void setPassword(String password) {
-		this.password = password;
-	}
-
-	public String getDescription() {
-		return description;
-	}
-
-	public void setDescription(String description) {
-		this.description = description;
+	public void setUid(String uid) {
+		this.uid = uid;
 	}
 
 	public String getCommonName() {
@@ -79,12 +83,44 @@ public class Person {
 		this.surname = surname;
 	}
 
-	public String getCompany() {
-		return company;
+	public String getPassword() {
+		return password;
 	}
 
-	public void setCompany(String company) {
-		this.company = company;
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
+	public String getPostalAddress() {
+		return postalAddress;
+	}
+
+	public void setPostalAddress(String postalAddress) {
+		this.postalAddress = postalAddress;
+	}
+
+	public String getPostalCode() {
+		return postalCode;
+	}
+
+	public void setPostalCode(String postalCode) {
+		this.postalCode = postalCode;
+	}
+
+	public String getCommune() {
+		return commune;
+	}
+
+	public void setCommune(String commune) {
+		this.commune = commune;
+	}
+
+	public String getMail() {
+		return mail;
+	}
+
+	public void setMail(String mail) {
+		this.mail = mail;
 	}
 
 	public String getCountry() {
@@ -95,12 +131,20 @@ public class Person {
 		this.country = country;
 	}
 
-	public String getPhone() {
-		return phone;
+	public String getCompany() {
+		return company;
 	}
 
-	public void setPhone(String phone) {
-		this.phone = phone;
+	public void setCompany(String company) {
+		this.company = company;
+	}
+
+	public String getBusinessCategory() {
+		return businessCategory;
+	}
+
+	public void setBusinessCategory(String businessCategory) {
+		this.businessCategory = businessCategory;
 	}
 
 	public boolean equals(Object obj) {

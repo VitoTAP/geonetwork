@@ -24,7 +24,7 @@ INSERT INTO GroupsDes VALUES ('-1','dut','Gast');
 INSERT INTO GroupsDes VALUES ('0','dut','Intranet');
 INSERT INTO GroupsDes VALUES ('1','dut','Iedereen');
 INSERT INTO GroupsDes VALUES ('2','dut','Voorbeeldgroep');
-
+insert into groupsdes (iddes, langid, label) values ('3','dut','BEL-AIR registered users');
 
 INSERT INTO IsoLanguagesDes VALUES (1,'dut','Afar');
 INSERT INTO IsoLanguagesDes VALUES (2,'dut','Abkhazian');

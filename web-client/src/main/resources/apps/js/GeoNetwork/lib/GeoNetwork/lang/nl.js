@@ -232,6 +232,8 @@ GeoNetwork.Lang.nl = {
     'otherActions': "Andere acties",
     'Actions': "Acties",
     'view': "Bekijk",
+    'show-metadata': 'Bekijk metadata',
+    'show-metadata-tooltip': 'Bekijk metadata van het geselecteerde element in de lijst',
     'zoomTo': "Zoom naar",
     'saveXml': "Exporteer (XML)",
     'exportCsv': "Exporteer (TXT)",

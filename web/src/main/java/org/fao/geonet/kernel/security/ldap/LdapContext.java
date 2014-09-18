@@ -1,19 +1,19 @@
 package org.fao.geonet.kernel.security.ldap;
 
-import java.security.MessageDigest;
 import java.util.Collections;
 
 import javax.naming.Name;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ldap.core.LdapTemplate;
-import org.springframework.ldap.query.LdapQueryBuilder;
 import org.springframework.security.authentication.encoding.LdapShaPasswordEncoder;
+import org.springframework.security.authentication.encoding.ShaPasswordEncoder;
 
 public class LdapContext {
 	private LdapTemplate ldapTemplate;
 	private String defaultGroup;
 	private String defaultProfile;
+
 	private String uidAttribute;
 
 	@Autowired
@@ -21,7 +21,7 @@ public class LdapContext {
 
 	@Autowired
 	private GroupDao groupDao;
-	
+
 	public LdapContext() {
 	}
 
@@ -34,8 +34,16 @@ public class LdapContext {
 		this.ldapTemplate = ldapTemplate;
 	}
 
+	public String getDefaultGroup() {
+		return defaultGroup;
+	}
+
 	public void setDefaultGroup(String defaultGroup) {
 		this.defaultGroup = defaultGroup;
+	}
+
+	public String getDefaultProfile() {
+		return defaultProfile;
 	}
 
 	public void setDefaultProfile(String defaultProfile) {
@@ -46,22 +54,28 @@ public class LdapContext {
 		this.uidAttribute = uidAttribute;
 	}
 
-	public void authenticate(String uid, String password) {
-		ldapTemplate.authenticate(LdapQueryBuilder.query().where(uidAttribute).is(uid), getShaPassword(password));
+	public boolean authenticate(String uid, String password) {
+		return ldapTemplate.authenticate(((PersonDaoImpl)personDao).getBase(),uidAttribute + "=" + uid, password);
 	}
 
 	public void addPerson(Person person) {
 		personDao.create(person);
 	}
 
-	public void updatePerson(Person p) {
-		Person person = personDao.findByPrimaryKey(p.getCommonName());
-		person.setCompany(person.getCompany());
-		person.setCountry(person.getCountry());
-		person.setDescription(person.getDescription());
-		person.setDn(person.getDn());
-		person.setSurname(person.getSurname());
-		person.setPhone(person.getPhone());
+	public Person findPerson(String uid) {
+		return personDao.findByPrimaryKey(uid);
+	}
+	
+	public boolean changePassword(String uid, String password) {
+		Person person = findPerson(uid);
+		if (person!=null) {
+			person.setPassword(password);
+			updatePerson(person);
+		}
+		return true;
+	}
+
+	public void updatePerson(Person person) {
 		personDao.update(person);
 	}
 
@@ -73,9 +87,7 @@ public class LdapContext {
 		groupDao.create(group);
 	}
 
-	public void updateGroup(Group g) {
-		Group group = groupDao.findByPrimaryKey(g.getCommonName());
-		group.setMembers(group.getMembers());
+	public void updateGroup(Group group) {
 		groupDao.update(group);
 	}
 
@@ -108,11 +120,16 @@ public class LdapContext {
 	public void removeGroup(Group group) {
 		groupDao.delete(group);
 	}
-	
+
 	public String getShaPassword(String password) {
-		  LdapShaPasswordEncoder  ldapShaPasswordEncoder  = new LdapShaPasswordEncoder();
-		  String result = ldapShaPasswordEncoder.encodePassword(password,null);
-		  System.out.println("userpassword in LDAP:" + result);
-		  return result;
+/*
+		ShaPasswordEncoder shaPasswordEncoder = new ShaPasswordEncoder(256);
+		String shaPassword = shaPasswordEncoder.encodePassword(password, null);
+		return shaPassword;
+*/
+		LdapShaPasswordEncoder ldapShaPasswordEncoder = new LdapShaPasswordEncoder();
+		ldapShaPasswordEncoder.setForceLowerCasePrefix(true);
+		return ldapShaPasswordEncoder.encodePassword(password, null);
 	}
+
 }

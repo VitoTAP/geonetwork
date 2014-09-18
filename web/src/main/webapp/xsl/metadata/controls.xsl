@@ -264,4 +264,20 @@
       </tr>
     </table>
   </xsl:template>
+
+  <xsl:template name="thesaurusCombobox">
+    <xsl:param name="ref"/>
+	<xsl:param name="onchangeFunction"/>
+	<xsl:param name="onchangeParams"/>
+    <xsl:param name="onkeyupFunction"/>
+	<xsl:param name="onkeyupParams"/>
+    <xsl:param name="value"/>
+    <xsl:param name="thesaurusId"/>
+    <xsl:param name="thesaurusTitle"/>
+		<div class="thesaurusInfo"><span class="title"><xsl:value-of select="$thesaurusTitle"/></span></div>
+		<div class="thesaurusCombobox" id="_{$ref}_thesaurusCombobox" config="{{value: '{$value}', thesaurusId: '{$thesaurusId}',onchangeFunction: '{$onchangeFunction}', onchangeParams: '{$onchangeParams}', onkeyupFunction: '{$onkeyupFunction}', onkeyupParams: '{$onkeyupParams}'}}"/>
+	    <textarea id="thesaurusCombobox_{$ref}_xml" name="_X{$ref}" rows="" cols="" class="debug">
+	      <xsl:apply-templates mode="geonet-cleaner" select="."/>
+	    </textarea>
+  </xsl:template>
 </xsl:stylesheet>

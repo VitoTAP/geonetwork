@@ -365,6 +365,7 @@
 	<about>Over</about>
 	<abstract>Samenvatting</abstract>
 	<accept>Accepteren</accept>
+	<send>Verstuur</send>
 	<actionOnSelect>acties bij selectie</actionOnSelect>
 	<add js="true">toevoegen</add>
 	<addNewMetadata>Voeg nieuwe metadata toe</addNewMetadata>

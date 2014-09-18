@@ -35,6 +35,7 @@ import jeeves.server.UserSession;
 import jeeves.server.context.ServiceContext;
 import jeeves.utils.Util;
 
+import org.apache.commons.lang.StringUtils;
 import org.fao.geonet.GeonetContext;
 import org.fao.geonet.constants.Geonet;
 import org.fao.geonet.constants.Params;
@@ -111,6 +112,9 @@ public class Update implements Service
 
 
 			LDAPContext lc = new LDAPContext(sm, ldapUsername, ldapPassword);
+			boolean bUpdatePassword = false;
+			boolean bAddLDAPUser = false;
+			boolean bUpdateLDAPUser = false;
 			boolean bUpdateLDAPGroups = false;
 			java.util.List<String> groupsToAddToLdap = new ArrayList<String>();
 			// Before we do anything check (for UserAdmin) that they are not trying
@@ -151,14 +155,8 @@ public class Update implements Service
 							"address, city, state, zip, country, email, organisation, kind) "+
 							"VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
-				dbms.execute(query, id, username, Util.scramble(password), surname, name, profile, address, city, state,
+				dbms.execute(query, id, username, Util.scramble256(password), surname, name, profile, address, city, state,
                         zip, country, email, organ, kind);
-				Person person = new Person();
-				person.setPassword(gc.getLdapContext().getShaPassword(password));
-				person.setCommonName(username);
-				person.setSurname(surname);
-				person.setCompany(organ);
-				gc.getLdapContext().addPerson(person);
 			//--- add groups
 				for(Element userGroup : userGroups) {
 					String group = userGroup.getText();
@@ -168,6 +166,7 @@ public class Update implements Service
 					}
 					addGroup(dbms, id, group);
 				}
+				bAddLDAPUser = true;
 				bUpdateLDAPGroups = true;
 			}
 
@@ -177,7 +176,7 @@ public class Update implements Service
 				if (operation.equals(Params.Operation.FULLUPDATE)) {
 					String query = "UPDATE Users SET username=?, password=?, surname=?, name=?, profile=?, address=?, city=?, state=?, zip=?, country=?, email=?, organisation=?, kind=? WHERE id=?";
 
-					dbms.execute (query, username, Util.scramble(password), surname, name, profile, address, city,
+					dbms.execute (query, username, Util.scramble256(password), surname, name, profile, address, city,
                             state, zip, country, email, organ, kind, id);
 
 					//--- add groups
@@ -192,6 +191,8 @@ public class Update implements Service
 						}
 						addGroup(dbms, id, group);
 					}
+					bUpdateLDAPUser = true;
+					bUpdatePassword = true;
 					bUpdateLDAPGroups = true;
 
 			// -- edit user info
@@ -209,21 +210,50 @@ public class Update implements Service
 						}
 						addGroup(dbms, id, group);
 					}
+					bUpdateLDAPUser = true;
 					bUpdateLDAPGroups = true;
-
 			// -- reset password
 				}
                 else if (operation.equals(Params.Operation.RESETPW)) {
 					String query = "UPDATE Users SET password=? WHERE id=?";
-					dbms.execute (query, Util.scramble(password), id);
+					dbms.execute (query, Util.scramble256(password), id);
 				}
                 else {
 					throw new IllegalArgumentException("unknown user update operation "+operation);
 				}
 			} 
-			if (!isAdmin(dbms, username) && lc.isInUse() && bUpdateLDAPGroups)
-			{
-				lc.updateGroups(username,groupsToAddToLdap);
+			if (!isAdmin(dbms, username) && lc.isInUse()) {
+				if (bAddLDAPUser || bUpdateLDAPUser) {
+					Person person = new Person();
+					person.setUid(username);
+					person.setCommonName(name);
+					person.setSurname(surname);
+					if (bUpdatePassword) {
+						person.setPassword(gc.getLdapContext().getShaPassword(password));
+					}
+					if (!StringUtils.isBlank(address)) {
+						person.setPostalAddress(address);
+					}
+					if (!StringUtils.isBlank(zip)) {
+						person.setPostalCode(zip);
+					}
+					if (!StringUtils.isBlank(city)) {
+						person.setCommune(city);
+					}
+					person.setMail(email);
+					person.setCompany(organ);
+					person.setBusinessCategory(kind);
+					person.setCountry(country);
+					if (bAddLDAPUser) {
+						gc.getLdapContext().addPerson(person);
+					}
+					if (bUpdateLDAPUser) {
+						gc.getLdapContext().updatePerson(person);					
+					}
+				}
+				if (bUpdateLDAPGroups) {
+//					lc.updateGroups(username,groupsToAddToLdap);
+				}
 			}
 		} else {
 			throw new IllegalArgumentException("you don't have rights to do this");

@@ -38,11 +38,12 @@ import org.apache.commons.lang.StringUtils;
 import org.fao.geonet.GeonetContext;
 import org.fao.geonet.constants.Geonet;
 import org.fao.geonet.constants.Params;
+import org.fao.geonet.kernel.security.ldap.LdapContext;
+import org.fao.geonet.kernel.security.ldap.Person;
 import org.fao.geonet.kernel.setting.SettingManager;
 import org.fao.geonet.lib.Lib;
 import org.fao.geonet.util.IDFactory;
 import org.jdom.Element;
-import org.springframework.web.context.support.WebApplicationContextUtils;
 
 //=============================================================================
 
@@ -51,8 +52,8 @@ import org.springframework.web.context.support.WebApplicationContextUtils;
 
 public class Login implements Service
 {
-	private String ldapUsername;
-	private String ldapPassword;
+//	private String ldapUsername;
+//	private String ldapPassword;
 	//--------------------------------------------------------------------------
 	//---
 	//--- Init
@@ -60,8 +61,8 @@ public class Login implements Service
 	//--------------------------------------------------------------------------
 
 	public void init(String appPath, ServiceConfig params) throws Exception {
-		ldapUsername = params.getValue("ldapUsername", "cn=reader,ou=ldap_accounts,ou=pdf,dc=eodata,dc=vito,dc=be");
-		ldapPassword = params.getValue("ldapPassword", "reader");
+//		ldapUsername = params.getValue("ldapUsername", "cn=reader,ou=ldap_accounts,ou=pdf,dc=eodata,dc=vito,dc=be");
+//		ldapPassword = params.getValue("ldapPassword", "reader");
 	}
 
 	//--------------------------------------------------------------------------
@@ -80,25 +81,35 @@ public class Login implements Service
 
 		Dbms dbms = (Dbms) context.getResourceManager().open(Geonet.Res.MAIN_DB);
 
-		LDAPContext lc = new LDAPContext(sm, ldapUsername, ldapPassword);
+		LDAPContext lc = /*new LDAPContext(sm, ldapUsername, ldapPassword)*/gc.getLDAPContextOld();
 
 		if (!isAdmin(dbms, username) && sm.getValueAsBool("system/ldap/use"))
 		{
-			gc.getLdapContext().authenticate(sm.getValue("system/ldap/uidAttr")+"="+username, password);
-			LDAPInfo info = lc.lookUp(username, password);
+			LdapContext ldapContext = gc.getLdapContext();
+			if (ldapContext.authenticate(username, /*ldapContext.getShaPassword(password)*/password)) {
+				Person person = ldapContext.findPerson(username);
+				if (person!=null) {
+					updateUser(context, dbms, person, password, ldapContext.getDefaultProfile());
+				}
+/*
+				LDAPInfo info = lc.lookUp(username, password);
 
-			if (info == null)
-				throw new UserLoginEx(username);
+				if (info == null)
+					throw new UserLoginEx(username);
 
-			updateUser(context, dbms, info);
-			password = info.password;
+				updateUser(context, dbms, info);
+				password = info.password;
+*/
+			} else {
+				throw new UserLoginEx(username);				
+			}
 		}
 
 		//--- attempt to load user from db
 
 		String query = "SELECT * FROM Users WHERE username = ? AND password = ?";
 	
-		List list = dbms.select(query, username, Util.scramble(password)).getChildren();
+		List list = dbms.select(query, username, Util.scramble256(password)).getChildren();
 		if (list.size() == 0) {
 			// Check old password hash method
 			list = dbms.select(query, username, Util.oldScramble(password)).getChildren();
@@ -226,6 +237,30 @@ public class Login implements Service
         	}
         }
 
+        dbms.commit();
+	}
+
+	private void updateUser(ServiceContext context, Dbms dbms, Person person, String password, String defaultProfile) throws SQLException, UserLoginEx {
+        String userId = "-1";
+		String query = "UPDATE Users SET password=?, name=? WHERE username=?";
+
+		int res = dbms.execute(query, Util.scramble256(password), person.getCommonName(), person.getUid());
+
+		if (res == 0)
+		{
+			userId = IDFactory.newID();
+			query = "INSERT INTO Users(id, username, password, surname, name, profile) VALUES(?,?,?,?,?,?)";
+
+			dbms.execute(query, userId, person.getUid(), Util.scramble256(password), person.getSurname(), person.getCommonName(), defaultProfile);
+		} else {
+			query = "SELECT id FROM Users WHERE username=?";
+            List list  = dbms.select(query, person.getUid()).getChildren();
+            userId = ((Element) list.get(0)).getChildText("id");			
+		}
+
+		if (StringUtils.isBlank(userId)) {
+			throw new UserLoginEx(userId);
+		}
         dbms.commit();
 	}
 }

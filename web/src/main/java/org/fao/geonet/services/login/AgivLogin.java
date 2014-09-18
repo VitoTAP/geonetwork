@@ -175,7 +175,7 @@ public class AgivLogin implements Service
 
 		String query = "UPDATE Users SET password=?, surname=?, name=?, profile=?, email=? WHERE username=?";
 
-		int res = dbms.execute(query, Util.scramble(defaultPassword), context.getUserSession().getSurname(), context.getUserSession().getName(), context.getUserSession().getProfile(), context.getUserSession().getEmailAddr(), context.getUserSession().getUsername());
+		int res = dbms.execute(query, Util.scramble256(defaultPassword), context.getUserSession().getSurname(), context.getUserSession().getName(), context.getUserSession().getProfile(), context.getUserSession().getEmailAddr(), context.getUserSession().getUsername());
 
 		//--- if the user was not found --> add it
 

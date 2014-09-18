@@ -289,7 +289,7 @@ function getError(response){
     } 
 }
 
-function processRegSub(spacesNot, firstnameMandatory, surnameMandatory, passwordLength, passwordDoNotMatch, emailAddressInvalid, countryMandatory, organisationMandatory, successMessage, failureMessage)
+function processRegSub(spacesNot, firstnameMandatory, surnameMandatory, passwordMandatory, passwordLength, passwordDoNotMatch, emailAddressInvalid, countryMandatory, organisationMandatory, successMessage, failureMessage)
 {
 	var f = $('userregisterform');
 	// check start
@@ -362,7 +362,7 @@ function processRegSub(spacesNot, firstnameMandatory, surnameMandatory, password
     });
 }
 
-function processForgottenPwdSubmit(mandatoryMessage) {
+function processForgottenPwdSubmit(/*url, */mandatoryMessage) {
 	
 	var f = $('forgottenpwd');
 	if (Ext.isEmpty(f.username.value)) {
@@ -371,12 +371,12 @@ function processForgottenPwdSubmit(mandatoryMessage) {
 	}
 	var title = "Forgotten password";
 	Ext.Ajax.request({
-        url: f.action,
+        url: f.action/*url*/,
         form: f,
         method: 'POST', 
         success: function(response) {
 			Ext.Msg.alert(title,response.responseText);
-            Ext.getCmp('modalWindow').close();
+            Ext.getCmp('forgotten').close();
        },
         failure: function(response) {
 			Ext.Msg.alert(title,response.responseText);

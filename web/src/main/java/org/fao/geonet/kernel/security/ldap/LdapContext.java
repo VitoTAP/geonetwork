@@ -122,9 +122,14 @@ public class LdapContext {
 	}
 
 	public String getShaPassword(String password) {
+/*
 		ShaPasswordEncoder shaPasswordEncoder = new ShaPasswordEncoder(256);
 		String shaPassword = shaPasswordEncoder.encodePassword(password, null);
-//		shaPasswordEncoder.setForceLowerCasePrefix(true);
 		return shaPassword;
+*/
+		LdapShaPasswordEncoder ldapShaPasswordEncoder = new LdapShaPasswordEncoder();
+		ldapShaPasswordEncoder.setForceLowerCasePrefix(true);
+		return ldapShaPasswordEncoder.encodePassword(password, null);
 	}
+
 }

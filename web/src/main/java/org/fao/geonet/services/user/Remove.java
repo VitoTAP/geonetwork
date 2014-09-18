@@ -108,9 +108,13 @@ public class Remove implements Service
 			dbms.execute ("DELETE FROM UserGroups WHERE userId=?", id);
 			dbms.execute ("DELETE FROM Users      WHERE     id=?", id);
 			if (bDeleteLDAPUser && !StringUtils.isEmpty(username)) {
-				Person person = gc.getLdapContext().findPerson(username);
-				if (person!=null) {
-					gc.getLdapContext().removePerson(person);
+				try {
+					Person person = gc.getLdapContext().findPerson(username);
+					if (person!=null) {
+						gc.getLdapContext().removePerson(person);
+					}
+				} catch (Exception e) {
+					System.out.println("User only exists in geonetwork : " + e.toString());
 				}
 			}
 		} else {

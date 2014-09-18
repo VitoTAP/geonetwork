@@ -63,8 +63,10 @@ GeoNetwork.LoginForm = Ext.extend(Ext.FormPanel, {
          * In hbox layout, labels are not displayed, set to true to display field labels.
          */
     	hideLoginLabels: true,
-    	width: 400
+    	width: 500
     },
+//    nodeType: GeoNetwork.Settings.nodeType.toLowerCase(),
+    nodeType: 'sigma',
     defaultType: 'textfield',
     /** private: property[userInfo]
      * Use to display user information (name, password, profil).
@@ -96,11 +98,11 @@ GeoNetwork.LoginForm = Ext.extend(Ext.FormPanel, {
     	Ext.applyIf(this, this.defaultConfig);
 
     	var form = this;
-    	var loginBt = new Ext.LinkButton({
-//	            width: 50,
-    		columnWidth: 0.25,
+    	var loginBt = new Ext.Button({
+	            width: 60,
+//    		columnWidth: 0.25,
 	            text: OpenLayers.i18n('login'),
-//	            iconCls: 'md-mn mn-login',
+	            iconCls: 'md-mn mn-login',
                 id: 'btnLoginForm',
 	            listeners: {
 	                click: function(){
@@ -111,7 +113,7 @@ GeoNetwork.LoginForm = Ext.extend(Ext.FormPanel, {
 	        }),
 	        registerBt = new Ext.LinkButton({
 //	            width: 80,
-	    		columnWidth: 0.25,
+	    		columnWidth: this.hideLoginLabels ? 0.40 : 0.25,
 	            text: OpenLayers.i18n('register'),
                 id: 'btnRegisterForm',
 	            listeners: {
@@ -133,12 +135,12 @@ GeoNetwork.LoginForm = Ext.extend(Ext.FormPanel, {
 	                scope: form
 	            }
 	        }),
-	        logoutBt = new Ext.LinkButton({
-//	            width: 80,
-	    		columnWidth: 0.75,
+	        logoutBt = new Ext.Button({
+	            width: 60,
+//	    		columnWidth: 0.75,
 	    		style: "text-align:right",
 	            text: OpenLayers.i18n('logout'),
-//	            iconCls: 'md-mn mn-logout',
+	            iconCls: 'md-mn mn-logout',
 	            listeners: {
 	                click: function(){
 	                    catalogue.logout();
@@ -147,7 +149,7 @@ GeoNetwork.LoginForm = Ext.extend(Ext.FormPanel, {
 	            }
 	        });
     	this.username = new Ext.form.TextField({
-    		columnWidth: this.hideLoginLabels ? 0.5 : 0.25,
+    		columnWidth: this.hideLoginLabels ? 0.40 : 0.25,
     		id: 'username',
     		name: 'username',
             width: 70,
@@ -155,10 +157,13 @@ GeoNetwork.LoginForm = Ext.extend(Ext.FormPanel, {
             hideLabel: false,
             allowBlank: false,
             fieldLabel: OpenLayers.i18n('username'),
-            emptyText: OpenLayers.i18n('username')
+            emptyText: OpenLayers.i18n('username'),
+            style: {
+            	marginRight: '3px'
+            }
         });
         this.password = new Ext.form.TextField({
-    		columnWidth: this.hideLoginLabels ? 0.5 : 0.25,
+    		columnWidth: this.hideLoginLabels ? 0.40 : 0.25,
             name: 'password',
             width: 70,
             hidden: GeoNetwork.Settings.useSTS,
@@ -166,7 +171,10 @@ GeoNetwork.LoginForm = Ext.extend(Ext.FormPanel, {
             allowBlank: false,
             fieldLabel: OpenLayers.i18n('password'),
             emptyText: OpenLayers.i18n('password'),
-            inputType: 'password'
+            inputType: 'password',
+            style: {
+            	marginRight: '3px'
+            }
         });
 		var labelStyle = "color:#fff;font-size:1.2em;font-weight:bold;top:2px;";
     	this.userInfo = new Ext.form.Label({
@@ -182,15 +190,20 @@ GeoNetwork.LoginForm = Ext.extend(Ext.FormPanel, {
     		this.loginFields.push( 
             		this.username,
                     this.password,
-                    loginBt, registerBt,forgottenBt);
+                    loginBt);
+            if (this.nodeType == "sigma") {
+            	this.loginFields.push(registerBt,forgottenBt);
+            }
     		if (!GeoNetwork.Settings.useSTS) {
 	    		this.toggledFields.push( 
 	            		this.username,
 	                    this.password);
     		}
     		this.toggledFields.push(loginBt);
-    		this.toggledFields.push(registerBt);
-    		this.toggledFields.push(forgottenBt);
+            if (this.nodeType == "sigma") {
+        		this.toggledFields.push(registerBt);
+        		this.toggledFields.push(forgottenBt);
+            }
     		loginItems = [this.username,this.password];
     	} else {
     		// hbox layout does not display TextField labels, create a label then
@@ -200,7 +213,10 @@ GeoNetwork.LoginForm = Ext.extend(Ext.FormPanel, {
             		this.username,
                     passwordLb,
                     this.password,
-                    loginBt, registerBt,forgottenBt);
+                    loginBt);
+            if (this.nodeType == "sigma") {
+            	this.loginFields.push(registerBt,forgottenBt);
+            }
     		if (!GeoNetwork.Settings.useSTS) {
 	        	this.toggledFields.push(usernameLb, 
 	            		this.username,
@@ -208,8 +224,10 @@ GeoNetwork.LoginForm = Ext.extend(Ext.FormPanel, {
 	                    this.password);
     		}
         	this.toggledFields.push(loginBt);
-    		this.toggledFields.push(registerBt);
-    		this.toggledFields.push(forgottenBt);
+            if (this.nodeType == "sigma") {
+        		this.toggledFields.push(registerBt);
+        		this.toggledFields.push(forgottenBt);
+            }
     		loginItems = [usernameLb,this.username,passwordLb,this.password];
     	}
     	var actionsBt = new Ext.Button({
@@ -223,7 +241,15 @@ GeoNetwork.LoginForm = Ext.extend(Ext.FormPanel, {
     		})});
     	this.toggledFieldsOff.push(this.userInfo, 
                 logoutBt, actionsBt);
-    	this.items = [loginItems,this.userInfo,loginBt,registerBt,logoutBt,forgottenBt,actionsBt];
+    	this.items = [loginItems,this.userInfo,loginBt];
+        if (this.nodeType == "sigma") {
+        	this.items.push(registerBt);
+    	}
+        this.items.push(logoutBt);
+        if (this.nodeType == "sigma") {
+        	this.items.push(forgottenBt);
+        }
+        this.items.push(actionsBt);
 /*
     	this.items = [this.loginFields, this.toggledFieldsOff];
 */

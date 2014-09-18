@@ -134,7 +134,7 @@ GeoNetwork.LoginForm = Ext.extend(Ext.FormPanel, {
 	                },
 	                scope: form
 	            }
-	        }),
+	        })/*,
 	        logoutBt = new Ext.Button({
 	            width: 60,
 //	    		columnWidth: 0.75,
@@ -147,7 +147,7 @@ GeoNetwork.LoginForm = Ext.extend(Ext.FormPanel, {
 	                },
 	                scope: this
 	            }
-	        });
+	        })*/;
     	this.username = new Ext.form.TextField({
     		columnWidth: this.hideLoginLabels ? 0.5 : 0.25,
     		id: 'username',
@@ -240,12 +240,12 @@ GeoNetwork.LoginForm = Ext.extend(Ext.FormPanel, {
         		catalogue: this.catalogue
     		})});
     	this.toggledFieldsOff.push(this.userInfo, 
-                logoutBt, actionsBt);
+                /*logoutBt, */actionsBt);
     	this.items = [loginItems,this.userInfo,loginBt];
         if (this.nodeType == "sigma") {
         	this.items.push(registerBt);
     	}
-        this.items.push(logoutBt);
+        //this.items.push(logoutBt);
         if (this.nodeType == "sigma") {
         	this.items.push(forgottenBt);
         }

@@ -33,7 +33,8 @@ GeoNetwork.map.printCapabilities = "../../pdf";
 
 // Config for WGS84 based maps
 GeoNetwork.map.PROJECTION = "EPSG:4326";
-GeoNetwork.map.UNITS = "dd"; //degrees
+//GeoNetwork.map.UNITS = "dd"; //degrees
+GeoNetwork.map.UNITS = "m"; //meter
 
 //GeoNetwork.map.EXTENT = new OpenLayers.Bounds(2.55791, 50.67460, 5.92000, 51.49600);
 //GeoNetwork.map.RESTRICTEDEXTENT = new OpenLayers.Bounds(2.31580, 49.31776, 6.66271, 51.64241);
@@ -53,9 +54,9 @@ GeoNetwork.map.TILESIZE = new OpenLayers.Size(256,256);
 
 GeoNetwork.map.BACKGROUND_LAYERS=[
 //	new OpenLayers.Layer.Google("Google Physical", {type: google.maps.MapTypeId.TERRAIN, minZoomLevel: 1,isBaseLayer: true }),
-    new OpenLayers.Layer.Google("Google Streets", {"sphericalMercator": true, numZoomLevels: 20,minZoomLevel: 1,isBaseLayer: true }),
+    new OpenLayers.Layer.Google("Google Streets", {"sphericalMercator": true, numZoomLevels: 20,minZoomLevel: 1,isBaseLayer: true })/*,
     new OpenLayers.Layer.Google("Google Hybrid", {type: google.maps.MapTypeId.HYBRID, numZoomLevels: 20, minZoomLevel: 1,isBaseLayer: true }),
-    new OpenLayers.Layer.Google("Google Satellite", {type: google.maps.MapTypeId.SATELLITE, numZoomLevels: 22, minZoomLevel: 1,isBaseLayer: true })
+    new OpenLayers.Layer.Google("Google Satellite", {type: google.maps.MapTypeId.SATELLITE, numZoomLevels: 22, minZoomLevel: 1,isBaseLayer: true })*/
 /*
 	new OpenLayers.Layer.WMS('OSM', 'http://129.206.228.72/cached/osm', {layers: 'osm_auto:all', format: 'image/jpeg'}, {isBaseLayer: true}),
       new OpenLayers.Layer.WMS('Demis WorldMap', 'http://demis.vito.be/wms/wms.ashx', {layers: 'Bathymetry,Topography,Hillshading,Coastlines,Borders', format: 'image/jpeg'}, {isBaseLayer: true}),

@@ -309,7 +309,7 @@ GeoNetwork.FacetsPanel = Ext.extend(Ext.Panel, {
             	}
             }
             this.facetsStore.add(r);
-            return "<li class='" + (visible ? '' : 'facet-more') + "' style='" + (isSiteOrRegionKeyword || isDatatypeKeyword ? 'margin-left: 15px;' : '') + (visible ? '' : 'display:none;') + "'><a href='javascript:void(0);' class='facet-link' id='" + recId + "'>" + 
+            return "<li class='" + (visible ? '' : 'facet-more') + " current' style='" + (isSiteOrRegionKeyword || isDatatypeKeyword ? 'margin-left: 15px;' : '') + (visible ? '' : 'display:none;') + "'><a href='javascript:void(0);' class='facet-link' id='" + recId + "'>" + 
                     (data.label != null ? data.label : data.node) + "<span class='facet-count'>(" + data.count + ")</span></a></li>";
         }
         return '';

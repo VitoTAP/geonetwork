@@ -46,17 +46,17 @@ Thank you for your registration.
 
 
 Best regards,
-The <!-- <xsl:value-of select="/root/site"/>-->SIGMA Geoportal team
+The SIGMA Geoportal team
 
 
-<span style="color: #367DC9;">VITO SIGMA Geoportal
+<!-- <span style="color: #367DC9;">-->VITO SIGMA Geoportal
 
 VITO - Remote Sensing Unit
 Boeretang 200 - 2400 Mol - Belgium
 T: +32 14 33 68 14 - F: +32 14 32 27 95
 E: sigmageoportal@vgt.vito.be
  
-Visit our website: <xsl:value-of select="/root/siteURL"/></span>
+Visit our website: <!-- </span>--><xsl:value-of select="/root/siteURL"/>
 			</content>
     	</email>
     </xsl:template>

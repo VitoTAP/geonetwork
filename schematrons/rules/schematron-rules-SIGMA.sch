@@ -25,10 +25,10 @@
 					../../gmd:thesaurusName/*/gmd:date/*/gmd:dateType/gmd:CI_DateTypeCode/@codeListValue='publication']"/>
 			<sch:let name="sigma-theme-selected" value="count($sigma-thesaurus//skos:Concept[skos:prefLabel[@xml:lang='en'] = $keyword])"/>		
 			<sch:assert test="$sigma-theme-selected >0">		
-				$loc/strings/NoSIGMAThemeSelected	
+				<sch:value-of select="$loc/strings/NoSIGMAThemeSelected"/>	
 			</sch:assert>		
 			<sch:report test="$sigma-theme-selected > 0">		
-				<sch:value-of select="document(concat($loc/strings/SIGMAKeywordFound-1, ' ', "$keyword", ' ', $loc/strings/SIGMAKeywordFound-2))"/>
+				<sch:value-of select="document(concat($loc/strings/SIGMAKeywordFound-1, ' ', $keyword, ' ', $loc/strings/SIGMAKeywordFound-2))"/>
 			</sch:report>		
 		</sch:rule>			
 	</sch:pattern>				
@@ -49,7 +49,7 @@
 				$loc/strings/NoSIGMADatatypeKeywordFound	
 			</sch:assert>		
 			<sch:report test="$sigma-theme-selected > 0">		
-				<sch:value-of select="document(concat($loc/strings/SIGMAKeywordFound-1, ' ', "$keyword", ' ', $loc/strings/SIGMAKeywordFound-3))"/>	
+				<sch:value-of select="document(concat($loc/strings/SIGMAKeywordFound-1, ' ', $keyword, ' ', $loc/strings/SIGMAKeywordFound-3))"/>	
 			</sch:report>		
 		</sch:rule>			
 	</sch:pattern>				
@@ -70,7 +70,7 @@
 				$loc/strings/NoSIGMARegionsKeywordFound	
 			</sch:assert>		
 			<sch:report test="$sigma-theme-selected > 0">		
-				<sch:value-of select="document(concat($loc/strings/SIGMAKeywordFound-1, ' ', "$keyword", ' ', $loc/strings/SIGMAKeywordFound-4))"/>	
+				<sch:value-of select="document(concat($loc/strings/SIGMAKeywordFound-1, ' ', $keyword, ' ', $loc/strings/SIGMAKeywordFound-4))"/>	
 			</sch:report>		
 		</sch:rule>			
 	</sch:pattern>				
@@ -115,7 +115,7 @@
 			<sch:let name="organisationName" value=". and not(normalize-space(.)= '')"/>		
 			<sch:let name="organisationNameValue" value="./*/text()"/>		
 			<sch:assert test="$organisationName">$loc/strings/organisationNameMissing</sch:assert>		
-			<sch:report test="$organisationName">$loc/strings/organisationNamePresent <sch:value-of select="$organisationNameValue"/></sch:report>		
+			<sch:report test="$organisationName"><sch:value-of select="document(concat($loc/strings/organisationNamePresent, ' ', $organisationNameValue))"/></sch:report>		
 		</sch:rule>			
 	</sch:pattern>				
 	<!-- General SC5 -->				

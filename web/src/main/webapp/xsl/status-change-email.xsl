@@ -11,15 +11,15 @@
 				</xsl:if>
 				<xsl:if test="$metadataCount>1">
 					<xsl:if test="$status='1'">
-						<xsl:text>De editeersessie op meerdere metadatarecords werd overgenoemen.</xsl:text>
+						<xsl:text>The edit session on multiple metadata records has been acquired.</xsl:text>
 					</xsl:if>
 					<xsl:if test="$status!='1'">
-						<xsl:text>meerdere metadatarecords ingediend bij de </xsl:text><xsl:call-template name="aanspreking"/><xsl:text> ter validatie.</xsl:text>
+						<xsl:text>Multiple metadata records submitted by </xsl:text><xsl:call-template name="aanspreking"/><xsl:text> for validation.</xsl:text>
 					</xsl:if>
 				</xsl:if>
 			</subject>	
 			<message>
-				<xsl:text>Beste </xsl:text><xsl:call-template name="aanspreking"/><xsl:text>,&#10;&#13;</xsl:text>
+				<xsl:text>Dear </xsl:text><xsl:call-template name="aanspreking"/><xsl:text>,&#10;&#13;</xsl:text>
 				<xsl:if test="$metadataCount=1">
 					<xsl:call-template name="changeinfo">
 						<xsl:with-param name="title" select="/root/metadata/title"/>
@@ -33,13 +33,13 @@
 				</xsl:if>
 				<xsl:if test="$status!='1' and $status!='3' and $status!='12'">
 					<xsl:if test="$metadataCount=1">
-						<xsl:text>&#10;&#13;Je kan deze record bekijken via </xsl:text><xsl:value-of select="/root/metadata/url"/><xsl:text>.</xsl:text>
+						<xsl:text>&#10;&#13;You can view this record at </xsl:text><xsl:value-of select="/root/metadata/url"/><xsl:text>.</xsl:text>
 					</xsl:if>
 					<xsl:if test="$metadataCount>1">
 						<xsl:for-each select="/root/metadata">
 							<xsl:text>&#10;&#13;</xsl:text><xsl:value-of select="./title"/>
 						</xsl:for-each>				
-						<xsl:text>&#10;&#13;Je kan deze records bekijken via volgende URLs:</xsl:text>
+						<xsl:text>&#10;&#13;You can view this records at the following URLs:</xsl:text>
 						<xsl:for-each select="/root/metadata">
 							<xsl:text>&#10;&#13;</xsl:text><xsl:value-of select="./url"/>
 						</xsl:for-each>				
@@ -50,7 +50,7 @@
 						<xsl:text>&#10;&#13;Voor meer informatie kan je steeds terecht op onze website </xsl:text><xsl:value-of select="/root/siteUrl"/><xsl:text>, of mail naar contactpunt@agiv.be.</xsl:text>
 				</xsl:if>
 -->
-				<xsl:text>&#10;&#13;&#10;&#13;Met vriendelijke groeten,&#10;&#13;Het Metadata-team</xsl:text>
+				<xsl:text>&#10;&#13;&#10;&#13;Yours sincerely,&#10;&#13;The Metadata-team</xsl:text>
 			</message>
 		</email>
 	</xsl:template>
@@ -70,7 +70,7 @@
 				<xsl:text>metadata-editor</xsl:text>
 			</xsl:when>
 			<xsl:otherwise>
-				<xsl:text>metadata-beheerder</xsl:text>
+				<xsl:text>metadata-administrator</xsl:text>
 			</xsl:otherwise>
 		</xsl:choose>
 	</xsl:template>
@@ -84,27 +84,27 @@
 		<xsl:if test="$currentStatus!='10' and $currentStatus!='11'">
 			<xsl:choose>
 				<xsl:when test="$status='1'">
-					<xsl:text>De editeersessie op </xsl:text><xsl:if test="$metadataCount>1">volgende</xsl:if><xsl:if test="$metadataCount=1">de</xsl:if><xsl:text> metadatarecord</xsl:text><xsl:if test="$metadataCount>1">s</xsl:if><xsl:if test="$metadataCount=1"><xsl:text> met titel '</xsl:text><xsl:value-of select="$title"/><xsl:text>'</xsl:text></xsl:if><xsl:text> werd overgenomen</xsl:text><xsl:value-of select="concat(' door ',/root/user/name, ' ', /root/user/surname, ' van ', /root/group, '.')"/>
+					<!--  &lt;span style="color: #0000FF;"&gt;fdsf&lt;/span&gt;--><xsl:text>&lt;span style="color: #FF0000;"&gt;fdsf&lt;/span&gt;The edit session on </xsl:text><xsl:if test="$metadataCount>1">the following</xsl:if><xsl:if test="$metadataCount=1">this</xsl:if><xsl:text> metadata record</xsl:text><xsl:if test="$metadataCount>1">s</xsl:if><xsl:if test="$metadataCount=1"><xsl:text> with title '</xsl:text><xsl:value-of select="$title"/><xsl:text>'</xsl:text></xsl:if><xsl:text> has been acquired</xsl:text><xsl:value-of select="concat(' door ',/root/user/name, ' ', /root/user/surname, ' van ', /root/group, '.')"/>
 				</xsl:when>
 				<xsl:when test="$status='2'">
-					<xsl:text>Jouw wijzigingen aan </xsl:text><xsl:if test="$metadataCount>1">volgende</xsl:if><xsl:if test="$metadataCount=1">de</xsl:if><xsl:text> metadatarecord</xsl:text><xsl:if test="$metadataCount>1">s</xsl:if><xsl:if test="$metadataCount=1"><xsl:text> met titel '</xsl:text><xsl:value-of select="$title"/><xsl:text>'</xsl:text></xsl:if><xsl:text> werden gevalideerd en gepubliceerd.</xsl:text>
+					<xsl:text>Your changes on </xsl:text><xsl:if test="$metadataCount>1">the following</xsl:if><xsl:if test="$metadataCount=1">this</xsl:if><xsl:text> metadata record</xsl:text><xsl:if test="$metadataCount>1">s</xsl:if><xsl:if test="$metadataCount=1"><xsl:text> with title '</xsl:text><xsl:value-of select="$title"/><xsl:text>'</xsl:text></xsl:if><xsl:text> has been validated and published.</xsl:text>
 				</xsl:when>
 				<xsl:when test="$status='4'">
-					<xsl:if test="$metadataCount>1">Volgende</xsl:if><xsl:if test="$metadataCount=1">De</xsl:if><xsl:text> metadatarecord</xsl:text><xsl:if test="$metadataCount>1">s</xsl:if><xsl:if test="$metadataCount=1"><xsl:text> met titel '</xsl:text><xsl:value-of select="$title"/><xsl:text>'</xsl:text></xsl:if><xsl:text> werd</xsl:text><xsl:if test="$metadataCount>1">en</xsl:if><xsl:text> </xsl:text><xsl:call-template name="typewijziging"/><xsl:value-of select="concat(' door ',/root/user/name, ' ', /root/user/surname, ' van ', /root/group, ' en ')"/><xsl:call-template name="status"/><xsl:text>.</xsl:text>
+					<xsl:if test="$metadataCount>1">The following</xsl:if><xsl:if test="$metadataCount=1">This</xsl:if><xsl:text> metadata record</xsl:text><xsl:if test="$metadataCount>1">s</xsl:if><xsl:if test="$metadataCount=1"><xsl:text> with title '</xsl:text><xsl:value-of select="$title"/><xsl:text>'</xsl:text></xsl:if><xsl:text> has been</xsl:text><xsl:text> </xsl:text><xsl:call-template name="typewijziging"/><xsl:value-of select="concat(' door ',/root/user/name, ' ', /root/user/surname, ' van ', /root/group, ' en ')"/><xsl:call-template name="status"/><xsl:text>.</xsl:text>
 					<xsl:text>&#10;&#13;&#10;&#13;Notification:</xsl:text>
 					<xsl:text>&#10;&#13;&#10;&#13;</xsl:text><xsl:value-of select="/root/changeMessage"/>
 				</xsl:when>
 				<xsl:when test="$status='5' or $status='9'">
-					<xsl:text>Jouw wijzigingen aan </xsl:text><xsl:if test="$metadataCount>1">volgende</xsl:if><xsl:if test="$metadataCount=1">de</xsl:if><xsl:text> metadatarecord</xsl:text><xsl:if test="$metadataCount>1">s</xsl:if><xsl:if test="$metadataCount=1"><xsl:text> met titel '</xsl:text><xsl:value-of select="$title"/><xsl:text>'</xsl:text></xsl:if><xsl:text> konden niet gevalideerd worden door </xsl:text><xsl:if test="$status='5'">jouw hoofdeditor.</xsl:if><xsl:if test="$status='9'">het AGIV.</xsl:if>
-					<xsl:text>&#10;&#13;&#10;&#13;De reden hiervoor is:</xsl:text>
+					<xsl:text>Your changes on </xsl:text><xsl:if test="$metadataCount>1">the following</xsl:if><xsl:if test="$metadataCount=1">this</xsl:if><xsl:text> metadata record</xsl:text><xsl:if test="$metadataCount>1">s</xsl:if><xsl:if test="$metadataCount=1"><xsl:text> with title '</xsl:text><xsl:value-of select="$title"/><xsl:text>'</xsl:text></xsl:if><xsl:text> could not be validated by </xsl:text><xsl:if test="$status='5'">your main editor.</xsl:if><xsl:if test="$status='9'">het AGIV.</xsl:if>
+					<xsl:text>&#10;&#13;&#10;&#13;The reason for this:</xsl:text>
 					<xsl:text>&#10;&#13;&#10;&#13;</xsl:text><xsl:value-of select="/root/changeMessage"/>
-					<xsl:text>&#10;&#13;&#10;&#13;Je kan de metadatarecord</xsl:text><xsl:if test="$metadataCount>1">s</xsl:if><xsl:text> wijzigen via </xsl:text><xsl:value-of select="/root/siteUrl"/><xsl:text> en opnieuw indienen.</xsl:text>				
+					<xsl:text>&#10;&#13;&#10;&#13;You can edit the metadata record</xsl:text><xsl:if test="$metadataCount>1">s</xsl:if><xsl:text> at </xsl:text><xsl:value-of select="/root/siteUrl"/><xsl:text> and resubmit.</xsl:text>				
 				</xsl:when>
 				<xsl:when test="$status='12'">
-					<xsl:if test="$metadataCount>1">Volgende</xsl:if><xsl:if test="$metadataCount=1">De</xsl:if><xsl:text> metadatarecord</xsl:text><xsl:if test="$metadataCount>1">s</xsl:if><xsl:if test="$metadataCount=1"><xsl:text> met titel '</xsl:text><xsl:value-of select="$title"/><xsl:text>'</xsl:text></xsl:if><xsl:text> werd</xsl:text><xsl:if test="$metadataCount>1">en</xsl:if><xsl:text> </xsl:text><xsl:call-template name="typewijziging"/><xsl:text>.</xsl:text>
+					<xsl:if test="$metadataCount>1">The following</xsl:if><xsl:if test="$metadataCount=1">This</xsl:if><xsl:text> metadata record</xsl:text><xsl:if test="$metadataCount>1">s</xsl:if><xsl:if test="$metadataCount=1"><xsl:text> with title '</xsl:text><xsl:value-of select="$title"/><xsl:text>'</xsl:text></xsl:if><xsl:text> has been</xsl:text><xsl:if test="$metadataCount>1">and</xsl:if><xsl:text> </xsl:text><xsl:call-template name="typewijziging"/><xsl:text>.</xsl:text>
 				</xsl:when>
 				<xsl:otherwise>
-					<xsl:if test="$metadataCount>1">Volgende</xsl:if><xsl:if test="$metadataCount=1">De</xsl:if><xsl:text> metadatarecord</xsl:text><xsl:if test="$metadataCount>1">s</xsl:if><xsl:if test="$metadataCount=1"><xsl:text> met titel '</xsl:text><xsl:value-of select="$title"/><xsl:text>'</xsl:text></xsl:if><xsl:text> werd</xsl:text><xsl:if test="$metadataCount>1">en</xsl:if><xsl:text> </xsl:text><xsl:call-template name="typewijziging"/><xsl:value-of select="concat(' door ',/root/user/name, ' ', /root/user/surname, ' van ', /root/group, ' en ')"/><xsl:call-template name="status"/><xsl:text>.</xsl:text>
+					<xsl:if test="$metadataCount>1">The following</xsl:if><xsl:if test="$metadataCount=1">This</xsl:if><xsl:text> metadata record</xsl:text><xsl:if test="$metadataCount>1">s</xsl:if><xsl:if test="$metadataCount=1"><xsl:text> with title '</xsl:text><xsl:value-of select="$title"/><xsl:text>'</xsl:text></xsl:if><xsl:text> has been</xsl:text><xsl:if test="$metadataCount>1">and</xsl:if><xsl:text> </xsl:text><xsl:call-template name="typewijziging"/><xsl:value-of select="concat(' door ',/root/user/name, ' ', /root/user/surname, ' van ', /root/group, ' en ')"/><xsl:call-template name="status"/><xsl:text>.</xsl:text>
 				</xsl:otherwise>
 			</xsl:choose>
 		</xsl:if>
@@ -159,35 +159,74 @@
 
 	<xsl:template name="typewijziging">
 		<xsl:variable name="status" select="/root/status"/>
+		<xsl:variable name="node" select="/root/node"/>
 		<xsl:choose>
-			<xsl:when test="$status='10'">
-				<xsl:text>gedepubliceerd</xsl:text>
+			<xsl:when test="$node='agiv'">
+				<xsl:choose>
+					<xsl:when test="$status='10'">
+						<xsl:text>gedepubliceerd</xsl:text>
+					</xsl:when>
+					<xsl:when test="$status='11' or $status='12'">
+						<xsl:text>verwijderd</xsl:text>
+					</xsl:when>
+					<xsl:otherwise><xsl:text>gewijzigd</xsl:text></xsl:otherwise>
+				</xsl:choose>
 			</xsl:when>
-			<xsl:when test="$status='11' or $status='12'">
-				<xsl:text>verwijderd</xsl:text>
-			</xsl:when>
-			<xsl:otherwise><xsl:text>gewijzigd</xsl:text></xsl:otherwise>
+			<xsl:otherwise>
+				<xsl:choose>
+					<xsl:when test="$status='10'">
+						<xsl:text>retired</xsl:text>
+					</xsl:when>
+					<xsl:when test="$status='11' or $status='12'">
+						<xsl:text>deleted</xsl:text>
+					</xsl:when>
+					<xsl:otherwise><xsl:text>modified</xsl:text></xsl:otherwise>
+				</xsl:choose>
+			</xsl:otherwise>
 		</xsl:choose>
 	</xsl:template>
 
 	<xsl:template name="previousStatus">
 		<xsl:variable name="status" select="/root/metadata/previousStatus"/>
+		<xsl:variable name="node" select="/root/node"/>
 		<xsl:text> "</xsl:text>
 		<xsl:choose>
-			<xsl:when test="$status='0'">Onbekend</xsl:when>
-			<xsl:when test="$status='1'">Ontwerp</xsl:when>
-			<xsl:when test="$status='2'">Goedgekeurd door AGIV en gepubliceerd</xsl:when>
-			<xsl:when test="$status='3'">Gedepubliceerd</xsl:when>
-			<xsl:when test="$status='4'">Intern ingediend</xsl:when>
-			<xsl:when test="$status='5'">Afgekeurd door Hoofdeditor</xsl:when>
-			<xsl:when test="$status='6'">Pas gecreëerd</xsl:when>
-			<xsl:when test="$status='7'">Intern goedgekeurd en ingediend bij AGIV</xsl:when>
-			<xsl:when test="$status='8'">klaar voor publicatie</xsl:when>
-			<xsl:when test="$status='9'">Afgekeurd door AGIV-validator</xsl:when>
-			<xsl:when test="$status='10'">Ingediend voor depubliceren</xsl:when>
-			<xsl:when test="$status='11'">Ingediend voor verwijderen</xsl:when>
-			<xsl:when test="$status='12'">Verwijderd</xsl:when>
-			<xsl:otherwise></xsl:otherwise>
+			<xsl:when test="$node='agiv'">
+				<xsl:choose>
+					<xsl:when test="$status='0'">Onbekend</xsl:when>
+					<xsl:when test="$status='1'">Ontwerp</xsl:when>
+					<xsl:when test="$status='2'">Goedgekeurd door AGIV en gepubliceerd</xsl:when>
+					<xsl:when test="$status='3'">Gedepubliceerd</xsl:when>
+					<xsl:when test="$status='4'">Intern ingediend</xsl:when>
+					<xsl:when test="$status='5'">Afgekeurd door Hoofdeditor</xsl:when>
+					<xsl:when test="$status='6'">Pas gecreëerd</xsl:when>
+					<xsl:when test="$status='7'">Intern goedgekeurd en ingediend bij AGIV</xsl:when>
+					<xsl:when test="$status='8'">klaar voor publicatie</xsl:when>
+					<xsl:when test="$status='9'">Afgekeurd door AGIV-validator</xsl:when>
+					<xsl:when test="$status='10'">Ingediend voor depubliceren</xsl:when>
+					<xsl:when test="$status='11'">Ingediend voor verwijderen</xsl:when>
+					<xsl:when test="$status='12'">Verwijderd</xsl:when>
+					<xsl:otherwise></xsl:otherwise>
+				</xsl:choose>
+			</xsl:when>
+			<xsl:otherwise>
+				<xsl:choose>
+					<xsl:when test="$status='0'">Unknown</xsl:when>
+					<xsl:when test="$status='1'">Draft</xsl:when>
+					<xsl:when test="$status='2'">Approved</xsl:when>
+					<xsl:when test="$status='3'">Retired</xsl:when>
+					<xsl:when test="$status='4'">Submitted</xsl:when>
+					<xsl:when test="$status='5'">Rejected</xsl:when>
+					<xsl:when test="$status='6'">Just created</xsl:when>
+					<xsl:when test="$status='7'">Intern goedgekeurd en ingediend bij AGIV</xsl:when>
+					<xsl:when test="$status='8'">Ready for approval</xsl:when>
+					<xsl:when test="$status='9'">Afgekeurd door AGIV-validator</xsl:when>
+					<xsl:when test="$status='10'">Ingediend voor depubliceren</xsl:when>
+					<xsl:when test="$status='11'">Ingediend voor verwijderen</xsl:when>
+					<xsl:when test="$status='12'">Removed</xsl:when>
+					<xsl:otherwise></xsl:otherwise>
+				</xsl:choose>
+			</xsl:otherwise>
 		</xsl:choose>
 		<xsl:text>"</xsl:text>
 	</xsl:template>

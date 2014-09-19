@@ -26,16 +26,20 @@ package org.fao.geonet.util;
 import jeeves.interfaces.Logger;
 import jeeves.server.context.ServiceContext;
 import jeeves.utils.Util;
+
 import org.apache.commons.mail.EmailException;
+import org.apache.commons.mail.HtmlEmail;
 import org.apache.commons.mail.SimpleEmail;
+
 import java.util.ArrayList;
 import java.util.List;
+
 import javax.mail.internet.InternetAddress;
 
 public class MailSender extends Thread
 {
 	Logger      _logger;
-	SimpleEmail _mail;
+	HtmlEmail _mail;
 
 	public MailSender(ServiceContext context)
 	{
@@ -44,7 +48,7 @@ public class MailSender extends Thread
 
 	public void send(String server, int port, String from, String fromDescr, String to, String toDescr, String subject, String message)
 	{
-		_mail = new SimpleEmail();
+		_mail = new HtmlEmail();
 
 		try
 		{
@@ -65,7 +69,7 @@ public class MailSender extends Thread
 
 	public void sendWithReplyTo(String server, int port, String from, String fromDescr, String to, String toDescr, String replyTo, String replyToDesc, String subject, String message)
 	{
-		_mail = new SimpleEmail();
+		_mail = new HtmlEmail();
 
 		try
 		{

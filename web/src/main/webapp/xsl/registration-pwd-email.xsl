@@ -28,25 +28,35 @@
     	<email>
     		<subject>Welcome to <xsl:value-of select="/root/site"/> <xsl:value-of select="/root/request/name"/> <xsl:value-of select="/root/request/surname"/></subject>
 			<content>
-Dear <xsl:value-of select="/root/request/name"/> <xsl:value-of select="/root/request/surname"/>,
+Dear <xsl:value-of select="/root/request/name"/><xsl:text> </xsl:text><xsl:value-of select="/root/request/surname"/>,
 
 You are successfully registered on <xsl:value-of select="/root/site"/>.
   
 Your account is: 
 username :	<xsl:value-of select="/root/request/email"/>
 password :	******** <!-- <xsl:value-of select="/root/password"/>-->
-usertype :	REGISTEREDUSER
+<!-- usertype :	REGISTEREDUSER-->
 <xsl:if test="/root/request/profile != 'RegisteredUser'">
 You've told us that you want to be "<xsl:value-of select="/root/request/profile"/>", you will be contacted by our office soon.
 </xsl:if>
 To log in and access your account, please click on the link below.
 <xsl:value-of select="/root/siteURL"/> 
 
-Thanks for your registration. 
+Thank you for your registration. 
 
 
 Best regards,
-The team at <xsl:value-of select="/root/site"/>
+The <!-- <xsl:value-of select="/root/site"/>-->SIGMA Geoportal team
+
+
+<span style="color: #367DC9;">VITO SIGMA Geoportal
+
+VITO - Remote Sensing Unit
+Boeretang 200 - 2400 Mol - Belgium
+T: +32 14 33 68 14 - F: +32 14 32 27 95
+E: sigmageoportal@vgt.vito.be
+ 
+Visit our website: <xsl:value-of select="/root/siteURL"/></span>
 			</content>
     	</email>
     </xsl:template>

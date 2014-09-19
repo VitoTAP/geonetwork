@@ -5577,7 +5577,7 @@ to build the XML fragment in the editor. -->
 <!--    	<table><tr><td><div class="thesaurusPicker" id="thesaurusPicker_{$elementRef}_panel"/></td><td style="padding-top:26px"><img class="project" src="../../apps/images/default/project.png" title="Mandatory for this project"/></td></tr></table>-->
            <xsl:call-template name="thesaurusCombobox">
 				<xsl:with-param name="ref" select="$elementRef"/>
-				<xsl:with-param name="value" select="$listOfKeywords"/>
+				<xsl:with-param name="value" select="replace(string-join(gmd:keyword/*[1], ','), '''', '\\''')"/>
 				<xsl:with-param name="thesaurusId" select="$thesaurusId"/>
 				<xsl:with-param name="thesaurusTitle" select="normalize-space(gmd:thesaurusName/gmd:CI_Citation/gmd:title/gco:CharacterString)"/>
            </xsl:call-template>

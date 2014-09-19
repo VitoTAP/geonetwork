@@ -528,7 +528,7 @@ GeoNetwork.mapApp = function() {
         });
 
         toolbar.push(action);
-
+*/
         action = new GeoExt.Action({
             control: new OpenLayers.Control.DragPan({
                     isDefault: true
@@ -543,7 +543,7 @@ GeoNetwork.mapApp = function() {
 
         toolbar.push(action);        
         toolbar.push("-");
-*/
+
 //        featureinfo = new OpenLayers.Control.WMSGetFeatureInfo({drillDown: true, infoFormat: 'application/vnd.ogc.gml'});
 /*
         var moveLayerToTop = function(layertomove) {
@@ -1228,7 +1228,7 @@ GeoNetwork.mapApp = function() {
             autoScroll: true,
 	        store: store,
 	        tbar: [new Ext.Button({
-				text: OpenLayers.i18n('show-metadata'),
+				text: OpenLayers.i18n('view'),
 				iconCls: 'md-mn-view',
 				handler: function() {
 				    var record = featureGridPanel.getSelectionModel().getSelected();
@@ -1322,9 +1322,9 @@ GeoNetwork.mapApp = function() {
                         tbar: toolbar,
                         border: true,
                         frame: false,
-                        padding:0,
+                        padding:0/*,
                         center: [155000, 463000],
-                        zoom: 2/*,
+                        zoom: 2*//*,
                         items: [mapOverlay]*/
                     }]
                 }

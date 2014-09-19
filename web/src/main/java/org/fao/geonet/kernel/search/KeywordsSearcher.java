@@ -79,11 +79,11 @@ public class KeywordsSearcher {
      */
     public KeywordBean searchById(String id, String sThesaurusName, String lang) throws Exception {
         //System.out.println("KeywordsSearcher searchById");
-        _query = "SELECT prefLab, note, id, lowc, uppc, description, publicNote "
+        _query = "SELECT prefLab, note, id, lowc, uppc "//, description, publicNote "
                 + " FROM {id} rdf:type {skos:Concept}; "
                 + " skos:prefLabel {prefLab};"
-                + " skos:description {description};"
-                + " skos:publicNote {publicNote};"
+                /*+ " skos:description {description};"
+                + " skos:publicNote {publicNote};"*/
                 + " [skos:scopeNote {note} WHERE lang(note) LIKE \""+lang+"*\"]; "
                 + " [gml:BoundedBy {} gml:lowerCorner {lowc}]; "
                 + " [gml:BoundedBy {} gml:upperCorner {uppc}] "
@@ -304,13 +304,13 @@ public class KeywordsSearcher {
                 }
                 
                 // description
-                Value description = resultsTable.getValue(row, 5);
+                Value description = null;//resultsTable.getValue(row, 5);
                 String sDescription = "";
                 if (description != null) {
                 	sDescription = description.toString();
                 }
                 // publicNote
-                Value publicNote = resultsTable.getValue(row, 6);
+                Value publicNote = null;// resultsTable.getValue(row, 6);
                 String sPublicNote = "";
                 if (publicNote != null) {
                 	sPublicNote = publicNote.toString();
@@ -339,11 +339,11 @@ public class KeywordsSearcher {
         // - get prefLab in GUI lang
         // This will cause multilingual metadata search quite complex !!
         // Quid Lucene and thesaurus ?
-        _query = "SELECT prefLab, note, id, lowc, uppc, description, publicNote "
+        _query = "SELECT prefLab, note, id, lowc, uppc " //, description, publicNote "
                 + " FROM {id} rdf:type {skos:Concept}; "
                 + " skos:prefLabel {prefLab};"
-                + " skos:description {description};"
-                + " skos:publicNote {publicNote};"
+                /*+ " skos:description {description};"
+                + " skos:publicNote {publicNote};"*/
                 + " [skos:scopeNote {note} WHERE lang(note) LIKE \""+_lang+"*\"]; "
                 + " [gml:BoundedBy {} gml:lowerCorner {lowc}]; "
                 + " [gml:BoundedBy {} gml:upperCorner {uppc}] "
@@ -401,11 +401,11 @@ public class KeywordsSearcher {
 
         Thesaurus thesaurus = _thesaurusManager.getThesaurusByName(sThesaurusName);
         _results = new ArrayList<KeywordBean>();
-        String _query = "SELECT prefLab, note, id, description, publicNote "
+        String _query = "SELECT prefLab, note, id"//, description, publicNote "
                 + " from {id} rdf:type {skos:Concept};"
                 + " skos:prefLabel {prefLab};"
-                + " skos:description {description};"
-                + " skos:publicNote {publicNote};"
+                /*+ " skos:description {description};"
+                + " skos:publicNote {publicNote};"*/
                 + " [skos:"+request+" {b}];"
                 + " [skos:scopeNote {note} WHERE lang(note) LIKE \""+_lang+"*\"] "
                 + " WHERE lang(prefLab) LIKE \""+_lang+"*\""

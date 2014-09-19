@@ -17,7 +17,7 @@
 			<sch:let name="sigma-thesaurus" value="document(concat('file:///', $thesaurusDir, '/external/thesauri/temporal/SIGMA-Years.rdf'))"/>		
 			<sch:let name="sigma-theme" value="$sigma-thesaurus//skos:Concept"/>		
 			<sch:assert test="count($sigma-theme) > 0">		
-				$loc/strings/SIGMAYearsThesaurusNotFound	
+				<sch:value-of select="$loc/strings/SIGMAYearsThesaurusNotFound"/>	
 			</sch:assert>		
 			<sch:let name="keyword" value="gmd:descriptiveKeywords/*/gmd:keyword/gco:CharacterString		
 					[../../gmd:thesaurusName/*/gmd:title/*/text()='SIGMA Years' and
@@ -38,7 +38,7 @@
 			<sch:let name="sigma-thesaurus" value="document(concat('file:///', $thesaurusDir, '/external/thesauri/theme/SIGMA-DataTypes.rdf'))"/>		
 			<sch:let name="sigma-theme" value="$sigma-thesaurus//skos:Concept"/>		
 			<sch:assert test="count($sigma-theme) > 0">		
-				$loc/strings/SIGMADatatypesThesaurusNotFound	
+				<sch:value-of select="$loc/strings/SIGMADatatypesThesaurusNotFound"/>
 			</sch:assert>		
 			<sch:let name="keyword" value="gmd:descriptiveKeywords/*/gmd:keyword/gco:CharacterString		
 					[../../gmd:thesaurusName/*/gmd:title/*/text()='SIGMA DataTypes' and
@@ -46,7 +46,7 @@
 					../../gmd:thesaurusName/*/gmd:date/*/gmd:dateType/gmd:CI_DateTypeCode/@codeListValue='publication']"/>
 			<sch:let name="sigma-theme-selected" value="count($sigma-thesaurus//skos:Concept[skos:prefLabel[@xml:lang='en'] = $keyword])"/>		
 			<sch:assert test="$sigma-theme-selected >0">		
-				$loc/strings/NoSIGMADatatypeKeywordFound	
+				<sch:value-of select="$loc/strings/NoSIGMADatatypeKeywordFound"/>
 			</sch:assert>		
 			<sch:report test="$sigma-theme-selected > 0">		
 				<sch:value-of select="document(concat($loc/strings/SIGMAKeywordFound-1, ' ', $keyword, ' ', $loc/strings/SIGMAKeywordFound-3))"/>	
@@ -59,7 +59,7 @@
 			<sch:let name="sigma-thesaurus" value="document(concat('file:///', $thesaurusDir, '/external/thesauri/place/SIGMA-Regions.rdf'))"/>		
 			<sch:let name="sigma-theme" value="$sigma-thesaurus//skos:Concept"/>		
 			<sch:assert test="count($sigma-theme) > 0">		
-				$loc/strings/SIGMARegionsThesaurusNotFound	
+				<sch:value-of select="$loc/strings/SIGMARegionsThesaurusNotFound"/>	
 			</sch:assert>		
 			<sch:let name="keyword" value="gmd:descriptiveKeywords/*/gmd:keyword/gco:CharacterString		
 					[../../gmd:thesaurusName/*/gmd:title/*/text()='SIGMA Regions' and
@@ -67,7 +67,7 @@
 					../../gmd:thesaurusName/*/gmd:date/*/gmd:dateType/gmd:CI_DateTypeCode/@codeListValue='publication']"/>
 			<sch:let name="sigma-theme-selected" value="count($sigma-thesaurus//skos:Concept[skos:prefLabel[@xml:lang='en'] = $keyword])"/>		
 			<sch:assert test="$sigma-theme-selected >0">		
-				$loc/strings/NoSIGMARegionsKeywordFound	
+				<sch:value-of select="$loc/strings/NoSIGMARegionsKeywordFound"/>	
 			</sch:assert>		
 			<sch:report test="$sigma-theme-selected > 0">		
 				<sch:value-of select="document(concat($loc/strings/SIGMAKeywordFound-1, ' ', $keyword, ' ', $loc/strings/SIGMAKeywordFound-4))"/>	

@@ -45,6 +45,7 @@ import jeeves.server.context.ServiceContext;
 import jeeves.utils.Util;
 import jeeves.utils.Xml;
 
+import org.apache.commons.lang.StringUtils;
 import org.fao.geonet.GeonetContext;
 import org.fao.geonet.constants.Geonet;
 import org.fao.geonet.constants.Params;
@@ -53,7 +54,6 @@ import org.fao.geonet.kernel.setting.SettingInfo;
 import org.fao.geonet.kernel.setting.SettingManager;
 import org.fao.geonet.util.IDFactory;
 import org.jdom.Element;
-import org.tuckey.web.filters.urlrewrite.utils.StringUtils;
 
 //=============================================================================
 
@@ -152,7 +152,7 @@ public class SelfRegister implements Service {
 			person.setUid(username);
 			person.setCommonName(name);
 			person.setSurname(surname);
-			person.setPassword(Util.scramble256ForLDAP(password));
+			person.setPassword(gc.getLdapContext().getShaPassword(password));
 			if (!StringUtils.isBlank(address)) {
 				person.setPostalAddress(address);
 			}

@@ -45,6 +45,7 @@ GeoNetwork.IdentifiedUserActionsMenu = Ext.extend(Ext.menu.Menu, {
     newMetadataMenu: undefined,
     importMetadataMenu: undefined,
     administrationMenu: undefined,
+    logoutMenu: undefined,
 
     /** private: method[initComponent] 
      *  Initializes the toolbar results view.
@@ -108,11 +109,23 @@ GeoNetwork.IdentifiedUserActionsMenu = Ext.extend(Ext.menu.Menu, {
             scope: this
         });        
         this.add(this.administrationMenu);
+        this.logoutMenu = new Ext.menu.Item({
+            text: OpenLayers.i18n('logout'),
+            iconCls: 'md-mn mn-logout',
+            handler: function(){
+				if (this.isUserLoggedIn()) {
+	                this.catalogue.logout();
+                }
+            },
+            scope: this
+        });        
+        this.add(this.logoutMenu);
         this.updateMenuItems();
     },
     updateMenuItems: function() {
     	var visible = this.catalogue.isIdentified();
 	    this.newMetadataMenu.setVisible(visible);
+	    this.logoutMenu.setVisible(visible);
 	    this.importMetadataMenu.setVisible(visible && this.catalogue.identifiedUser.role=='Administrator');
 	    this.administrationMenu.setVisible(visible && this.catalogue.identifiedUser.role=='Administrator')
     },

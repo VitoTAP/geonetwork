@@ -132,7 +132,7 @@ public class Change implements Service {
 		// All ok so update password
 		dbms.execute ( "UPDATE Users SET password=? WHERE username=?", Util.scramble256(password), username);
 		if (! "Administrator".equals(((Element) elUser.getChildren().get(0)).getChildText(Geonet.Elem.PROFILE)) && gc.getSettingManager().getValueAsBool("system/ldap/use")) {
-			gc.getLdapContext().changePassword(((Element) elUser.getChildren().get(0)).getChildText("username"), password);
+			gc.getLdapContext().changePassword(((Element) elUser.getChildren().get(0)).getChildText("username"), gc.getLdapContext().getShaPassword(password));
 		}
 
 		// generate email details using customisable stylesheet

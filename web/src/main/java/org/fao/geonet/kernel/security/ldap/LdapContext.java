@@ -7,6 +7,7 @@ import javax.naming.Name;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ldap.core.LdapTemplate;
 import org.springframework.security.authentication.encoding.LdapShaPasswordEncoder;
+import org.springframework.security.authentication.encoding.ShaPasswordEncoder;
 
 public class LdapContext {
 	private LdapTemplate ldapTemplate;
@@ -120,11 +121,15 @@ public class LdapContext {
 		groupDao.delete(group);
 	}
 
-/*	
 	public String getShaPassword(String password) {
+/*
+		ShaPasswordEncoder shaPasswordEncoder = new ShaPasswordEncoder(256);
+		String shaPassword = shaPasswordEncoder.encodePassword(password, null);
+		return shaPassword;
+*/
 		LdapShaPasswordEncoder ldapShaPasswordEncoder = new LdapShaPasswordEncoder();
 		ldapShaPasswordEncoder.setForceLowerCasePrefix(true);
 		return ldapShaPasswordEncoder.encodePassword(password, null);
 	}
-*/
+
 }

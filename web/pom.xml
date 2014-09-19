@@ -812,6 +812,11 @@
                 <include>${geonetwork.build.dir}/scripts/openlayers/lib/OpenLayers/Handler/Click.js</include>
                 <include>${geonetwork.build.dir}/scripts/openlayers/lib/OpenLayers/Control/Navigation.js</include>
                 <include>${geonetwork.build.dir}/scripts/openlayers/lib/OpenLayers/Layer/HTTPRequest.js</include>
+                <include>${geonetwork.build.dir}/scripts/openlayers/lib/OpenLayers/Layer/SphericalMercator.js</include>
+                <include>${geonetwork.build.dir}/scripts/openlayers/lib/OpenLayers/Layer/EventPane.js</include>
+                <include>${geonetwork.build.dir}/scripts/openlayers/lib/OpenLayers/Layer/FixedZoomLevels.js</include>
+                <include>${geonetwork.build.dir}/scripts/openlayers/lib/OpenLayers/Layer/Google.js</include>
+                <include>${geonetwork.build.dir}/scripts/openlayers/lib/OpenLayers/Layer/Google/v3.js</include>
                 <include>${geonetwork.build.dir}/scripts/openlayers/lib/OpenLayers/Layer/Grid.js</include>
                 <include>${geonetwork.build.dir}/scripts/openlayers/lib/OpenLayers/Layer/WMS.js</include>
                 <include>${geonetwork.build.dir}/scripts/geoext/lib/GeoExt/data/LayerRecord.js</include>

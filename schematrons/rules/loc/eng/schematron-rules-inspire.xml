@@ -3,233 +3,231 @@
     <!-- INSPIRE metadata rules translation / START -->
     
     <!-- List of pattern title -->
-    <identification>Identificatie</identification>
-    <dataIdentification>Data Identificatie</dataIdentification>    
-    <serviceIdentification>Service Identificatie</serviceIdentification>
-    <theme>Sleutelwoorden en INSPIRE data thema's</theme>
+    <identification>Identification</identification>
+    <dataIdentification>Data Identification</dataIdentification>    
+    <serviceIdentification>Service Identification</serviceIdentification>
+    <theme>Keywords and INSPIRE data themes</theme>
     <serviceTaxonomy>INSPIRE Service taxonomy</serviceTaxonomy>
-    <geo>Geografische locatie</geo>
-    <temporal>Temporele referentie</temporal>
-    <quality>Kwaliteit en geldigheid</quality>
-    <conformity>Conformiteit</conformity>
-    <constraints>Beperkingen inzake toegang en gebruik</constraints>
-    <org>Verantwoordelijke organisatie</org>
+    <geo>Geographic location</geo>
+    <temporal>Temporal reference</temporal>
+    <quality>Quality and validity</quality>
+    <conformity>Conformity</conformity>
+    <constraints>Restrictions on access and use</constraints>
+    <org>Responsible organization</org>
     <metadata>Meta-metadata</metadata>
     
     
-    <alert.M35><div><h2>Titel ontbreekt.</h2></div></alert.M35>
-    <report.M35><div><h2>Titel:</h2></div></report.M35>
-    <alert.M36><div><h2>Samenvatting ontbreekt.</h2>
+    <alert.M35><div><h2>Title missing.</h2></div></alert.M35>
+    <report.M35><div><h2>Title:</h2></div></report.M35>
+    <alert.M36><div><h2>Summary missing.</h2>
         <br/>
-        <b>Bijvoorbeeld:</b><br/>
-        Dataset bevat grote schaal (1:1.000) topografie over Vlaanderen.
+        <b>For example:</b><br/>
+        Dataset has large scale (1:1.000) topography over Flanders.
     </div></alert.M36>
-    <report.M36><div><h2>Samenvatting is :</h2></div></report.M36>
-    <alert.M37><div><h2>Hiërarchisch niveau ontbreekt of heeft verkeerde waarde</h2>
+    <report.M36><div><h2>Summary is :</h2></div></report.M36>
+    <alert.M37><div><h2>Hierarchical level missing or wrong value</h2>
         <br/>
-        <b> De waardes voorzien in de INSPIRE richtlijn zijn:</b>
+        <b> The values provided in the INSPIRE guideline:</b>
         <ul>
-            <li>dataset voor datasets;</li>
-            <li>series voor datasetseries;</li>
-            <li>services voor diensten.</li>
+            <li>dataset for datasets;</li>
+            <li>series for dataset series;</li>
+            <li>services for services.</li>
         </ul> 
-        Het hiërarchisch niveau is niet verplicht door ISO
-        19115, maar is verplicht door de INSPIRE
-        Metadata regels.        
+        The hierarchical level is not mandatory by ISO
+        19115, but is mandatory by the INSPIRE
+        Metadata rules.
     </div></alert.M37>
-    <report.M37><div><h2>Hiërarchisch niveau is: </h2></div></report.M37>
-    <alert.M38><div><h2>Dataset(serie) identificator ontbreekt</h2>
-        <br/>        
-        verplicht voor datasets and dataset(series).<br/>
-        <b>Bijvoorbeeld:</b> 527c4cac-070c-4bca-9aaf-92bece7be902
+    <report.M37><div><h2>Hierarchical level: </h2></div></report.M37>
+    <alert.M38><div><h2>Dataset(serie) identificator missing</h2>
+        <br/>
+        mandatory to datasets and dataset(series).<br/>
+        <b>For example:</b> 527c4cac-070c-4bca-9aaf-92bece7be902
     </div></alert.M38>
-    <report.M38><div>Dataset(serie) identificator is:</div></report.M38>
-    <report.M38.codespace><div>codespace van dataset(serie) identificator is:</div></report.M38.codespace>
-    <alert.M39><div><h2>INSPIRE - ISO categorie (IsoTopicCategory) is verplicht.</h2><br/>
-        De categorieën gedefinieerd in Annexe D 2 van de INSPIRE
-        Implementatieregels voor metadata zijn afgeleid van de catgeorieën van sectie B.5.27 van ISO 19115.
+    <report.M38><div>Dataset(serie) identificator:</div></report.M38>
+    <report.M38.codespace><div>codespace of dataset(serie) identificator:</div></report.M38.codespace>
+    <alert.M39><div><h2>INSPIRE - ISO category (IsoTopicCategory) is mandatory.</h2><br/>
+        The categories defined in annex D 2 of the INSPIRE
+        implementation rules for metadata are derived from categories of section B.5.27 of ISO 19115.
          </div></alert.M39>
-    <report.M39><div>Categorie (ISO topic category) is:</div></report.M39>
-    <alert.M40><div><h2>INSPIRE thema is verplicht</h2><br/>Dit moet opgegeven worden als sleutelwoord uit de GEMET INSPIRE data thema's thesaurus. </div></alert.M40>
-    <report.M40><div> INSPIRE thema(s) gevonden.</div></report.M40>
-    <alert.M41><div><h2>INSPIRE - Omschrijvende rechthoek is verplicht.</h2><br/>
+    <report.M39><div>Category (ISO topic category):</div></report.M39>
+    <alert.M40><div><h2>INSPIRE theme is mandatory</h2><br/>This should be provided as keyword from the GEMET INSPIRE data themes thesaurus. </div></alert.M40>
+    <report.M40><div> INSPIRE themes found.</div></report.M40>
+    <alert.M41><div><h2>INSPIRE - Descriptive rectangle is mandatory.</h2><br/>
         <ul>
             <li>
-                Verplicht voor datasets en datasetseries.                
+                Mandatory for datasets and dataset series.
             </li>
             <li>
-                Conditioneel voor diensten - enkel verplicht voor diensten met een expliciete ruimtelijke begrenzing.                
+                Conditional for services - only mandatory for services with an explicit spatial boundary.                
             </li>
         </ul>
         
-        <b>Instructies</b>
+        <b>Instructions</b>
         <ul>
              <li>
-                De omschrijvende rechthoek moet zo klein als mogelijk genomen worden.      
+             	The descriptive rectangle should be taken as small as possible.      
             </li>
             <li>
-                Als de omschrijvende rechthoek de datumlijn overschrijdt moet de waarde van de meest westelijke lengtegraad (minimum X) groter zijn dan deze van de meest oostelijke lengtegraad (maximum X).      
+            	If the descriptive rectangle exceeds the date line, the value of the most western longitude (minimum X) should be bigger than these of the most eastern longitude (maximum X).
             </li>
             <li>
-               De coordinaten van de omschrijvende rechthoek moeten uitgedrukt zijn in een geografisch coordinatensysteem dat de Greenwich
-                Meridiaan als nulmeridiaan heeft.   
+            	The coordinates of the descriptive rectangle should be expressed in a geographic coordinate system which has Greenwich as the Prime Meridian.
             </li>
         </ul>      
         
     </div></alert.M41>
-    <alert.M41.N><div>Maximum breedtegraad (Y) ontbreekt om heeft een verkeerde waarde. </div></alert.M41.N>
-    <alert.M41.S><div>Minimum breedtegraad (Y)  ontbreekt om heeft een verkeerde waarde.</div></alert.M41.S>
-    <alert.M41.E><div>Maximum lengtegraad (X) ontbreekt om heeft een verkeerde waarde.</div></alert.M41.E>
-    <alert.M41.W><div>Minimum lengtegraad (X) ontbreekt om heeft een verkeerde waarde.</div></alert.M41.W>
-    <report.M41.N><div>Maximum breedtegraad (Y) aanwezig:</div></report.M41.N>
-    <report.M41.S><div>Minimum breedtegraad (Y) aanwezig:</div></report.M41.S>
-    <report.M41.E><div>Maximum lengtegraad (X)  aanwezig:</div></report.M41.E>
-    <report.M41.W><div>Minimum lengtegraad (X)  aanwezig:</div></report.M41.W>
+    <alert.M41.N><div>Maximum latitude (Y) missing or wrong value.</div></alert.M41.N>
+    <alert.M41.S><div>Minimum latitude (Y)  missing or wrong value.</div></alert.M41.S>
+    <alert.M41.E><div>Maximum longitude (X) missing or wrong value.</div></alert.M41.E>
+    <alert.M41.W><div>Minimum longitude (X) missing or wrong value.</div></alert.M41.W>
+    <report.M41.N><div>Maximum latitude (Y) present:</div></report.M41.N>
+    <report.M41.S><div>Minimum latitude (Y) present:</div></report.M41.S>
+    <report.M41.E><div>Maximum longitude (X)  present:</div></report.M41.E>
+    <report.M41.W><div>Minimum longitude (X)  present:</div></report.M41.W>
     
-    <alert.M42><div><h2>INSPIRE - Temporele referentie is verplicht</h2>
-        Er werd geen temporele referentie gevonden.
-        <b>Instructies</b><br/>
-        Definieer ofwel een tijdsperiode voor de dataset of datasetserie of geef een referentie datum voor de dataset of datasetserie.  Deze referentie datum kan ofwel een datum van publicatie, laatste wijziging or creatie zijn.
+    <alert.M42><div><h2>INSPIRE - Temporal reference is mandatory</h2>
+        No temporal reference found.
+        <b>Instructions</b><br/>
+        Define a time period for the dataset/datasetserie or give a reference date for the dataset/datasetserie. This reference date can be either a date of publication, last modification or creation.
         <br/>
          </div></alert.M42>
-    <alert.M42.creation><div>Er mag maar één instantie zijn van
+    <alert.M42.creation><div>Only one instance of 
         MD_Metadata.identificationInfo[1].MD_Identification.citation.CI_Citation.date 
-        die gedefinieerd is als datum van creatie (CI_Date.dateType met creatie als waarde)</div></alert.M42.creation>
-    <report.M42.begin><div>Temporele begrenzing (begindatum) aanwezig: </div></report.M42.begin>
-    <report.M42.end><div>Temporele begrenzing (einddatum) aanwezig: </div></report.M42.end>
-    <report.M42.publication><div>Datum van publicatie aanwezig:</div></report.M42.publication>
-    <report.M42.creation><div>Datum van creatie aanwezig:</div></report.M42.creation>
-    <report.M42.revision><div>Datum van laatste wijziging aanwezig:</div></report.M42.revision>
+        can be defined as date of creation (CI_Date.dateType with creation as value)</div></alert.M42.creation>
+    <report.M42.begin><div>Temporal boundary (begin date) present: </div></report.M42.begin>
+    <report.M42.end><div>Temporal boundary (end date) present: </div></report.M42.end>
+    <report.M42.publication><div>Date of last publication present:</div></report.M42.publication>
+    <report.M42.creation><div>Date of creation present:</div></report.M42.creation>
+    <report.M42.revision><div>Date of last change present:</div></report.M42.revision>
     
     
-    <alert.M43><div><h2>INSPIRE - Algemene beschrijving van de herkomst is verplicht</h2><br/>
+    <alert.M43><div><h2>INSPIRE - General description of origin is mandatory</h2><br/>
         <ul>
-            <li>Verplicht voor datasets en datasetseries.</li>
-            <li>Niet van toepassing voor diensten.</li>
+            <li>Mandatory for datasets and dataset series.</li>
+            <li>Not applicable for services.</li>
         </ul>
         <br/>
-        <b>Bijvoorbeeld:</b>Dataset werd gedigitaliseerd op basis van een kaart op schaal 1:5.000
+        <b>For example:</b>Dataset has been digitized based on a map at scale 1:5.000
         
     </div></alert.M43>
-    <report.M43><div><h2>Algemene beschrijving van de herkomst is aanwezig.</h2></div></report.M43>
+    <report.M43><div><h2>General description of origin is present.</h2></div></report.M43>
     
     
-    <alert.M44><div><h2>INSPIRE - Conformiteit is verplicht (in DQ_DomainConsistency.result.DQ_ConformanceResult)</h2><br/>
-        <b>Instructies</b> <br/>
-        De dataset kan conform of niet-conform zijn of de conformiteit kan niet geëvalueerd zijn.<br/>
+    <alert.M44><div><h2>INSPIRE - Conformity is mandatory (in DQ_DomainConsistency.result.DQ_ConformanceResult)</h2><br/>
+        <b>Instructions</b> <br/>
+        The dataset can be conform/non-conform or the conformity could not be evaluated.<br/>
         
           
     </div></alert.M44>
-    <report.M44.nonev><div>De graad van conformiteit werd niet geëvalueerd.</div></report.M44.nonev>
-    <report.M44.degree><div>De graad van conformiteit wordt gespecifieerd als zijnde:</div></report.M44.degree>
-    <report.M44.spec><div>Specificatie:</div></report.M44.spec>
+    <report.M44.nonev><div>The degree of conformity was not evaluated.</div></report.M44.nonev>
+    <report.M44.degree><div>The degree of conformity is specified as:</div></report.M44.degree>
+    <report.M44.spec><div>Specification:</div></report.M44.spec>
     
-    <alert.M45.rc><div><h2>Er moet minstens één voorkomen zijn van:
+    <alert.M45.rc><div><h2>There has to be at least one occurence of:
         MD_Metadata.identificationInfo[1].MD_Identification.resourceConstraints</h2></div></alert.M45.rc>
-    <report.M45.ac><div>Toegangsbeperkingen (accessConstraints) aanwezig:</div></report.M45.ac>
-    <report.M45.class><div>Toegangsbeperkingen (classification) aanwezig:</div></report.M45.class>
-    <alert.M45.ca><div>Er moet minstens één voorkomen zijn van MD_LegalConstraints/accessConstraints of MD_SecurityConstraints/classification.</div></alert.M45.ca> 
-    <report.M45.ca><div>Er moet minstens één voorkomen zijn van MD_LegalConstraints/accessConstraints of MD_SecurityConstraints/classification.</div></report.M45.ca>
+    <report.M45.ac><div>Access constraints (accessConstraints) present:</div></report.M45.ac>
+    <report.M45.class><div>Access constraints (classification) present:</div></report.M45.class>
+    <alert.M45.ca><div>There has to be at least one occurence of MD_LegalConstraints/accessConstraints or MD_SecurityConstraints/classification.</div></alert.M45.ca> 
+    <report.M45.ca><div>There has to be at least one occurence of MD_LegalConstraints/accessConstraints or MD_SecurityConstraints/classification.</div></report.M45.ca>
 
-    <alert.M45.or><div>De waarde van toegansbeperking (accessConstraints) moet anders (otherRestrictions) zijn, 
-    	als er voorkomens zijn van 'otherConstraints' </div></alert.M45.or>
-    <report.M45.or><div>Toegangsbeperkingen (otherConstraints) aanwezig:</div></report.M45.or>
-    <alert.M45.us><div>Gebruiksbeperkingen ontbreken.</div></alert.M45.us>
-    <report.M45.us><div>Gebruiksbeperkingen aanwezig:</div></report.M45.us>
-    <alert.M45><div><h2>INSPIRE - gebruiksperkingen zijn verplicht.</h2><br/>
+    <alert.M45.or><div>The value of access constraint (accessConstraints) has to be diferent (otherRestrictions), 
+    	if there are occurences of 'otherConstraints' </div></alert.M45.or>
+    <report.M45.or><div>Access constraints (otherConstraints) present:</div></report.M45.or>
+    <alert.M45.us><div>Use constraints missing.</div></alert.M45.us>
+    <report.M45.us><div>Use constraints present:</div></report.M45.us>
+    <alert.M45><div><h2>INSPIRE - Use constraints are mandatory.</h2><br/>
     </div></alert.M45>
-    <alert.M46><div><h2>INSPIRE - Toegangsbeprkingen zijn verplicht.</h2></div></alert.M46>
+    <alert.M46><div><h2>INSPIRE - Access constraints are mandatory.</h2></div></alert.M46>
     
-    <alert.M47><div><h2>INSPIRE - Verantwoordelijke organisatie is verplicht.</h2><br/>
-       Zowel de naam van de organisatie als het Email adres moeten gegeven worden.
+    <alert.M47><div><h2>INSPIRE - Responsible organization is mandatory.</h2><br/>
+       Both the name of the organization and Email address has to be provided.
         <br/>
-        Zie  / point of contact.
+        See  / point of contact.
     </div></alert.M47>
-    <report.M47><div>Verantwoordelijke organisatie voor de dataset, datasetserie of dienst is aanwezig.</div></report.M47>
-    <alert.M47.info><div>De naam of het Emailadres van de verantwoordelijke organisatie werd niet gedefinieerd.</div></alert.M47.info>
-    <report.M47.info><div>De naam en het Emailadres van de verantwoordelijke organisatie zijn aanwezig:</div></report.M47.info>
+    <report.M47><div>Responsible organization for the dataset, dataset serie or service is present.</div></report.M47>
+    <alert.M47.info><div>The name or Email address of the responsible organization was not defined.</div></alert.M47.info>
+    <report.M47.info><div>The name and Email address of the responsible organization are present:</div></report.M47.info>
     
-    <alert.M48><div><h2>INSPIRE - verantwoordelijke organisatie is verplicht.</h2><br/>
+    <alert.M48><div><h2>INSPIRE - responsible organization is mandatory.</h2><br/>
      </div></alert.M48>
-    <alert.M48.role><div>Rol van de verantwoordelijke voor de service is niet ingevuld.</div></alert.M48.role>
-    <report.M48><div>Metadata contactpunt (auteur) aanwezig.</div></report.M48>
-    <alert.M48.info><div>Organisatie naam en/of Email niet aanwezig voor de metadata auteur.</div></alert.M48.info>
-    <report.M48.info><div>Organisatie naam en/of Email aanwezig:</div></report.M48.info>
+    <alert.M48.role><div>Role of the responsible for the service is not filled.</div></alert.M48.role>
+    <report.M48><div>Metadata contact (author) present.</div></report.M48>
+    <alert.M48.info><div>Organization name and/or Email not present for the metadata author.</div></alert.M48.info>
+    <report.M48.info><div>Organization name and/or Email present:</div></report.M48.info>
     
-    <alert.M49><div><h2>INSPIRE - Metadata taal is verplicht</h2><br/>
+    <alert.M49><div><h2>INSPIRE - Metadata language is mandatory</h2><br/>
     </div></alert.M49>
-    <report.M49><div>Metadata taal is :</div></report.M49>
+    <report.M49><div>Metadata language is :</div></report.M49>
     
-    <alert.M50><div><h2>Metadata wijzigingsdatum ontbreekt.</h2></div></alert.M50>
-    <report.M50><div><h2>Metadata wijzigingsdatum is :</h2></div></report.M50>
+    <alert.M50><div><h2>Metadata modification date misssing.</h2></div></alert.M50>
+    <report.M50><div><h2>Metadata modification date :</h2></div></report.M50>
     
     
-    <alert.M51><div><h2>INSPIRE (diensten) - Gekoppelde bronnen moeten verplicht gegeven worden indien deze dienst opereert op datasets.</h2>
+    <alert.M51><div><h2>INSPIRE (services) - Linked sources has to be provided if this service operates on datasets.</h2>
         <br/>
-        <b>Instructies:</b><br/>
-        Niet van toepassing voor datasets en datasetseries<br/>
-        Conditioneel voor diensten.<br/>
+        <b>Instructions:</b><br/>
+        Not applicable for datasets and dataset series<br/>
+        Conditional for services.<br/>
         
          </div></alert.M51>
-    <report.M51><div>Gekoppelde bronnen aanwezig: </div></report.M51>
-    <alert.M52><div><h2>INSPIRE - Connectiepunt URL is verplicht indien er zo'n connectiepunt bestaat. <br></br></h2><br/>
-        Zie connectiepunt element onder distributie/overdracht.<br></br>
+    <report.M51><div>Linked sources present: </div></report.M51>
+    <alert.M52><div><h2>INSPIRE - Connection point URL is mandatory if such a connection point exists. <br></br></h2><br/>
+        Sie connection point element under distribution/transfer.<br></br>
         <br/>
-        <b>Instructies:</b><br/>
+        <b>Instructions:</b><br/>
             <ul>
-                <li>Specifieer een geldige URL naar de bron.  Indien geen direct connectiepunt beschikbaar is,specifieer een URL naar een pagina waar meer informatie betreffende de bron beschikbaar is.
+                <li>Specify a valid URL to the source. If no direct connection point available, specify an URL to a page with more available information regarding the source.
                 <br></br>
          </li>
-                <li>Voor een dienst (Web Service), kan het connectiepunt één van de volgende waarden hebben:</li>
+                <li>For a service (Web Service), the connection point can hold one of the the following values:</li>
                 <ul>
-                    <li>Een link naar het capabilities document van de diesnt (GetCapabilities operatie);</li>
-                    <li>Een link naar het WSDL document (SOAP Binding);</li>
-                    <li>Een link naar de web pagina met verdere instructies</li>
-                    <li>Een link naar een applicatie die gebruikt maakt van de dienst.</li>
+                    <li>A link to the capabilities document of the service (GetCapabilities operation);</li>
+                    <li>A link to the WSDL document (SOAP Binding);</li>
+                    <li>A link to the web page with further instructions</li>
+                    <li>A link to an application which makes use of the service.</li>
                 </ul>
             </ul>
             
     </div></alert.M52>
-    <report.M52><div>Resource locator aanwezig:</div></report.M52>
-    <alert.M53><div><h2>INSPIRE - Toegangs en gebruiksbeperkingen</h2><br/>
-        Toegangsbeperkingen om de bescherming van privacy en intellectueel eigendom te garanderen en eventuele beperkingen 
-        om de bron te verkrijgen<br/>
-        <b>Bijvoorbeeld:</b> Intellectuele eigendomsrechten
+    <report.M52><div>Resource locator present:</div></report.M52>
+    <alert.M53><div><h2>INSPIRE - Access and use constraints</h2><br/>
+        Access constraints to guarantee the protection of privacy and intellectual property and any restrictions to obtain the source<br/>
+        <b>For example:</b> Intellectual property rights
         <br/>
-        Veiligheidsbeperking:
-        <b>Bijvoorbeeld:</b> beperkte verspreiding (niet voor publicatie)
+        Security constraints:
+        <b>For example:</b> limited distribution (not for publication)
         <br/>
-        Gebruiksbeperking:
-        <b>Bijvoorbeeld:</b> niet geschikt voor navigatie
+        Use constaints:
+        <b>For example:</b> not applicable for navigation
         <br/>
     </div></alert.M53>
-    <alert.M54><div><h2>INSPIRE - De waarde van accessConstraints mag enkel otherRestrictions zijn als er voorkomens zijn van otherConstraints die een toegnagsbeperking specifiëren.</h2></div></alert.M54>
-    <alert.M55><div><h2>INSPIRE (datasets and series) - Taal dataset(serie) is verplicht indien de bron tekstuele inhoud bevat.</h2><br/>
+    <alert.M54><div><h2>INSPIRE - The value of accessConstraints can only be otherRestrictions if there are occurences of otherConstraints which specify an access constraint.</h2></div></alert.M54>
+    <alert.M55><div><h2>INSPIRE (datasets and series) - Language dataset(serie) is mandatory if the source contains textual content.</h2><br/>
       </div></alert.M55>
-    <report.M55><div>Dataset(serie) taal is:</div></report.M55>
-    <alert.M56><div><h2>INSPIRE - Ruimtelijke resolutie is verplicht indien een equivalente schaal (noemer) of een equivalent reolutie (afstand) kan gedefinieerd worden.</h2><br/>
-        <b>Instructies:</b>
+    <report.M55><div>Dataset(serie) language is:</div></report.M55>
+    <alert.M56><div><h2>INSPIRE - Spatial resolution is mandatory if an equivalent scale (denominator) or an equivalent resolution (distance) can be defined.</h2><br/>
+        <b>Instructions:</b>
         <ul>
             <li>
-                Definieer ofwel een schaal ofwel een resolutie (afstand)
+            	Define either a scale or a resolution (distance)
             </li>
             <li>
-                Wanneer 2 schalen of afstanden gedefinieerd zijn, is dit te begrijpen als een interval.        
+            	When 2 scales or distances are defined, this has to be seen as an interval.        
             </li>
         </ul>
        </div></alert.M56>
-    <report.M56><div>Ruimtelijke resolutie is gedefinieerd:.</div></report.M56>
+    <report.M56><div>Spatial resolution is defined:.</div></report.M56>
     
-    <alert.M57><div><h2>[ISO19119] - Naam van de operatie is verplicht.</h2></div></alert.M57>
+    <alert.M57><div><h2>[ISO19119] - Name of the operation is mandatory.</h2></div></alert.M57>
     
-    <alert.M58><div>Service taxonomy informatie (sleutelwoord uit de inspire service taxonomy thesaurus) ontbreekt</div></alert.M58>
-    <report.M58><div> classificatie van de dienst uit de inspire service taxonomy is aanwezig.</div></report.M58>
-    <alert.M59><div><h2>[ISO19119] - Connectie Punt is verplicht</h2></div></alert.M59>
-    <alert.M60><div><h2>[ISO19119] - Type van de dienst moet gespecifieerd worden</h2><br/>
-        Verplicht voor diensten.<br/>
-        Niet van toepassing op dataset and datasetseries<br/>
-        <b>Example:</b> 'view', 'discovery', 'download', 'transformation', 'invoke', 'other'
+    <alert.M58><div>Service taxonomy information (keyword from the inspire service taxonomy thesaurus) missing</div></alert.M58>
+    <report.M58><div> classification of the service from the inspire service taxonomy is present.</div></report.M58>
+    <alert.M59><div><h2>[ISO19119] - Connection Point is mandatory</h2></div></alert.M59>
+    <alert.M60><div><h2>[ISO19119] - Type of the service has to be specified</h2><br/>
+        Mandatory for services.<br/>
+        Not applicable on dataset and dataset series<br/>
+        <b>For example:</b> 'view', 'discovery', 'download', 'transformation', 'invoke', 'other'
     </div></alert.M60>
-    <report.M60><div>Service type is:</div></report.M60>
+    <report.M60><div>Service type:</div></report.M60>
     <!-- INSPIRE metadata rules translation / END -->
 </strings>

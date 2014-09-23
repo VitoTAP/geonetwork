@@ -4,6 +4,9 @@
 		<gmd:linkage>
 			<gmd:URL/>
 		</gmd:linkage>
+		<gmd:applicationProfile>
+			<gco:CharacterString/>
+		</gmd:applicationProfile>
 		<gmd:protocol>
 			<gco:CharacterString/>
 		</gmd:protocol>

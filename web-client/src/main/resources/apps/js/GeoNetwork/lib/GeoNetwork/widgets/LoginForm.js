@@ -98,8 +98,8 @@ GeoNetwork.LoginForm = Ext.extend(Ext.FormPanel, {
     	this.nodeType = GeoNetwork.Settings.nodeType.toLowerCase();
     	var form = this;
     	var loginBt = new Ext.Button({
-	            width: 60,
-	            columnWidth: 0.2,
+	            width: 80,
+	            columnWidth: 0.19,
 	            text: OpenLayers.i18n('login'),
 	            iconCls: 'md-mn mn-login',
                 id: 'btnLoginForm',
@@ -112,7 +112,7 @@ GeoNetwork.LoginForm = Ext.extend(Ext.FormPanel, {
 	        }),
 	        registerBt = new Ext.LinkButton({
 //	            width: 80,
-	    		columnWidth: this.hideLoginLabels ? 0.4 : 0.25,
+	    		columnWidth: 0.25,
 	            text: OpenLayers.i18n('register'),
                 id: 'btnRegisterForm',
 	            listeners: {
@@ -133,7 +133,20 @@ GeoNetwork.LoginForm = Ext.extend(Ext.FormPanel, {
 	                },
 	                scope: form
 	            }
-	        })/*,
+	        }),
+	        contactUsBt = new Ext.LinkButton({
+//	            width: 80,
+	        	columnWidth: 0.25,
+	            text: OpenLayers.i18n('contactUs'),
+                id: 'btnContactUs',
+	            listeners: {
+	                click: function(){
+	                	window.location = 'mailto:belairgeoporal@vgt.vito.be';
+	                },
+	                scope: form
+	            }
+	        })
+	        /*,
 	        logoutBt = new Ext.Button({
 	            width: 60,
 //	    		columnWidth: 0.75,
@@ -177,7 +190,7 @@ GeoNetwork.LoginForm = Ext.extend(Ext.FormPanel, {
         });
 		var labelStyle = "color:#fff;font-size:1.2em;font-weight:bold;top:2px;";
     	this.userInfo = new Ext.form.Label({
-    		columnWidth: 1.0,
+    		columnWidth: 0.75,
             width: 170,
             text: '',
             cls: 'loginInfo',
@@ -191,7 +204,7 @@ GeoNetwork.LoginForm = Ext.extend(Ext.FormPanel, {
                     this.password,
                     loginBt);
             if (this.nodeType == "sigma") {
-            	this.loginFields.push(registerBt,forgottenBt);
+            	this.loginFields.push(registerBt,forgottenBt,contactUsBt);
             }
     		if (!GeoNetwork.Settings.useSTS) {
 	    		this.toggledFields.push( 
@@ -202,6 +215,7 @@ GeoNetwork.LoginForm = Ext.extend(Ext.FormPanel, {
             if (this.nodeType == "sigma") {
         		this.toggledFields.push(registerBt);
         		this.toggledFields.push(forgottenBt);
+        		this.toggledFields.push(contactUsBt);
             }
     		loginItems = [this.username,this.password];
     	} else {
@@ -214,7 +228,7 @@ GeoNetwork.LoginForm = Ext.extend(Ext.FormPanel, {
                     this.password,
                     loginBt);
             if (this.nodeType == "sigma") {
-            	this.loginFields.push(registerBt,forgottenBt);
+            	this.loginFields.push(registerBt,forgottenBt,contactUsBt);
             }
     		if (!GeoNetwork.Settings.useSTS) {
 	        	this.toggledFields.push(usernameLb, 
@@ -226,10 +240,11 @@ GeoNetwork.LoginForm = Ext.extend(Ext.FormPanel, {
             if (this.nodeType == "sigma") {
         		this.toggledFields.push(registerBt);
         		this.toggledFields.push(forgottenBt);
+        		this.toggledFields.push(contactUsBt);
             }
     		loginItems = [usernameLb,this.username,passwordLb,this.password];
     	}
-		var flexCmp = new Ext.form.Label({columnWidth:0.75,style:labelStyle,hidden:GeoNetwork.Settings.useSTS,html: '&nbsp;'});
+		var flexCmp = new Ext.form.Label({columnWidth:0.75,style:labelStyle,html: '&nbsp;'});
     	var actionsBt = new Ext.Button({
     		columnWidth: 0.25,
     		style: {
@@ -240,16 +255,19 @@ GeoNetwork.LoginForm = Ext.extend(Ext.FormPanel, {
         		catalogue: this.catalogue
     		})});
     	this.toggledFieldsOff.push(this.userInfo, 
-                /*logoutBt, */ flexCmp, actionsBt);
+                /*logoutBt,  flexCmp,*/ actionsBt);
     	this.items = [loginItems,this.userInfo,loginBt];
         if (this.nodeType == "sigma") {
         	this.items.push(registerBt);
+        	this.items.push(forgottenBt);
     	}
         //this.items.push(logoutBt);
-        if (this.nodeType == "sigma") {
-        	this.items.push(forgottenBt);
+        //this.items.push([flexCmp, actionsBt]);
+        this.items.push(actionsBt);
+        if(this.catalogue.identifiedUser || this.nodeType == 'belair') {
+        	this.items.push(flexCmp);
         }
-        this.items.push([flexCmp, actionsBt]);
+        this.items.push(contactUsBt);
 /*
     	this.items = [this.loginFields, this.toggledFieldsOff];
 */

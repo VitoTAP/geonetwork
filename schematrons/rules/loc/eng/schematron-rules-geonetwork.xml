@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <strings>
-    <M500>[Taal] - metadata taal is niet gedefinieerd terwijl overige talen gedeclareerd zijn, of metadata taal is ook gedefinieerd in de lijst van overige talen.</M500>
+    <M500>[Language] - metadata language is not defined while other languages are declared, or metadata language is also defined in the list of the other languages.</M500>
     <alert.M500>
-        <div>Verifieer dat de metadata taal gedefinieerd is als er andere talen gedefinieerd zijn (gmd:locale in dvanced view / metadata section). <br/>
-            <span class="validationReportSuggestion">Suggestie: Definieer metadata taal of verwijder de andere talen (gmd:locale)</span></div>
+        <div>Verify that the metadata language is defined if other languages are defined (gmd:locale in dvanced view / metadata section). <br/>
+            <span class="validationReportSuggestion">Suggestion: Define metadata language or delete the other languages (gmd:locale)</span></div>
     </alert.M500>
-    <report.M500>Metadata taal is:</report.M500>
+    <report.M500>Metadata language is:</report.M500>
     <alert.M501>
-        <div>De hoofd metadata taal mag slechts &#233;&#233;n maal gedefinieerd worden. <br/>
-            <span class="validationReportSuggestion">Suggestie: verwijder de hoofd metadata taal uit de lijst van overige talen</span></div>
+        <div>The main metadata language may be defined only once. <br/>
+            <span class="validationReportSuggestion">Suggestion: remove the head metadata language from the list of other languages</span></div>
     </alert.M501>
-    <report.M501>Metadata taal komt slechts &#233;&#233;n maal voor.</report.M501>
+    <report.M501>Metadata language occurs only once.</report.M501>
 </strings>

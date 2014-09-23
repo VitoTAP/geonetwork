@@ -256,6 +256,7 @@ GeoNetwork.lang.en = {
     'login': 'Login',
     'register': "Register",
     'forgotten': "Password forgotten",
+    'contactUs': "Contact Us",
     'logout': 'Logout',
     'administration': 'Administration',
     'validationReport': 'Validation report',

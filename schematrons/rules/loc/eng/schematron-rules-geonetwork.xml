@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<strings>
+    <M500>[Taal] - metadata taal is niet gedefinieerd terwijl overige talen gedeclareerd zijn, of metadata taal is ook gedefinieerd in de lijst van overige talen.</M500>
+    <alert.M500>
+        <div>Verifieer dat de metadata taal gedefinieerd is als er andere talen gedefinieerd zijn (gmd:locale in dvanced view / metadata section). <br/>
+            <span class="validationReportSuggestion">Suggestie: Definieer metadata taal of verwijder de andere talen (gmd:locale)</span></div>
+    </alert.M500>
+    <report.M500>Metadata taal is:</report.M500>
+    <alert.M501>
+        <div>De hoofd metadata taal mag slechts &#233;&#233;n maal gedefinieerd worden. <br/>
+            <span class="validationReportSuggestion">Suggestie: verwijder de hoofd metadata taal uit de lijst van overige talen</span></div>
+    </alert.M501>
+    <report.M501>Metadata taal komt slechts &#233;&#233;n maal voor.</report.M501>
+</strings>

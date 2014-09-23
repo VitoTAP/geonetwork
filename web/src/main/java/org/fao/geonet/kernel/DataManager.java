@@ -1822,9 +1822,14 @@ public class DataManager {
     */
     public String createMetadata(ServiceContext context, Dbms dbms, String templateId, String editGroup, String source,
                 String owner, String parentUuid, String isTemplate) throws Exception {
-		String query = "SELECT schemaId, data FROM Metadata WHERE id=?";
+		String query = "SELECT schemaId, data FROM Workspace WHERE id=?";
 		List listTempl = dbms.select(query, templateId).getChildren();
 
+		if (listTempl.size() == 0) {
+			query = "SELECT schemaId, data FROM Metadata WHERE id=?";
+			listTempl = dbms.select(query, templateId).getChildren();
+		}
+		
 		if (listTempl.size() == 0) {
 			throw new IllegalArgumentException("Template id not found : " + templateId);
         }

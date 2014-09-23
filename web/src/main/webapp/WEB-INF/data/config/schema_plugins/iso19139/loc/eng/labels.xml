@@ -2804,19 +2804,28 @@
         <description>Name of the responsible organisation.</description>
         <condition>conditional</condition>
       <helper>
-        <option value="Vito">Vito</option>
-        <option value="VISION LAB">VISION LAB</option>
-        <option value="Universiteit Hasselt">Universiteit Hasselt</option>
-        <option value="KU Leuven">KU Leuven</option>
-        <option value="Universiteit Gent">Universiteit Gent</option>
-        <option value="Proefcentrum fruitteelt vzw">Proefcentrum fruitteelt vzw</option>
-        <option value="cra-W">cra-W</option>
-        <option value="Vrije Universiteit Brussel">Vrije Universiteit Brussel</option>
-        <option value="INBO">INBO</option>
-        <option value="Division de la Nature et des Forets">Division de la Nature et des Forets</option>
-        <option value="Bruxelles environnement - Leefmilieu Brussel">Agentschap voor Natuur en Bos</option>
-        <option value="Vito">Bruxelles environnement - Leefmilieu Brussel</option>
-        <option value="Université de Liège">Université de Liège</option>
+        <option value="VITO (Flemish Institute for Technological Research)">VITO (Flemish Institute for Technological Research)</option>
+        <option value="Stichting Dienst Landbouwkundig Onderzoek (ALTERRA)">Stichting Dienst Landbouwkundig Onderzoek (ALTERRA)</option>
+        <option value="Université Catholique de Louvain (UCL)">Université Catholique de Louvain (UCL)</option>
+        <option value="Agricultural Research Institute for Development (CIRAD)">Agricultural Research Institute for Development (CIRAD)</option>
+        <option value="ITC-UT (Faculty of Geo-information Science and Earth Observation)">ITC-UT (Faculty of Geo-information Science and Earth Observation)</option>
+        <option value="IIASA">IIASA</option>
+        <option value="Food and Agricultural Organization of the UN (FAO)">Food and Agricultural Organization of the UN (FAO)</option>
+        <option value="Space Research Institute (IKI)">Space Research Institute (IKI)</option>
+        <option value="Space Research Institute of National Academy of Sciences of Ukraine (SRI)">Space Research Institute of National Academy of Sciences of Ukraine (SRI)</option>
+        <option value="EC DG Joint Research Centre (JRC)">EC DG Joint Research Centre (JRC)</option>
+        <option value="Institute of Remote Sensing Applications Chinese Academy of Sciences (IRSA)">Institute of Remote Sensing Applications Chinese Academy of Sciences (IRSA)</option>
+        <option value="National Satellite Meteorological Center, Chinese Meteorological Administration (NSMC)">National Satellite Meteorological Center, Chinese Meteorological Administration (NSMC)</option>
+        <option value="DEIMOS Imaging S.L">DEIMOS Imaging S.L</option>
+        <option value="Sarmap SA (SARMAP)">Sarmap SA (SARMAP)</option>
+        <option value="EFTAS Fernerkundung Technologietransfer GmbH">EFTAS Fernerkundung Technologietransfer GmbH</option>
+        <option value="GeoVille">GeoVille</option>
+        <option value="RCMRD (Regional Centre for Mapping Resources for Development)">RCMRD (Regional Centre for Mapping Resources for Development)</option>
+        <option value="AGRHYMET (centre Regional AGRHYMET)">AGRHYMET (centre Regional AGRHYMET)</option>
+        <option value="Geosas Plc">Geosas Plc</option>
+        <option value="Instituto Nacional de Tecnologia Agropecuaria (INTA)">Instituto Nacional de Tecnologia Agropecuaria (INTA)</option>
+        <option value="GISAT s.r.o">GISAT s.r.o</option>
+        <option value="SARVISION">SARVISION</option>
       </helper>
       <mandatoryType>project</mandatoryType>
 	  <mandatoryTooltip>Mandatory for this project</mandatoryTooltip>

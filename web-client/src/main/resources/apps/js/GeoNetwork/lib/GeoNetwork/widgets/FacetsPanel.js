@@ -202,27 +202,31 @@ GeoNetwork.FacetsPanel = Ext.extend(Ext.Panel, {
                                         facet.setAttribute('moreAction', 'true');
                                         facetList += moreBt;
                                     }
-                                    if(node.getAttribute('name').split(' ')[0] === 'region' && regionCount === 0){
-                                    	facetList += "<li>region</li>";
-                                    	regionCount++;
-                                    }else if(node.getAttribute('name').split(' ')[0] === 'site' && siteCount === 0){
-                            			facetList += "<li>site</li>";
-                            			siteCount++;
-                                    }else if(node.nodeName === 'datatypekeyword'){
-                                    	var datatypeKeywordLabel = (node.getAttribute('label') != null ? node.getAttribute('label') : node.getAttribute('name'));
-                                    	datatypeKeywordLabel = datatypeKeywordLabel.substr(0, datatypeKeywordLabel.indexOf('_'));
-                                    	if(!datatypeKeywordHeaders.contains(datatypeKeywordLabel)){
-                                    		datatypeKeywordHeaders.push(datatypeKeywordLabel);
-                                    		facetList += "<li>" + datatypeKeywordLabel + "</li>";
-                                    	}
+                                    
+                                    var facetValue = panel.displayFacetValue(node, visible);
+                                    if(facetValue !== ''){
+                                    	if(node.getAttribute('name').split(' ')[0] === 'region' && regionCount === 0){
+                                        	facetList += "<li style='color: #435EA2; font-size: larger; font-weight: bolder; margin-bottom: 5px; margin-top: 3px;'>region</li>";
+                                        	regionCount++;
+                                        }else if(node.getAttribute('name').split(' ')[0] === 'site' && siteCount === 0){
+                                			facetList += "<li style='color: #435EA2; font-size: larger; font-weight: bolder; margin-bottom: 5px; margin-top: 3px;'>site</li>";
+                                			siteCount++;
+                                        }else if(node.nodeName === 'datatypekeyword'){
+                                        	var datatypeKeywordLabel = (node.getAttribute('label') != null ? node.getAttribute('label') : node.getAttribute('name'));
+                                        	datatypeKeywordLabel = datatypeKeywordLabel.substr(0, datatypeKeywordLabel.indexOf('_'));
+                                        	if(!datatypeKeywordHeaders.contains(datatypeKeywordLabel)){
+                                        		datatypeKeywordHeaders.push(datatypeKeywordLabel);
+                                        		facetList += "<li style='color: #435EA2; font-size: larger; font-weight: bolder; margin-bottom: 5px; margin-top: 3px;'>" + datatypeKeywordLabel + "</li>";
+                                        	}
+                                        }
                                     }
                                     
-                                    facetList += panel.displayFacetValue(node, visible);
+                                    facetList += facetValue;
                                     nodeCount ++;
                                 }
                             });
                             if (facetList !== "") {
-                                zappette += "<li>" + OpenLayers.i18n(facet.nodeName) + "</li><ul>";
+                                zappette += "<li style='font-size: medium; font-weight: bolder;'>" + OpenLayers.i18n(facet.nodeName) + "</li><ul>";
                                 zappette += facetList;
                                 if (facet.getAttribute('moreAction') === 'true') {
                                     zappette += lessBt;
@@ -299,17 +303,17 @@ GeoNetwork.FacetsPanel = Ext.extend(Ext.Panel, {
             	if(data.label != null){
             		data.label = data.label.substr(data.label.indexOf(' ')+1);
             	}else{
-            		data.node = data.node.substr(data.node.indexOf(' ')+1);
+            		data.label = data.node.substr(data.node.indexOf(' ')+1);
             	}
             }else if(isDatatypeKeyword){
             	if(data.label != null){
             		data.label = data.label.substr(data.label.indexOf('_')+1);
             	}else{
-            		data.node = data.node.substr(data.node.indexOf('_')+1);
+            		data.label = data.node.substr(data.node.indexOf('_')+1);
             	}
             }
             this.facetsStore.add(r);
-            return "<li class='" + (visible ? '' : 'facet-more') + " current' style='" + (isSiteOrRegionKeyword || isDatatypeKeyword ? 'margin-left: 15px;' : '') + (visible ? '' : 'display:none;') + "'><a href='javascript:void(0);' class='facet-link' id='" + recId + "'>" + 
+            return "<li class='" + (visible ? '' : 'facet-more') + " current' style='" + (isSiteOrRegionKeyword || isDatatypeKeyword ? 'margin-left: 15px;' : '') + (visible ? '' : 'display:none;') + " margin-bottom: 2px;'><a href='javascript:void(0);' class='facet-link' id='" + recId + "'>" + 
                     (data.label != null ? data.label : data.node) + "<span class='facet-count'>(" + data.count + ")</span></a></li>";
         }
         return '';

@@ -26,7 +26,7 @@
     -->
     <xsl:template match="/">
     	<email>
-    		<subject>Welcome to <xsl:value-of select="/root/site"/> <xsl:value-of select="/root/request/name"/> <xsl:value-of select="/root/request/surname"/></subject>
+    		<subject>Welcome to <xsl:value-of select="/root/site"/><xsl:text> </xsl:text><xsl:value-of select="/root/request/name"/><xsl:text> </xsl:text><xsl:value-of select="/root/request/surname"/></subject>
 			<content>
 Dear <xsl:value-of select="/root/request/name"/><xsl:text> </xsl:text><xsl:value-of select="/root/request/surname"/>,
 

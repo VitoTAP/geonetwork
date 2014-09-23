@@ -7,7 +7,6 @@ import javax.naming.Name;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ldap.core.LdapTemplate;
 import org.springframework.security.authentication.encoding.LdapShaPasswordEncoder;
-import org.springframework.security.authentication.encoding.ShaPasswordEncoder;
 
 public class LdapContext {
 	private LdapTemplate ldapTemplate;
@@ -130,6 +129,15 @@ public class LdapContext {
 		LdapShaPasswordEncoder ldapShaPasswordEncoder = new LdapShaPasswordEncoder();
 		ldapShaPasswordEncoder.setForceLowerCasePrefix(true);
 		return ldapShaPasswordEncoder.encodePassword(password, null);
+	}
+	
+	public String getShaPasswordFromAsciiValues(String asciiPassword) {
+		String[] passwordAsciiArray = asciiPassword.split(",");
+		StringBuffer sb = new StringBuffer();
+		for (String asciiValue : passwordAsciiArray) {
+			sb.append((char) Integer.parseInt(asciiValue));
+		}
+		return sb.toString();
 	}
 
 }

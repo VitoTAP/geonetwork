@@ -1423,6 +1423,7 @@
     <crsType value="VerticalCRS">Vertical CRS</crsType>
     <crsType value="ProjectedCRS">Projected CRS</crsType>
     <crsType value="GeographicCRS">Geographic CRS</crsType>
+	<applicationProfileChoice show="y" value=""></applicationProfileChoice>
 	<applicationProfileChoice show="y" value="datafile">Datafile</applicationProfileChoice>
 	<applicationProfileChoice show="y" value="report">Report</applicationProfileChoice>
 	<applicationProfileChoice show="y" value="validator">Validation on Geo-wiki</applicationProfileChoice>

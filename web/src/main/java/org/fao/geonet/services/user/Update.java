@@ -25,6 +25,7 @@ package org.fao.geonet.services.user;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import jeeves.constants.Jeeves;
@@ -224,12 +225,14 @@ public class Update implements Service
 			} 
 			if (!isAdmin(dbms, username) && lc.isInUse()) {
 				if (bAddLDAPUser || bUpdateLDAPUser) {
-					Person person = new Person();
+					Person person = bUpdateLDAPUser ? gc.getLdapContext().findPerson(username) : new Person();
 					person.setUid(username);
 					person.setCommonName(name);
 					person.setSurname(surname);
 					if (bUpdatePassword) {
 						person.setPassword(gc.getLdapContext().getShaPassword(password));
+					} else if (bUpdateLDAPUser) {
+						person.setPassword(gc.getLdapContext().getShaPasswordFromAsciiValues(person.getPassword()));
 					}
 					if (!StringUtils.isBlank(address)) {
 						person.setPostalAddress(address);
@@ -248,7 +251,7 @@ public class Update implements Service
 						gc.getLdapContext().addPerson(person);
 					}
 					if (bUpdateLDAPUser) {
-						gc.getLdapContext().updatePerson(person);					
+						gc.getLdapContext().updatePerson(person);
 					}
 				}
 				if (bUpdateLDAPGroups) {

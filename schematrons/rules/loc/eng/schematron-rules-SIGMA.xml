@@ -3,7 +3,7 @@
 	<!-- SIGMA metadata rules translation / START -->
 	<SIGMA-identification>Minimum one keyword must be selected from the thesaurus ‘SIGMA-Years’ dated on 2014-05-06</SIGMA-identification>
 	<SIGMAYearsThesaurusNotFound>SIGMA Years thesaurus not found.</SIGMAYearsThesaurusNotFound>
-	<NoSIGMAThemeSelected>No English keyword found from the SIGMA Sites thesaurus dated on 2014-05-06.</NoSIGMAThemeSelected>
+	<NoSIGMAYearSelected>No English keyword found from the SIGMA Sites thesaurus dated on 2014-05-06.</NoSIGMAYearSelected>
 	<SIGMAKeywordFound-1>An English keyword: </SIGMAKeywordFound-1>
 	<SIGMAKeywordFound-2>is found from the</SIGMAKeywordFound-2>
 	<SIGMAKeywordFound-3>thesaurus dated on 2014-05-06.</SIGMAKeywordFound-3>

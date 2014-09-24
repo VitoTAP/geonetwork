@@ -126,9 +126,6 @@
     <xsl:param name="mimeType" as="xs:string?"/>
     <xsl:variable name="fname" select="lower-case(geonet:getQueryParameter($linkage,'fname'))"/>
     <xsl:variable name="linkageLower" select="if ($fname!='') then $fname else lower-case($linkage)"/>
-    <xsl:message select="$linkage"/>
-    <xsl:message select="$fname"/>
-    <xsl:message select="$linkageLower"/>
     <xsl:choose>
       <xsl:when test="(starts-with($protocol,'WWW:LINK-') or starts-with($protocol,'WWW:DOWNLOAD-') or starts-with($protocol,'LINK')) and $mimeType!=''">
         <xsl:value-of select="$mimeType"/>

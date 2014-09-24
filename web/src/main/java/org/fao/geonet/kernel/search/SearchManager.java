@@ -1339,7 +1339,7 @@ public class SearchManager {
 		}
 		// if rebuild forced or bad index then rebuild index
 		if (rebuild || badIndex) {
-			Log.error(Geonet.INDEX_ENGINE, "Rebuilding lucene index");
+			Log.debug(Geonet.INDEX_ENGINE, "Rebuilding lucene index");
 			if (_spatial != null) _spatial.writer().reset();
 			_indexWriter.createDefaultLocale();
 		}

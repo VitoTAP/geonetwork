@@ -59,7 +59,7 @@
 			<sch:let name="sigma-thesaurus" value="document(concat('file:///', $thesaurusDir, '/external/thesauri/place/SIGMA-Regions.rdf'))"/>		
 			<sch:let name="sigma-regions" value="$sigma-thesaurus//skos:Concept"/>		
 			<sch:assert test="count($sigma-regions) > 0">		
-				$loc/strings/SIGMARegionsThesaurusNotFound
+				$loc/strings/SIGMARegionsThesaurusNotFound	
 			</sch:assert>		
 			<sch:let name="keyword" value="gmd:descriptiveKeywords/*/gmd:keyword/gco:CharacterString		
 					[../../gmd:thesaurusName/*/gmd:title/*/text()='SIGMA Regions' and

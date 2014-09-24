@@ -543,7 +543,7 @@ GeoNetwork.Lang.nl = {
     'mapPanelTitle': 'Overzichtskaart', 
     'facetsPanelTitle': 'Filter', 
     'removeFilter': 'Verwijder filter', 
-    'datatypekeywords': "DataType",
+    'datatypekeywords': "Datatype",
     'sitekeywords': "Site",
     'regionkeywords': "Region",
     'yearkeywords': "Year",

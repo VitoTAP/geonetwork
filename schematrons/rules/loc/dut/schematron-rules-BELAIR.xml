@@ -1,8 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <strings>
+    <!-- BELAIR metadata rules translation / START -->
+	<BELAIR-identification>Er moet minstens één trefwoord geselecteerd zijn van de ‘BELAIR-Campaigns’ thesaurus gedateerd op 2014-05-06</BELAIR-identification>
+	<BELAIRCampaignsThesaurusNotFound>BELAIR Campaigns thesaurus niet gevonden.</BELAIRCampaignsThesaurusNotFound>
+	<NoBELAIRCampaignsKeywordFound>Er is geen Engels trefwoord gevonden van de BELAIR Campaigns thesaurus gedateerd op 2014-05-06.</NoBELAIRCampaignsKeywordFound>
+	<BELAIRKeywordFound-1>Een Engels trefwoord: </BELAIRKeywordFound-1>
+	<BELAIRKeywordFound-2>is gevonden van de</BELAIRKeywordFound-2>
+	<BELAIRKeywordFound-3>thesaurus gedateerd op 2014-05-06.</BELAIRKeywordFound-3>
+	
+	<BELAIR-identification-2>Er moet minstens één trefwoord geselecteerd zijn van de ‘BELAIR-DataTypes’ thesaurus gedateerd op 2014-05-06</BELAIR-identification-2>
+	<BELAIRDatatypesThesaurusNotFound>BELAIR DataTypes thesaurus niet gevonden.</BELAIRDatatypesThesaurusNotFound>
+	<NoBELAIRDatatypeSelected>Er is geen Engels trefwoord gevonden van de BELAIR DataTypes thesaurus gedateerd op 2014-05-06.</NoBELAIRDatatypeSelected>
+	
+	<BELAIR-identification-3>Er moet minstens één trefwoord geselecteerd zijn van de ‘BELAIR-Sites’ thesaurus gedateerd op 2014-05-06</BELAIR-identification-3>
+	<BELAIRSitesThesaurusNotFound>BELAIR Sites thesaurus niet gevonden.</BELAIRSitesThesaurusNotFound>
+	<NoBELAIRSiteSelected>Er is geen Engels trefwoord gevonden van de BELAIR Sites thesaurus gedateerd op 2014-05-06.</NoBELAIRSiteSelected>
+
     <!-- GENERAL metadata rules translation / START -->
-    
-    <!-- List of pattern title -->
     <identification>General SC-1: gmd:MD_Metadata/gmd:fileIdentifier (Iso element nr. 2) is verplicht aanwezig en niet leeg.</identification>
     <fileIdentifierMissing>gmd:fileIdentifier ontbreekt of is leeg</fileIdentifierMissing>
     <fileIdentifierPresent>gmd:fileIdentifier is present: </fileIdentifierPresent>

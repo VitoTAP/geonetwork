@@ -543,11 +543,11 @@ GeoNetwork.Lang.nl = {
     'mapPanelTitle': 'Overzichtskaart', 
     'facetsPanelTitle': 'Filter', 
     'removeFilter': 'Verwijder filter', 
-    'datatypekeywords': "BEL-AIR DataTypes",
-    'sitekeywords': "BEL-AIR Sites",
+    'datatypekeywords': "BELAIR DataTypes",
+    'sitekeywords': "BELAIR Sites",
     'regionkeywords': "SIGMA Regions",
     'yearkeywords': "SIGMA Years",
-    'campaignkeywords': "BEL-AIR Campaigns",
+    'campaignkeywords': "BELAIR Campaigns",
     'facetMore': '+ Toon meer',
     'facetLess': '- Toon minder',
 
@@ -583,7 +583,8 @@ GeoNetwork.Lang.nl = {
 
     'statusChangeFailed': 'De statuswijziging is niet gelukt aangezien u niet de rechten hebt of het metadatarecord niet gevalideerd kon worden. Editeer het metadatarecord om de validatiefouten te zien.',
     'userSessionEnded': 'De sessie is vervallen en u moet opnieuw inloggen.',
-    'noReordsFound': 'Er werden geen metadatasets gevonden.'
+    'noReordsFound': 'Er werden geen metadatasets gevonden.',
+    'notRegisteredForDownload': 'You must be logged in to download this product'
 };
 
 OpenLayers.Util.extend(OpenLayers.Lang.nl, GeoNetwork.Lang.nl);

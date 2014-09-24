@@ -354,7 +354,7 @@
                <gmd:thesaurusName>
                   <gmd:CI_Citation>
                      <gmd:title>
-                        <gco:CharacterString>BEL-AIR Sites</gco:CharacterString>
+                        <gco:CharacterString>BELAIR Sites</gco:CharacterString>
                      </gmd:title>
                      <gmd:date>
                         <gmd:CI_Date>
@@ -384,7 +384,7 @@
                <gmd:thesaurusName>
                   <gmd:CI_Citation>
                      <gmd:title>
-                        <gco:CharacterString>BEL-AIR DataTypes</gco:CharacterString>
+                        <gco:CharacterString>BELAIR DataTypes</gco:CharacterString>
                      </gmd:title>
                      <gmd:date>
                         <gmd:CI_Date>
@@ -414,7 +414,7 @@
                <gmd:thesaurusName>
                   <gmd:CI_Citation>
                      <gmd:title>
-                        <gco:CharacterString>BEL-AIR Campaigns</gco:CharacterString>
+                        <gco:CharacterString>BELAIR Campaigns</gco:CharacterString>
                      </gmd:title>
                      <gmd:date>
                         <gmd:CI_Date>

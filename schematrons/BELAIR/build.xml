@@ -51,7 +51,7 @@
 			<property name="rules" value="geonetwork" />
 		</ant>
         <ant target="compile-schematron">
-            <property name="rules" value="BEL-AIR" />
+            <property name="rules" value="BELAIR" />
         </ant>
 
 		<!-- 
@@ -88,7 +88,7 @@
 			<property name="schema" value="iso19139" />
 		</ant>
         <ant target="publish-schematron">
-            <property name="rules" value="BEL-AIR" />
+            <property name="rules" value="BELAIR" />
             <property name="schema" value="iso19139" />
         </ant>
 	</target>

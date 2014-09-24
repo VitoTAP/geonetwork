@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:fn="http://www.w3.org/2005/02/xpath-functions" xmlns:foaf="http://xmlns.com/foaf/0.1/" xmlns:gml="http://www.opengis.net/gml#" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#" xmlns:skos="http://www.w3.org/2004/02/skos/core#" xmlns:xdt="http://www.w3.org/2005/02/xpath-datatypes" xmlns:xs="http://www.w3.org/2001/XMLSchema">
   <!-- Scheme -->
-  <skos:ConceptScheme rdf:about="http://belair.vito.be/v1/BEL-AIR-DataTypes">
-    <dc:title>BEL-AIR DataTypes</dc:title>
-    <dc:description>BEL-AIR DataTypes</dc:description>
+  <skos:ConceptScheme rdf:about="http://belair.vito.be/v1/BELAIR-DataTypes">
+    <dc:title>BELAIR DataTypes</dc:title>
+    <dc:description>BELAIR DataTypes</dc:description>
     <dc:creator>
       <foaf:Organization>
         <foaf:name>VITO</foaf:name>
@@ -14,22 +14,22 @@
     <dcterms:modified>2014-05-06</dcterms:modified>
   </skos:ConceptScheme>
   <!-- Concept list -->
-  <skos:Concept rdf:about="http://belair.vito.be/v1/BEL-AIR-DataTypes/AIRBORNE">
+  <skos:Concept rdf:about="http://belair.vito.be/v1/BELAIR-DataTypes/AIRBORNE">
     <skos:prefLabel xml:lang="en">Airborne</skos:prefLabel>
   </skos:Concept>
-  <skos:Concept rdf:about="http://belair.vito.be/v1/BEL-AIR-DataTypes/ATMOSPHERIC">
+  <skos:Concept rdf:about="http://belair.vito.be/v1/BELAIR-DataTypes/ATMOSPHERIC">
     <skos:prefLabel xml:lang="en">Atmospheric</skos:prefLabel>
   </skos:Concept>
-  <skos:Concept rdf:about="http://belair.vito.be/v1/BEL-AIR-DataTypes/GROUNDBIOPHYSICAL">
+  <skos:Concept rdf:about="http://belair.vito.be/v1/BELAIR-DataTypes/GROUNDBIOPHYSICAL">
     <skos:prefLabel xml:lang="en">Ground biophysical</skos:prefLabel>
   </skos:Concept>
-  <skos:Concept rdf:about="http://belair.vito.be/v1/BEL-AIR-DataTypes/GROUNDDATA">
+  <skos:Concept rdf:about="http://belair.vito.be/v1/BELAIR-DataTypes/GROUNDDATA">
     <skos:prefLabel xml:lang="en">Ground data</skos:prefLabel>
   </skos:Concept>
-  <skos:Concept rdf:about="http://belair.vito.be/v1/BEL-AIR-DataTypes/LONZEEFLUXTOWER">
+  <skos:Concept rdf:about="http://belair.vito.be/v1/BELAIR-DataTypes/LONZEEFLUXTOWER">
     <skos:prefLabel xml:lang="en">Lonzee flux tower</skos:prefLabel>
   </skos:Concept>
-  <skos:Concept rdf:about="http://belair.vito.be/v1/BEL-AIR-DataTypes/SPACEBORNE">
+  <skos:Concept rdf:about="http://belair.vito.be/v1/BELAIR-DataTypes/SPACEBORNE">
     <skos:prefLabel xml:lang="en">Spaceborne</skos:prefLabel>
   </skos:Concept>
   </rdf:RDF>

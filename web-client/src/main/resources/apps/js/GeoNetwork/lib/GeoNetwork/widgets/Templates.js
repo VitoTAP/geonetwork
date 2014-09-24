@@ -449,9 +449,9 @@ GeoNetwork.Templates = Ext.extend(Ext.XTemplate, {
                     return selectedLinks;
                 },
                 getHref: function(values){
-                	var value = values.href + '" target="_blank"'; 
+                	var value = values.href + '" target="_blank"  onclick="catalogue.sendGAEvent(values.href)'; 
                 	if (values.isPrivate=="true" && !catalogue.isIdentified()) {
-                		value = '#" target onclick="Ext.Msg.alert(\'Not registered\', \'You must be logged in to download this product\')"';
+                		value = '#" target onclick="Ext.Msg.alert(\'Not registered\', \'' + OpenLayers.i18n('notRegisteredForDownload') + '\')';
                 	}
                 	return value;
                 }

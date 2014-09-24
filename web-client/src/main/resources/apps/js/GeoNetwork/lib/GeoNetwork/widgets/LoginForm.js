@@ -215,7 +215,6 @@ GeoNetwork.LoginForm = Ext.extend(Ext.FormPanel, {
             if (this.nodeType == "sigma") {
         		this.toggledFields.push(registerBt);
         		this.toggledFields.push(forgottenBt);
-        		this.toggledFields.push(contactUsBt);
             }
     		loginItems = [this.username,this.password];
     	} else {

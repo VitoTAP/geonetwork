@@ -4,12 +4,12 @@
 		<gmd:linkage>
 			<gmd:URL/>
 		</gmd:linkage>
-		<gmd:applicationProfile>
-			<gco:CharacterString/>
-		</gmd:applicationProfile>
 		<gmd:protocol>
 			<gco:CharacterString/>
 		</gmd:protocol>
+		<gmd:applicationProfile>
+			<gco:CharacterString/>
+		</gmd:applicationProfile>
 		<gmd:name>
 			<gmx:MimeFileType type=""/>
 		</gmd:name>

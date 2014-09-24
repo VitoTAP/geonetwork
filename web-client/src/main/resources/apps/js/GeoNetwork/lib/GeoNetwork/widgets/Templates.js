@@ -260,10 +260,10 @@ GeoNetwork.Templates = Ext.extend(Ext.XTemplate, {
             '</tpl>',
             '<table>',
             '<tpl for="this.getApplicationProfileLinks(values.links)">',
-            	'<tr><td style="width:30px"><a href="{href}" target="_blank" title="File type {applicationProfile}"><img src="{catalogue.URL}/apps/images/default/{applicationProfile}.png"/></a></td><td><a href="{href}" target="_blank">{[this.getTitle(values)]}</a></td></tr>',
+            	'<tr><td style="width:30px"><a href="{[this.getHref(values)]}" title="File type {applicationProfile}"><img src="{catalogue.URL}/apps/images/default/{applicationProfile}.png"/></a></td><td><a href="{[this.getHref(values)]}">{[this.getTitle(values)]}</a></td></tr>',
             '</tpl>',
             '<tpl for="this.getOtherLinks(values.links)">',
-            	'<tr><td style="width:30px"><a href="{href}" target="_blank" class="md-mn md-mn-www" title="Web link">&nbsp;</a></td><td><a href="{href}" target="_blank">{[this.getTitle(values)]}</a></td></tr>',
+            	'<tr><td style="width:30px"><a href="{[this.getHref(values)]}" class="md-mn md-mn-www" title="Web link">&nbsp;</a></td><td><a href="{[this.getHref(values)]}">{[this.getTitle(values)]}</a></td></tr>',
         	'</tpl>',
             '<tpl for="links">',
 	            '<tpl if="values.type == \'application/vnd.ogc.wms_xml\' || values.type == \'OGC:WMS\'">',
@@ -277,7 +277,7 @@ GeoNetwork.Templates = Ext.extend(Ext.XTemplate, {
             '</tpl>',
             '<tpl for="links">',
 	            '<tpl if="values.type == \'text/html\'">',
-	            	'<tr><td style="width:30px"><a href="{href}" target="_blank" class="md-mn md-mn-www" title="Web link">&nbsp;</a></td><td><a href="{href}" target="_blank">{[this.getTitle(values)]}</a></td></tr>',
+	            	'<tr><td style="width:30px"><a href="{[this.getHref(values)]}" class="md-mn md-mn-www" title="Web link">&nbsp;</a></td><td><a href="{[this.getHref(values)]}" target="_blank">{[this.getTitle(values)]}</a></td></tr>',
 	            '</tpl>',
             '</tpl>',
             '<tr><td><a href="?uuid={uuid}&hl={catalogue.lang}" target="_blank" class="md-mn md-mn-bookmark" title="{[OpenLayers.i18n(\'view\')]}">&nbsp;</a></td><td><a href="?uuid={uuid}&hl={catalogue.lang}" target="_blank">Permalink to this metadata record</a></td></tr>',
@@ -418,7 +418,7 @@ GeoNetwork.Templates = Ext.extend(Ext.XTemplate, {
 	                        case 'application/vnd.ogc.wms_xml':
 	                        case 'OGC:WMS':
 	                        case 'application/vnd.google-earth.kml+xml':
-	                        case 'text/html':
+//	                        case 'text/html':
 	                        	break;
 	                    	default:
 	                    		if (supportedProfiles.contains(links[i].applicationProfile)) {
@@ -447,6 +447,13 @@ GeoNetwork.Templates = Ext.extend(Ext.XTemplate, {
                 		}
                     }
                     return selectedLinks;
+                },
+                getHref: function(values){
+                	var value = values.href + '" target="_blank"  onclick="catalogue.sendGAEvent(values.href)'; 
+                	if (values.isPrivate=="true" && !catalogue.isIdentified()) {
+                		value = '#" target onclick="Ext.Msg.alert(\'Not registered\', \'' + OpenLayers.i18n('notRegisteredForDownload') + '\')';
+                	}
+                	return value;
                 }
             }
         );

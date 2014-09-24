@@ -486,7 +486,7 @@ GeoNetwork.map.ExtentMap = function(){
                 pNewSearch : true,
                 pTypeSearch : 1,
                 pKeyword: '*',
-                pThesauri : GeoNetwork.Settings.nodeType.toLowerCase() == "bel-air" ? 'external.place.BEL-AIR-Sites' : 'external.place.SIGMA-Regions',
+                pThesauri : GeoNetwork.Settings.nodeType.toLowerCase() == "belair" ? 'external.place.BELAIR-Sites' : 'external.place.SIGMA-Regions',
                 pMode : 'searchBox'/*,
                 maxResults : '35'*/
             },

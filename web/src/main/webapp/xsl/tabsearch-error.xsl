@@ -16,7 +16,7 @@
 				<table width="100%" height="100%">
 					<tr class="banner">
 						<td>
-							<img src="{/root/gui/url}/apps/tabsearch/images/logobel-air.png" align="top" />
+							<img src="{/root/gui/url}/apps/tabsearch/images/logosigma.png" align="top" />
 						</td>
 					</tr>
         			<tr height="100%">

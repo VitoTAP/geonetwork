@@ -1,8 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <strings>
+	<!-- BELAIR metadata rules translation / START -->
+	<BELAIR-identification>Minimum one keyword must be selected from the thesaurus ‘BELAIR-Years’ dated on 2014-05-06</BELAIR-identification>
+	<BELAIRCampaignsThesaurusNotFound>BELAIR Campaigns thesaurus not found.</BELAIRCampaignsThesaurusNotFound>
+	<NoBELAIRCampaignSelected>No English keyword found from the BELAIR Campaigns thesaurus dated on 2014-05-06.</NoBELAIRCampaignSelected>
+	<BELAIRKeywordFound-1>An English keyword: </BELAIRKeywordFound-1>
+	<BELAIRKeywordFound-2>is found from the</BELAIRKeywordFound-2>
+	<BELAIRKeywordFound-3>thesaurus dated on 2014-05-06.</BELAIRKeywordFound-3>
+	
+	<BELAIR-identification-2>Minimum one keyword must be selected from the thesaurus ‘BELAIR-DataTypes’ dated on 2014-05-06</BELAIR-identification-2>
+	<BELAIRDatatypesThesaurusNotFound>BELAIR DataTypes thesaurus not found.</BELAIRDatatypesThesaurusNotFound>
+	<NoBELAIRDatatypeSelected>No English keyword found from the BELAIR Datatypes thesaurus dated on 2014-05-06.</NoBELAIRDatatypeSelected>
+	
+	<BELAIR-identification-3>Minimum one keyword must be selected from the thesaurus ‘BELAIR-Sites’ dated on 2014-05-06</BELAIR-identification-3>
+	<BELAIRSitesThesaurusNotFound>BELAIR Sites thesaurus not found.</BELAIRSitesThesaurusNotFound>
+	<NoBELAIRSiteSelected>No English keyword found from the BELAIR Sites thesaurus dated on 2014-05-06.</NoBELAIRSiteSelected>
+
     <!-- GENERAL metadata rules translation / START -->
-    
-    <!-- List of pattern title -->
     <identification>General SC-1: gmd:MD_Metadata/gmd:fileIdentifier (Iso element nr. 2) has to be present and not empty.</identification>
     <fileIdentifierMissing>gmd:fileIdentifier is missing or empty</fileIdentifierMissing>
     <fileIdentifierPresent>gmd:fileIdentifier is present: </fileIdentifierPresent>

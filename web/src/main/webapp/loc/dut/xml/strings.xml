@@ -1441,6 +1441,7 @@
     <crsType value="VerticalCRS">Vertikaal CRS</crsType>
     <crsType value="ProjectedCRS">Geprojecteerd CRS</crsType>
     <crsType value="GeographicCRS">Geografisch CRS</crsType>
+	<applicationProfileChoice show="y" value=""></applicationProfileChoice>
 	<applicationProfileChoice show="y" value="datafile">Databestand</applicationProfileChoice>
 	<applicationProfileChoice show="y" value="report">Rapport</applicationProfileChoice>
 	<applicationProfileChoice show="y" value="validator">Validator</applicationProfileChoice>

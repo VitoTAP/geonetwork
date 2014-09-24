@@ -3753,7 +3753,19 @@
                 <xsl:apply-templates mode="simpleElement" select=".">
                     <xsl:with-param name="schema"  select="$schema"/>
                     <xsl:with-param name="text">
-                        <a href="{$linkage}" target="_new" onclick="javascript:catalogue.sendGAEvent('{$linkage}')">
+                        <a href="{$linkage}" target="_blank">
+                        	<xsl:attribute name="onclick">
+								<xsl:variable name="isPrivate" select="contains($linkage,'access=private') or contains($linkage,'owncloud')"/>
+                       			if ('<xsl:value-of select="$isPrivate"/>'=='true' &amp;&amp; !catalogue.isIdentified()) {
+                       				Ext.Msg.alert('Not registered', OpenLayers.i18n('notRegisteredForDownload'));
+                       				this.target = '#';
+                       				return false;
+                       			} else {
+                       				catalogue.sendGAEvent('{$linkage}');
+                       				this.target = '_blank';
+                       				return true;
+                       			}
+                        	</xsl:attribute>
                             <xsl:choose>
                                 <xsl:when test="string($name)!=''">
                                     <xsl:value-of select="$name"/>
@@ -5634,7 +5646,7 @@ to build the XML fragment in the editor. -->
       -->
     <xsl:variable name="widgetMode">
     	<xsl:choose>
-    		<xsl:when test="contains($thesaurusId,'BEL-AIR')"><xsl:value-of select="'combo'"/></xsl:when>
+    		<xsl:when test="contains($thesaurusId,'BELAIR')"><xsl:value-of select="'combo'"/></xsl:when>
     		<xsl:when test="contains($thesaurusId,'SIGMA')"><xsl:value-of select="'combo'"/></xsl:when>
     		<xsl:otherwise><xsl:value-of select="''"/></xsl:otherwise>
     	</xsl:choose>
@@ -5660,9 +5672,9 @@ to build the XML fragment in the editor. -->
   		<xsl:when test="contains(normalize-space(gmd:thesaurusName/gmd:CI_Citation/gmd:title/gco:CharacterString),'SIGMA DataTypes')">geonetwork.thesaurus.external.theme.SIGMA-DataTypes</xsl:when>
   		<xsl:when test="contains(normalize-space(gmd:thesaurusName/gmd:CI_Citation/gmd:title/gco:CharacterString),'SIGMA Regions')">geonetwork.thesaurus.external.place.SIGMA-Regions</xsl:when>
   		<xsl:when test="contains(normalize-space(gmd:thesaurusName/gmd:CI_Citation/gmd:title/gco:CharacterString),'SIGMA Years')">geonetwork.thesaurus.external.temporal.SIGMA-Years</xsl:when>
-  		<xsl:when test="contains(normalize-space(gmd:thesaurusName/gmd:CI_Citation/gmd:title/gco:CharacterString),'BEL-AIR Sites')">geonetwork.thesaurus.external.place.BEL-AIR-Sites</xsl:when>
-  		<xsl:when test="contains(normalize-space(gmd:thesaurusName/gmd:CI_Citation/gmd:title/gco:CharacterString),'BEL-AIR Campaigns')">geonetwork.thesaurus.external.temporal.BEL-AIR-Campaigns</xsl:when>
-  		<xsl:when test="contains(normalize-space(gmd:thesaurusName/gmd:CI_Citation/gmd:title/gco:CharacterString),'BEL-AIR DataTypes')">geonetwork.thesaurus.external.theme.BEL-AIR-DataTypes</xsl:when>
+  		<xsl:when test="contains(normalize-space(gmd:thesaurusName/gmd:CI_Citation/gmd:title/gco:CharacterString),'BELAIR Sites')">geonetwork.thesaurus.external.place.BELAIR-Sites</xsl:when>
+  		<xsl:when test="contains(normalize-space(gmd:thesaurusName/gmd:CI_Citation/gmd:title/gco:CharacterString),'BELAIR Campaigns')">geonetwork.thesaurus.external.temporal.BELAIR-Campaigns</xsl:when>
+  		<xsl:when test="contains(normalize-space(gmd:thesaurusName/gmd:CI_Citation/gmd:title/gco:CharacterString),'BELAIR DataTypes')">geonetwork.thesaurus.external.theme.BELAIR-DataTypes</xsl:when>
   		<xsl:otherwise><xsl:value-of select="normalize-space(gmd:thesaurusName/gmd:CI_Citation/gmd:identifier/gmd:MD_Identifier/gmd:code/*[1])"/></xsl:otherwise>
   	</xsl:choose>
   </xsl:template>

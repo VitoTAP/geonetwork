@@ -527,10 +527,10 @@ GeoNetwork.lang.en = {
     'facetsPanelTitle': 'Filter', 
     'removeFilter': 'Remove filter', 
     'datatypekeywords': "DataType",
-    'sitekeywords': "BEL-AIR Sites",
+    'sitekeywords': "Site",
     'regionkeywords': "Region",
     'yearkeywords': "Year",
-    'campaignkeywords': "BEL-AIR Campaigns",
+    'campaignkeywords': "Campaign",
     'facetMore': '+ Show more',
     'facetLess': '- Show less',
     'language': 'Language',
@@ -561,8 +561,8 @@ GeoNetwork.lang.en = {
     'error-login': 'You have to login first to access this page.',
     'statusChangeFailed': 'The change of state was not succesful since the metadatarecord does not validate. Please check the validation issues in the metadata editor.',
     'userSessionEnded': 'De sessie is vervallen en u moet opnieuw inloggen.',
-    'noReordsFound': 'Er werden geen metadatasets gevonden.'
-
+    'noReordsFound': 'Er werden geen metadatasets gevonden.',
+    'notRegisteredForDownload': 'You must be logged in to download this product'
 };
 
 OpenLayers.Util.extend(OpenLayers.Lang.en, GeoNetwork.lang.en);

@@ -556,6 +556,9 @@ GeoNetwork.app = function(){
             autoHeight: true,
             autoWidth: true,
             tpl: GeoNetwork.Templates.FULL
+            /*bodyCfg: {
+            	cls: 'x-panel-header'
+            }*/
         });
 
         catalogue.resultsView = metadataResultsView;
@@ -1078,7 +1081,7 @@ GeoNetwork.app = function(){
 							    }
 	                    	},
 	                    	{
-	                    		title: '<img src="images/geowiki.png" alt="Sigma Geo-Wiki icon" width="16" height="16" />' + OpenLayers.i18n('SIGMA Geo-Wiki'),
+	                    		title: '<img src="images/geowiki.png" alt="Sigma Geo-Wiki icon" width="16" height="16" /><span style="color: #50A302;">' + OpenLayers.i18n('SIGMA Geo-Wiki') + '</span>',
                                 listeners: {
                                 	activate : function (p) {
                                 		window.open('http://sigma.geo-wiki.org');
@@ -1087,7 +1090,7 @@ GeoNetwork.app = function(){
                        			}
 	                    	},
 	                    	{
-	                    		title: '<img src="images/vega.png" alt="VEGA-GEOGLAM icon" width="16" height="16" />' + OpenLayers.i18n('VEGA-GEOGLAM'),
+	                    		title: '<img src="images/vega.png" alt="VEGA-GEOGLAM icon" width="16" height="16" /><span style="color: #50A302;">' + OpenLayers.i18n('VEGA-GEOGLAM') + '</span>',
                                 listeners: {
                                 	activate : function (p) {
                                 		window.open('http://vega.geoglam.ru');
@@ -1096,7 +1099,7 @@ GeoNetwork.app = function(){
                        			}
 	                    	},
 	                    	{
-	                    		title: '<img src="images/padua.png" alt="Time-Series Viewer icon" width="16" height="16" />' + OpenLayers.i18n('Time-Series Viewer'),
+	                    		title: '<img src="images/padua.png" alt="Time-Series Viewer icon" width="16" height="16" /><span style="color: #50A302;">' + OpenLayers.i18n('Time-Series Viewer') + '</span>',
                                 listeners: {
                                 	activate : function (p) {
                                 		window.open('http://tsviewer.vito-eodata.be');
@@ -1627,7 +1630,7 @@ Ext.onReady(function () {
             aResTab.actionMenu.viewAction.hide();
 
             tabPanel.add({
-                title: RowLabel,
+                title: '<span style="color: #EC1111;">' + RowLabel + '</span>',
             	layout:'fit',
                 tabTip:RowTitle,
                 iconCls: 'tabs',

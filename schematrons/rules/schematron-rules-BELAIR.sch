@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>					
-<!--SIGMA Metadata Schematron regels -->					
+<!--BELAIR Metadata Schematron regels -->					
 <!-- 2014-08-08 Versie 0.9 -->					
 <sch:schema xmlns:sch="http://purl.oclc.org/dsdl/schematron" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" queryBinding="xslt2">					
-	<sch:title xmlns="http://www.w3.org/2001/XMLSchema">Technisch SIGMA voorschrift voor metadata</sch:title>				
+	<sch:title xmlns="http://www.w3.org/2001/XMLSchema">Technisch BELAIR voorschrift voor metadata</sch:title>				
 	<sch:ns prefix="gml" uri="http://www.opengis.net/gml"/>				
 	<sch:ns prefix="gmd" uri="http://www.isotc211.org/2005/gmd"/>				
 	<sch:ns prefix="srv" uri="http://www.isotc211.org/2005/srv"/>				
@@ -10,67 +10,67 @@
 	<sch:ns prefix="geonet" uri="http://www.fao.org/geonetwork"/>				
 	<sch:ns prefix="skos" uri="http://www.w3.org/2004/02/skos/core#"/>				
 	<sch:ns prefix="xlink" uri="http://www.w3.org/1999/xlink"/>				
-	<!-- SIGMA SC-1 -->				
+	<!-- BELAIR SC-1 -->				
 	<sch:pattern>				
-		<sch:title>$loc/strings/SIGMA-identification</sch:title>			
+		<sch:title>$loc/strings/BELAIR-identification</sch:title>			
 		<sch:rule context="//gmd:MD_DataIdentification">			
-			<sch:let name="sigma-thesaurus" value="document(concat('file:///', $thesaurusDir, '/external/thesauri/temporal/SIGMA-Years.rdf'))"/>		
-			<sch:let name="sigma-years" value="$sigma-thesaurus//skos:Concept"/>		
-			<sch:assert test="count($sigma-years) > 0">		
-				$loc/strings/SIGMAYearsThesaurusNotFound	
+			<sch:let name="belair-thesaurus" value="document(concat('file:///', $thesaurusDir, '/external/thesauri/temporal/BELAIR-Campaigns.rdf'))"/>		
+			<sch:let name="belair-campaigns" value="$belair-thesaurus//skos:Concept"/>		
+			<sch:assert test="count($belair-campaigns) > 0">		
+				$loc/strings/BELAIRCampaignsThesaurusNotFound	
 			</sch:assert>		
 			<sch:let name="keyword" value="gmd:descriptiveKeywords/*/gmd:keyword/gco:CharacterString		
-					[../../gmd:thesaurusName/*/gmd:title/*/text()='SIGMA Years' and
+					[../../gmd:thesaurusName/*/gmd:title/*/text()='BELAIR Campaigns' and
 					../../gmd:thesaurusName/*/gmd:date/*/gmd:date/gco:Date/text()='2014-05-06' and
 					../../gmd:thesaurusName/*/gmd:date/*/gmd:dateType/gmd:CI_DateTypeCode/@codeListValue='publication']"/>
-			<sch:let name="sigma-year-selected" value="count($sigma-thesaurus//skos:Concept[skos:prefLabel[@xml:lang='en'] = $keyword])"/>		
-			<sch:assert test="$sigma-year-selected >0">		
-				$loc/strings/NoSIGMAYearSelected	
+			<sch:let name="belair-campaign-selected" value="count($belair-thesaurus//skos:Concept[skos:prefLabel[@xml:lang='en'] = $keyword])"/>		
+			<sch:assert test="$belair-campaign-selected >0">		
+				$loc/strings/NoBELAIRCampaignSelected	
 			</sch:assert>		
-			<sch:report test="$sigma-year-selected > 0">		
-				<sch:value-of select="document(concat($loc/strings/SIGMAKeywordFound-1, ' ', $keyword, ' ', $loc/strings/SIGMAKeywordFound-2, ' SIGMA Years ', $loc/strings/SIGMAKeywordFound-3))"/>	
+			<sch:report test="$belair-campaign-selected > 0">		
+				<sch:value-of select="document(concat($loc/strings/BELAIRKeywordFound-1, ' ', $keyword, ' ', $loc/strings/BELAIRKeywordFound-2, ' BELAIR Campaigns ', $loc/strings/BELAIRKeywordFound-3))"/>	
 			</sch:report>		
 		</sch:rule>			
 	</sch:pattern>				
 	<sch:pattern>				
-		<sch:title>$loc/strings/SIGMA-identification-2</sch:title>			
+		<sch:title>$loc/strings/BELAIR-identification-2</sch:title>			
 		<sch:rule context="//gmd:MD_DataIdentification">			
-			<sch:let name="sigma-thesaurus" value="document(concat('file:///', $thesaurusDir, '/external/thesauri/theme/SIGMA-DataTypes.rdf'))"/>		
-			<sch:let name="sigma-datatypes" value="$sigma-thesaurus//skos:Concept"/>		
-			<sch:assert test="count($sigma-datatypes) > 0">		
-				$loc/strings/SIGMADatatypesThesaurusNotFound	
+			<sch:let name="belair-thesaurus" value="document(concat('file:///', $thesaurusDir, '/external/thesauri/theme/BELAIR-DataTypes.rdf'))"/>		
+			<sch:let name="belair-datatypes" value="$belair-thesaurus//skos:Concept"/>		
+			<sch:assert test="count($belair-datatypes) > 0">		
+				$loc/strings/BELAIRDatatypesThesaurusNotFound	
 			</sch:assert>		
 			<sch:let name="keyword" value="gmd:descriptiveKeywords/*/gmd:keyword/gco:CharacterString		
-					[../../gmd:thesaurusName/*/gmd:title/*/text()='SIGMA DataTypes' and
+					[../../gmd:thesaurusName/*/gmd:title/*/text()='BELAIR DataTypes' and
 					../../gmd:thesaurusName/*/gmd:date/*/gmd:date/gco:Date/text()='2014-05-06' and
 					../../gmd:thesaurusName/*/gmd:date/*/gmd:dateType/gmd:CI_DateTypeCode/@codeListValue='publication']"/>
-			<sch:let name="sigma-datatype-selected" value="count($sigma-thesaurus//skos:Concept[skos:prefLabel[@xml:lang='en'] = $keyword])"/>		
-			<sch:assert test="$sigma-datatype-selected >0">		
-				$loc/strings/NoSIGMADatatypeKeywordFound	
+			<sch:let name="belair-datatype-selected" value="count($belair-thesaurus//skos:Concept[skos:prefLabel[@xml:lang='en'] = $keyword])"/>		
+			<sch:assert test="$belair-datatype-selected >0">		
+				$loc/strings/NoBELAIRDatatypeKeywordFound	
 			</sch:assert>		
-			<sch:report test="$sigma-datatype-selected > 0">		
-				<sch:value-of select="document(concat($loc/strings/SIGMAKeywordFound-1, ' ', $keyword, ' ', $loc/strings/SIGMAKeywordFound-2, ' SIGMA Datatypes ', $loc/strings/SIGMAKeywordFound-3))"/>	
+			<sch:report test="$belair-datatype-selected > 0">		
+				<sch:value-of select="document(concat($loc/strings/BELAIRKeywordFound-1, ' ', $keyword, ' ', $loc/strings/BELAIRKeywordFound-2, ' BELAIR Datatypes ', $loc/strings/BELAIRKeywordFound-3))"/>	
 			</sch:report>		
 		</sch:rule>			
 	</sch:pattern>				
 	<sch:pattern>				
-		<sch:title>$loc/strings/SIGMA-identification-3</sch:title>			
+		<sch:title>$loc/strings/BELAIR-identification-3</sch:title>			
 		<sch:rule context="//gmd:MD_DataIdentification">			
-			<sch:let name="sigma-thesaurus" value="document(concat('file:///', $thesaurusDir, '/external/thesauri/place/SIGMA-Regions.rdf'))"/>		
-			<sch:let name="sigma-regions" value="$sigma-thesaurus//skos:Concept"/>		
-			<sch:assert test="count($sigma-region) > 0">		
-				$loc/strings/SIGMARegionsThesaurusNotFound
+			<sch:let name="belair-thesaurus" value="document(concat('file:///', $thesaurusDir, '/external/thesauri/place/BELAIR-Sites.rdf'))"/>		
+			<sch:let name="belair-sites" value="$belair-thesaurus//skos:Concept"/>		
+			<sch:assert test="count($belair-sites) > 0">		
+				$loc/strings/BELAIRSitesThesaurusNotFound	
 			</sch:assert>		
 			<sch:let name="keyword" value="gmd:descriptiveKeywords/*/gmd:keyword/gco:CharacterString		
-					[../../gmd:thesaurusName/*/gmd:title/*/text()='SIGMA Regions' and
+					[../../gmd:thesaurusName/*/gmd:title/*/text()='BELAIR Sites' and
 					../../gmd:thesaurusName/*/gmd:date/*/gmd:date/gco:Date/text()='2014-05-06' and
 					../../gmd:thesaurusName/*/gmd:date/*/gmd:dateType/gmd:CI_DateTypeCode/@codeListValue='publication']"/>
-			<sch:let name="sigma-region-selected" value="count($sigma-thesaurus//skos:Concept[skos:prefLabel[@xml:lang='en'] = $keyword])"/>		
-			<sch:assert test="$sigma-region-selected >0">		
-				$loc/strings/NoSIGMARegionsKeywordFound	
+			<sch:let name="belair-site-selected" value="count($belair-thesaurus//skos:Concept[skos:prefLabel[@xml:lang='en'] = $keyword])"/>		
+			<sch:assert test="$belair-site-selected >0">		
+				$loc/strings/NoBELAIRSitesKeywordFound	
 			</sch:assert>		
-			<sch:report test="$sigma-region-selected > 0">		
-				<sch:value-of select="document(concat($loc/strings/SIGMAKeywordFound-1, ' ', $keyword, ' ', $loc/strings/SIGMAKeywordFound-2, ' SIGMA Regions ', $loc/strings/SIGMAKeywordFound-3))"/>	
+			<sch:report test="$belair-site-selected > 0">		
+				<sch:value-of select="document(concat($loc/strings/BELAIRKeywordFound-1, ' ', $keyword, ' ', $loc/strings/BELAIRKeywordFound-2, ' BELAIR Sites ', $loc/strings/BELAIRKeywordFound-3))"/>	
 			</sch:report>		
 		</sch:rule>			
 	</sch:pattern>				
@@ -115,7 +115,7 @@
 			<sch:let name="organisationName" value=". and not(normalize-space(.)= '')"/>		
 			<sch:let name="organisationNameValue" value="./*/text()"/>		
 			<sch:assert test="$organisationName">$loc/strings/organisationNameMissing</sch:assert>		
-			<sch:report test="$organisationName"><sch:value-of select="document(concat($loc/strings/organisationNamePresent, ' ', $organisationNameValue))"/></sch:report>		
+			<sch:report test="$organisationName">$loc/strings/organisationNamePresent <sch:value-of select="$organisationNameValue"/></sch:report>		
 		</sch:rule>			
 	</sch:pattern>				
 	<!-- General SC5 -->				

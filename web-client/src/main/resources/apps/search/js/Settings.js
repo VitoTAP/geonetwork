@@ -74,9 +74,10 @@ GeoNetwork.WMSList = [['Geoserver', 'http://localhost/geoserver/wms?']];
 GeoNetwork.defaultViewMode = 'view-simple';
 
 Ext.BLANK_IMAGE_URL = '../js/ext/resources/images/default/s.gif';
+GeoNetwork.Settings.ratingEnabled = false;
 GeoNetwork.Settings.isProduction = false;
-GeoNetwork.Settings.nodeType = "BEL-AIR";
+GeoNetwork.Settings.nodeType = "BELAIR";
 GeoNetwork.Settings.useSTS = false;
-GeoNetwork.Settings.ga = false;
+GeoNetwork.Settings.ga = true;
 GeoNetwork.Settings.logoutUrlSTS = "https://auth." + (GeoNetwork.Settings.isProduction ? "" : "beta.") + "agiv.be/sts/";
-GeoNetwork.Settings.nodeFooterInfo = "Build: 08/05/2014 - " + GeoNetwork.Settings.nodeType + "-Metadatacenter" + (GeoNetwork.Settings.isProduction ? "" : " (beta)");
+GeoNetwork.Settings.nodeFooterInfo = "Build: 24/09/2014 - &copy; 2013-2014 - VITO NV. all rights reserved. <a target='_blank' href='http://www.vito-eodata.be/PDF/image/TermsOfUse.pdf'>Terms of use</a>";

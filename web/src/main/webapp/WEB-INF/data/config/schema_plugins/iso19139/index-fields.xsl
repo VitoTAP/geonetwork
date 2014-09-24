@@ -374,8 +374,8 @@
 			<!-- index online protocol -->
 			
 			<xsl:for-each select="gmd:transferOptions/gmd:MD_DigitalTransferOptions/gmd:onLine/gmd:CI_OnlineResource[gmd:linkage/gmd:URL!='']">
-				<xsl:variable name="download_check"><xsl:text>&amp;fname=&amp;access</xsl:text></xsl:variable>
 				<xsl:variable name="linkage" select="gmd:linkage/gmd:URL" /> 
+				<xsl:variable name="isPrivate" select="contains($linkage,'access=private') or contains($linkage,'owncloud')"/>
 				<xsl:variable name="applicationProfile" select="normalize-space(gmd:applicationProfile/gco:CharacterString)"/>
 				<xsl:variable name="title" select="normalize-space(gmd:name/gco:CharacterString|gmd:name/gmx:MimeFileType)"/>
 				<xsl:variable name="desc" select="normalize-space(gmd:description/gco:CharacterString)"/>
@@ -383,7 +383,7 @@
 				<xsl:variable name="mimetype" select="if (gmd:name/gmx:MimeFileType/@type!='') then gmd:name/gmx:MimeFileType/@type else geonet:protocolMimeType($linkage, $protocol, gmd:name/gmx:MimeFileType/@type)"/>
 				
 				<!-- ignore empty downloads -->
-				<xsl:if test="string($linkage)!='' and not(contains($linkage,$download_check))">  
+				<xsl:if test="string($linkage)!=''">  
 					<Field name="protocol" string="{string($protocol)}" store="false" index="true"/>
 				</xsl:if>  
 
@@ -398,7 +398,7 @@
 				<xsl:if test="contains($protocol, 'OGC:WMS') or contains($protocol, 'OGC:WMTS')">
 			   	 	<Field name="dynamic" string="true" store="false" index="true"/>
 			  	</xsl:if>
-				<Field name="link" string="{concat($title, '|', $desc, '|', $linkage, '|', $protocol, '|', $mimetype, '|', $applicationProfile)}" store="true" index="false"/>
+				<Field name="link" string="{concat($title, '|', $desc, '|', $linkage, '|', $protocol, '|', $mimetype, '|', $applicationProfile, '|', $isPrivate)}" store="true" index="false"/>
 				
 				<!-- Add KML link if WMS -->
 <!--				

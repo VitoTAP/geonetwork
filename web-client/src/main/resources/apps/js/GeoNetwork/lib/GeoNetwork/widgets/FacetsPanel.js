@@ -226,7 +226,7 @@ GeoNetwork.FacetsPanel = Ext.extend(Ext.Panel, {
                                 }
                             });
                             if (facetList !== "") {
-                                zappette += "<li style='font-size: medium; font-weight: bolder; margin-top: 15px;'>" + OpenLayers.i18n(facet.nodeName) + "</li><ul>";
+                                zappette += "<li style='font-size: medium; font-weight: bolder; margin-top: 25px;'>" + OpenLayers.i18n(facet.nodeName) + "</li><ul>";
                                 zappette += facetList;
                                 if (facet.getAttribute('moreAction') === 'true') {
                                     zappette += lessBt;

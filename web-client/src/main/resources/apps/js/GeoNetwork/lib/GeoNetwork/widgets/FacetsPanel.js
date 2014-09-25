@@ -226,7 +226,7 @@ GeoNetwork.FacetsPanel = Ext.extend(Ext.Panel, {
                                 }
                             });
                             if (facetList !== "") {
-                                zappette += "<li style='font-size: medium; font-weight: bolder;'>" + OpenLayers.i18n(facet.nodeName) + "</li><ul>";
+                                zappette += "<li style='font-size: medium; font-weight: bolder; margin-top: 15px;'>" + OpenLayers.i18n(facet.nodeName) + "</li><ul>";
                                 zappette += facetList;
                                 if (facet.getAttribute('moreAction') === 'true') {
                                     zappette += lessBt;
@@ -313,7 +313,7 @@ GeoNetwork.FacetsPanel = Ext.extend(Ext.Panel, {
             	}
             }
             this.facetsStore.add(r);
-            return "<li class='" + (visible ? '' : 'facet-more') + " current' style='" + (isSiteOrRegionKeyword || isDatatypeKeyword ? 'margin-left: 15px;' : '') + (visible ? '' : 'display:none;') + " margin-bottom: 2px;'><a href='javascript:void(0);' class='facet-link' id='" + recId + "'>" + 
+            return "<li class='" + (visible ? '' : 'facet-more') + " current' style='" + (isSiteOrRegionKeyword || isDatatypeKeyword || true ? 'margin-left: 15px;' : '') + (visible ? '' : 'display:none;') + " margin-bottom: 2px;'><a href='javascript:void(0);' class='facet-link' id='" + recId + "'>" + 
                     (data.label != null ? data.label : data.node) + "<span class='facet-count'>(" + data.count + ")</span></a></li>";
         }
         return '';

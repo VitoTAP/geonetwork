@@ -26,7 +26,19 @@ You can change your password using the following link:
 
 This link is valid for 24 hours only.
 
-<xsl:value-of select="root/site"/>
+Best regards,
+The SIGMA Geoportal team
+
+
+
+<!-- <span style="color: #367DC9;">-->VITO SIGMA Geoportal
+
+VITO - Remote Sensing Unit
+Boeretang 200 - 2400 Mol - Belgium
+T: +32 14 33 68 14 - F: +32 14 32 27 95
+E: sigmageoportal@vgt.vito.be
+ 
+Visit our website: <!-- </span>--><xsl:value-of select="/root/siteURL"/>
 			</content>
     	</request>
     </xsl:template>

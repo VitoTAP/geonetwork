@@ -73,6 +73,7 @@ GeoNetwork.LoginForm = Ext.extend(Ext.FormPanel, {
     userInfo: undefined,
     username: undefined,
     password: undefined,
+    flexCmp: undefined,
     loginFields: [],
     
     /** private: property[toggledFields]
@@ -196,6 +197,7 @@ GeoNetwork.LoginForm = Ext.extend(Ext.FormPanel, {
             cls: 'loginInfo',
             style: labelStyle
         });
+    	this.flexCmp = new Ext.form.Label({columnWidth:0.75,style:labelStyle,visible:false,html: '&nbsp;'});
     	
 		var loginItems = null;
 		if (this.hideLoginLabels) {
@@ -239,11 +241,9 @@ GeoNetwork.LoginForm = Ext.extend(Ext.FormPanel, {
             if (this.nodeType == "sigma") {
         		this.toggledFields.push(registerBt);
         		this.toggledFields.push(forgottenBt);
-        		this.toggledFields.push(contactUsBt);
             }
     		loginItems = [usernameLb,this.username,passwordLb,this.password];
     	}
-		var flexCmp = new Ext.form.Label({columnWidth:0.75,style:labelStyle,html: '&nbsp;'});
     	var actionsBt = new Ext.Button({
     		columnWidth: 0.25,
     		style: {
@@ -263,9 +263,8 @@ GeoNetwork.LoginForm = Ext.extend(Ext.FormPanel, {
         //this.items.push(logoutBt);
         //this.items.push([flexCmp, actionsBt]);
         this.items.push(actionsBt);
-        if(this.catalogue.identifiedUser || this.nodeType == 'belair') {
-        	this.items.push(flexCmp);
-        }
+        this.items.push(this.flexCmp);
+        
         this.items.push(contactUsBt);
 /*
     	this.items = [this.loginFields, this.toggledFieldsOff];
@@ -286,6 +285,9 @@ GeoNetwork.LoginForm = Ext.extend(Ext.FormPanel, {
         Ext.each(this.toggledFields, function(item) {
         	item.setVisible(!status);
         });
+        if(this.flexCmp){
+        	this.flexCmp.setVisible(status);
+        }
         Ext.each(this.toggledFieldsOff, function(item) {
         	if (item.text==OpenLayers.i18n('administration')) {
                	item.setVisible(status && cat.identifiedUser.role=='Administrator');

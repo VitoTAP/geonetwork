@@ -4,6 +4,7 @@ var catalogue;
 var app;
 
 var mapTabAccessCount = 0;
+var previousTab;
 
 GeoNetwork.app = function(){
     // private vars:
@@ -49,8 +50,6 @@ GeoNetwork.app = function(){
     var visualizationModeInitialized = false;
     
     var regionsKeywords;
-    
-    var previousTab;
 
 
     /**
@@ -558,9 +557,6 @@ GeoNetwork.app = function(){
             autoHeight: true,
             autoWidth: true,
             tpl: GeoNetwork.Templates.FULL
-            /*bodyCfg: {
-            	cls: 'x-panel-header'
-            }*/
         });
 
         catalogue.resultsView = metadataResultsView;
@@ -569,7 +565,8 @@ GeoNetwork.app = function(){
             catalogue: catalogue,
             searchBtCmp: Ext.getCmp('searchBt'),
             sortByCmp: Ext.getCmp('E_sortBy'),
-            metadataResultsView: metadataResultsView
+            metadataResultsView: metadataResultsView,
+            cls: 'x-panel-header'
         });
 
         bBar = createBBar();
@@ -1639,9 +1636,17 @@ Ext.onReady(function () {
                 iconCls: 'tabs',
                 id:uuid,
                 closable:true,
-                items: aResTab
+                items: aResTab,
+                listeners: {
+                	activate : function (p) {
+                		for(var tabPanelItemIndex=0;tabPanelItemIndex<tabPanel.items.length;tabPanelItemIndex++){
+                			if(tabPanel.getItem(tabPanelItemIndex).getItemId() === this.getItemId()){
+                				previousTab = tabPanelItemIndex;
+                			}
+                		}
+                    }
+       			}
             }).show();
-            previousTab = tabPanel.items.length - 1;
 
         }
 

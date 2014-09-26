@@ -566,7 +566,7 @@ GeoNetwork.app = function(){
             searchBtCmp: Ext.getCmp('searchBt'),
             sortByCmp: Ext.getCmp('E_sortBy'),
             metadataResultsView: metadataResultsView,
-            cls: 'x-panel-header'
+            cls: 'metadata-panel-header'
         });
 
         bBar = createBBar();

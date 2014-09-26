@@ -34,7 +34,7 @@
     		<to><xsl:value-of select="root/record/email"/></to>
 			<content>Your <xsl:value-of select="root/site"/> password has been changed.
 			
-If you did not change this password contact the <xsl:value-of select="root/site"/> helpdesk
+If you did not change this password, contact the <xsl:value-of select="root/site"/> helpdesk
 
 Best regards,
 The SIGMA Geoportal team
@@ -48,7 +48,7 @@ Boeretang 200 - 2400 Mol - Belgium
 T: +32 14 33 68 14 - F: +32 14 32 27 95
 E: sigmageoportal@vgt.vito.be
  
-Visit our website: <!-- </span>--><xsl:value-of select="/root/siteURL"/>
+Visit our website: <!-- </span><xsl:value-of select="/root/siteURL"/>-->http://sigma.geoportal.vgt.vito.be
 			</content>
     	</request>
     </xsl:template>

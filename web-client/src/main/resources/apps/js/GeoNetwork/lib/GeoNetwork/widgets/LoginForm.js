@@ -142,7 +142,7 @@ GeoNetwork.LoginForm = Ext.extend(Ext.FormPanel, {
                 id: 'btnContactUs',
 	            listeners: {
 	                click: function(){
-	                	window.location = 'mailto:belairgeoporal@vgt.vito.be';
+	                	window.location = 'mailto:sigmageoporal@vgt.vito.be';
 	                },
 	                scope: form
 	            }

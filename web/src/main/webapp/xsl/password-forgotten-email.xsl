@@ -38,7 +38,7 @@ Boeretang 200 - 2400 Mol - Belgium
 T: +32 14 33 68 14 - F: +32 14 32 27 95
 E: sigmageoportal@vgt.vito.be
  
-Visit our website: <!-- </span>--><xsl:value-of select="/root/siteURL"/>
+Visit our website: <!-- </span><xsl:value-of select="/root/siteURL"/>-->http://sigma.geoportal.vgt.vito.be
 			</content>
     	</request>
     </xsl:template>

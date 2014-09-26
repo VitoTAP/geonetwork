@@ -40,7 +40,7 @@ password :	******** <!-- <xsl:value-of select="/root/password"/>-->
 You've told us that you want to be "<xsl:value-of select="/root/request/profile"/>", you will be contacted by our office soon.
 </xsl:if>
 To log in and access your account, please click on the link below.
-<xsl:value-of select="/root/siteURL"/> 
+<!-- <xsl:value-of select="/root/siteURL"/>-->http://sigma.geoportal.vgt.vito.be 
 
 Thank you for your registration. 
 
@@ -57,7 +57,7 @@ Boeretang 200 - 2400 Mol - Belgium
 T: +32 14 33 68 14 - F: +32 14 32 27 95
 E: sigmageoportal@vgt.vito.be
  
-Visit our website: <!-- </span>--><xsl:value-of select="/root/siteURL"/>
+Visit our website: <!-- </span><xsl:value-of select="/root/siteURL"/>-->http://sigma.geoportal.vgt.vito.be
 			</content>
     	</email>
     </xsl:template>

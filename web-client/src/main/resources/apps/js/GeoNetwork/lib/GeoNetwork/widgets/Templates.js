@@ -275,11 +275,11 @@ GeoNetwork.Templates = Ext.extend(Ext.XTemplate, {
 	            	'<tr><td style="width:30px"><a href="#" class="md-mn addLayer" title="Add KML layer to map" onclick="app.switchMode(\'1\', true);app.getIMap().addKMLLayer([[\'{[this.getTitle(values)]}\', \'{href}\', \'{name}\', \'{id}\']]);">&nbsp;</a></td><td><a href="#" onclick="app.switchMode(\'1\', true);app.getIMap().addKMLLayer([[\'{[this.getTitle(values)]}\', \'{href}\', \'{name}\', \'{id}\']]);">{[this.getTitle(values)]}</a></td></tr>',
 	            '</tpl>',
             '</tpl>',
-            '<tpl for="links">',
+            /*'<tpl for="links">',
 	            '<tpl if="values.type == \'text/html\'">',
 	            	'<tr><td style="width:30px"><a href="{[this.getHref(values)]}" class="md-mn md-mn-www" title="Web link">&nbsp;</a></td><td><a href="{[this.getHref(values)]}" target="_blank">{[this.getTitle(values)]}</a></td></tr>',
 	            '</tpl>',
-            '</tpl>',
+            '</tpl>',*/
             '<tr><td><a href="?uuid={uuid}&hl={catalogue.lang}" target="_blank" class="md-mn md-mn-bookmark" title="{[OpenLayers.i18n(\'view\')]}">&nbsp;</a></td><td><a href="?uuid={uuid}&hl={catalogue.lang}" target="_blank">Permalink to this metadata record</a></td></tr>',
             '</table>',
             '</div>',

@@ -556,11 +556,12 @@ function checkForFileUpload(fref, pref, protocolBeforeEdit){
     
     // protocol change is ok so set the protocol value to that selected
     protoIn.value = protoSelect.value;
-
     if (protocolDownload) {
+/*
         if (finput !== null) {
             finput.hide();
         }
+*/
         if (fbuttn !== null) {
             fbuttn.show();
         }
@@ -569,10 +570,12 @@ function checkForFileUpload(fref, pref, protocolBeforeEdit){
         // appear for the name element (if existing).
 //        Ext.getCmp('editorPanel').callAction('metadata.update.new');
     } else {
-        if (finput !== null) {
+/*
+    	if (finput !== null) {
             finput.show();
         }
-        if (fbuttn !== null) {
+*/
+    	if (fbuttn !== null) {
             fbuttn.hide();
         }
     }

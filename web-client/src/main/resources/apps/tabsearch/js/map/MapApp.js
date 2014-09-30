@@ -453,7 +453,7 @@ GeoNetwork.mapApp = function() {
                     var layer = activeNode.attributes.layer;
                     if (layer) {
                     	bLayerActive = true;
-                    	var extent = layer.getDataExtent();
+                    	var extent = layer instanceof OpenLayers.Layer.Vector ? layer.getDataExtent() : layer.extent;
                     	if (extent!=null) {
                     		map.zoomToExtent(extent);
                     	}
@@ -1410,11 +1410,34 @@ var processLayersSuccess = function(response) {
                         if (layerCap) {
                             ol_layer.queryable = layerCap.queryable;
                             ol_layer.name = layerCap.title || ol_layer.name;
+                            ol_layer.bbox = layerCap.bbox;
                             ol_layer.llbbox = layerCap.llbbox;
                             ol_layer.styles = layerCap.styles;
                             ol_layer.dimensions = layerCap.dimensions;
                         }
+                        var extent; 
+                        if (ol_layer.bbox && ol_layer.bbox[map.projection]) {
+                        	extent = OpenLayers.Bounds.fromArray(ol_layer.bbox[map.projection].bbox); 
+                        } else if (ol_layer.llbbox){
+/*
+                        	var mapProj = map.getProjectionObject();
+                            var wgs84 = new OpenLayers.Projection("WGS84");
 
+                            var minMapxy = new OpenLayers.LonLat(ol_layer.llbbox[0], ol_layer.llbbox[1]).transform(wgs84, mapProj);
+                            var maxMapxy = new OpenLayers.LonLat(ol_layer.llbbox[2], ol_layer.llbbox[3]).transform(wgs84, mapProj);
+
+                            extent = new OpenLayers.Bounds();
+                            extent.left = minMapxy.lon;
+                            extent.right = maxMapxy.lon;
+                            extent.top = maxMapxy.lat;
+                            extent.bottom = minMapxy.lat;
+*/
+                            extent = OpenLayers.Bounds.fromArray(ol_layer.llbbox).clone().transform(new OpenLayers.Projection("EPSG:4326"), new OpenLayers.Projection(map.projection));
+                        }
+                        if (extent) {
+                            ol_layer.extent = extent;
+                    		map.zoomToExtent(extent);
+                        }
                         map.addLayer(ol_layer);
                     }
                 }

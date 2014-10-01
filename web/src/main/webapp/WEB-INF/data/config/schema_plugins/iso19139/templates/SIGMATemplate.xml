@@ -558,7 +558,7 @@ Use this if you want to add a summary of the intentions with which the resource(
 								<gco:CharacterString/>
 							</gmd:applicationProfile>
 							<gmd:name gco:nilReason="missing">
-								<gco:CharacterString/>
+								<gmx:MimeFileType type=""/>
 							</gmd:name>
 							<gmd:description gco:nilReason="missing">
 								<gco:CharacterString/>

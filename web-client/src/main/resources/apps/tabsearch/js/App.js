@@ -466,14 +466,14 @@ GeoNetwork.app = function(){
         catalogue.search('searchForm', app.loadResults, null, catalogue.startRecord, true);
     }
     
-    function searchWithRegionkeyword(value) {
+    function searchWithRegionkeyword(label, value) {
 //    	facetsPanel.removeFacet('facet_0',true);
         facetsPanel.reset();
     	facetsPanel.addFacet(0, {
                 id: 'facet_0', 
                 facet: 'regionkeyword',
-                value: value, 
-                label: value,
+                value: value ? value : label,
+                label: label,
                 bcid: 'bc_facet_0', 
                 fieldid: 'field_facet_0'
             });
@@ -1072,7 +1072,7 @@ GeoNetwork.app = function(){
                                 defaults:{bodyStyle:'border-width:0px'},
 	                            items: 	                            		
 								    {
-								   		html:'<div class="facets"><ul><li>List of documents of type 1</li><ul><li><a href="javascript:void(0);">Link naar document 1</a></li></ul><li>List of documents of type 2</li><ul><li><a href="javascript:void(0);">Link naar document 1 van type 2</a></li></ul></ul></div>'
+								   		html:'<div class="facets"><ul><li>SIGMA Geoportal documentation</li><ul><li><a href="documents/SIGMA_Geoportal-Manual_for_data_providers-V1.0_20141001.pdf" target="_blank">Manual for SIGMA data providers</a></li></ul></ul></div>'
 								    },
 							    listeners: {
                                 	activate : function (p) {
@@ -1217,13 +1217,13 @@ GeoNetwork.app = function(){
 		          });
         		  google.maps.event.addListener(marker, 'mouseover', (function(marker, site) {
     	              return function() {
-    	            	sitesInfowindow.setContent(regionsKeywords.sites[site].value);
+    	            	sitesInfowindow.setContent('<p style="min-width: 100%; line-height:1.15; overflow:hidden; white-space:nowrap;">' + regionsKeywords.sites[site].value + '</p>');
     	            	sitesInfowindow.open(sitesmap, marker);
     	              }
     	            })(marker, site));
         		  google.maps.event.addListener(marker, 'click', (function(marker, site) {
     	              return function() {
-    	            	  searchWithRegionkeyword(regionsKeywords.sites[site].value);
+    	            	  searchWithRegionkeyword(regionsKeywords.sites[site].value.toLowerCase(), 'site ' + regionsKeywords.sites[site].value.toLowerCase());
     	              }
     	            })(marker, site));
 	          }
@@ -1256,7 +1256,7 @@ GeoNetwork.app = function(){
 	        	  
 	        	  google.maps.event.addListener(rectangle, 'mouseover', (function(rectangle, region) {
 	  	        	return function() {
-	  	        	  regionsInfowindow.setContent(regionsKeywords.regions[region].value);
+	  	        	  regionsInfowindow.setContent('<p style="min-width: 100%; line-height:1.15; overflow:hidden; white-space:nowrap;">' + regionsKeywords.regions[region].value + '</p>');
 	  	        	  regionsInfowindow.setPosition(new google.maps.LatLng(
 	  	        		rectangle.getBounds().getSouthWest().k, rectangle.getBounds().getCenter().B
 	  	        	  ));
@@ -1266,7 +1266,7 @@ GeoNetwork.app = function(){
 	        	  
 	        	  google.maps.event.addListener(rectangle, 'click', (function(rectangle, region) {
 		  	        	return function() {
-		  	        		searchWithRegionkeyword(regionsKeywords.regions[region].value);
+		  	        		searchWithRegionkeyword(regionsKeywords.regions[region].value.toLowerCase(), 'region ' + regionsKeywords.regions[region].value.toLowerCase());
 		  	        	}
 		  	          })(rectangle, region));
 	          }

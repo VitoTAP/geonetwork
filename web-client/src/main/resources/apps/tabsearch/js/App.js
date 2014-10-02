@@ -1037,7 +1037,7 @@ GeoNetwork.app = function(){
                                 title:OpenLayers.i18n('Map'),
                                 layout:'fit',                              
                                 margins:margins,
-//                                items: [iMap.getViewport()],
+                                items: [iMap.getViewport()],
                                 listeners: {
 /*
                                 	afterLayout: function(c){
@@ -1052,12 +1052,30 @@ GeoNetwork.app = function(){
                                         }
                                     }
 */
+
                                 	activate : function (p) {
                                 		previousTab = 2;
-                                        p.add(iMap.getViewport());
+                                        /*p.add(iMap.getViewport());
                                         p.doLayout();
-                                    },                            	
-	                            	deactivate : function (p) {
+                                        var metadataResultsView = app.getMetadataResultsView();
+                                        for (i = 0; i < metadataResultsView.maps.length; i++) {
+                                        	metadataResultsView.addCurrentFeatures(metadataResultsView.getMdResultsLayer(metadataResultsView.maps[i].map));
+                                        }
+                                        
+                                        if (metadataResultsView.features.length > 0) {
+                                            for (i = 0; i < metadataResultsView.maps.length; i++) {
+                                                var m = metadataResultsView.maps[i];
+                                                if (m.zoomToExtentOnSearch) {
+                                                	var resultsLayer = metadataResultsView.getMdResultsLayer(m.map);
+                                                	if (resultsLayer!=null) {
+                                                        m.map.zoomToExtent(resultsLayer.getDataExtent());
+                                                	}
+                                                }
+                                            }
+                                        }*/
+                            		},                            	
+
+                                	deactivate : function (p) {
 	                            		var activeWindow = Ext.WindowMgr.getActive();
 	                            		if (activeWindow && activeWindow.getId()=="selectedFeaturePopupWindow") {
 	                            			activeWindow.close();

@@ -434,7 +434,7 @@ GeoNetwork.MetadataResultsView = Ext.extend(Ext.DataView, {
             this.styleInitialized = true;
             // TODO : a map may be initialized twice by 2 differents results views
         }
-//        this.addCurrentFeatures(this.getMdResultsLayer(map.map));
+        this.addCurrentFeatures(this.getMdResultsLayer(map.map));
     },
     /** api: method[removeMap] 
      *  :param mapId: ``OpenLayers.Map.id`` An OpenLayers map id

@@ -1090,7 +1090,7 @@ GeoNetwork.app = function(){
                                 defaults:{bodyStyle:'border-width:0px'},
 	                            items: 	                            		
 								    {
-								   		html:'<div class="facets"><ul><li style="font-size: medium;">SIGMA Geoportal documentation</li><ul><li><a style="text-decoration: underline; font-size: bigger;" href="documents/SIGMA_Geoportal-Manual_for_data_providers-V1.0_20141001.pdf" target="_blank">Manual for SIGMA data providers</a></li></ul></ul></div>'
+								   		html:'<div class="facets"><ul><li style="font-size: medium;">SIGMA Geoportal documentation</li><ul><li><a style="text-decoration: underline; font-size: bigger;" href="' + catalogue.URL + '/documents/SIGMA_Geoportal-Manual_for_data_providers-V1.0_20141001.pdf" target="_blank">Manual for SIGMA data providers</a></li></ul></ul></div>'
 								    },
 							    listeners: {
                                 	activate : function (p) {

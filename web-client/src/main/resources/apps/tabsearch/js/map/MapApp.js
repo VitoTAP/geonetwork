@@ -1042,7 +1042,14 @@ GeoNetwork.mapApp = function() {
         // using OpenLayers.Format.JSON to create a nice formatted string of the
         // configuration for editing it in the UI
         var treeConfig = new OpenLayers.Format.JSON().write([{
-            nodeType: "gx_baselayercontainer"
+            nodeType: "gx_baselayercontainer",
+            expanded: true,
+            loader: {
+                baseAttrs: {
+                    radioGroup: "base",
+                    checkedGroup: 'gx_baselayer'
+                }
+            }
         }, {
             nodeType: "gx_overlaylayercontainer",
             expanded: true,
@@ -1317,6 +1324,7 @@ GeoNetwork.mapApp = function() {
                     padding: 0,
                     items: [{
                         id: 'mappanel',
+                        stateful: false,
                         xtype: 'gx_mappanel',
                         map: map,
                         tbar: toolbar,
@@ -1520,6 +1528,10 @@ var processLayersSuccess = function(response) {
             
             createViewport();
 
+            if (layers.length>0) {
+                map.setBaseLayer(map.layers[layers.length-1]);
+            }
+            
             addMapControls();
 
             // Register windows in WindowManager

@@ -4328,6 +4328,8 @@
     <xsl:template name="mimetype">
         <xsl:param name="ref"/>
         <xsl:param name="type"/>
+		<input type="hidden" name="_{concat($ref,'_type')}" id="_{concat($ref,'_type')}" value="{$type}"/>
+<!--
 		<tr>
 			<th class="main {name(.)}"><label class="" for="_">Mime-Type</label></th>
 			<td>
@@ -4339,32 +4341,9 @@
 					<xsl:with-param name="optionValues" select="$optionValues"/>
 					<xsl:with-param name="optionLabels" select="$optionLabels"/>
 				</xsl:call-template>
-<!--
-				<select id="_{$ref}_type" name="_{$ref}_type" size="1" class="md">
-					<option>
-						<xsl:attribute name="value"/>
-						<xsl:if test="$type=''">
-                        	<xsl:attribute name="selected"/>
-						</xsl:if>
-					</option>
-					<option>
-						<xsl:attribute name="value">application/doc</xsl:attribute>
-						<xsl:attribute name="label">application/doc</xsl:attribute>
-						<xsl:if test="$type='application/doc'">
-                        	<xsl:attribute name="selected"/>
-						</xsl:if>
-					</option>
-					<option>
-						<xsl:attribute name="value">application/pdf</xsl:attribute>
-						<xsl:attribute name="label">application/pdf</xsl:attribute>
-						<xsl:if test="$type='application/pdf'">
-                        	<xsl:attribute name="selected"/>
-						</xsl:if>
-					</option>
-			      </select>
--->
 			</td>
 	    </tr>
+-->
     </xsl:template>
 
     <!-- Add button for publication in GeoServer -->

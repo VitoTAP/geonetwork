@@ -1529,7 +1529,9 @@ var processLayersSuccess = function(response) {
             createViewport();
 
             if (layers.length>0) {
+            	//switching baselayer needed, otherwise first time on clicking the map tab shows empty map
                 map.setBaseLayer(map.layers[layers.length-1]);
+                map.setBaseLayer(map.layers[0]);
             }
             
             addMapControls();

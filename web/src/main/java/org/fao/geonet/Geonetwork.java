@@ -84,7 +84,6 @@ import org.fao.geonet.lib.ServerLib;
 import org.fao.geonet.notifier.MetadataNotifierControl;
 import org.fao.geonet.notifier.MetadataNotifierManager;
 import org.fao.geonet.resources.Resources;
-import org.fao.geonet.services.login.LDAPContext;
 import org.fao.geonet.services.util.z3950.Repositories;
 import org.fao.geonet.services.util.z3950.Server;
 import org.fao.geonet.util.ThreadPool;
@@ -119,13 +118,11 @@ public class Geonetwork implements ApplicationHandler {
 	private String   FS         = File.separator;
 	private Element dbConfiguration;
 	private LdapContext ldapContext;
-	private LDAPContext ldapContextOld;
 
 	private static final String       SPATIAL_INDEX_FILENAME    = "spatialindex";
 	private static final String       IDS_ATTRIBUTE_NAME        = "id";
 
 	public LdapContext getLdapContext() { return ldapContext; }
-	public LDAPContext getLDAPContextOld() { return ldapContextOld; }
 
 	//---------------------------------------------------------------------------
 	//---
@@ -443,8 +440,6 @@ public class Geonetwork implements ApplicationHandler {
 		gnContext.statusActionsClass = statusActionsClass;
         gnContext.validationHookClass = validationHookClass;
         gnContext.ldapContext = ldapContext;
-        ldapContextOld = new LDAPContext(settingMan, handlerConfig.getMandatoryValue("ldapUsername"), handlerConfig.getMandatoryValue("ldapPassword"));
-        gnContext.ldapContextOld = ldapContextOld;
 
 		logger.info("Site ID is : " + gnContext.getSiteId());
 

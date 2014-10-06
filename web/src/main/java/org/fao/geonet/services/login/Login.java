@@ -52,8 +52,6 @@ import org.jdom.Element;
 
 public class Login implements Service
 {
-//	private String ldapUsername;
-//	private String ldapPassword;
 	//--------------------------------------------------------------------------
 	//---
 	//--- Init
@@ -61,8 +59,6 @@ public class Login implements Service
 	//--------------------------------------------------------------------------
 
 	public void init(String appPath, ServiceConfig params) throws Exception {
-//		ldapUsername = params.getValue("ldapUsername", "cn=reader,ou=ldap_accounts,ou=pdf,dc=eodata,dc=vito,dc=be");
-//		ldapPassword = params.getValue("ldapPassword", "reader");
 	}
 
 	//--------------------------------------------------------------------------
@@ -81,8 +77,6 @@ public class Login implements Service
 
 		Dbms dbms = (Dbms) context.getResourceManager().open(Geonet.Res.MAIN_DB);
 
-		LDAPContext lc = /*new LDAPContext(sm, ldapUsername, ldapPassword)*/gc.getLDAPContextOld();
-
 		if (!isAdmin(dbms, username) && sm.getValueAsBool("system/ldap/use"))
 		{
 			LdapContext ldapContext = gc.getLdapContext();
@@ -90,16 +84,9 @@ public class Login implements Service
 				Person person = ldapContext.findPerson(username);
 				if (person!=null) {
 					updateUser(context, dbms, person, password, ldapContext.getDefaultProfile());
+					List<String> groupNames = ldapContext.getGroupsByMember(username);
+					updateUserGroups(context, dbms, person, groupNames);
 				}
-/*
-				LDAPInfo info = lc.lookUp(username, password);
-
-				if (info == null)
-					throw new UserLoginEx(username);
-
-				updateUser(context, dbms, info);
-				password = info.password;
-*/
 			} else {
 				throw new UserLoginEx(username);				
 			}
@@ -154,92 +141,12 @@ public class Login implements Service
      *
      * @param context
      * @param dbms
-     * @param info
+     * @param person
+     * @param password
+     * @param defaultProfile
      * @throws SQLException
      * @throws UserLoginEx 
      */
-	private void updateUser(ServiceContext context, Dbms dbms, LDAPInfo info) throws SQLException, UserLoginEx {
-        boolean groupsProvided = ((info.groups != null) && (info.groups.length != 0));
-        ArrayList<String> groupIds = new ArrayList<String>();
-        String userId = "-1";
-
-        //--- Create group retrieved from LDAP if it's new
-        if (groupsProvided) {
-        	String groupId;
-        	for (String group: info.groups) {
-	            String query = "SELECT id FROM Groups WHERE name=?";
-	            List list  = dbms.select(query, group).getChildren();
-	
-	            if (list.isEmpty()) {
-	                groupId = IDFactory.newID();
-				    query = "INSERT INTO GROUPS(id, name) VALUES(?,?)";
-	                dbms.execute(query, groupId, group);
-	                Lib.local.insert(dbms, "Groups", groupId, group);
-	            } else {
-	                groupId = ((Element) list.get(0)).getChildText("id");
-	            }
-	            groupIds.add(groupId);
-        	}
-        }
-
-		//--- update user information into the database
-
-		String query = "UPDATE Users SET password=?, name=?, profile=? WHERE username=?";
-
-		int res = dbms.execute(query, Util.scramble(info.password), info.name, info.profile, info.username);
-
-		//--- if the user was not found --> add it
-/*
-		if (res == 0)
-		{
-			userId = IDFactory.newID();
-			query = "INSERT INTO Users(id, username, password, surname, name, profile) VALUES(?,?,?,?,?,?)";
-
-			dbms.execute(query, userId, info.username, Util.scramble(info.password), "(LDAP)", info.name, info.profile);
-
-            if (groupProvided) {
-                String query2 = "SELECT count(*) as numr FROM UserGroups WHERE groupId=? and userId=?";
-                List list  = dbms.select(query2, groupId, userId).getChildren();
-
-                String count = ((Element) list.get(0)).getChildText("numr");
-
-                if (count.equals("0")) {
-                    query = "INSERT INTO UserGroups(userId, groupId) VALUES(?,?)";
-
-                    dbms.execute(query, userId, groupId);
-                }
-            }
-		}
-*/
-		if (res == 0)
-		{
-			userId = IDFactory.newID();
-			query = "INSERT INTO Users(id, username, password, surname, name, profile) VALUES(?,?,?,?,?,?)";
-
-			dbms.execute(query, userId, info.username, Util.scramble(info.password), "(LDAP)", info.name, info.profile);
-		} else {
-			query = "SELECT id FROM Users WHERE username=?";
-            List list  = dbms.select(query, info.username).getChildren();
-            userId = ((Element) list.get(0)).getChildText("id");			
-		}
-
-		if (StringUtils.isBlank(userId)) {
-			throw new UserLoginEx(userId);
-		}
-    	query = "DELETE FROM UserGroups WHERE userId=?";
-
-		dbms.execute(query, userId);
-
-        if (groupsProvided) {
-        	for (String groupId: groupIds) {
-        		query = "INSERT INTO UserGroups(userId, groupId) VALUES(?,?)";
-        		dbms.execute(query, userId, groupId);
-        	}
-        }
-
-        dbms.commit();
-	}
-
 	private void updateUser(ServiceContext context, Dbms dbms, Person person, String password, String defaultProfile) throws SQLException, UserLoginEx {
         String userId = "-1";
 		String query = "UPDATE Users SET password=?, name=? WHERE username=?";
@@ -262,5 +169,42 @@ public class Login implements Service
 			throw new UserLoginEx(userId);
 		}
         dbms.commit();
+	}
+
+	private void updateUserGroups(ServiceContext context, Dbms dbms, Person person, List<String> groupNames) throws SQLException, UserLoginEx {
+        ArrayList<String> groupIds = new ArrayList<String>();
+    	String groupId;
+    	for (String group: groupNames) {
+            String query = "SELECT id FROM Groups WHERE name=?";
+            List list  = dbms.select(query, group).getChildren();
+
+            if (list.isEmpty()) {
+                groupId = IDFactory.newID();
+			    query = "INSERT INTO GROUPS(id, name) VALUES(?,?)";
+                dbms.execute(query, groupId, group);
+                Lib.local.insert(dbms, "Groups", groupId, group);
+            } else {
+                groupId = ((Element) list.get(0)).getChildText("id");
+            }
+            groupIds.add(groupId);
+    	}
+    	if (groupIds.size()>0) {
+    		String query = "SELECT id FROM Users WHERE username=?";
+            List list  = dbms.select(query, person.getUid()).getChildren();
+            String userId = ((Element) list.get(0)).getChildText("id");			
+    		if (StringUtils.isBlank(userId)) {
+    			throw new UserLoginEx(userId);
+    		}
+    		query = "DELETE FROM UserGroups WHERE userId=?";
+    	
+    		dbms.execute(query, userId);
+    	
+	    	for (String geonetworkGroupId: groupIds) {
+	    		query = "INSERT INTO UserGroups(userId, groupId) VALUES(?,?)";
+	    		dbms.execute(query, userId, geonetworkGroupId);
+	    	}
+
+	    	dbms.commit();
+    	}
 	}
 }

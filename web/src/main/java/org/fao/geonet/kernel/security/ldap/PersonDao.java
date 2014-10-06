@@ -2,6 +2,8 @@ package org.fao.geonet.kernel.security.ldap;
 
 import java.util.List;
 
+import javax.naming.ldap.LdapName;
+
 public interface PersonDao {
 	void create(Person person);
 
@@ -14,4 +16,6 @@ public interface PersonDao {
 	List<Person> findAll();
 
 	Person findByPrimaryKey(String uid);
+
+	LdapName buildDn(String uid);
 }

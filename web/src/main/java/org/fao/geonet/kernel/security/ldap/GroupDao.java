@@ -2,6 +2,8 @@ package org.fao.geonet.kernel.security.ldap;
 
 import java.util.List;
 
+import javax.naming.ldap.LdapName;
+
 public interface GroupDao {
 	void create(Group group);
 
@@ -10,6 +12,8 @@ public interface GroupDao {
 	void delete(Group group);
 
 	List<String> getAllGroupNames();
+
+	List<String> getAllGroupNamesForMember(String uniqueMember);
 
 	List<Group> findAll();
 

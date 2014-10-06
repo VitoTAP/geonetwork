@@ -25,7 +25,6 @@ package org.fao.geonet.services.user;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import jeeves.constants.Jeeves;
@@ -40,9 +39,9 @@ import org.apache.commons.lang.StringUtils;
 import org.fao.geonet.GeonetContext;
 import org.fao.geonet.constants.Geonet;
 import org.fao.geonet.constants.Params;
+import org.fao.geonet.kernel.DataManager;
 import org.fao.geonet.kernel.security.ldap.Person;
 import org.fao.geonet.kernel.setting.SettingManager;
-import org.fao.geonet.services.login.LDAPContext;
 import org.fao.geonet.util.IDFactory;
 import org.jdom.Element;
 
@@ -53,8 +52,6 @@ import org.jdom.Element;
 
 public class Update implements Service
 {
-	private String ldapUsername;
-	private String ldapPassword;
 	//--------------------------------------------------------------------------
 	//---
 	//--- Init
@@ -62,8 +59,6 @@ public class Update implements Service
 	//--------------------------------------------------------------------------
 
 	public void init(String appPath, ServiceConfig params) throws Exception {
-		ldapUsername = params.getValue("ldapUsername", "cn=reader,ou=ldap_accounts,ou=pdf,dc=eodata,dc=vito,dc=be");
-		ldapPassword = params.getValue("ldapPassword", "reader");		
 	}
 
 	//--------------------------------------------------------------------------
@@ -108,16 +103,16 @@ public class Update implements Service
 				myUserId.equals(id)) {
 
 			GeonetContext  gc = (GeonetContext) context.getHandlerContext(Geonet.CONTEXT_NAME);
+			DataManager dataMan = gc.getDataManager();
 			SettingManager sm = gc.getSettingManager();
 			Dbms dbms = (Dbms) context.getResourceManager().open (Geonet.Res.MAIN_DB);
 
 
-			LDAPContext lc = new LDAPContext(sm, ldapUsername, ldapPassword);
 			boolean bUpdatePassword = false;
 			boolean bAddLDAPUser = false;
 			boolean bUpdateLDAPUser = false;
-			boolean bUpdateLDAPGroups = false;
-			java.util.List<String> groupsToAddToLdap = new ArrayList<String>();
+			boolean bUpdateLDAPGroups = !isAdmin(dbms, username) && sm.getValueAsBool("system/ldap/use");
+			List<String> ldapGroupsFromWhichUserMustBeRemoved = new ArrayList<String>();
 			// Before we do anything check (for UserAdmin) that they are not trying
 			// to add a user to any group outside of their own - if they are then
 			// raise an exception - this shouldn't happen unless someone has
@@ -161,14 +156,9 @@ public class Update implements Service
 			//--- add groups
 				for(Element userGroup : userGroups) {
 					String group = userGroup.getText();
-					if (!isAdmin(dbms, username) && lc.isInUse())
-					{
-						//groupsToAddToLdap.add(group);
-					}
 					addGroup(dbms, id, group);
 				}
 				bAddLDAPUser = true;
-				bUpdateLDAPGroups = true;
 			}
 
 			else {
@@ -180,50 +170,42 @@ public class Update implements Service
 					dbms.execute (query, username, Util.scramble256(password), surname, name, profile, address, city,
                             state, zip, country, email, organ, kind, id);
 
+
 					//--- add groups
-
-					dbms.execute("DELETE FROM UserGroups WHERE userId=?", id);
-
+					ldapGroupsFromWhichUserMustBeRemoved = dataMan.getGroupNamesByUserId(dbms,id);
+		            dbms.execute("DELETE FROM UserGroups WHERE userId=?", id);
+		            
 					for(Element userGroup : userGroups) {
 						String group = userGroup.getText();
-						if (!isAdmin(dbms, username) && lc.isInUse())
-						{
-							groupsToAddToLdap.add(group);
-						}
 						addGroup(dbms, id, group);
 					}
 					bUpdateLDAPUser = true;
 					bUpdatePassword = true;
-					bUpdateLDAPGroups = true;
-
 			// -- edit user info
 				} else if (operation.equals(Params.Operation.EDITINFO)) {
 					String query = "UPDATE Users SET username=?, surname=?, name=?, profile=?, address=?, city=?, state=?, zip=?, country=?, email=?, organisation=?, kind=? WHERE id=?";
 					dbms.execute (query, username, surname, name, profile, address, city, state, zip, country, email, organ, kind, id);
 					//--- add groups
 				
+					ldapGroupsFromWhichUserMustBeRemoved = dataMan.getGroupNamesByUserId(dbms,id);
 					dbms.execute ("DELETE FROM UserGroups WHERE userId=?", id);
 					for(Element userGroup : userGroups) {
 						String group = userGroup.getText();
-						if (!isAdmin(dbms, username) && lc.isInUse())
-						{
-							groupsToAddToLdap.add(group);
-						}
 						addGroup(dbms, id, group);
 					}
 					bUpdateLDAPUser = true;
-					bUpdateLDAPGroups = true;
 			// -- reset password
 				}
                 else if (operation.equals(Params.Operation.RESETPW)) {
 					String query = "UPDATE Users SET password=? WHERE id=?";
 					dbms.execute (query, Util.scramble256(password), id);
+					bUpdateLDAPGroups = false;
 				}
                 else {
 					throw new IllegalArgumentException("unknown user update operation "+operation);
 				}
 			} 
-			if (!isAdmin(dbms, username) && lc.isInUse()) {
+			if (context.getServlet().getNodeType().toLowerCase().equals("sigma") && bUpdateLDAPGroups) {
 				if (bAddLDAPUser || bUpdateLDAPUser) {
 					Person person = bUpdateLDAPUser ? gc.getLdapContext().findPerson(username) : new Person();
 					person.setUid(username);
@@ -254,8 +236,23 @@ public class Update implements Service
 						gc.getLdapContext().updatePerson(person);
 					}
 				}
-				if (bUpdateLDAPGroups) {
-//					lc.updateGroups(username,groupsToAddToLdap);
+				List<String> ldapGroupsToWhichUserMustBeAdded = dataMan.getGroupNamesByUserId(dbms, id);
+				ldapGroupsFromWhichUserMustBeRemoved.removeAll(ldapGroupsToWhichUserMustBeAdded);
+				for (String groupName : ldapGroupsFromWhichUserMustBeRemoved) {
+					try {
+						gc.getLdapContext().removeGroupMember(groupName, username);
+					} catch (Exception e) {
+						System.out.println("Error during remove of user " + username + " from group with name " + groupName + ":" + e.toString());
+					}
+				}
+				List<String> ldapUserGroups = gc.getLdapContext().getGroupsByMember(username);
+				ldapGroupsToWhichUserMustBeAdded.removeAll(ldapUserGroups);
+				for (String groupName : ldapGroupsToWhichUserMustBeAdded) {
+					try {
+						gc.getLdapContext().addGroupMember(groupName, username);
+					} catch (Exception e) {
+						System.out.println("Error during add of user " + username + " to group with name " + groupName + ":" + e.toString());
+					}
 				}
 			}
 		} else {

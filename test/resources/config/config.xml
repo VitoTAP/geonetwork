@@ -730,6 +730,17 @@
 		</service>
 
 		<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+		
+		<service name="resources.move">
+			<class name=".services.resources.Move" />
+			<output sheet="file-move-results.xsl" />
+
+			<error sheet="error-modal.xsl">
+				<xml name="error" file="xml/file-move-unsuccessful.xml" />
+			</error>
+		</service>
+		
+		<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 
 		<service name="resources.prepare.upload">
 			<output sheet="file-upload.xsl" />

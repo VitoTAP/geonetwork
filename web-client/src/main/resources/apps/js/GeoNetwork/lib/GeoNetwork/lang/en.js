@@ -374,6 +374,7 @@ GeoNetwork.lang.en = {
     'associateDataset': "Link dataset metadata",
     'logoSelectionWindow': "Choose a logo",
     'fileUploadWindow': 'Upload data or document',
+    'filePermissionWindow': 'Change file permission',
     'selectedCRS': "Selected coordinate systems",
     'foundCRS': "Available coordinate systems",
     'search': 'Search',

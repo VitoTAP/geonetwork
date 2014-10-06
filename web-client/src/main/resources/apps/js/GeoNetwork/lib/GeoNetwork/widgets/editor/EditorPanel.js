@@ -315,6 +315,92 @@ GeoNetwork.editor.EditorPanel = Ext.extend(Ext.Panel, {
         this.fileUploadWindow.show();
     },
     
+    /** api: method[showFilePermissionPanel]
+     * 
+     *  :param id: ``String``  Metadata internal identifier.
+     *  :param ref: ``String``  Form element identifier (eg. 235).
+     *  :param urlRef: ``String``  Form element identifier (eg. 235).
+     *  
+     *  Show panel to upload a file.
+     */
+    /*showFilePermissionPanel: function(id, uuid, ref, urlRef){
+        var panel = this;
+        
+        // FIXME : could be improved. Here we clean the window.
+        // Setting the current metadata id is probably better.
+        if (this.fileUploadWindow) {
+            this.fileUploadWindow.close();
+            this.fileUploadWindow = undefined;
+        }
+        
+        if (!this.fileUploadWindow) {
+            var fileUploadPanel = new Ext.form.FormPanel({
+                //autoLoad : this.catalogue.services.prepareUpload + "?ref=" + ref + "&id=" + id
+                fileUpload: true,
+                defaultType: 'textfield',
+                items: [{}],
+                buttons: [{
+                    text: 'Change permission to ' + true ? 'public' : 'private',
+                    iconCls: 'attachedAdd',
+                    handler: function(){
+                        if (fileUploadPanel.getForm().isValid()) {
+                        	var publicFieldValue = fileUploadPanel.getForm().findField("public").getValue();
+                            fileUploadPanel.getForm().submit({
+                                url: panel.catalogue.services.move,
+                                waitMsg: OpenLayers.i18n('uploading'),
+                                success: function(fileUploadPanel, o){
+                                    var fname = o.result.fname;
+                                    var name = Ext.getDom('_' + ref);
+                                    if (name) {
+                                        name.value = fname;
+                                    }
+                                    var ftype = o.result.ftype;
+                                    var type = Ext.getDom('_' + ref + "_type");
+                                    if (type) {
+                                    	type.value = ftype;
+                                    }
+                                    var url = Ext.getDom('_' + urlRef);
+                                    if (url) {
+                                        url.value = this.catalogue.services.rootUrl + 'resources.get?uuid=' + uuid + '&fname=' + fname + '&access=' + (publicFieldValue ? 'public' : 'private');
+                                    }
+                                    // Trigger update
+                                    panel.save();
+                                    
+                                    // Hide window
+                                    panel.fileUploadWindow.hide();
+                                },
+                                failure: function(fileUploadPanel, o){
+                                    	panel.getError2(o.response);
+                                }
+                                // TODO : improve error message
+                                // Currently return  Unexpected token < from ext doDecode
+                            });
+                        }
+                    }
+                }, {
+                    text: OpenLayers.i18n('reset'),
+                    handler: function(){
+                        fileUploadPanel.getForm().reset();
+                    }
+                }]
+            });
+            
+            this.filePermissionWindow = new Ext.Window({
+                title: OpenLayers.i18n('filePermissionWindow'),
+                width: 300,
+                height: 300,
+                layout: 'fit',
+                modal: true,
+                items: filePermissionPanel,
+                closeAction: 'hide',
+                constrain: true,
+                iconCls: 'attached'
+            });
+        }
+        
+        this.fileUploadWindow.show();
+    },*/
+    
     /** api: method[showGeoPublisherPanel]
      * 
      *  Display geo publisher panel

@@ -38,7 +38,6 @@ import org.fao.geonet.kernel.search.SearchManager;
 import org.fao.geonet.kernel.security.ldap.LdapContext;
 import org.fao.geonet.kernel.setting.SettingManager;
 import org.fao.geonet.notifier.MetadataNotifierManager;
-import org.fao.geonet.services.login.LDAPContext;
 import org.fao.geonet.services.metadata.StatusActions;
 import org.fao.geonet.util.ThreadPool;
 import org.springframework.context.ApplicationContext;
@@ -63,7 +62,6 @@ public class GeonetContext
   /* package */ MetadataNotifierManager metadataNotifierMan;
 	/* package */ ThreadPool        threadPool;
 	/* package */ LdapContext        ldapContext;
-	/* package */ LDAPContext        ldapContextOld;
 	
 	Class statusActionsClass;
     Class validationHookClass;
@@ -89,7 +87,6 @@ public class GeonetContext
   public MetadataNotifierManager getMetadataNotifier() { return metadataNotifierMan; }
 	public ThreadPool        getThreadPool()        { return threadPool;   }
 	public LdapContext        getLdapContext()        { return ldapContext;   }
-	public LDAPContext        getLDAPContextOld()        { return ldapContextOld;   }
 
 	//---------------------------------------------------------------------------
 

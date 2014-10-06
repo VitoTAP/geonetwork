@@ -4370,4 +4370,14 @@ public class DataManager {
 		return searchMan;
 	}
 
+	public List<String> getGroupNamesByUserId(Dbms dbms, String userId) throws SQLException {
+		List<String> groupNames = new ArrayList<String>();
+        String query = "SELECT name FROM Groups WHERE id in (SELECT groupId from UserGroups where userId =?)";
+        List list  = dbms.select(query, userId).getChildren();
+        
+        for (int i=0;i<list.size();i++) {
+            groupNames.add(((Element)list.get(i)).getChildText("name"));
+        }
+        return groupNames;
+	}
 }

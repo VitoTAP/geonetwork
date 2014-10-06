@@ -101,10 +101,11 @@ public class Remove implements Service
 				throw new IllegalArgumentException("Cannot delete a user that has set a metadata status");
 			}
 			String username = null;
-			boolean bDeleteLDAPUser = !isAdmin(dbms, id) && gc.getSettingManager().getValueAsBool("system/ldap/use");
+			boolean bDeleteLDAPUser = !isAdmin(dbms, id) && gc.getSettingManager().getValueAsBool("system/ldap/use") && context.getServlet().getNodeType().toLowerCase().equals("sigma");
 			if (bDeleteLDAPUser) {
 				username = dataMan.getUsernameById(dbms, id);
 			}
+			List<String> ldapGroupsFromWhichUserMustBeRemoved = dataMan.getGroupNamesByUserId(dbms,id);
 			dbms.execute ("DELETE FROM UserGroups WHERE userId=?", id);
 			dbms.execute ("DELETE FROM Users      WHERE     id=?", id);
 			if (bDeleteLDAPUser && !StringUtils.isEmpty(username)) {
@@ -115,6 +116,13 @@ public class Remove implements Service
 					}
 				} catch (Exception e) {
 					System.out.println("User only exists in geonetwork : " + e.toString());
+				}
+				for (String groupName : ldapGroupsFromWhichUserMustBeRemoved) {
+					try {
+						gc.getLdapContext().removeGroupMember(groupName, username);
+					} catch (Exception e) {
+						System.out.println("Error during remove of user " + username + " from group with name " + groupName + ":" + e.toString());
+					}
 				}
 			}
 		} else {

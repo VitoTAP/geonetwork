@@ -9,7 +9,7 @@ import org.springframework.ldap.odm.annotations.DnAttribute;
 import org.springframework.ldap.odm.annotations.Entry;
 import org.springframework.ldap.odm.annotations.Id;
 
-@Entry(objectClasses = { "top", "groupOfUniqueNames" })
+@Entry(objectClasses = { "top", "groupOfUniqueNames" }, base = "ou=groups")
 public class Group {
 
 	@Id

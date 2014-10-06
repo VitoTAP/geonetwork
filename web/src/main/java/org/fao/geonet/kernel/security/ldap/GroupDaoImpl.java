@@ -54,6 +54,18 @@ public class GroupDaoImpl implements GroupDao {
     }
 
     @Override
+	public List<String> getAllGroupNamesForMember(String uniqueMember) {
+        return ldapTemplate.search(query()
+                .attributes("cn")
+                .where("objectclass").is("groupOfUniqueNames").and("uniqueMember").is(uniqueMember),
+                new AttributesMapper<String>() {
+                    public String mapFromAttributes(Attributes attrs) throws NamingException {
+                        return attrs.get("cn").get().toString();
+                    }
+                });
+    }
+
+    @Override
 	public List<Group> findAll() {
         return ldapTemplate.findAll(Group.class);
 	}

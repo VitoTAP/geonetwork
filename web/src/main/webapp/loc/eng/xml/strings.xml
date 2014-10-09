@@ -518,6 +518,7 @@
 	<file>File</file>
 	<fileType>File type:</fileType>
 	<fileUploadSuccessful>File Upload Successful</fileUploadSuccessful>
+	<fileMoveSuccessful>Moved File Successful</fileMoveSuccessful>
 	<firstname>First name</firstname>
 	<foundWords>Number of terms found:</foundWords>
 	<freeKeyword>Free Keywords</freeKeyword>

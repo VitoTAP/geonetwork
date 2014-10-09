@@ -296,6 +296,7 @@
 		<allow service="resources.del"/>
 	  <allow service="resources.del.new"/>
 	  	<allow service="resources.move"/>
+	  	<allow service="resources.move.new"/>
 	  
 
 		<!-- Allow thumbnail services -->

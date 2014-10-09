@@ -323,66 +323,96 @@ GeoNetwork.editor.EditorPanel = Ext.extend(Ext.Panel, {
      *  
      *  Show panel to upload a file.
      */
-    /*showFilePermissionPanel: function(id, uuid, ref, urlRef){
+    showFilePermissionPanel: function(id, uuid, urlRef){
         var panel = this;
         
         // FIXME : could be improved. Here we clean the window.
         // Setting the current metadata id is probably better.
-        if (this.fileUploadWindow) {
-            this.fileUploadWindow.close();
-            this.fileUploadWindow = undefined;
+        if (this.filePermissionWindow) {
+            this.filePermissionWindow.close();
+            this.filePermissionWindow = undefined;
         }
         
-        if (!this.fileUploadWindow) {
-            var fileUploadPanel = new Ext.form.FormPanel({
+        var isPublic = false;
+        var fname = "";
+        var oldUrl = Ext.getDom('_' + urlRef);
+        if(oldUrl && oldUrl.value){
+        	isPublic = oldUrl.value.split("&access=")[1] === 'public';
+        	fname = oldUrl.value.split("&fname=")[1].split("&access")[0];
+        }
+        
+        if (!this.filePermissionWindow) {
+            var filePermissionPanel = new Ext.form.FormPanel({
                 //autoLoad : this.catalogue.services.prepareUpload + "?ref=" + ref + "&id=" + id
-                fileUpload: true,
                 defaultType: 'textfield',
-                items: [{}],
-                buttons: [{
-                    text: 'Change permission to ' + true ? 'public' : 'private',
-                    iconCls: 'attachedAdd',
-                    handler: function(){
-                        if (fileUploadPanel.getForm().isValid()) {
-                        	var publicFieldValue = fileUploadPanel.getForm().findField("public").getValue();
-                            fileUploadPanel.getForm().submit({
-                                url: panel.catalogue.services.move,
-                                waitMsg: OpenLayers.i18n('uploading'),
-                                success: function(fileUploadPanel, o){
-                                    var fname = o.result.fname;
-                                    var name = Ext.getDom('_' + ref);
-                                    if (name) {
-                                        name.value = fname;
-                                    }
-                                    var ftype = o.result.ftype;
-                                    var type = Ext.getDom('_' + ref + "_type");
-                                    if (type) {
-                                    	type.value = ftype;
-                                    }
-                                    var url = Ext.getDom('_' + urlRef);
-                                    if (url) {
-                                        url.value = this.catalogue.services.rootUrl + 'resources.get?uuid=' + uuid + '&fname=' + fname + '&access=' + (publicFieldValue ? 'public' : 'private');
-                                    }
-                                    // Trigger update
-                                    panel.save();
-                                    
-                                    // Hide window
-                                    panel.fileUploadWindow.hide();
-                                },
-                                failure: function(fileUploadPanel, o){
-                                    	panel.getError2(o.response);
-                                }
-                                // TODO : improve error message
-                                // Currently return  Unexpected token < from ext doDecode
-                            });
-                        }
+                items: [{
+                        name: 'id',
+                        allowBlank: false,
+                        hidden: true,
+                        value: this.metadataId
+                    }, {
+                        name: 'public',
+                        fieldLabel: 'Public',
+                        checked: isPublic,
+                        xtype: 'checkbox'
+                    }, {
+                        name: 'ref',
+//                        allowBlank: false,
+                        hidden: true,
+                        value: urlRef
+                    }, {
+                    	name: 'fname',
+                    	hidden: true,
+                    	value: fname
+                    }, {
+                        name: 'overwrite',
+                        hidden: true,
+                        value: true
+                    }],
+	            buttons: [{
+	                text: OpenLayers.i18n('changePermission'),
+	                //iconCls: 'attachedAdd',
+	                handler: function(){
+	                    if (filePermissionPanel.getForm().isValid()) {
+	                    	var publicFieldValue = filePermissionPanel.getForm().findField("public").getValue();
+	                        filePermissionPanel.getForm().submit({
+	                            url: panel.catalogue.services.move,
+	                            waitMsg: OpenLayers.i18n('changingPermission'),
+	                            success: function(filePermissionPanel, o){
+	                                /*var fname = o.result.fname;
+	                                var name = Ext.getDom('_' + ref);
+	                                if (name) {
+	                                    name.value = fname;
+	                                }
+	                                var ftype = o.result.ftype;
+	                                var type = Ext.getDom('_' + ref + "_type");
+	                                if (type) {
+	                                	type.value = ftype;
+	                                }*/
+	                                var url = Ext.getDom('_' + urlRef);
+	                                if (url) {
+	                                    url.value = this.catalogue.services.rootUrl + 'resources.get?uuid=' + uuid + '&fname=' + fname + '&access=' + (publicFieldValue ? 'public' : 'private');
+	                                }
+	                                // Trigger update
+	                                panel.save();
+	                                
+	                                // Hide window
+	                                panel.filePermissionWindow.hide();
+	                            },
+	                            failure: function(filePermissionPanel, o){
+	                                	panel.getError2(o.response);
+	                            }
+	                            // TODO : improve error message
+	                            // Currently return  Unexpected token < from ext doDecode
+	                        });
+	                    }
                     }
                 }, {
                     text: OpenLayers.i18n('reset'),
                     handler: function(){
-                        fileUploadPanel.getForm().reset();
+                        filePermissionPanel.getForm().reset();
                     }
-                }]
+	            }]
             });
             
             this.filePermissionWindow = new Ext.Window({
@@ -398,8 +428,8 @@ GeoNetwork.editor.EditorPanel = Ext.extend(Ext.Panel, {
             });
         }
         
-        this.fileUploadWindow.show();
-    },*/
+        this.filePermissionWindow.show();
+    },
     
     /** api: method[showGeoPublisherPanel]
      * 

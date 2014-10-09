@@ -449,7 +449,7 @@ GeoNetwork.Templates = Ext.extend(Ext.XTemplate, {
                     return selectedLinks;
                 },
                 getHref: function(values){
-                	var value = values.href + '" target="_blank"  onclick="catalogue.sendGAEvent(values.href)'; 
+                	var value = values.href + '" target="_blank"  onclick="catalogue.sendGAEvent(\'' + values.href + '\')'; 
                 	if (values.isPrivate=="true" && !catalogue.isIdentified()) {
                 		value = '#" target onclick="Ext.Msg.alert(\'Not registered\', \'' + OpenLayers.i18n('notRegisteredForDownload') + '\')';
                 	}

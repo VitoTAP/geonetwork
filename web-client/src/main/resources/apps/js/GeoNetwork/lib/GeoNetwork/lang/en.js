@@ -296,6 +296,8 @@ GeoNetwork.lang.en = {
     'image': 'Image',
     'uploading': 'Uploading ...',
     'upload': 'Upload',
+    'changingPermission': 'Changing permission',
+    'changePermission': 'Change permission',
     'success': 'Success',
     'failure': 'Failure',
     'error': 'Error',

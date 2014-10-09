@@ -304,7 +304,7 @@ GeoNetwork.Catalogue = Ext.extend(Ext.util.Observable, {
             subTemplateType: serviceUrl + 'subtemplate.types',
             subTemplate: serviceUrl + 'subtemplate',
             upload: serviceUrl + 'resources.upload.new',
-            move: serviceUrl + 'resources.move',
+            move: serviceUrl + 'resources.move.new',
             prepareDownload: serviceUrl + 'prepare.file.download',
             fileDisclaimer: serviceUrl + 'file.disclaimer',
             fileDownload: serviceUrl + 'file.download',

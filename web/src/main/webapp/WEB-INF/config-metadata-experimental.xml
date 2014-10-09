@@ -162,6 +162,16 @@
         <xml name="error" file="xml/file-upload-unsuccessful.xml"/>
       </error>
     </service>
+    
+    <service name="resources.move.new">
+      <class name=".services.resources.Move"/>
+      <output sheet="metadata/file-move-results.xsl"/>
+
+      <!-- TODO error -->
+      <error sheet="error-modal.xsl">
+        <xml name="error" file="xml/file-move-unsuccessful.xml"/>
+      </error>
+    </service>
 
     <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
     <!-- reset - forget edits and return to last saved version -->

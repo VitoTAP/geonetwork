@@ -74,6 +74,7 @@ public class Move implements Service
 		String publicAcces 		= Util.getParam(params, Params.PUBLIC_ACCESS, "no");
 //		String access 		= Util.getParam(params, Params.ACCESS, "private");
 		String overwrite	= Util.getParam(params, Params.OVERWRITE, "no");
+		String fname		= Util.getParam(params, Params.FNAME, "fname");
 
 		Lib.resource.checkEditPrivilege(context, id);
 
@@ -111,10 +112,10 @@ public class Move implements Service
 		// Jeeves will place the uploaded file name in the f_{ref} element
 		// we do it this way because Jeeves will sanitize the name to remove
 		// characters that may cause problems
-		Element fnameElem = params.getChild("f_"+ref);
+		/*Element fnameElem = params.getChild("f_"+ref);
 		String fname = fnameElem.getText();
 		String fsize = fnameElem.getAttributeValue("size");
-		if (fsize == null) fsize="0";
+		if (fsize == null) fsize="0";*/
 
 		// get ready to move uploaded file to destination directory
 		File oldFile = new File(oldDir, fname);
@@ -124,13 +125,13 @@ public class Move implements Service
 		context.info("Destin : "+newFile.getAbsolutePath());
 
 		if (!oldFile.exists()) {
-			throw new Exception("File upload unsuccessful "+oldFile.getAbsolutePath()+" does not exist");
+			throw new Exception("File move unsuccessful "+oldFile.getAbsolutePath()+" does not exist");
 		}
 
 		// check if file already exists and do whatever overwrite wants
 		if (overwrite.equals("no")) {
 			if (newFile.exists()) {
-				throw new Exception("File upload unsuccessful because "+newFile.getName()+" already exists and overwrite was not permitted");
+				throw new Exception("File move unsuccessful because "+newFile.getName()+" already exists and overwrite was not permitted");
 			}
 		} else {
 			if (newFile.exists()) {
@@ -147,11 +148,11 @@ public class Move implements Service
 			context.warning(" (C) Source : "+oldFile.getAbsolutePath());
 			context.warning(" (C) Destin : "+newFile.getAbsolutePath());
 			oldFile.delete();
-			throw new Exception("Unable to move uploaded file to destination directory");
+			throw new Exception("Unable to change permission of this file");
 		}
 
 		// log the upload
-		context.info("UPLOADED:"+fname+","+id+","+mdUuid+","+context.getIpAddress()+","+username);
+		context.info("MOVED:"+fname+","+id+","+mdUuid+","+context.getIpAddress()+","+username);
 
 		// update the metadata
 /*
@@ -166,8 +167,8 @@ public class Move implements Service
 
 		return new Element("response")
 					.addContent(new Element("fname").setText(fname))
-					.addContent(new Element("ftype").setText(mimeTypesMap.getContentType(oldFile.getName())))
-					.addContent(new Element("fsize").setText(fsize));
+					.addContent(new Element("ftype").setText(mimeTypesMap.getContentType(oldFile.getName())));
+					//.addContent(new Element("fsize").setText(fsize));
 	}
 }
 

@@ -3086,7 +3086,7 @@
 	            <xsl:with-param name="schema" select="$schema"/>
 	            <xsl:with-param name="edit"   select="$edit"/>
 	            <xsl:with-param name="visible"   select="count(gmd:referenceSystemInfo)=0"/>
-			</xsl:apply-templates>
+			</xsl:apply-templates>line
 		</xsl:if>
 
         <xsl:apply-templates mode="elementEP" select="gmd:referenceSystemInfo|geonet:child[string(@name)='referenceSystemInfo']">
@@ -3906,13 +3906,33 @@
             <xsl:with-param name="edit"   select="$edit"/>
         </xsl:apply-templates>
 
-        <xsl:apply-templates mode="elementEP" select="gmd:linkage|geonet:child[string(@name)='linkage']">
-            <xsl:with-param name="schema" select="$schema"/>
-            <xsl:with-param name="edit"   select="not(string(gmd:protocol[1]/gco:CharacterString)='WWW:DOWNLOAD-1.0-http--download'
-	            and string(gmd:name/gco:CharacterString|gmd:name/gmx:MimeFileType)!='')"/>
-        </xsl:apply-templates>
-
-		<xsl:if test="$edit=true()">
+	<xsl:variable name="isUploadedOnServer" select="string(gmd:protocol[1]/gco:CharacterString)='WWW:DOWNLOAD-1.0-http--download'
+		    and string(gmd:name/gco:CharacterString|gmd:name/gmx:MimeFileType)!='' and name(../..)='gmd:MD_DigitalTransferOptions'"/>
+	<xsl:if test="$isUploadedOnServer and $edit">
+		<xsl:apply-templates mode="iso19139PermissionChange" select="gmd:linkage|geonet:child[string(@name)='linkage']">
+			<xsl:with-param name="schema" select="$schema"/>
+			<xsl:with-param name="edit"   select="$edit"/>
+		</xsl:apply-templates>
+	</xsl:if>
+	
+	<xsl:variable name="isOwnCloudLink" select="string(gmd:protocol[1]/gco:CharacterString)='WWW:LINK-1.0-http--link'
+		    and string(gmd:name/gco:CharacterString|gmd:name/gmx:MimeFileType)!='' and name(../..)='gmd:MD_DigitalTransferOptions'"/>
+	<xsl:if test="$isOwnCloudLink and $edit">
+		<xsl:apply-templates mode="iso19139PermissionChangeOwnCloud" select="gmd:linkage|geonet:child[string(@name)='linkage']">
+			<xsl:with-param name="schema" select="$schema"/>
+			<xsl:with-param name="edit"   select="$edit"/>
+		</xsl:apply-templates>
+	</xsl:if>
+	
+	<xsl:if test="not($isOwnCloudLink and $edit) and not($isUploadedOnServer and $edit)">
+	        <xsl:apply-templates mode="elementEP" select="gmd:linkage|geonet:child[string(@name)='linkage']">
+	            <xsl:with-param name="schema" select="$schema"/>
+	            <xsl:with-param name="edit"   select="not(string(gmd:protocol[1]/gco:CharacterString)='WWW:DOWNLOAD-1.0-http--download'
+		            and string(gmd:name/gco:CharacterString|gmd:name/gmx:MimeFileType)!='')"/>
+	        </xsl:apply-templates>
+	</xsl:if>
+	
+	<xsl:if test="$edit=true()">
 	        <xsl:choose>
 	            <xsl:when test="string(gmd:protocol[1]/gco:CharacterString)='WWW:DOWNLOAD-1.0-http--download'
 	            and string(gmd:name/gco:CharacterString|gmd:name/gmx:MimeFileType)!=''">
@@ -4223,6 +4243,7 @@
                     <xsl:with-param name="visible" select="$button"/>
                 </xsl:call-template>
 -->
+
                 <xsl:call-template name="simpleElementGui">
                     <xsl:with-param name="schema" select="$schema"/>
                     <xsl:with-param name="edit" select="$edit"/>
@@ -4272,6 +4293,102 @@
                 </xsl:apply-templates>
             </xsl:otherwise>
         </xsl:choose>
+    </xsl:template>
+    
+    <!-- ===================================================================== -->
+    <!-- name for linkage only -->
+    <!-- ===================================================================== -->
+
+    <xsl:template mode="iso19139PermissionChange" match="*">
+        <xsl:param name="schema"/>
+        <xsl:param name="edit"/>
+
+        <!--<xsl:choose>
+            <xsl:when test="$edit=true()">-->
+                <xsl:variable name="ref" select="gmd:URL/geonet:element/@ref"/>
+                <xsl:variable name="value" select="gmd:URL"/>
+                <xsl:call-template name="simpleElementGui">
+                    <xsl:with-param name="schema" select="$schema"/>
+                    <xsl:with-param name="edit" select="$edit"/>
+                    <xsl:with-param name="title">
+                        <xsl:call-template name="getTitle">
+                            <xsl:with-param name="name"   select="name(.)"/>
+                            <xsl:with-param name="schema" select="$schema"/>
+                        </xsl:call-template>
+                    </xsl:with-param>
+                    <xsl:with-param name="text">
+			<table width="100%">
+			<tr>
+				<td width="70%">
+					<input id="_{$ref}" class="md" type="text" name="_{$ref}" value="{$value}" style="width: 90%;"/>
+				</td>
+				<td align="left">
+					<button id="{concat('db_',$ref)}" class="content" onclick="Ext.getCmp('editorPanel').showFilePermissionPanel('{//geonet:info/id}', '{//geonet:info/uuid}', '{$ref}');" type="button">
+						Change permission
+		                        </button>
+				</td>
+			</tr>
+			</table>
+                    </xsl:with-param>
+                    <xsl:with-param name="id" select="concat('di_',$ref)"/>
+                    <!--<xsl:with-param name="visible" select="true()"/>-->
+                </xsl:call-template>
+            <!--</xsl:when>
+            <xsl:otherwise>
+                <xsl:apply-templates mode="element" select=".">
+                    <xsl:with-param name="schema" select="$schema"/>
+                    <xsl:with-param name="edit"   select="false()"/>
+                </xsl:apply-templates>
+            </xsl:otherwise>
+        </xsl:choose>-->
+    </xsl:template>
+    
+    <!-- ===================================================================== -->
+    <!-- name for linkage only -->
+    <!-- ===================================================================== -->
+
+    <xsl:template mode="iso19139PermissionChangeOwnCloud" match="*">
+        <xsl:param name="schema"/>
+        <xsl:param name="edit"/>
+
+        <!--<xsl:choose>
+            <xsl:when test="$edit=true()">-->
+                <xsl:variable name="ref" select="gmd:URL/geonet:element/@ref"/>
+                <xsl:variable name="value" select="gmd:URL"/>
+                <xsl:call-template name="simpleElementGui">
+                    <xsl:with-param name="schema" select="$schema"/>
+                    <xsl:with-param name="edit" select="$edit"/>
+                    <xsl:with-param name="title">
+                        <xsl:call-template name="getTitle">
+                            <xsl:with-param name="name"   select="name(.)"/>
+                            <xsl:with-param name="schema" select="$schema"/>
+                        </xsl:call-template>
+                    </xsl:with-param>
+                    <xsl:with-param name="text">
+			<table width="100%">
+			<tr>
+				<td width="70%">
+					<input id="_{$ref}" class="md" type="text" name="_{$ref}" value="{$value}" style="width: 90%;"/>
+				</td>
+				<td align="left">
+					<button id="{concat('db_',$ref)}" class="content" onclick="Ext.getCmp('editorPanel').showFilePermissionPanelOwnCloud('{//geonet:info/id}', '{//geonet:info/uuid}', '{$ref}');" type="button">
+						Change permission
+		                        </button>
+				</td>
+			</tr>
+			</table>
+                    </xsl:with-param>
+                    <xsl:with-param name="id" select="concat('di_',$ref)"/>
+                    <!--<xsl:with-param name="visible" select="true()"/>-->
+                </xsl:call-template>
+            <!--</xsl:when>
+            <xsl:otherwise>
+                <xsl:apply-templates mode="element" select=".">
+                    <xsl:with-param name="schema" select="$schema"/>
+                    <xsl:with-param name="edit"   select="false()"/>
+                </xsl:apply-templates>
+            </xsl:otherwise>
+        </xsl:choose>-->
     </xsl:template>
 
     <!-- ============================================================================= -->

@@ -71,7 +71,7 @@ public class Move implements Service
 
 		String id = Utils.getIdentifierFromParameters(params, context);
 		String ref    		= Util.getParam(params, Params.REF);
-		String publicAcces 		= Util.getParam(params, Params.PUBLIC_ACCESS, "no");
+		String publicAcces 		= Util.getParam(params, Params.PUBLIC_ACCESS, "public");
 //		String access 		= Util.getParam(params, Params.ACCESS, "private");
 		String overwrite	= Util.getParam(params, Params.OVERWRITE, "no");
 		String fname		= Util.getParam(params, Params.FNAME, "fname");
@@ -105,8 +105,8 @@ public class Move implements Service
 
 		// move uploaded file to destination directory
 		// note: uploadDir and rootDir must be in the same volume
-		File oldDir = new File(Lib.resource.getDir(context, publicAcces.equals("on") ? Params.Access.PRIVATE : Params.Access.PUBLIC, id));
-		File newDir = new File(Lib.resource.getDir(context, publicAcces.equals("on") ? Params.Access.PUBLIC : Params.Access.PRIVATE, id));
+		File oldDir = new File(Lib.resource.getDir(context, publicAcces.equals("public") ? Params.Access.PRIVATE : Params.Access.PUBLIC, id));
+		File newDir = new File(Lib.resource.getDir(context, publicAcces.equals("public") ? Params.Access.PUBLIC : Params.Access.PRIVATE, id));
 		newDir.mkdirs();
 
 		// Jeeves will place the uploaded file name in the f_{ref} element

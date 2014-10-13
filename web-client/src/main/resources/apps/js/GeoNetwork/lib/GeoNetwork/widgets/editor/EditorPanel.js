@@ -145,6 +145,8 @@ GeoNetwork.editor.EditorPanel = Ext.extend(Ext.Panel, {
     geoPublisherWindow: undefined,
     lang: undefined,
     fileUploadWindow: undefined,
+    filePermissionWindow: undefined,
+    filePermissionWindowOwnCloud: undefined,
     mask: undefined,
     managerInitialized: false,
     container : undefined,
@@ -333,11 +335,11 @@ GeoNetwork.editor.EditorPanel = Ext.extend(Ext.Panel, {
             this.filePermissionWindow = undefined;
         }
         
-        var isPublic = false;
+        var isInitialPublic = false;
         var fname = "";
         var oldUrl = Ext.getDom('_' + urlRef);
         if(oldUrl && oldUrl.value){
-        	isPublic = oldUrl.value.split("&access=")[1] === 'public';
+        	isInitialPublic = oldUrl.value.split("&access=")[1] === 'public';
         	fname = oldUrl.value.split("&fname=")[1].split("&access")[0];
         }
         
@@ -350,11 +352,23 @@ GeoNetwork.editor.EditorPanel = Ext.extend(Ext.Panel, {
                         allowBlank: false,
                         hidden: true,
                         value: this.metadataId
-                    }, {
+                    }, /*{
                         name: 'public',
                         fieldLabel: 'Public',
-                        checked: isPublic,
+                        checked: isInitialPublic,
                         xtype: 'checkbox'
+                    },*/ {
+                        xtype: 'radio',
+                        name: 'public',
+                        inputValue: 'public',
+                        checked: isInitialPublic,
+                        boxLabel: 'Public'
+                    }, {
+                    	xtype: 'radio',
+                        name: 'public',
+                        inputValue: 'private',
+                        checked: !isInitialPublic,
+                        boxLabel: 'Private'
                     }, {
                         name: 'ref',
 //                        allowBlank: false,
@@ -374,37 +388,42 @@ GeoNetwork.editor.EditorPanel = Ext.extend(Ext.Panel, {
 	                //iconCls: 'attachedAdd',
 	                handler: function(){
 	                    if (filePermissionPanel.getForm().isValid()) {
-	                    	var publicFieldValue = filePermissionPanel.getForm().findField("public").getValue();
-	                        filePermissionPanel.getForm().submit({
-	                            url: panel.catalogue.services.move,
-	                            waitMsg: OpenLayers.i18n('changingPermission'),
-	                            success: function(filePermissionPanel, o){
-	                                /*var fname = o.result.fname;
-	                                var name = Ext.getDom('_' + ref);
-	                                if (name) {
-	                                    name.value = fname;
-	                                }
-	                                var ftype = o.result.ftype;
-	                                var type = Ext.getDom('_' + ref + "_type");
-	                                if (type) {
-	                                	type.value = ftype;
-	                                }*/
-	                                var url = Ext.getDom('_' + urlRef);
-	                                if (url) {
-	                                    url.value = this.catalogue.services.rootUrl + 'resources.get?uuid=' + uuid + '&fname=' + fname + '&access=' + (publicFieldValue ? 'public' : 'private');
-	                                }
-	                                // Trigger update
-	                                panel.save();
-	                                
-	                                // Hide window
-	                                panel.filePermissionWindow.hide();
-	                            },
-	                            failure: function(filePermissionPanel, o){
-	                                	panel.getError2(o.response);
-	                            }
-	                            // TODO : improve error message
-	                            // Currently return  Unexpected token < from ext doDecode
-	                        });
+	                    	//var publicFieldValue = filePermissionPanel.getForm().findField("public").getValue();
+	                    	var publicFieldValue = filePermissionPanel.getForm().getValues()["public"] === "public";
+	                    	if(isInitialPublic !== publicFieldValue){
+	                    		filePermissionPanel.getForm().submit({
+		                            url: panel.catalogue.services.move,
+		                            waitMsg: OpenLayers.i18n('changingPermission'),
+		                            success: function(filePermissionPanel, o){
+		                                /*var fname = o.result.fname;
+		                                var name = Ext.getDom('_' + ref);
+		                                if (name) {
+		                                    name.value = fname;
+		                                }
+		                                var ftype = o.result.ftype;
+		                                var type = Ext.getDom('_' + ref + "_type");
+		                                if (type) {
+		                                	type.value = ftype;
+		                                }*/
+		                                var url = Ext.getDom('_' + urlRef);
+		                                if (url) {
+		                                    url.value = this.catalogue.services.rootUrl + 'resources.get?uuid=' + uuid + '&fname=' + fname + '&access=' + (publicFieldValue ? 'public' : 'private');
+		                                }
+		                                // Trigger update
+		                                panel.save();
+		                                
+		                                // Hide window
+		                                panel.filePermissionWindow.hide();
+		                            },
+		                            failure: function(filePermissionPanel, o){
+		                                	panel.getError2(o.response);
+		                            }
+		                            // TODO : improve error message
+		                            // Currently return  Unexpected token < from ext doDecode
+		                        });
+		                    }else{
+		                    	panel.filePermissionWindow.hide();
+		                    }
 	                    }
                     }
                 }, {
@@ -429,6 +448,102 @@ GeoNetwork.editor.EditorPanel = Ext.extend(Ext.Panel, {
         }
         
         this.filePermissionWindow.show();
+    },
+    
+    /** api: method[showFilePermissionPanel]
+     * 
+     *  :param id: ``String``  Metadata internal identifier.
+     *  :param ref: ``String``  Form element identifier (eg. 235).
+     *  :param urlRef: ``String``  Form element identifier (eg. 235).
+     *  
+     *  Show panel to upload a file.
+     */
+    showFilePermissionPanelOwnCloud: function(id, uuid, urlRef){
+        var panel = this;
+        
+        // FIXME : could be improved. Here we clean the window.
+        // Setting the current metadata id is probably better.
+        if (this.filePermissionWindowOwnCloud) {
+            this.filePermissionWindowOwnCloud.close();
+            this.filePermissionWindowOwnCloud = undefined;
+        }
+        
+        var isInitialPublic = false;
+        var oldUrl = Ext.getDom('_' + urlRef);
+        if(oldUrl && oldUrl.value){
+        	isInitialPublic = !(oldUrl.value.split("&access=")[1] === 'private');
+        }
+        
+        if (!this.filePermissionWindowOwnCloud) {
+            var filePermissionPanelOwnCloud = new Ext.form.FormPanel({
+                //autoLoad : this.catalogue.services.prepareUpload + "?ref=" + ref + "&id=" + id
+                defaultType: 'textfield',
+                items: [{
+                        name: 'id',
+                        allowBlank: false,
+                        hidden: true,
+                        value: this.metadataId
+                    }, /*{
+                        name: 'public',
+                        fieldLabel: 'Public',
+                        checked: isInitialPublic,
+                        xtype: 'checkbox'
+                    },*/ {
+                        xtype: 'radio',
+                        name: 'public',
+                        inputValue: 'public',
+                        checked: isInitialPublic,
+                        boxLabel: 'Public'
+                    }, {
+                    	xtype: 'radio',
+                        name: 'public',
+                        inputValue: 'private',
+                        checked: !isInitialPublic,
+                        boxLabel: 'Private'
+                    }],
+	            buttons: [{
+	                text: OpenLayers.i18n('changePermission'),
+	                //iconCls: 'attachedAdd',
+	                handler: function(){
+	                    if (filePermissionPanelOwnCloud.getForm().isValid()) {
+	                    	//var publicFieldValue = filePermissionPanel.getForm().findField("public").getValue();
+	                    	var publicFieldValue = filePermissionPanelOwnCloud.getForm().getValues()["public"] === "public";
+	                    	if(isInitialPublic !== publicFieldValue){
+	                    		var url = Ext.getDom('_' + urlRef);
+                                if (url) {
+                                    url.value = url.value.split("&access")[0] + '&access=' + (publicFieldValue ? 'public' : 'private');
+                                }
+                                
+                                // Trigger update
+                                panel.save();
+		                    }
+	                    	
+	                    	// Hide window
+	                    	panel.filePermissionWindowOwnCloud.hide();
+	                    }
+                    }
+                }, {
+                    text: OpenLayers.i18n('reset'),
+                    handler: function(){
+                    	filePermissionPanelOwnCloud.getForm().reset();
+                    }
+	            }]
+            });
+            
+            this.filePermissionWindowOwnCloud = new Ext.Window({
+                title: OpenLayers.i18n('filePermissionWindow'),
+                width: 300,
+                height: 300,
+                layout: 'fit',
+                modal: true,
+                items: filePermissionPanelOwnCloud,
+                closeAction: 'hide',
+                constrain: true,
+                iconCls: 'attached'
+            });
+        }
+        
+        this.filePermissionWindowOwnCloud.show();
     },
     
     /** api: method[showGeoPublisherPanel]

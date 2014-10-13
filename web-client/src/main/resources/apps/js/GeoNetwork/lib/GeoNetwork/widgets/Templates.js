@@ -450,7 +450,12 @@ GeoNetwork.Templates = Ext.extend(Ext.XTemplate, {
                 },
                 getHref: function(values){
                 	var value = values.href + '" target="_blank"  onclick="catalogue.sendGAEvent(\'' + values.href + '\')'; 
-                	if (values.isPrivate=="true" && !catalogue.isIdentified()) {
+                	/*if ((values.isPrivate == "true" && !catalogue.isIdentified()) || 
+                		(values.protocol === "WWW:LINK-1.0-http--link" && values.href.contains("access=private") && !catalogue.isIdentified())) {
+                		value = '#" target onclick="Ext.Msg.alert(\'Not registered\', \'' + OpenLayers.i18n('notRegisteredForDownload') + '\')';
+                	}*/
+                	if ( (values.href.contains("access=private") || (values.protocol === "WWW:LINK-1.0-http--link" && !values.href.contains("&access")) ) 
+                			&& !catalogue.isIdentified()) {
                 		value = '#" target onclick="Ext.Msg.alert(\'Not registered\', \'' + OpenLayers.i18n('notRegisteredForDownload') + '\')';
                 	}
                 	return value;

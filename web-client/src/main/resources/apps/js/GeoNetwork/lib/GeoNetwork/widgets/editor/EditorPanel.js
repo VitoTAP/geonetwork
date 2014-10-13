@@ -471,7 +471,7 @@ GeoNetwork.editor.EditorPanel = Ext.extend(Ext.Panel, {
         var isInitialPublic = false;
         var oldUrl = Ext.getDom('_' + urlRef);
         if(oldUrl && oldUrl.value){
-        	isInitialPublic = !(oldUrl.value.split("&access=")[1] === 'private');
+        	isInitialPublic = (oldUrl.value.split("&access=")[1] === 'public');
         }
         
         if (!this.filePermissionWindowOwnCloud) {

@@ -60,7 +60,7 @@ GeoNetwork.data.MetadataResultsFastStore = function(){
  	    "GISAT s.r.o",
  	    "SARVISION"
  	];*/
-	var logos = ["vito", "alterra", "ucl", "cirad", "itc-ut", "iiasa", "fao", "iki", "deimos", "sarmap", "eftas", "geoville", "rcmrd", "agrhymet", "geosas", "inta", "gisat", "sarvision"];
+	var logos = ["vito", "alterra", "ucl", "cirad", "itc-ut", "iiasa", "fao", "iki", "deimos", "sarmap", "eftas", "geoville", "rcmrd", "agrhymet", "geosas", "inta", "gisat", "sarvision", "sri"];
 	
     function getTitle(v, record){
         if (record.title && record.title[0]) {

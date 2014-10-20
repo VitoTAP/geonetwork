@@ -584,7 +584,7 @@ GeoNetwork.Lang.nl = {
     'statusChangeFailed': 'De statuswijziging is niet gelukt aangezien u niet de rechten hebt of het metadatarecord niet gevalideerd kon worden. Editeer het metadatarecord om de validatiefouten te zien.',
     'userSessionEnded': 'De sessie is vervallen en u moet opnieuw inloggen.',
     'noReordsFound': 'Er werden geen metadatasets gevonden.',
-    'notRegisteredForDownload': 'You must be logged in to download this product'
+    'notRegisteredForDownload': 'You must be logged in for this operation'
 };
 
 OpenLayers.Util.extend(OpenLayers.Lang.nl, GeoNetwork.Lang.nl);

@@ -565,7 +565,7 @@ GeoNetwork.lang.en = {
     'statusChangeFailed': 'The change of state was not succesful since the metadatarecord does not validate. Please check the validation issues in the metadata editor.',
     'userSessionEnded': 'De sessie is vervallen en u moet opnieuw inloggen.',
     'noReordsFound': 'Er werden geen metadatasets gevonden.',
-    'notRegisteredForDownload': 'You must be logged in to download this product'
+    'notRegisteredForDownload': 'You must be logged in for this operation'
 };
 
 OpenLayers.Util.extend(OpenLayers.Lang.en, GeoNetwork.lang.en);

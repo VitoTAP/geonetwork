@@ -47,6 +47,8 @@ GeoNetwork.app = function(){
     var mainTagCloudViewPanel, tagCloudViewPanel, infoPanel;
 
     var visualizationModeInitialized = false;
+    
+    var searchFirstTime = false;
 
 
     /**
@@ -1009,8 +1011,14 @@ GeoNetwork.app = function(){
                                    See http://www.sencha.com/forum/showthread.php?65441-Starting-A-Tab-Panel-with-a-Hidden-Tab
                                 */
                                 listeners: {
-                                    render: function(c){
-                                      c.ownerCt.hideTabStripItem(c);
+                                  render: function(c){
+                                      //c.ownerCt.hideTabStripItem(c);
+                                  },
+                                  activate: function(){
+                                	  if(!searchFirstTime){
+                                		  Ext.getCmp('searchBt').fireEvent('click');
+                                		  searchFirstTime = true;
+                                	  }
                                   }
                                 }
                             },

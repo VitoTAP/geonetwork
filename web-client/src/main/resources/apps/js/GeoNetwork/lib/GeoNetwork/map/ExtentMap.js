@@ -198,13 +198,17 @@ GeoNetwork.map.ExtentMap = function(){
         var bounds, values, boundsForMap;
         var wsen = targetBbox.split(',');
         values = [];
+        var featureValues = [],
+        	maxFeatureValues = [-180, -90, 180, 90];
         
         // Update bbox from main projection information (from hidden fields which are always in WGS84)
         if (mainProj) {
-            values[0] = Ext.get("_" + wsen[0]).getValue();
-            values[1] = Ext.get("_" + wsen[1]).getValue();
-            values[2] = Ext.get("_" + wsen[2]).getValue();
-            values[3] = Ext.get("_" + wsen[3]).getValue();
+        	for(var i=0;i<4;i++){
+        		featureValues[i] = values[i] = Ext.get("_" + wsen[i]).getValue();
+        		if(featureValues[i] == maxFeatureValues[i]){
+        			featureValues[i] = (parseFloat(values[i])-0.00001*(values[i]/Math.abs(values[i])))+"";
+        		}
+        	}
             
             bounds = OpenLayers.Bounds.fromArray(values);
             boundsForMap = bounds.clone();
@@ -216,12 +220,16 @@ GeoNetwork.map.ExtentMap = function(){
         } else {
         	// Update bounding box from input fields which
         	// may be in different projection.
-            values[0] = Ext.get(wsen[0]).getValue();
-            values[1] = Ext.get(wsen[1]).getValue();
-            values[2] = Ext.get(wsen[2]).getValue();
-            values[3] = Ext.get(wsen[3]).getValue();
+        	for(var i=0;i<4;i++){
+        		featureValues[i] = values[i] = Ext.get(wsen[i]).getValue();
+        		if(featureValues[i] == maxFeatureValues[i]){
+        			featureValues[i] = (parseFloat(values[i])-0.00001*(values[i]/Math.abs(values[i])))+"";
+        		}
+        	}
+        	
             bounds = OpenLayers.Bounds.fromArray(values);
-            boundsForMap = bounds.clone();
+            //boundsForMap = bounds.clone();
+            boundsForMap = OpenLayers.Bounds.fromArray(featureValues);
             
             // Loop for projection selectors value
             var toProj = null;
@@ -386,6 +394,10 @@ GeoNetwork.map.ExtentMap = function(){
         
         // FIXME : When creating WKT, cariage return are added to the string.
         string = string.replace(/\n/g, '');
+        string = string.replace(/-90/g, '-89.99999');
+        string = string.replace(/90/g, '89.99999');
+        string = string.replace(/-180/g, '-179.99999');
+        string = string.replace(/180/g, '179.99999');
 
         var feature = reader.read(string);
 
@@ -413,13 +425,17 @@ GeoNetwork.map.ExtentMap = function(){
         // In map projection
         var bounds;
         var wsen = targetBbox.split(',');
+        var featureValues = [],
+    		maxFeatureValues = [-180, -90, 180, 90];
         
         // Update bbox from main projection information (values from regions extents in WGS84)
         var values = [];
-        values[0] = Ext.get("_" + wsen[0]).getValue();
-        values[1] = Ext.get("_" + wsen[1]).getValue();
-        values[2] = Ext.get("_" + wsen[2]).getValue();
-        values[3] = Ext.get("_" + wsen[3]).getValue();
+        for(var i=0;i<4;i++){
+        	featureValues[i] = values[i] = Ext.get("_" + wsen[i]).getValue();
+        	if(featureValues[i] == maxFeatureValues[i]){
+        		featureValues[i] = (parseFloat(values[i])-0.00001*(values[i]/Math.abs(values[i])))+"";
+        	}
+        }
         bounds = OpenLayers.Bounds.fromArray(values);
         
         // Bounds in map projection to draw rectangle
@@ -432,7 +448,8 @@ GeoNetwork.map.ExtentMap = function(){
         Ext.get(wsen[3]).dom.onkeyup();
         
         // Draw new bounds
-        var feature = new OpenLayers.Feature.Vector(bounds.toGeometry());
+        //var feature = new OpenLayers.Feature.Vector(bounds.toGeometry());
+        var feature = new OpenLayers.Feature.Vector(OpenLayers.Bounds.fromArray(featureValues).toGeometry());
         vectorLayer.destroyFeatures();
         vectorLayer.addFeatures(feature);
         

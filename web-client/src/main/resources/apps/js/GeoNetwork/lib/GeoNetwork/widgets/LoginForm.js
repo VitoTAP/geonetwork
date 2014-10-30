@@ -118,7 +118,11 @@ GeoNetwork.LoginForm = Ext.extend(Ext.FormPanel, {
                 id: 'btnRegisterForm',
 	            listeners: {
 	                click: function(){
-	                	this.catalogue.modalAction(OpenLayers.i18n('register'),this.catalogue.services.register);
+	                	if(this.nodeType == "sigma"){
+	                		this.catalogue.modalAction(OpenLayers.i18n('register'),this.catalogue.services.register);
+	                	}else if(this.nodeType == "belair"){
+	                		this.showPdfRegisterWindow();
+	                	}
 	                },
 	                scope: form
 	            }
@@ -130,7 +134,11 @@ GeoNetwork.LoginForm = Ext.extend(Ext.FormPanel, {
                 id: 'btnForgottenForm',
 	            listeners: {
 	                click: function(){
-	                	this.catalogue.modalAction(OpenLayers.i18n('forgotten'),this.catalogue.services.forgotten);
+	                	if(this.nodeType == "sigma"){
+	                		this.catalogue.modalAction(OpenLayers.i18n('forgotten'),this.catalogue.services.forgotten);
+	                	}else if(this.nodeType == "belair"){
+	                		this.showPdfPasswordRecoveryWindow();
+	                	}
 	                },
 	                scope: form
 	            }
@@ -205,7 +213,7 @@ GeoNetwork.LoginForm = Ext.extend(Ext.FormPanel, {
             		this.username,
                     this.password,
                     loginBt);
-            if (this.nodeType == "sigma") {
+            if (this.nodeType == "sigma" || this.nodeType == "belair") {
             	this.loginFields.push(registerBt,forgottenBt,contactUsBt);
             }
     		if (!GeoNetwork.Settings.useSTS) {
@@ -214,7 +222,7 @@ GeoNetwork.LoginForm = Ext.extend(Ext.FormPanel, {
 	                    this.password);
     		}
     		this.toggledFields.push(loginBt);
-            if (this.nodeType == "sigma") {
+            if (this.nodeType == "sigma" || this.nodeType == "belair") {
         		this.toggledFields.push(registerBt);
         		this.toggledFields.push(forgottenBt);
             }
@@ -228,7 +236,7 @@ GeoNetwork.LoginForm = Ext.extend(Ext.FormPanel, {
                     passwordLb,
                     this.password,
                     loginBt);
-            if (this.nodeType == "sigma") {
+            if (this.nodeType == "sigma" || this.nodeType == "belair") {
             	this.loginFields.push(registerBt,forgottenBt,contactUsBt);
             }
     		if (!GeoNetwork.Settings.useSTS) {
@@ -238,7 +246,7 @@ GeoNetwork.LoginForm = Ext.extend(Ext.FormPanel, {
 	                    this.password);
     		}
         	this.toggledFields.push(loginBt);
-            if (this.nodeType == "sigma") {
+            if (this.nodeType == "sigma" || this.nodeType == "belair") {
         		this.toggledFields.push(registerBt);
         		this.toggledFields.push(forgottenBt);
             }
@@ -256,7 +264,7 @@ GeoNetwork.LoginForm = Ext.extend(Ext.FormPanel, {
     	this.toggledFieldsOff.push(this.userInfo, 
                 /*logoutBt,  flexCmp,*/ actionsBt);
     	this.items = [loginItems,this.userInfo,loginBt];
-        if (this.nodeType == "sigma") {
+        if (this.nodeType == "sigma" || this.nodeType == "belair") {
         	this.items.push(registerBt);
         	this.items.push(forgottenBt);
     	}
@@ -264,7 +272,9 @@ GeoNetwork.LoginForm = Ext.extend(Ext.FormPanel, {
         //this.items.push([flexCmp, actionsBt]);
         this.items.push(actionsBt);
         this.items.push(this.flexCmp);
-        
+        /*if(this.catalogue.identifiedUser || this.nodeType == 'belair') {
+        	this.items.push(flexCmp);
+        }*/
         this.items.push(contactUsBt);
 /*
     	this.items = [this.loginFields, this.toggledFieldsOff];
@@ -304,6 +314,358 @@ GeoNetwork.LoginForm = Ext.extend(Ext.FormPanel, {
             this.userInfo.setText('');
         }
         this.doLayout(false, true);
+    },
+    
+    showPdfRegisterWindow: function(){
+    	// request parameters needed for PDF registration form
+    	var request = OpenLayers.Request.GET({
+    	    url: this.catalogue.services.pdfGetParameters,
+    	    async: false
+    	});
+    	var requestObj = eval('(' + request.responseText + ')');
+    	
+    	// parse parameters into usable format
+    	var parameters = {};
+    	for(var i=0;i<requestObj.length;i++){
+    		// if format of this parameter is of type '<extra>', request possible values with request 'extra'
+    		if(requestObj[i].format.charAt(0) === '<'){
+    			request = OpenLayers.Request.GET({
+    	    	    url: this.catalogue.pdfUrl + '?action=' + requestObj[i].format.replace('<','').replace('>',''),
+    	    	    async: false
+    	    	});
+    			var temp = eval('(' + request.responseText + ')');
+    			requestObj[i].formatParams = [];
+    			for(var j=0;j<temp.length;j++){
+    				requestObj[i].formatParams.push([temp[j].id, temp[j].value]);
+    			}
+    		}
+    		
+    		parameters[requestObj[i].id.toLowerCase()] = requestObj[i];
+    	}
+    	
+    	var self = this;
+    	this.form = new Ext.form.FormPanel({
+        	title: '',
+            width: 400,
+            frame: true,
+            
+            labelSeparator: ',',
+            url: this.catalogue.services.pdfRegister,
+            
+            /*layout: 'form',
+            defaults: {
+                anchor: '50%'
+            },
+            margins: '0 50 0 50',
+            
+            fieldDefaults: {
+                msgTarget: 'side',
+                anchor: '30%'
+            },
+            labelStyle: 'width:200px',*/
+            
+            items: [{
+            	layout: 'column',
+            	items: [{
+            		columnWidth: .5,
+                    layout: 'form',
+                    defaultType: 'textfield',
+                    defaults: {
+            			labelSeparator: '',
+            			anchor: '90%'
+            		},
+                    items: [{
+                    	fieldLabel: 'User name' + (parameters.username.presence === 'mandatory' ? ' (*)' : ''),
+                        name: 'username',
+                        allowBlank: parameters.username.presence !== 'mandatory',
+                        tabIndex: 1
+                    }, {
+                        fieldLabel: 'Password' + (parameters.password.presence === 'mandatory' ? ' (*)' : ''),
+                        name: 'password',
+                        inputType: 'password',
+                        allowBlank: parameters.password.presence !== 'mandatory',
+                        tabIndex: 2
+                    }, {
+                        fieldLabel: 'First name' + (parameters.firstname.presence === 'mandatory' ? ' (*)' : ''),
+                        name: 'firstName',
+                        allowBlank: parameters.firstname.presence !== 'mandatory',
+                        tabIndex: 4
+                    }, {
+                        fieldLabel: 'E-mail' + (parameters.emailaddress.presence === 'mandatory' ? ' (*)' : ''),
+                        name: 'emailAddress',
+                        allowBlank: parameters.emailaddress.presence !== 'mandatory',
+                        tabIndex: 6
+                    }, {
+                        fieldLabel: 'Company name' + (parameters.company.presence === 'mandatory' ? ' (*)' : ''),
+                        name: 'company',
+                        allowBlank: parameters.company.presence !== 'mandatory',
+                        tabIndex: 7
+                    }, {
+                    	xtype: 'combo',
+                    	fieldLabel: 'Domain of activity' + (parameters.domainactivity.presence === 'mandatory' ? ' (*)' : ''),
+                    	name: 'domainactivityValue',
+                    	hiddenName: 'domainactivity',
+                    	editable: false,
+                        triggerAction: 'all',
+                        lazyRender: true,
+                        mode: 'local',
+                        store: new Ext.data.ArrayStore({
+                            id: 0,
+                            fields: ['id', 'value'],
+                            data: parameters.domainactivity.formatParams
+                        }),
+                        valueField: 'id',
+                        displayField: 'value',
+                        allowBlank: parameters.domainactivity.presence !== 'mandatory',
+                        tabIndex: 9
+                    }, {
+                    	xtype: 'combo',
+                    	fieldLabel: 'Function' + (parameters.function.presence === 'mandatory' ? ' (*)' : ''),
+                    	name: 'functionValue',
+                    	hiddenName: 'function',
+                    	editable: false,
+                        triggerAction: 'all',
+                        lazyRender: true,
+                        mode: 'local',
+                        store: new Ext.data.ArrayStore({
+                            id: 0,
+                            fields: ['id', 'value'],
+                            data: parameters.function.formatParams
+                        }),
+                        valueField: 'id',
+                        displayField: 'value',
+                        allowBlank: parameters.function.presence !== 'mandatory',
+                        tabIndex: 11
+                    }, {
+                        fieldLabel: 'Street address' + (parameters.street.presence === 'mandatory' ? ' (*)' : ''),
+                        name: 'street',
+                        allowBlank: parameters.street.presence !== 'mandatory',
+                        tabIndex: 12
+                    }, {
+                        fieldLabel: 'Zip' + (parameters.zip.presence === 'mandatory' ? ' (*)' : ''),
+                        name: 'zip',
+                        allowBlank: parameters.zip.presence !== 'mandatory',
+                        tabIndex: 13
+                    }, {
+                    	xtype: 'combo',
+                    	fieldLabel: 'Country' + (parameters.countryid.presence === 'mandatory' ? ' (*)' : ''),
+                    	name: 'countryValue',
+                    	hiddenName: 'countryid',
+                    	editable: false,
+                        triggerAction: 'all',
+                        lazyRender: true,
+                        mode: 'local',
+                        store: new Ext.data.ArrayStore({
+                            id: 0,
+                            fields: ['id', 'value'],
+                            data: parameters.countryid.formatParams
+                        }),
+                        valueField: 'id',
+                        displayField: 'value',
+                        allowBlank: parameters.countryid.presence !== 'mandatory',
+                        tabIndex: 15
+                    }, {
+                        fieldLabel: 'Phone nr.' + (parameters.telephonenbr.presence === 'mandatory' ? ' (*)' : ''),
+                        name: 'telephonenbr',
+                        allowBlank: parameters.telephonenbr.presence !== 'mandatory',
+                        tabIndex: 17
+                    }]
+            	}, {
+            		columnWidth: .5,
+            		layout: 'form',
+            		defaults: {
+            			labelSeparator: '',
+            			labelWidth: '200',
+            			anchor: '90%'
+            		},
+            		items: [{},{}, 
+            		{
+            			xtype: 'textfield',
+                        fieldLabel: 'Confirm password' + (parameters.password.presence === 'mandatory' ? ' (*)' : ''),
+                        name: 'confirmPassword',
+                        inputType: 'password',
+                        allowBlank: parameters.password.presence !== 'mandatory',
+                        tabIndex: 3
+                    }, {
+                    	xtype: 'textfield',
+                        fieldLabel: 'Last Name' + (parameters.surname.presence === 'mandatory' ? ' (*)' : ''),
+                        name: 'lastName',
+                        allowBlank: parameters.surname.presence !== 'mandatory',
+                        tabIndex: 5
+                    }, {},{
+                    	
+                    }, {
+                    	xtype: 'textfield',
+                        fieldLabel: 'Department' + (parameters.department.presence === 'mandatory' ? ' (*)' : ''),
+                        name: 'department',
+                        allowBlank: parameters.department.presence !== 'mandatory',
+                        tabIndex: 8
+                    }, {
+                    	xtype: 'combo',
+                    	fieldLabel: 'Type of organisation' + (parameters.organisationaltype.presence === 'mandatory' ? ' (*)' : ''),
+                    	name: 'organisationaltypeValue',
+                    	hiddenName: 'organisationaltype',
+                    	editable: false,
+                        triggerAction: 'all',
+                        lazyRender: true,
+                        mode: 'local',
+                        forceSelection: true,
+                        store: new Ext.data.ArrayStore({
+                            id: 0,
+                            fields: ['id', 'value'],
+                            data: parameters.organisationaltype.formatParams
+                        }),
+                        valueField: 'id',
+                        displayField: 'value',
+                        allowBlank: parameters.organisationaltype.presence !== 'mandatory',
+                        tabIndex: 10
+                    }, {},{
+                    	
+                    }, {},{
+                    	
+                    }, {
+                    	xtype: 'textfield',
+                        fieldLabel: 'City' + (parameters.city.presence === 'mandatory' ? ' (*)' : ''),
+                        name: 'city',
+                        allowBlank: parameters.city.presence !== 'mandatory',
+                        tabIndex: 14
+                    }, {
+                    	xtype: 'textfield',
+                        fieldLabel: 'Website' + (parameters.linkedin.presence === 'mandatory' ? ' (*)' : ''),
+                        name: 'linkedin',
+                        allowBlank: parameters.linkedin.presence !== 'mandatory',
+                        tabIndex: 16
+                    }, {
+                    	xtype: 'textfield',
+                        fieldLabel: 'Fax nr.' + (parameters.faxnbr.presence === 'mandatory' ? ' (*)' : ''),
+                        name: 'faxnbr',
+                        allowBlank: parameters.faxnbr.presence !== 'mandatory',
+                        tabIndex: 18
+                    }]
+            	}]
+            }, {
+            	id: 'captcha',
+            	html: '<img src="' + this.catalogue.services.pdfCaptcha + '" />'
+            }, {
+            	xtype: 'button',
+            	text: 'Refresh',
+        		id: 'btnRefreshCaptcha',
+        		//width: 300,
+        		listeners: {
+        			click: function(){
+        				Ext.getCmp('captcha').update('<img src="' + self.catalogue.services.pdfCaptcha + '" />');
+        			}
+        		}
+            }, {
+            	layout: 'fit',
+            	xtype: 'checkbox',
+            	name: 'termsofuse',
+            	boxLabel: 'Accept terms of use and privacy policy'
+            }],
+            
+            // Reset and Submit buttons
+            buttons: [{
+            	text: 'Close',
+            	handler: function() {
+            		win.close();
+            	}
+            }, {
+                text: 'Reset',
+                handler: function() {
+                    self.form.getForm().reset();
+                }
+            }, {
+                text: 'Submit',
+                formBind: true, //only enabled once the form is valid
+                disabled: false,
+                handler: function() {
+                    var form = self.form.getForm();
+                    if (form.isValid()) {
+                        form.submit({
+                            success: function(form, action) {
+                               Ext.Msg.alert('Success', action.result.msg);
+                            },
+                            failure: function(form, action) {
+                                Ext.Msg.alert('Failed', action.result.msg);
+                            }
+                        });
+                    } else {
+                        Ext.Msg.alert( "Error!", "Your form is invalid!" );
+                    }
+                }
+            }]
+        });
+    	
+    	var win = new Ext.Window({
+            id: 'pdfRegisterWindow',
+            layout: 'fit',
+            width: 700,
+            height: 500,
+            closeAction: 'destroy',
+            plain: true,
+            modal: true,
+            draggable: true,
+            title: 'Registration',
+            items: this.form,
+            bodyStyle: 'background-color: white;'
+        });
+        win.show(this);
+    },
+    
+    showPdfPasswordRecoveryWindow: function(){
+    	var self = this;
+    	this.passwordRecoveryForm = new Ext.form.FormPanel({
+        	title: '',
+            width: 400,
+            frame: true,
+            layout: 'form',
+            
+            url: this.catalogue.services.pdfPasswordRecovery,
+            labelStyle: 'width:200px',
+            
+            items: [{
+            	xtype: 'label',
+            	text: OpenLayers.i18n('pdfPasswordRecovery'),
+            	style: {
+            		marginBottom: '10px',
+            		textAlign: 'center'
+            	}
+            }, {
+            	xtype: 'textfield',
+                fieldLabel: 'E-mail address',
+                name: 'emailAddress',
+                allowBlank: false,
+                tabIndex: 1
+            }, {
+            	id: 'captchaPasswordRecovery',
+            	html: '<img src="' + this.catalogue.services.pdfCaptcha + '" />'
+            }, {
+            	xtype: 'button',
+            	text: 'Refresh',
+        		id: 'btnRefreshCaptchaPasswordRecovery',
+        		//width: 300,
+        		listeners: {
+        			click: function(){
+        				Ext.getCmp('captchaPasswordRecovery').update('<img src="' + self.catalogue.services.pdfCaptcha + '" />');
+        			}
+        		}
+            }]
+    	});
+    	
+    	var win = new Ext.Window({
+            id: 'pdfPasswordRecoveryWindow',
+            layout: 'fit',
+            width: 700,
+            height: 500,
+            closeAction: 'destroy',
+            plain: true,
+            modal: true,
+            draggable: true,
+            title: 'Password recovery',
+            items: this.passwordRecoveryForm,
+            bodyStyle: 'background-color: white;'
+        });
+        win.show(this);
     }
 });
 

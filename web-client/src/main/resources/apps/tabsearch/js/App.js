@@ -50,6 +50,8 @@ GeoNetwork.app = function(){
     var visualizationModeInitialized = false;
     
     var regionsKeywords;
+    
+    var searchFirstTime = false;
 
 
     /**
@@ -1025,10 +1027,14 @@ GeoNetwork.app = function(){
                                 */
                                 listeners: {
                                     render: function(c){
-                                    	c.ownerCt.hideTabStripItem(c);
+                                    	//c.ownerCt.hideTabStripItem(c);
                                     },
                                     activate : function (p) {
                                     	previousTab = 1;
+                                    	if(!searchFirstTime){
+                                  		  Ext.getCmp('searchBt').fireEvent('click');
+                                  		  searchFirstTime = true;
+                                  	  	}
                                     }
                                 }
                             },

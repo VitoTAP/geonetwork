@@ -258,6 +258,7 @@ GeoNetwork.Catalogue = Ext.extend(Ext.util.Observable, {
         
         // Register GeoNetwork services URL
         var serviceUrl = this.URL + '/srv/' + this.LANG + "/";
+        this.pdfUrl = 'http://pmaster13.intern.vgt.vito.be:8080/PDF/register';
         this.services = {
             rootUrl: serviceUrl,
             csw: serviceUrl + 'csw',
@@ -369,7 +370,10 @@ GeoNetwork.Catalogue = Ext.extend(Ext.util.Observable, {
             logoAdd: serviceUrl + 'logo.add',
             logoUrl: this.URL + '/images/logos/',
             imgUrl: this.URL + '/images/',
-            harvesterLogoUrl: this.URL + '/images/harvesting/'
+            harvesterLogoUrl: this.URL + '/images/harvesting/',
+            pdfGetParameters: this.pdfUrl + '?action=getparameters',
+            pdfCaptcha: this.pdfUrl + '?action=captcha',
+            pdfRegister: this.pdfUrl
         };
         
         // TODO : init only once required (ie. metadata show)

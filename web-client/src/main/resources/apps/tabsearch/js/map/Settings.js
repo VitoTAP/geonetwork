@@ -68,8 +68,9 @@ new OpenLayers.Layer.Google("Google Satellite", {type: google.maps.MapTypeId.SAT
 // Config for OSM based maps
 GeoNetwork.map.PROJECTION = "EPSG:900913";
 //GeoNetwork.map.EXTENT = new OpenLayers.Bounds(-550000, 5000000, 1200000, 7000000);
-GeoNetwork.map.EXTENT = new OpenLayers.Bounds(2.31580, 49.31776, 6.66271, 51.64241).transform(new OpenLayers.Projection("EPSG:4326"), new OpenLayers.Projection("EPSG:900913"));
+//GeoNetwork.map.EXTENT = new OpenLayers.Bounds(2.31580, 49.31776, 6.66271, 51.64241).transform(new OpenLayers.Projection("EPSG:4326"), new OpenLayers.Projection("EPSG:900913"));
 GeoNetwork.map.RESTRICTEDEXTENT = new OpenLayers.Bounds(-20037508, -20037508, 20037508, 20037508.34);;
+GeoNetwork.map.EXTENT = GeoNetwork.map.RESTRICTEDEXTENT;
 //GeoNetwork.map.BACKGROUND_LAYERS = [
 //    new OpenLayers.Layer.OSM()
 //    //new OpenLayers.Layer.Google("Google Streets");

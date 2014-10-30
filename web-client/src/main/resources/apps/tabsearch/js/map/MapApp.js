@@ -1414,7 +1414,7 @@ var processLayersSuccess = function(response) {
                                 this.isLoading = false;
                             }});
 
-                        var layerCap = getLayer(caps, caps.capability.layers, ol_layer);
+                        var layerCap = getLayer(caps, caps.capability.layers, layer);
 
                         if (layerCap) {
                             ol_layer.queryable = layerCap.queryable;
@@ -1492,7 +1492,11 @@ var processLayersSuccess = function(response) {
             try {
                 var layerName = lr.name.split(",");
 
-                if (layerName.indexOf(layer.params.LAYERS) != -1) {
+		var iPos = layer.indexOf(":");
+		if (iPos>-1) {
+			layer = layer.substring(iPos+1);
+		}
+                if (layerName.indexOf(layer) != -1) {
                     findedLayer = lr;
                     break;
                 }

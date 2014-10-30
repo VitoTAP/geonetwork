@@ -3915,16 +3915,18 @@
 		</xsl:apply-templates>
 	</xsl:if>
 	
-	<xsl:variable name="isOwnCloudLink" select="string(gmd:protocol[1]/gco:CharacterString)='WWW:LINK-1.0-http--link'
-		    and string(gmd:name/gco:CharacterString|gmd:name/gmx:MimeFileType)!='' and name(../..)='gmd:MD_DigitalTransferOptions'"/>
+<!--
+	<xsl:variable name="isOwnCloudLink" select="string(gmd:protocol[1]/gco:CharacterString)='WWW:LINK-1.0-http-link'
+		    and name(../..)='gmd:MD_DigitalTransferOptions'"/>
 	<xsl:if test="$isOwnCloudLink and $edit">
 		<xsl:apply-templates mode="iso19139PermissionChangeOwnCloud" select="gmd:linkage|geonet:child[string(@name)='linkage']">
 			<xsl:with-param name="schema" select="$schema"/>
 			<xsl:with-param name="edit"   select="$edit"/>
 		</xsl:apply-templates>
 	</xsl:if>
+-->
 	
-	<xsl:if test="not($isOwnCloudLink and $edit) and not($isUploadedOnServer and $edit)">
+	<xsl:if test="not($isUploadedOnServer and $edit)">
 	        <xsl:apply-templates mode="elementEP" select="gmd:linkage|geonet:child[string(@name)='linkage']">
 	            <xsl:with-param name="schema" select="$schema"/>
 	            <xsl:with-param name="edit"   select="not(string(gmd:protocol[1]/gco:CharacterString)='WWW:DOWNLOAD-1.0-http--download'
@@ -4229,6 +4231,7 @@
                 <xsl:variable name="urlRef" select="../gmd:linkage/gmd:URL/geonet:element/@ref"/>
                 <xsl:variable name="value" select="gco:CharacterString|gmx:MimeFileType"/>
                 <xsl:variable name="button" select="starts-with($protocol,'WWW:DOWNLOAD') and contains($protocol,'http') and normalize-space($value)=''"/>
+                <xsl:variable name="ownCloudButton" select="starts-with($protocol,'WWW:LINK') and contains($protocol,'http')"/>
 <!--
                 <xsl:call-template name="simpleElementGui">
                     <xsl:with-param name="schema" select="$schema"/>
@@ -4269,6 +4272,15 @@
 									</xsl:attribute>
 		                            <xsl:value-of select="/root/gui/strings/insertFileMode"/>
 		                        </button>
+		                        <button id="{concat('dbo_',$ref)}" class="content" onclick="Ext.getCmp('editorPanel').showFilePermissionPanelOwnCloud('{//geonet:info/id}', '{//geonet:info/uuid}', '{$urlRef}');" type="button">
+									<xsl:attribute name="style">
+										<xsl:choose>
+											<xsl:when test="$ownCloudButton">display:block;</xsl:when>
+											<xsl:otherwise>display:none;</xsl:otherwise>
+										</xsl:choose>
+									</xsl:attribute>
+									<xsl:value-of select="/root/gui/strings/changePermissionMode"/>
+								</button>
 							</td>
 						</tr>
 						</table>
@@ -4373,7 +4385,7 @@
 				<td align="left">
 					<button id="{concat('db_',$ref)}" class="content" onclick="Ext.getCmp('editorPanel').showFilePermissionPanelOwnCloud('{//geonet:info/id}', '{//geonet:info/uuid}', '{$ref}');" type="button">
 						Change permission
-		                        </button>
+		            </button>
 				</td>
 			</tr>
 			</table>

@@ -450,7 +450,7 @@ GeoNetwork.editor.EditorPanel = Ext.extend(Ext.Panel, {
         this.filePermissionWindow.show();
     },
     
-    /** api: method[showFilePermissionPanel]
+    /** api: method[showFilePermissionPanelOwnCloud]
      * 
      *  :param id: ``String``  Metadata internal identifier.
      *  :param ref: ``String``  Form element identifier (eg. 235).
@@ -472,6 +472,9 @@ GeoNetwork.editor.EditorPanel = Ext.extend(Ext.Panel, {
         var oldUrl = Ext.getDom('_' + urlRef);
         if(oldUrl && oldUrl.value){
         	isInitialPublic = (oldUrl.value.split("&access=")[1] === 'public');
+        }else{
+        	alert(OpenLayers.i18n("errorNoOwnCloudLink")); 
+        	return;
         }
         
         if (!this.filePermissionWindowOwnCloud) {

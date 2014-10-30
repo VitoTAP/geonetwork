@@ -567,6 +567,8 @@
 	<infoTitle>Info</infoTitle>
 	<insert>Insert</insert>
 	<insertFileMode js="true">File Upload</insertFileMode>
+	<changePermissionMode js="true">Change permission</changePermissionMode>
+	
 	<insertMode>Insert mode:</insertMode>
 	<insertPasteMode>Copy/Paste</insertPasteMode>
 	<interactiveMap>Interactive Map</interactiveMap>

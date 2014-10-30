@@ -529,8 +529,10 @@ function checkForFileUpload(fref, pref, protocolBeforeEdit){
     var protoSelect = Ext.getCmp('s_' + pref); // the protocol <select>
     var protoIn = Ext.getDom('_' + pref); // the protocol input field to be submitted
     var fileUploaded = protocolBeforeEdit.startsWith('WWW:DOWNLOAD'); // File name not displayed in editor if downloaded
+    //var ownCloudLink = protocolBeforeEdit.startsWith('WWW:LINK');
     var protocol = protoSelect.value;
     var protocolDownload = (protocol.startsWith('WWW:DOWNLOAD') && protocol.indexOf('http') > 0);
+    var protocolOwnCloud = (protocol.startsWith('WWW:LINK') && protocol.indexOf('http') > 0);
     
     // don't let anyone change the protocol if a file has already been uploaded 
     // unless its between downloaddata and downloadother
@@ -578,6 +580,18 @@ function checkForFileUpload(fref, pref, protocolBeforeEdit){
     	if (fbuttn !== null) {
             fbuttn.hide();
         }
+    }
+    
+    var obuttn = Ext.get('dbo_' + fref);
+    
+    if (protocolOwnCloud) {
+    	if (obuttn !== null) {
+    		obuttn.show();
+    	}
+    } else {
+    	if (obuttn !== null) {
+    		obuttn.hide();
+    	}
     }
 }
 

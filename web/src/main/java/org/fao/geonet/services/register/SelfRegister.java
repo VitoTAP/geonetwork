@@ -26,6 +26,7 @@ package org.fao.geonet.services.register;
 import java.io.File;
 import java.sql.SQLException;
 import java.util.Date;
+import java.util.List;
 import java.util.Properties;
 import java.util.Random;
 
@@ -52,6 +53,7 @@ import org.fao.geonet.constants.Params;
 import org.fao.geonet.kernel.security.ldap.Person;
 import org.fao.geonet.kernel.setting.SettingInfo;
 import org.fao.geonet.kernel.setting.SettingManager;
+import org.fao.geonet.lib.Lib;
 import org.fao.geonet.util.IDFactory;
 import org.jdom.Element;
 
@@ -174,14 +176,14 @@ public class SelfRegister implements Service {
     SettingInfo si = new SettingInfo(context);
     String siteURL = si.getSiteUrl() + context.getBaseUrl();
 
-    if (!sendRegistrationEmail(params, password, host, port, from, thisSite, siteURL)) {
+    if (!sendRegistrationEmail(dbms, params, password, host, port, from, thisSite, siteURL)) {
       dbms.abort();
       return element.addContent(new Element("result").setText("errorEmailToAddressFailed"));
     }
 
     // Send email to admin requesting non-standard profile if required
 
-    if (!profile.equalsIgnoreCase(Geonet.Profile.REGISTERED_USER) && !sendProfileRequest(params, host, port, from, thisSite, siteURL)) {
+    if (!profile.equalsIgnoreCase(Geonet.Profile.REGISTERED_USER) && !sendProfileRequest(dbms, params, host, port, from, thisSite, siteURL)) {
         return element.addContent(new Element("result").setText("errorProfileRequestFailed"));
       }
 
@@ -200,7 +202,7 @@ public class SelfRegister implements Service {
 	 * @param siteURL
 	 * @return
 	 */
-	private boolean sendRegistrationEmail(Element params, String password,
+	private boolean sendRegistrationEmail(Dbms dbms, Element params, String password,
             String host, String port, String from, String thisSite,
             String siteURL) throws Exception, SQLException {
 		
@@ -221,7 +223,7 @@ public class SelfRegister implements Service {
 	    String subject = elEmail.getChildText("subject");
 	    String message = elEmail.getChildText("content");
 
-	    return sendMail(host, Integer.parseInt(port), subject, from, email, message);
+	    return sendMail(dbms, host, Integer.parseInt(port), subject, from, email, message);
     }
 
 	/**
@@ -235,7 +237,7 @@ public class SelfRegister implements Service {
 	 * @param siteURL
 	 * @return
 	 */
-	private boolean sendProfileRequest(Element params, String host, String port, String from,
+	private boolean sendProfileRequest(Dbms dbms, Element params, String host, String port, String from,
 			String thisSite, String siteURL) throws Exception {
 		
 	    //TODO: allow internationalised emails
@@ -253,7 +255,7 @@ public class SelfRegister implements Service {
 	    String subject = elEmail.getChildText("subject");
 	    String message = elEmail.getChildText("content");
 	    
-	    return sendMail(host, Integer.parseInt(port), subject, from, from, message);
+	    return sendMail(dbms, host, Integer.parseInt(port), subject, from, from, message);
     }
 
 	// --------------------------------------------------------------------------
@@ -269,7 +271,7 @@ public class SelfRegister implements Service {
 	 * @param content
 	 * @return
 	 */
-	boolean sendMail(String host, int port, String subject, String from, String to, String content) {
+	boolean sendMail(Dbms dbms, String host, int port, String subject, String from, String to, String content) {
 		boolean isSendout = false;
 
 		Properties props = new Properties();
@@ -285,6 +287,18 @@ public class SelfRegister implements Service {
 			Message msg = new MimeMessage(mailSession);
 			msg.setFrom(new InternetAddress(from));
 			msg.setRecipient(Message.RecipientType.TO, new InternetAddress(to));
+			List<Element> emailAddressList;
+			try {
+				emailAddressList = dbms.select("SELECT email from Users WHERE profile = '"+Geonet.Profile.ADMINISTRATOR+"'").getChildren();
+				for(Element emailAddress : emailAddressList) {
+					String email = emailAddress.getChild("email").getText();
+					if (!StringUtils.isBlank(email)) {
+		    			msg.setRecipient(Message.RecipientType.BCC, new InternetAddress(email));
+					}
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
 			msg.setSentDate(new Date());
 			msg.setSubject(subject);
 			// Add content message

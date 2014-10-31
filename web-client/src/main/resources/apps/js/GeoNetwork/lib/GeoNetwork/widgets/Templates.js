@@ -280,7 +280,8 @@ GeoNetwork.Templates = Ext.extend(Ext.XTemplate, {
 	            	'<tr><td style="width:30px"><a href="{[this.getHref(values)]}" class="md-mn md-mn-www" title="Web link">&nbsp;</a></td><td><a href="{[this.getHref(values)]}" target="_blank">{[this.getTitle(values)]}</a></td></tr>',
 	            '</tpl>',
             '</tpl>',*/
-            '<tr><td><a href="?uuid={uuid}&hl={catalogue.lang}" target="_blank" class="md-mn md-mn-bookmark" title="{[OpenLayers.i18n(\'view\')]}">&nbsp;</a></td><td><a href="?uuid={uuid}&hl={catalogue.lang}" target="_blank">Permalink to this metadata record</a></td></tr>',
+            /*'<tr><td><a href="?uuid={uuid}&hl={catalogue.lang}" target="_blank" class="md-mn md-mn-bookmark" title="{[OpenLayers.i18n(\'view\')]}">&nbsp;</a></td><td><a href="?uuid={uuid}&hl={catalogue.lang}" target="_blank">Permalink to this metadata record</a></td></tr>',*/
+            '<tr><td><a onclick="javascript:catalogue.metadataShow(\'{uuid}\',\'n\');return false;" target="_blank" class="md-mn md-mn-bookmark" title="{[OpenLayers.i18n(\'view\')]}">&nbsp;</a></td><td><a onclick="javascript:catalogue.metadataShow(\'{uuid}\',\'n\');return false;" target="_blank">Permalink to this metadata record</a></td></tr>',
             '</table>',
             '</div>',
 

@@ -551,7 +551,8 @@
 	                  </xsl:apply-templates>
 	                </xsl:variable>
 	                <li>
-	                  <a href="{gmd:CI_OnlineResource/gmd:linkage/gmd:URL}" target="_blank">
+	                  <!-- <a href="{gmd:CI_OnlineResource/gmd:linkage/gmd:URL}" target="_blank">-->
+	                  <a style="cursor: pointer;font-weight: bold;" onclick="app.switchMode('1', true);app.getIMap().addWMSLayer([['{gmd:CI_OnlineResource/gmd:description/gco:CharacterString}', '{gmd:CI_OnlineResource/gmd:linkage/gmd:URL}', '{gmd:CI_OnlineResource/gmd:name/gmx:MimeFileType}', '']]);" target="_blank">
 	                        <!-- Name contains layer, feature type, coverage ... -->
 	                        <xsl:choose>
 	                          <xsl:when test="normalize-space($desc)!=''">

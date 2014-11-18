@@ -120,7 +120,8 @@ GeoNetwork.LoginForm = Ext.extend(Ext.FormPanel, {
 	                	if(this.nodeType == "sigma"){
 	                		this.catalogue.modalAction(OpenLayers.i18n('register'),this.catalogue.services.register);
 	                	}else if(this.nodeType == "belair"){
-	                		this.showPdfRegisterWindow();
+	                		window.open("http://www.vito-eodata.be/PDF/portal/Application.html#Home");
+	                		//this.showPdfRegisterWindow();
 	                	}
 	                },
 	                scope: form
@@ -136,7 +137,8 @@ GeoNetwork.LoginForm = Ext.extend(Ext.FormPanel, {
 	                	if(this.nodeType == "sigma"){
 	                		this.catalogue.modalAction(OpenLayers.i18n('forgotten'),this.catalogue.services.forgotten);
 	                	}else if(this.nodeType == "belair"){
-	                		this.showPdfPasswordRecoveryWindow();
+	                		window.open("http://www.vito-eodata.be/PDF/portal/Application.html#Home");
+	                		//this.showPdfPasswordRecoveryWindow();
 	                	}
 	                },
 	                scope: form

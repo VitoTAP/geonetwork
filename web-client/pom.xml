@@ -440,6 +440,7 @@
                 <include>${project.build.directory}/classes/apps/tabsearch/js/map/MapApp.js</include>
                 <include>${project.build.directory}/classes/apps/tabsearch/js/Shortcuts.js</include>
                 <include>${project.build.directory}/classes/apps/tabsearch/js/App.js</include>
+                <include>${project.build.directory}/classes/apps/tabsearch/js/googlemaps/wms.js</include>
               </includes>
             </aggregation>
 

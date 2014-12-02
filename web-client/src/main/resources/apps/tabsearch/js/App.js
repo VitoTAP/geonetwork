@@ -909,6 +909,30 @@ GeoNetwork.app = function(){
                                         deferredRender: false,
                                         defaults:{style:'padding:50px;text-align:center;font-size:20px',bodyStyle:'padding:5px'},
                                         items:[
+                                              	{
+                       							border: false,
+                       							columnWidth: 0.2
+                                          		},
+                                          		{                    	   	
+	                       							xtype: 'box',
+	                       							border: false,
+	                       							columnWidth: 0.6,
+	                       							autoEl: {html:'<div style="border: 1px solid #203612;"><div style="height: 500px;" id="sitesmap"></div><div style="background-color: #7AA7BE; height: 20px;"></div><div style="background-color: #1E6A91; height: 40px; padding-top: 10px;"><p style="color: #FFF;">Search a site on the map</p></div></div>'},
+	                    							listeners: {
+	                    								render: function(p) {
+	                    									p.getEl().on('click', function(){
+	                                       						//searchWithRegionkeyword("global");
+	                    									});
+	                    								},
+	                    								single: true
+	                    							}
+                                          		},
+                                              	{
+                       							border: false,
+                       							columnWidth: 0.2
+                                          		}
+                       					]
+                                        /*items:[
                                            	{
                     							border: false,
                     							columnWidth: 0.15
@@ -959,7 +983,7 @@ GeoNetwork.app = function(){
                     							border: false,
                     							columnWidth: 0.15
                                        		}
-                    					]
+                    					]*/
                                     })
                                 },
                             {//search results panel
@@ -1114,7 +1138,84 @@ GeoNetwork.app = function(){
 		            }
             	}
 	   		});
+            
+            var loadHomeScreenMap = function(){
+            
+	            var sitesmap = new google.maps.Map(document.getElementById('sitesmap'), {
+	                zoom: 8,
+	                center: new google.maps.LatLng(50.7, 4.7),
+	                mapTypeId: google.maps.MapTypeId.ROADMAP,
+	                disableDefaultUI: true,
+	                panControl: true,
+	                zoomControl: true,
+	                /*zoomControlOptions: {
+		              style: google.maps.ZoomControlStyle.LARGE
+		            }*/
+	              });
+	            
+	              var siteKeywords = [{
+	            	  value: 'LITORA',
+	            	  bounds: new google.maps.LatLngBounds(
+		          			  	new google.maps.LatLng(51.293469, 3.123964),
+		        			  	new google.maps.LatLng(51.293469, 3.123964)
+		        			  )
+	              }, {
+	            	  value: 'SONIA',
+	            	  bounds: new google.maps.LatLngBounds(
+		          			  	new google.maps.LatLng(50.847773, 4.437173),
+		        			  	new google.maps.LatLng(50.847773, 4.437173)
+		        			  )
+	            	  
+	              }, {
+	            	  value: 'HESBANIA',
+	            	  bounds: new google.maps.LatLngBounds(
+	            			  	new google.maps.LatLng(50.595644, 5.044855),
+	            			  	new google.maps.LatLng(50.595644, 5.044855)
+	            			  )
+	              }];
+	
+		          var sitesInfowindow = new google.maps.InfoWindow();
+		          var marker;
+		          
+		          for(var site=0;site<siteKeywords.length;site++){
+	        		  marker = new google.maps.Marker({
+			              position: siteKeywords[site].bounds.getCenter(),
+			              map: sitesmap,
+			              icon: 'http://icons.iconarchive.com/icons/aha-soft/transport-for-vista/48/airplane-icon.png',
+			              animation:google.maps.Animation.DROP
+			          });
+	        		  google.maps.event.addListener(marker, 'mouseover', (function(marker, site) {
+	    	              return function() {
+	    	            	sitesInfowindow.setContent('<p style="min-width: 100%; line-height:1.15; overflow:hidden; white-space:nowrap;">' + siteKeywords[site].value + '</p>');
+	    	            	sitesInfowindow.open(sitesmap, marker);
+	    	              }
+	    	            })(marker, site));
+	        		  google.maps.event.addListener(marker, 'click', (function(marker, site) {
+	    	              return function() {
+	    	            	  searchWithSitekeyword(siteKeywords[site].value.toLowerCase());
+	    	              }
+	    	            })(marker, site));
+		          }
+		          
+		          var customParams = [
+						"FORMAT=image/png",
+						"LAYERS=vito:belgium"
+				  ];
+		          
+		          //Add query string params to custom params
+		          var pairs = location.search.substring(1).split('&');
+		          for (var i = 0; i < pairs.length; i++) {
+		              customParams.push(pairs[i]);
+		          }
+		            
+		          loadWMS(sitesmap, "http://sigma.geoportal.vgt.vito.be/geoserver/wms?", customParams);
+              }
+	          
+	          $(document).ready(function() {
+	        	loadHomeScreenMap(); 
+	          });
 			
+	          
             // Hide advanced search options
             //Ext.get("advSearchTabs").hide();
 

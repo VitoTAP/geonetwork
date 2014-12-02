@@ -348,8 +348,8 @@
     </servlet-mapping>
     
     <session-config>
-        <!-- 3 hours -->
-        <session-timeout>180</session-timeout>
+        <!-- 24 hours -->
+        <session-timeout>1440</session-timeout>
     </session-config>
     <welcome-file-list>
         <welcome-file>index.html</welcome-file>

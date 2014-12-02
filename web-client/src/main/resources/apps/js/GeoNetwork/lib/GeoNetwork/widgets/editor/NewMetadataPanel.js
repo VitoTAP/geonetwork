@@ -56,6 +56,7 @@ GeoNetwork.editor.NewMetadataPanel = Ext.extend(Ext.Panel, {
     filter: undefined,
     combo: undefined,
     createBt: undefined,
+    singleSelect: true,
     validate: function(){
         if (!Ext.isEmpty(this.selectedGroup) && this.selectedTpl !== undefined) {
             this.createBt.setDisabled(false);

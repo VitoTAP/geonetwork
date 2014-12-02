@@ -419,7 +419,7 @@ GeoNetwork.LoginForm = Ext.extend(Ext.FormPanel, {
                         tabIndex: 9
                     }, {
                     	xtype: 'combo',
-                    	fieldLabel: 'Function' + (parameters.function.presence === 'mandatory' ? ' (*)' : ''),
+                    	fieldLabel: 'Function' + (parameters['function'].presence === 'mandatory' ? ' (*)' : ''),
                     	name: 'functionValue',
                     	hiddenName: 'function',
                     	editable: false,
@@ -429,11 +429,11 @@ GeoNetwork.LoginForm = Ext.extend(Ext.FormPanel, {
                         store: new Ext.data.ArrayStore({
                             id: 0,
                             fields: ['id', 'value'],
-                            data: parameters.function.formatParams
+                            data: parameters['function'].formatParams
                         }),
                         valueField: 'id',
                         displayField: 'value',
-                        allowBlank: parameters.function.presence !== 'mandatory',
+                        allowBlank: parameters['function'].presence !== 'mandatory',
                         tabIndex: 11
                     }, {
                         fieldLabel: 'Street address' + (parameters.street.presence === 'mandatory' ? ' (*)' : ''),

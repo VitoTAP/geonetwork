@@ -70,7 +70,8 @@ public class PersonDaoImpl implements PersonDao {
 		return buildDn(person.getUid());
 	}
 
-	private LdapName buildDn(String uid) {
+    @Override
+	public LdapName buildDn(String uid) {
         return LdapNameBuilder.newInstance(base).add("uid", uid)
                 .build();
 	}

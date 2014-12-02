@@ -11,7 +11,7 @@ import org.springframework.ldap.odm.annotations.DnAttribute;
 import org.springframework.ldap.odm.annotations.Entry;
 import org.springframework.ldap.odm.annotations.Id;
 
-@Entry(objectClasses = { "inetOrgPerson", "organizationalPerson", "person",
+@Entry(objectClasses = { "inetOrgPerson"/*, "organizationalPerson", "person"*/,
 		"top" }, base = "ou=users")
 public class Person {
 	@Id

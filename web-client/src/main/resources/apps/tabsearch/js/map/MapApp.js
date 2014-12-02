@@ -1042,7 +1042,14 @@ GeoNetwork.mapApp = function() {
         // using OpenLayers.Format.JSON to create a nice formatted string of the
         // configuration for editing it in the UI
         var treeConfig = new OpenLayers.Format.JSON().write([{
-            nodeType: "gx_baselayercontainer"
+            nodeType: "gx_baselayercontainer",
+            expanded: true,
+            loader: {
+                baseAttrs: {
+                    radioGroup: "base",
+                    checkedGroup: 'gx_baselayer'
+                }
+            }
         }, {
             nodeType: "gx_overlaylayercontainer",
             expanded: true,
@@ -1317,6 +1324,7 @@ GeoNetwork.mapApp = function() {
                     padding: 0,
                     items: [{
                         id: 'mappanel',
+                        stateful: false,
                         xtype: 'gx_mappanel',
                         map: map,
                         tbar: toolbar,
@@ -1405,7 +1413,7 @@ var processLayersSuccess = function(response) {
                                 this.isLoading = false;
                             }});
 
-                        var layerCap = getLayer(caps, caps.capability.layers, ol_layer);
+                        var layerCap = getLayer(caps, caps.capability.layers, layer);
 
                         if (layerCap) {
                             ol_layer.queryable = layerCap.queryable;
@@ -1483,7 +1491,11 @@ var processLayersSuccess = function(response) {
             try {
                 var layerName = lr.name.split(",");
 
-                if (layerName.indexOf(layer.params.LAYERS) != -1) {
+		var iPos = layer.indexOf(":");
+		if (iPos>-1) {
+			layer = layer.substring(iPos+1);
+		}
+                if (layerName.indexOf(layer) != -1) {
                     findedLayer = lr;
                     break;
                 }
@@ -1520,6 +1532,12 @@ var processLayersSuccess = function(response) {
             
             createViewport();
 
+            if (layers.length>0) {
+            	//switching baselayer needed, otherwise first time on clicking the map tab shows empty map
+                map.setBaseLayer(map.layers[layers.length-1]);
+                map.setBaseLayer(map.layers[0]);
+            }
+            
             addMapControls();
 
             // Register windows in WindowManager

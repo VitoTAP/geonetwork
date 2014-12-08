@@ -618,6 +618,7 @@ GeoNetwork.util.SearchFormTools = {
      */
     getMetadataTypeField: function(multi){
         var config = {
+        		hideMode: 'visibility',
 				columnWidth: 1,
 				anchor: '100%',
                 name: 'E_template',

@@ -348,6 +348,7 @@ GeoNetwork.app = function(){
             });
             Ext.each(reviewerFields, function(item){
                 item.setVisible(false);
+                Ext.getCmp('searchForm').getForm().reset();
             });
             Ext.each(adminFields, function(item){
                 item.setVisible(false);

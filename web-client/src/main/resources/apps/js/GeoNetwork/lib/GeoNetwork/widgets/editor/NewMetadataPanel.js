@@ -144,11 +144,27 @@ GeoNetwork.editor.NewMetadataPanel = Ext.extend(Ext.Panel, {
                 scope: this
             }
         });
+        
+        var statusFilter = function(record){
+        	return record.get('status') == 2;
+        };
 
         // Only add template if not already defined (ie. duplicate action)
         if (!this.selectedTpl) {
             this.tplStore = GeoNetwork.Settings.mdStore ? GeoNetwork.Settings.mdStore() : GeoNetwork.data.MetadataResultsStore();
             this.tplStore.setDefaultSort('displayOrder');
+            /*this.tplStore.on('load', function(store, records, options) { 
+            	store.filter('status', '2', true, false);
+            });*/
+            this.tplStore.on('load',function(cObj,recs) {
+                Ext.each(recs,function(rec){
+                    if(rec.data.status == '1'){
+                    	rec.data.title += ' (draft)'
+                    } else if(rec.data.status == '4'){
+                    	rec.data.title += ' (submitted)'
+                    }
+                });  
+          	});
 
             // Create grid with template list
             checkboxSM = new Ext.grid.CheckboxSelectionModel({
@@ -164,10 +180,11 @@ GeoNetwork.editor.NewMetadataPanel = Ext.extend(Ext.Panel, {
                     checkboxSM,
                     {header: 'Schema', dataIndex: 'schema'},
                     {id: 'title', header: 'Title', dataIndex: 'title'},
-                    {header: 'Order', hidden: true, dataIndex: 'displayOrder'}
+                    {header: 'Order', hidden: true, dataIndex: 'displayOrder'},
+                    {header: 'Status', hidden: true, dataIndex: 'status'}
                 ]});
 
-            this.add(new Ext.grid.GridPanel({
+            var grid = new Ext.grid.GridPanel({
                 layout: 'fit',
                 title: OpenLayers.i18n('chooseTemplate'),
                 border: false,
@@ -177,9 +194,18 @@ GeoNetwork.editor.NewMetadataPanel = Ext.extend(Ext.Panel, {
                 colModel: colModel,
                 sm: checkboxSM,
                 autoExpandColumn: 'title',
+                viewConfig: {
+                    getRowClass: function(rec, rowIdx, params, store) {
+                      return rec.get('status') != 2 ? 'gridpanel-orange-back' : 'gridpanel-green-back';
+                    }
+                },
                 listeners: {
                     rowclick: function(grid, rowIndex, e) {
                         var data = grid.getStore().getAt(rowIndex).data;
+                        if(data.status!=2){
+                        	grid.getSelectionModel().deselectRow(rowIndex);
+                        	return;
+                        }
                         if (grid.getSelectionModel().getCount() !== 0) {
                             this.selectedTpl = data.id;
                         } else {
@@ -190,7 +216,8 @@ GeoNetwork.editor.NewMetadataPanel = Ext.extend(Ext.Panel, {
                     scope : this
                 },
                 fbar: [OpenLayers.i18n('group'),this.combo]            
-            }));
+            });
+            this.add(grid);
 
             this.catalogue.search({E_template: 'y'}, null, null, 1, true, this.tplStore, null);
         } else {

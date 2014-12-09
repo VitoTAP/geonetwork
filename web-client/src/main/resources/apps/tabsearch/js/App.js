@@ -1209,7 +1209,7 @@ GeoNetwork.app = function(){
 		              customParams.push(pairs[i]);
 		          }
 		            
-		          loadWMS(sitesmap, "http://sigma.geoportal.vgt.vito.be/geoserver/wms?", customParams);
+		          loadWMS(sitesmap, "http://belair.geoportal.vgt.vito.be/geoserver/wms?", customParams);
               }
 	          
 	          $(document).ready(function() {

@@ -589,10 +589,24 @@ GeoNetwork.MetadataResultsView = Ext.extend(Ext.DataView, {
             ) : '');
                 
             var bboxes = r.get('bbox');
+            var maxFeatureValues = [-180, -90, 180, 90];
             if (bboxes) {
                 var polygons = [];
                 for (j = 0; j < bboxes.length; j++) {
                     var bbox = bboxes[j].value;
+                    if(bbox[1] < -85){
+                    	bbox[1] = -85;
+                    }
+                    if(bbox[3] > 85){
+                    	bbox[3] = 85;
+                    }
+                    if (this.mapsProjection !== 'EPSG:4326') {
+                        for (i = 0; i < 4; i++) {
+                            if (bbox[i] == maxFeatureValues[i]) {
+                                bbox[i] = (parseFloat(bbox[i]) - 0.00001 * (bbox[i] / Math.abs(bbox[i]))) + "";
+                            }
+                        }
+                    }
                     var p1 = new OpenLayers.Geometry.Point(bbox[2], bbox[1]);
                     var p2 = new OpenLayers.Geometry.Point(bbox[2], bbox[3]);
                     var p3 = new OpenLayers.Geometry.Point(bbox[0], bbox[3]);

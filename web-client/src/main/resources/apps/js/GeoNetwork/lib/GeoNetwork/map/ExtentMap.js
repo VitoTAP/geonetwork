@@ -423,7 +423,7 @@ GeoNetwork.map.ExtentMap = function(){
     function updateBboxForRegion(map, targetBbox, eltRef){
         var vectorLayer = map.getLayersByName("VectorLayer")[0]; // That supposed that only one vector layer is on the map
         // In map projection
-        var bounds;
+        var bounds, featureBounds;
         var wsen = targetBbox.split(',');
         var featureValues = [],
     		maxFeatureValues = [-180, -90, 180, 90];
@@ -437,9 +437,11 @@ GeoNetwork.map.ExtentMap = function(){
         	}
         }
         bounds = OpenLayers.Bounds.fromArray(values);
+        featureBounds = OpenLayers.Bounds.fromArray(featureValues);
         
         // Bounds in map projection to draw rectangle
         bounds.transform(wgsProj, mainProj);
+        featureBounds.transform(wgsProj, mainProj);
         
         // Validate fields content
         Ext.get(wsen[0]).dom.onkeyup();
@@ -449,7 +451,7 @@ GeoNetwork.map.ExtentMap = function(){
         
         // Draw new bounds
         //var feature = new OpenLayers.Feature.Vector(bounds.toGeometry());
-        var feature = new OpenLayers.Feature.Vector(OpenLayers.Bounds.fromArray(featureValues).toGeometry());
+        var feature = new OpenLayers.Feature.Vector(featureBounds.toGeometry());
         vectorLayer.destroyFeatures();
         vectorLayer.addFeatures(feature);
         

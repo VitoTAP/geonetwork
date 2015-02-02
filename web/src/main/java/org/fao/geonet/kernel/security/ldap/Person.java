@@ -21,7 +21,8 @@ public class Person {
 	@DnAttribute(value = "uid", index = 1)
 	private String uid;
 
-	@Attribute(name = "cn")
+	//@Attribute(name = "cn")
+	@Attribute(name = "givenName")
 	private String commonName;
 
 	@Attribute(name = "sn")

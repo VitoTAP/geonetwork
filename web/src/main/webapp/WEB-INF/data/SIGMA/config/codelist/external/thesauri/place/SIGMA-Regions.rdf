@@ -24,25 +24,14 @@
       </gml:Envelope>
     </gml:BoundedBy>
   </skos:Concept>
-  <skos:Concept rdf:about="http://sigmaportal.vgt.vito.be/regions#255">
-    <skos:description>Belgium description</skos:description>
-    <skos:prefLabel xml:lang="en">Region Belgium</skos:prefLabel>
-    <skos:publicNote>Belgium public note</skos:publicNote>
+  <skos:Concept rdf:about="http://sigmaportal.vgt.vito.be/regions#257">
+    <skos:description>Africa description</skos:description>
+    <skos:prefLabel xml:lang="en">Region Africa</skos:prefLabel>
+    <skos:publicNote>Africa public note</skos:publicNote>
     <gml:BoundedBy>
       <gml:Envelope gml:srsName="http://www.opengis.net/gml/srs/epsg.xml#epsg:4326">
-        <gml:lowerCorner>2.54167 49.50888</gml:lowerCorner>
-        <gml:upperCorner>6.3982 51.50125</gml:upperCorner>
-      </gml:Envelope>
-    </gml:BoundedBy>
-  </skos:Concept>
-  <skos:Concept rdf:about="http://sigmaportal.vgt.vito.be/regions#256">
-    <skos:description>Latin America description</skos:description>
-    <skos:prefLabel xml:lang="en">Region Latin America</skos:prefLabel>
-    <skos:publicNote>Latin America public note</skos:publicNote>
-    <gml:BoundedBy>
-      <gml:Envelope gml:srsName="http://www.opengis.net/gml/srs/epsg.xml#epsg:4326">
-        <gml:lowerCorner>-93.691406 -55.332269</gml:lowerCorner>
-        <gml:upperCorner>-36.386719 18.391018</gml:upperCorner>
+        <gml:lowerCorner>-18.0044643 -35.9955357</gml:lowerCorner>
+        <gml:upperCorner>51.9955357 38.0044643</gml:upperCorner>
       </gml:Envelope>
     </gml:BoundedBy>
   </skos:Concept>

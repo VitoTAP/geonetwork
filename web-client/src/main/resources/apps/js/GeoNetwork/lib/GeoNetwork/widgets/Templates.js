@@ -411,8 +411,8 @@ GeoNetwork.Templates = Ext.extend(Ext.XTemplate, {
                 	} 
             	},
             	getApplicationProfileLinks: function(links){
-            		var supportedProfiles = ['datafile','report','validator'];
-                	var selectedLinks = {datafile:[],report:[],validator:[]};
+            		var supportedProfiles = ['datafile','report','documentation'];
+                	var selectedLinks = {datafile:[],report:[],documentation:[]};
                 	for (var i = 0; i < links.length; i++) {
                         switch(links[i].type) {
 	                        case 'application/vnd.ogc.wms_xml':
@@ -427,10 +427,10 @@ GeoNetwork.Templates = Ext.extend(Ext.XTemplate, {
 	                    		break;
 	                    }
                     }
-                    return selectedLinks.datafile.concat(selectedLinks.report,selectedLinks.validator);
+                    return selectedLinks.datafile.concat(selectedLinks.report,selectedLinks.documentation);
             	},
             	getOtherLinks: function(links){
-            		var alreadyProcessedProfiles = ['datafile','report','validator'];
+            		var alreadyProcessedProfiles = ['datafile','report','documentation'];
                 	var selectedLinks = [];
                 	for (var i = 0; i < links.length; i++) {
                 		if (!alreadyProcessedProfiles.contains(links[i].applicationProfile)) {

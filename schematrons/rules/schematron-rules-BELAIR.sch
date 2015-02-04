@@ -134,4 +134,15 @@
 			<sch:report test="$inspire-theme-selected > 0"><sch:value-of select="document(concat($loc/strings/keywordFound-1,' ', $keyword,' ', $loc/strings/keywordFound-2))"/></sch:report>		
 		</sch:rule>			
 	</sch:pattern>				
+	<!-- General SC-6 -->				
+	<sch:pattern>				
+		<sch:title>$loc/strings/identification-6</sch:title>			
+		<sch:rule context="//gmd:MD_Metadata">			
+			<sch:let name="fileType" value="gmd:fileIdentifier and not(normalize-space(gmd:fileIdentifier) = '')"/>		
+			<sch:let name="fileTypeValue" value="gmd:fileIdentifier/*/text()"/>		
+			<sch:assert test="$fileIdentifier">$loc/strings/fileIdentifierMissing</sch:assert>		
+			<sch:report test="$fileIdentifier"><sch:value-of select="document(concat($loc/strings/fileIdentifierPresent, ' ', $fileIdentifierValue))"/>		
+			</sch:report>		
+		</sch:rule>			
+	</sch:pattern>				
 </sch:schema>					

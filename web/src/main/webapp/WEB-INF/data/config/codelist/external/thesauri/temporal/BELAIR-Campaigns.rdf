@@ -11,14 +11,20 @@
     </dc:creator>
     <dc:rights>Free usage</dc:rights>
     <dcterms:issued>2014-05-06</dcterms:issued>
-    <dcterms:modified>2014-05-06</dcterms:modified>
+    <dcterms:modified>2015-02-09</dcterms:modified>
   </skos:ConceptScheme>
   <!-- Concept list -->
-  <skos:Concept rdf:about="http://belair.vito.be/v1/BELAIR-Campaigns/JUNE2013">
-    <skos:prefLabel xml:lang="en">June 2013</skos:prefLabel>
+  <skos:Concept rdf:about="http://belair.vito.be/v1/BELAIR-Campaigns/2012">
+    <skos:prefLabel xml:lang="en">2012</skos:prefLabel>
   </skos:Concept>
-  <skos:Concept rdf:about="http://belair.vito.be/v1/BELAIR-Campaigns/JUNE2014">
-    <skos:prefLabel xml:lang="en">June 2014</skos:prefLabel>
+  <skos:Concept rdf:about="http://belair.vito.be/v1/BELAIR-Campaigns/2013">
+    <skos:prefLabel xml:lang="en">2013</skos:prefLabel>
+  </skos:Concept>
+  <skos:Concept rdf:about="http://belair.vito.be/v1/BELAIR-Campaigns/2014">
+    <skos:prefLabel xml:lang="en">2014</skos:prefLabel>
+  </skos:Concept>
+  <skos:Concept rdf:about="http://belair.vito.be/v1/BELAIR-Campaigns/2015">
+    <skos:prefLabel xml:lang="en">2015</skos:prefLabel>
   </skos:Concept>
 </rdf:RDF>
 

@@ -26,6 +26,7 @@ package org.fao.geonet.services.metadata;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -38,6 +39,7 @@ import jeeves.resources.dbms.Dbms;
 import jeeves.server.UserSession;
 import jeeves.server.context.ServiceContext;
 import jeeves.utils.BinaryFile;
+import jeeves.utils.Xml;
 
 import org.apache.commons.lang.StringUtils;
 import org.fao.geonet.GeonetContext;
@@ -52,6 +54,7 @@ import org.fao.geonet.lib.Lib;
 import org.fao.geonet.services.Utils;
 import org.fao.geonet.util.FileCopyMgr;
 import org.fao.geonet.util.ISODate;
+import org.fao.geonet.util.MailSender;
 import org.jdom.Document;
 import org.jdom.Element;
 
@@ -241,6 +244,7 @@ public class DefaultStatusActions implements StatusActions {
 			Map<String, Map<String,String>> changedMmetadataIdsToInformEditors = new HashMap<String,Map<String,String>>();
 			Map<String, Map<String,String>> changedMmetadataIdsToInformReviewers = new HashMap<String,Map<String,String>>();
 			Map<String, Map<String,String>> changedMmetadataIdsToInformAdministrators = new HashMap<String,Map<String,String>>();
+			Map<String, Map<String,String>> changedMmetadataIdsToInformOwner = new HashMap<String,Map<String,String>>();
 			// -- process the metadata records to set status
 			for (String mid : metadataIds) {
 				String currentStatus = dm.getCurrentStatus(dbms, mid);
@@ -314,9 +318,10 @@ public class DefaultStatusActions implements StatusActions {
 //								changedMmetadataIdsToInformEditors.put(mid,properties);
 								break;
 							case 2: //APPROVED
-								changedMmetadataIdsToInformEditors.put(mid,properties);
+//								changedMmetadataIdsToInformEditors.put(mid,properties);
 //								changedMmetadataIdsToInformReviewers.put(mid,properties);
-//								changedMmetadataIdsToInformAdministrators.put(mid,properties);
+								changedMmetadataIdsToInformAdministrators.put(mid,properties);
+								changedMmetadataIdsToInformOwner.put(mid,properties);
 								break;
 							case 3: //RETIRED
 /*
@@ -334,7 +339,9 @@ public class DefaultStatusActions implements StatusActions {
 								changedMmetadataIdsToInformAdministrators.put(mid,properties);
 								break;
 							case 5: //REJECTED
-								changedMmetadataIdsToInformEditors.put(mid,properties);
+//								changedMmetadataIdsToInformEditors.put(mid,properties);
+								changedMmetadataIdsToInformAdministrators.put(mid,properties);
+								changedMmetadataIdsToInformOwner.put(mid,properties);
 //								changedMmetadataIdsToInformReviewers.put(mid,properties);
 								break;
 							case 6: //JUSTCREATED
@@ -415,7 +422,6 @@ public class DefaultStatusActions implements StatusActions {
 				informContentUsers(changedMmetadataIdsToInformEditors, changeDate,
 						changeMessage, Geonet.Profile.EDITOR, status, emailMetadataIdList);
 			}
-/*
 			if (changedMmetadataIdsToInformOwner.size()>0) {
 				String styleSheet = stylePath + Geonet.File.STATUS_CHANGE_EMAIL;
 				for (String metadataId : changedMmetadataIdsToInformOwner.keySet()) { 
@@ -439,7 +445,6 @@ public class DefaultStatusActions implements StatusActions {
 		            }
 				}
 			}
-*/
 			return unchanged;
 		} catch (Throwable x) {
 			System.out.println("ERROR in statusChange " + x.getMessage());
@@ -990,7 +995,7 @@ public class DefaultStatusActions implements StatusActions {
 //			sendEmail(currentEmail, subject, status, changeDate, changeMessage, metadataIds);
 		}
 	}
-
+*/
 	private Element getNewRootElement(String status, String changeMessage, String userId) throws SQLException {
 		Element root = new Element("root");
 		List<Element> userList = dbms.select("SELECT surname, name FROM Users WHERE id = '" + userId + "'").getChildren();
@@ -1009,7 +1014,7 @@ public class DefaultStatusActions implements StatusActions {
 		root.addContent(new Element("changeMessage").setText(changeMessage));
 		return root;
 	}
-*/
+
 	
 	/**
 	 * Send the email message about change of status on a group of metadata
@@ -1049,7 +1054,7 @@ public class DefaultStatusActions implements StatusActions {
 					changeMessage);
 		}
 	}*/
-/*
+
 	private void sendEmail(String sendTo, Element emailElement)
 			throws Exception {
 		MailSender sender = new MailSender(context);
@@ -1057,7 +1062,7 @@ public class DefaultStatusActions implements StatusActions {
 				fromDescr, sendTo, null, replyTo, replyToDescr, emailElement.getChildText("subject"),
 				emailElement.getChildText("message"));
 	}
-*/	
+	
 
 	/**
 	 * Build search link to metadata that has had a change of status.
@@ -1066,7 +1071,7 @@ public class DefaultStatusActions implements StatusActions {
 	 *            The id of the metadata
 	 * @return string Search link to metadata
 	 */
-/*
+
 	private String buildMetadataLink(String metadataId) {
 		// TODO: hack voor AGIV
 		return getContextUrl()
@@ -1083,9 +1088,9 @@ public class DefaultStatusActions implements StatusActions {
 		String port = gc.getSettingManager().getValue(
 				Geonet.Settings.SERVER_PORT);
 //		return protocol + "://" + host + ((port.equals("80") || port.equals("443")) ? "" : ":" + port) + context.getBaseUrl();
-		return "https://" + host + ((port.equals("80") || port.equals("443")) ? "" : ":" + port) + context.getBaseUrl();
+		return protocol + "://" /*+ "https://"*/ + host + ((port.equals("80") || port.equals("443")) ? "" : ":" + port) + context.getBaseUrl();
 	}
-*/
+
 
 	/**
 	 * Build search link to metadata that has had a change of status.

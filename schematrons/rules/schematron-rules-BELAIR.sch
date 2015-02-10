@@ -134,7 +134,7 @@
 			<sch:report test="$inspire-theme-selected > 0"><sch:value-of select="document(concat($loc/strings/keywordFound-1,' ', $keyword,' ', $loc/strings/keywordFound-2))"/></sch:report>		
 		</sch:rule>			
 	</sch:pattern>				
-	<!-- General SC-6 -->				
+	<!-- General SC-6 				
 	<sch:pattern>				
 		<sch:title>$loc/strings/identification-6</sch:title>			
 		<sch:rule context="//gmd:MD_Metadata">			
@@ -144,5 +144,5 @@
 			<sch:report test="$fileIdentifier"><sch:value-of select="document(concat($loc/strings/fileIdentifierPresent, ' ', $fileIdentifierValue))"/>		
 			</sch:report>		
 		</sch:rule>			
-	</sch:pattern>				
+	</sch:pattern>				-->
 </sch:schema>					

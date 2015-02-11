@@ -124,8 +124,8 @@ public class Utils {
 				Geonet.Settings.SERVER_HOST);
 		String port = gc.getSettingManager().getValue(
 				Geonet.Settings.SERVER_PORT);
-		return /*protocol + */"https://" + host + ((port.equals("80") || port.equals("443")) ? "" : ":" + port)
-				+ context.getBaseUrl();
+		return protocol + "://" /*+ "https://"*/ + host + ((port.equals("80") || port.equals("443")) ? "" : ":" + port)
+ 				+ context.getBaseUrl();
 	}
 
 	public static void sendEmail(ServiceContext context, String sendTo, String replyTo, String replyToDescr, Element params)

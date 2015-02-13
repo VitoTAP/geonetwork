@@ -37,4 +37,6 @@
     <keywordFound-2> gevonden dat afkomstig is uit de GEMET - INSPIRE thema''s, versie 1.0 thesaurus gedateerd op 2008-06-01.</keywordFound-2>
     
     <identification-6>General SC-6: elke online resource moet een file type hebben</identification-6>
+    <fileTypeMissing>gmd:protocol ontbreekt of is leeg</fileTypeMissing>
+    <fileTypePresent>gmd:protocol is present: </fileTypePresent>
 </strings>

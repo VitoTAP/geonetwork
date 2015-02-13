@@ -37,4 +37,6 @@
     <keywordFound-2> from the GEMET - INSPIRE themes, version 1.0 thesaurus dated on 2008-06-01.</keywordFound-2>
     
     <identification-6>General SC-6: each online resource has to have a filetype</identification-6>
+    <fileTypeMissing>gmd:protocol is missing or empty</fileTypeMissing>
+    <fileTypePresent>gmd:protocol is present: </fileTypePresent>
 </strings>

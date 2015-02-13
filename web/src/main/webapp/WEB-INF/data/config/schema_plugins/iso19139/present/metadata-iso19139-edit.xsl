@@ -2783,12 +2783,12 @@
             <xsl:with-param name="edit"   select="$edit"/>
         </xsl:apply-templates>
 
-		<xsl:if test="not($edit) or $profile='Administrator'">
+		<!-- <xsl:if test="not($edit) or $profile='Administrator'">-->
 	        <xsl:apply-templates mode="elementEP" select="gmd:dataQualityInfo|geonet:child[string(@name)='dataQualityInfo']	">
 	            <xsl:with-param name="schema" select="$schema"/>
 	            <xsl:with-param name="edit"   select="$edit"/>
 	        </xsl:apply-templates>
-        </xsl:if>
+        <!-- </xsl:if>-->
 
         <xsl:apply-templates mode="elementEP" select="gmd:metadataConstraints|geonet:child[string(@name)='metadataConstraints']">
             <xsl:with-param name="schema" select="$schema"/>
@@ -2800,7 +2800,7 @@
             <xsl:with-param name="edit"   select="$edit"/>
         </xsl:apply-templates>
 
-		<xsl:if test="not($edit) or $profile='Administrator'">
+		<!-- <xsl:if test="not($edit) or $profile='Administrator'">-->
 	        <xsl:call-template name="complexElementGuiWrapper">
 	            <xsl:with-param name="title" select="/root/gui/strings/metametadata"/>
 	            <xsl:with-param name="content">
@@ -2835,7 +2835,7 @@
 	            <xsl:with-param name="group" select="/root/gui/strings/metadataTab"/>
 	            <xsl:with-param name="edit" select="$edit"/>
 	        </xsl:call-template>
-		</xsl:if>
+		<!-- </xsl:if>-->
         <xsl:apply-templates mode="elementEP" select="gmd:contentInfo|geonet:child[string(@name)='contentInfo']">
             <xsl:with-param name="schema" select="$schema"/>
             <xsl:with-param name="edit"   select="$edit"/>
@@ -3109,13 +3109,13 @@
 			</xsl:apply-templates>
 		</xsl:if>
 
-		<xsl:if test="not($edit) or $profile='Administrator'">
+		<!-- <xsl:if test="not($edit) or $profile='Administrator'">-->
 	        <xsl:apply-templates mode="elementEP" select="gmd:dataQualityInfo|geonet:child[string(@name)='dataQualityInfo']">
 	            <xsl:with-param name="schema" select="$schema"/>
 	            <xsl:with-param name="edit"   select="$edit"/>
 	            <xsl:with-param name="flat"   select="$flat"/>
 	        </xsl:apply-templates>
-        </xsl:if>
+        <!-- </xsl:if>-->
 
         <xsl:for-each select="gmd:identificationInfo/gmd:MD_DataIdentification|
             gmd:identificationInfo/srv:SV_ServiceIdentification|
@@ -3161,7 +3161,7 @@
             <xsl:with-param name="edit"   select="$edit"/>
             <xsl:with-param name="flat"   select="$flat"/>
         </xsl:apply-templates>
-		<xsl:if test="not($edit) or $profile='Administrator'">
+		<!-- <xsl:if test="not($edit) or $profile='Administrator'">-->
 	        <xsl:call-template name="complexElementGui">
 	            <xsl:with-param name="title" select="/root/gui/strings/metametadata"/>
 	            <xsl:with-param name="content">
@@ -3173,7 +3173,7 @@
 	            </xsl:with-param>
 	            <xsl:with-param name="schema" select="$schema"/>
 	        </xsl:call-template>
-        </xsl:if>
+        <!-- </xsl:if>-->
 
         <xsl:apply-templates mode="elementEP" select="gmd:contentInfo|geonet:child[string(@name)='contentInfo']
 	      |gmd:metadataExtensionInfo|geonet:child[string(@name)='metadataExtensionInfo']">

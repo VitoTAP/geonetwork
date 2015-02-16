@@ -81,7 +81,7 @@ var meters2degrees = function(x, y){
 function loadWMS(map, baseURL, customParams){
     var tileHeight = 256;
     var tileWidth = 256;
-    var opacityLevel = 0.85;
+    var opacityLevel = 0.75;
     var isPng = true;
     var minZoomLevel = 2;
     var maxZoomLevel = 28;

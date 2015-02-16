@@ -1315,6 +1315,7 @@ GeoNetwork.mapApp = function() {
 	                    animate: true,
 	                    activeOnTop: false
 	                },
+	                activeItem: 1,
                     items: [featureGridPanel, tree, legendPanel]
         		},{
                     region: 'center',

@@ -197,7 +197,10 @@ OpenLayers.Control.SelectFeature = OpenLayers.Class(OpenLayers.Control, {
         this.handlers = {
             feature: new OpenLayers.Handler.Feature(
                 this, this.layer, this.callbacks,
-                {geometryTypes: this.geometryTypes}
+                {
+                	geometryTypes: this.geometryTypes,
+                	stopDown: false
+                }
             )
         };
 

@@ -1104,7 +1104,7 @@ GeoNetwork.app = function(){
                                 defaults:{bodyStyle:'border-width:0px'},
 	                            items: 	                            		
 								    {
-								   		html:'<div class="facets"><ul><li>List of documents of type 1</li><ul><li><a href="javascript:void(0);">Link naar document 1</a></li></ul><li>List of documents of type 2</li><ul><li><a href="javascript:void(0);">Link naar document 1 van type 2</a></li></ul></ul></div>'
+	                            		html:'<div class="facets"><ul><li style="font-size: medium;">BELAIR Geoportal documentation</li><ul><li><a style="text-decoration: underline; font-size: bigger;" href="' + catalogue.URL + '/documents/BELAIR_Geoportal-Manual_for_data_providers-V1.0_20150217.pdf" target="_blank">Manual for BELAIR data providers</a></li></ul></ul></div>'
 								    }
 	                    	}
                         ]
@@ -1145,7 +1145,7 @@ GeoNetwork.app = function(){
 	            var sitesmap = new google.maps.Map(document.getElementById('sitesmap'), {
 	                zoom: 8,
 	                center: new google.maps.LatLng(50.7, 4.7),
-	                mapTypeId: google.maps.MapTypeId.ROADMAP,
+	                mapTypeId: google.maps.MapTypeId.TERRAIN,
 	                disableDefaultUI: true,
 	                panControl: true,
 	                zoomControl: true,
@@ -1182,7 +1182,8 @@ GeoNetwork.app = function(){
 	        		  marker = new google.maps.Marker({
 			              position: siteKeywords[site].bounds.getCenter(),
 			              map: sitesmap,
-			              icon: 'http://icons.iconarchive.com/icons/aha-soft/transport-for-vista/48/airplane-icon.png',
+			              //icon: 'http://icons.iconarchive.com/icons/aha-soft/transport-for-vista/48/airplane-icon.png',
+			              icon: 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png',
 			              animation:google.maps.Animation.DROP
 			          });
 	        		  google.maps.event.addListener(marker, 'mouseover', (function(marker, site) {

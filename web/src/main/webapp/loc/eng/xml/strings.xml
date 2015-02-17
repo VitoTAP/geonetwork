@@ -774,7 +774,7 @@
   <protocolChoice show="-" value="FILE:GEO">GIS file</protocolChoice>
   <protocolChoice show="-" value="FILE:RASTER">GIS RASTER file</protocolChoice>
   <protocolChoice show="-" value="WWW:LINK-1.0-http--ical">iCalendar (URL)</protocolChoice>
-  <protocolChoice show="y" value="WWW:LINK-1.0-http--link">Url from ownCloud or your server</protocolChoice>
+  <protocolChoice show="y" value="WWW:LINK-1.0-http--link">Url from ownCloud or other server</protocolChoice>
   <protocolChoice show="-" value="WWW:LINK-1.0-http--partners">Partner web address (URL)</protocolChoice>
   <protocolChoice show="-" value="WWW:LINK-1.0-http--related">Related link (URL)</protocolChoice>
   <protocolChoice show="-" value="WWW:LINK-1.0-http--rss">RSS News feed (URL)</protocolChoice>

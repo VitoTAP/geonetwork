@@ -569,3 +569,11 @@ div.facets * .facet-less-bt {
 .gridpanel-green-back {
     background:#95F97E !important;
 }
+
+.marker-label {
+	color: blue;
+	text-align: center;
+	width: 100px;
+	font-size: 12px;
+	font-weight: bold;
+}

@@ -1179,19 +1179,23 @@ GeoNetwork.app = function(){
 		          var marker;
 		          
 		          for(var site=0;site<siteKeywords.length;site++){
-	        		  marker = new google.maps.Marker({
+	        		  //marker = new google.maps.Marker({
+		        	  marker = new MarkerWithLabel({
 			              position: siteKeywords[site].bounds.getCenter(),
 			              map: sitesmap,
 			              //icon: 'http://icons.iconarchive.com/icons/aha-soft/transport-for-vista/48/airplane-icon.png',
 			              icon: 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png',
-			              animation:google.maps.Animation.DROP
+			              animation:google.maps.Animation.DROP,
+			              labelContent: siteKeywords[site].value,
+			              labelAnchor: new google.maps.Point(50, 50),
+			              labelClass: 'marker-label'
 			          });
-	        		  google.maps.event.addListener(marker, 'mouseover', (function(marker, site) {
+	        		  /*google.maps.event.addListener(marker, 'mouseover', (function(marker, site) {
 	    	              return function() {
 	    	            	sitesInfowindow.setContent('<p style="min-width: 100%; line-height:1.15; overflow:hidden; white-space:nowrap;">' + siteKeywords[site].value + '</p>');
 	    	            	sitesInfowindow.open(sitesmap, marker);
 	    	              }
-	    	            })(marker, site));
+	    	            })(marker, site));*/
 	        		  google.maps.event.addListener(marker, 'click', (function(marker, site) {
 	    	              return function() {
 	    	            	  searchWithSitekeyword(siteKeywords[site].value.toLowerCase());

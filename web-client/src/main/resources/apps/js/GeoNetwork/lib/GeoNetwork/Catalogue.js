@@ -288,6 +288,8 @@ GeoNetwork.Catalogue = Ext.extend(Ext.util.Observable, {
             mdProcessing: serviceUrl + 'metadata.processing.new',
             mdMassiveChildrenForm: serviceUrl + 'metadata.batch.children.form',
             mdAdmin: serviceUrl + 'metadata.admin.form',
+            mdAdminXML: serviceUrl + 'metadata.admin.xml',
+            userGroups: serviceUrl + 'xml.usergroups.list',
             mdValidate: serviceUrl + 'xml.metadata.validate',
             mdSuggestion: serviceUrl + 'metadata.suggestion',
             mdCategory: serviceUrl + 'metadata.category.form',

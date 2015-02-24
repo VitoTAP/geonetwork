@@ -570,6 +570,13 @@
 		</service>
 
 		<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+		
+		<service name="metadata.admin.xml">
+			<class name=".services.metadata.GetAdminOper"/>
+
+		</service>
+
+		<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 
 		<service name="metadata.admin">
 			<class name=".services.metadata.UpdateAdminOper"/>

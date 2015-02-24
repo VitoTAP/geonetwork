@@ -585,6 +585,7 @@ GeoNetwork.Lang.nl = {
     'userSessionEnded': 'De sessie is vervallen en u moet opnieuw inloggen.',
     'noReordsFound': 'Er werden geen metadatasets gevonden.',
     'notRegisteredForDownload': 'You must be logged in to download this product',
+    'notRightPermissionsForDownload': 'You do not have the right permissions to download this product',
     
     'pdfPasswordRecovery': 'Please enter your e-mailaddress.\nWe will send you an e-mail with an URL which allows you to reset your password.'
 };

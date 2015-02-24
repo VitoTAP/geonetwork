@@ -448,12 +448,76 @@ GeoNetwork.Templates = Ext.extend(Ext.XTemplate, {
                     }
                     return selectedLinks;
                 },
+                user: null,
                 getHref: function(values){
-                	var value = values.href + '" target="_blank"  onclick="catalogue.sendGAEvent(values.href)'; 
-                	if (values.isPrivate=="true" && !catalogue.isIdentified()) {
-                		value = '#" target onclick="Ext.Msg.alert(\'Not registered\', \'' + OpenLayers.i18n('notRegisteredForDownload') + '\')';
+                	// TODO: add support for guest profiles --> MD privileges naar buiten trekken + user obj naar buiten trekken
+                	if(catalogue.isIdentified()) {
+                		if(this.user == null || this.user.id == null || this.user.id != catalogue.identifiedUser.id) {
+                			//request user groups of current user
+                    		var groupsRequest = OpenLayers.Request.GET({
+                    			url: catalogue.services.userGroups,
+                    			async: false,
+                    			params: {
+                    				id: catalogue.identifiedUser.id
+                    			}
+                    		});
+                    		var groupsRegex = new RegExp('(<name>)(?:[^])*?(<\/name>)', 'gm');
+                    		var groups = groupsRequest.responseText.match(groupsRegex);
+                    		
+                    		this.user = {
+                				id: catalogue.identifiedUser.id,
+                				groups: groups,
+                				downloadPermissions: {}
+                    		}
+                		}
+                   	} else if(this.user == null || this.user.id) {
+                   		this.user = {
+                   			id: null,
+                   			groups: null,
+                   			downloadPermissions: {}
+                   		}
+                   	}
+                	
+                	if(!this.user.downloadPermissions.hasOwnProperty(values.uuid)){
+            			this.user.downloadPermissions[values.uuid] = false;
+            			var privilegesRequest = OpenLayers.Request.GET({
+                			url: catalogue.services.mdAdminXML,
+                			async: false,
+                			params: {
+                				id: values.uuid
+                			}
+                		});
+            			if(this.user.groups) {
+            				for(var i=0; i<this.user.groups.length; i++) {
+                    			//groups[i] = groups[i].replace('<name>','').replace('</name>','');
+            					if(this.isGroupValid(this.user.groups[i], privilegesRequest.responseText)) {
+            						this.user.downloadPermissions[values.uuid] = true;
+                    				return;
+            					}
+                    		}
+            			} else {
+            				if(this.isGroupValid('<name>GUEST</name>', privilegesRequest.responseText)) {
+            					this.user.downloadPermissions[values.uuid] = true;
+            				}
+            			}
+            		}
+
+                	var value = values.href + '" target="_blank"  onclick="catalogue.sendGAEvent(values.href)';
+                	//if (values.isPrivate=="true" && !catalogue.isIdentified()) {
+                	if(!this.user.downloadPermissions[values.uuid]) {
+                		value = '#" target onclick="Ext.Msg.alert(\'Not registered\', \'' + (catalogue.isIdentified() ? OpenLayers.i18n('notRightPermissionsForDownload') : OpenLayers.i18n('notRegisteredForDownload')) + '\')';
                 	}
                 	return value;
+                }, isGroupValid: function(group, privileges) {
+                	var regex = new RegExp('(' + group + ')(?:[^])*?(<id>1<\/id>)(?:[^])*?(<\/oper>)', 'gm');
+        			var opers = privileges.match(regex);
+        			if(opers && opers[0]){
+        				regex = new RegExp('(<oper>)(?:[^])*?(<\/oper>)', 'gm');
+            			var downloadOper = opers[0].match(regex)[1];
+            			return (downloadOper.search('<on />') != -1);
+        			} else {
+        				return false;
+        			}
                 }
             }
         );

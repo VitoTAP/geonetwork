@@ -123,7 +123,8 @@ GeoNetwork.data.MetadataResultsFastStore = function(){
             		protocol: tokens[3],
             		type: tokens[4],
             		applicationProfile: (tokens.length>5 ? tokens[5] : ''),
-            		isPrivate: (tokens.length>6 ? tokens[6] : false)
+            		isPrivate: (tokens.length>6 ? tokens[6] : false),
+            		uuid: record.geonet_info.id[0].value
             	});
             }
         }

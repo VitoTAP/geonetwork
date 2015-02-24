@@ -120,7 +120,11 @@ GeoNetwork.LoginForm = Ext.extend(Ext.FormPanel, {
 	                	if(this.nodeType == "sigma"){
 	                		this.catalogue.modalAction(OpenLayers.i18n('register'),this.catalogue.services.register);
 	                	}else if(this.nodeType == "belair"){
-	                		window.open("http://www.vito-eodata.be/PDF/portal/Application.html#Home");
+	                		Ext.Msg.alert('Registration', 'This will open up a new page where you can register by clicking in the top right corner.', function(btn){
+	                			if(btn == 'ok') {
+	                				window.open("http://www.vito-eodata.be/PDF/portal/Application.html#Home");
+	                			}
+	                		});
 	                		//this.showPdfRegisterWindow();
 	                	}
 	                },

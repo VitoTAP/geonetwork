@@ -548,7 +548,7 @@ GeoNetwork.MetadataMenu = Ext.extend(Ext.menu.Menu, {
         }
 
         // AGIV: Editors can't change privileges of metadata
-        if (/*isReviewer || */isAdmin || isUserAdmin) {
+        if (/*isReviewer || */isAdmin || isUserAdmin || isReviewer || isEditor) {
             this.adminAction.show()
         } else {
             this.adminAction.hide();
@@ -563,7 +563,7 @@ GeoNetwork.MetadataMenu = Ext.extend(Ext.menu.Menu, {
 
 
         // AGIV: Editors can't change privileges of metadata
-        this.adminAction.setDisabled(!((/*isReviewer || */isAdmin || isUserAdmin)/* && (!isLocked || sameLockedByAndLoggedUser)*/));
+        this.adminAction.setDisabled(!((/*isReviewer || */isAdmin || isUserAdmin || isReviewer || isEditor)/* && (!isLocked || sameLockedByAndLoggedUser)*/));
 
         this.statusAction.setDisabled(!(isOwner && (!isHarvested || GeoNetwork.Settings.editor.editHarvested)));
         this.cancelEditSessionAction.setDisabled(!(isLocked && (isAdmin || sameLockedByAndLoggedUser)));

@@ -190,8 +190,7 @@
 	<profile name="Hoofdeditor" extends="Editor">
         <!-- These are the metadata privileges forms -->
         <!-- AGIV only available for Hoofdeditors and administrators -->
-        <allow service="metadata.admin"/>
-        <allow service="metadata.admin.form"/>
+        
         <allow service="metadata.batch.admin.form"/>
         <allow service="metadata.batch.update.privileges"/>
     </profile>
@@ -323,6 +322,10 @@
 		<!-- Subtemplate -->
 	  <allow service="subtemplate.types"/>
 	  <allow service="subtemplate.admin"/>
+	  
+	  	<!-- Privileges -->
+	  	<allow service="metadata.admin"/>
+        <allow service="metadata.admin.form"/>
 	</profile>
 
 	<!-- ====================================================================== -->

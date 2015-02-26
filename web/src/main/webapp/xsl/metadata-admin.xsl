@@ -42,22 +42,22 @@
 
 						<xsl:apply-templates select="/root/response/groups/group[id='1']" mode="group">
 							<xsl:with-param name="lang" select="$lang"/>
-<!--							<xsl:with-param name="disabled" select="($profile != 'Administrator') and ($profile != 'Hoofdeditor')"/>-->
-							<xsl:with-param name="disabled" select="($profile != 'Administrator')"/>
+							<xsl:with-param name="disabled" select="($profile != 'Administrator') and ($profile != 'Hoofdeditor') and ($profile != 'Editor')"/>
+<!--						<xsl:with-param name="disabled" select="($profile != 'Administrator')"/>-->
 <!--							<xsl:with-param name="disabled" select="true()"/>-->
 						</xsl:apply-templates>
 
 						<xsl:apply-templates select="/root/response/groups/group[id='0']" mode="group">
 							<xsl:with-param name="lang" select="$lang"/>
-<!--							<xsl:with-param name="disabled" select="($profile != 'Administrator') and ($profile != 'Hoofdeditor')"/>-->
-							<xsl:with-param name="disabled" select="($profile != 'Administrator')"/>
+							<xsl:with-param name="disabled" select="($profile != 'Administrator') and ($profile != 'Hoofdeditor') and ($profile != 'Editor')"/>
+<!-- 							<xsl:with-param name="disabled" select="($profile != 'Administrator')"/>-->
 <!--							<xsl:with-param name="disabled" select="true()"/>-->
 						</xsl:apply-templates>
 
 						<xsl:apply-templates select="/root/response/groups/group[id='-1']" mode="group">
 							<xsl:with-param name="lang" select="$lang"/>
-<!--							<xsl:with-param name="disabled" select="($profile != 'Administrator') and ($profile != 'Hoofdeditor')"/>-->
-								<xsl:with-param name="disabled" select="($profile != 'Administrator')"/>
+							<xsl:with-param name="disabled" select="($profile != 'Administrator') and ($profile != 'Hoofdeditor') and ($profile != 'Editor')"/>
+<!--							<xsl:with-param name="disabled" select="($profile != 'Administrator')"/>-->
 <!--							<xsl:with-param name="disabled" select="true()"/>-->
 						</xsl:apply-templates>
 
@@ -75,7 +75,7 @@
 							<xsl:sort select="lower-case(label/child::*[name() = $lang])"/>
 							
 							<xsl:variable name="userGroup" select="@userGroup"/>
-							<xsl:if test="(/root/gui/env/metadataprivs/usergrouponly='false' and $userGroup!='true') or $userGroup='true'">
+							<xsl:if test="(/root/gui/env/metadataprivs/usergrouponly='false' and $userGroup!='true') or $userGroup='true' or $userGroup!='true'">
 								<xsl:if test="id!='0' and id!='1' and id!='-1'">
 									<xsl:variable name="groupId" select="id"/>
 									<tr id="row.{id}">
@@ -85,7 +85,7 @@
 													<xsl:attribute name="style">color: #A0A0A0;</xsl:attribute>
 												</xsl:if>
 												<xsl:value-of select="label/child::*[name() = $lang]"/>
-												<xsl:if test="/root/gui/env/metadataprivs/usergrouponly!='true' and $userGroup='true'"><xsl:text> *</xsl:text></xsl:if>
+												<xsl:if test="/root/gui/env/metadataprivs/usergrouponly!='true' and ($userGroup='true' or $userGroup!='true')"><xsl:text> *</xsl:text></xsl:if>
 											</span>
 										</td>
 										

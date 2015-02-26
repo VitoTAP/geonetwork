@@ -496,7 +496,7 @@ GeoNetwork.Templates = Ext.extend(Ext.XTemplate, {
             					}
                     		}
             			} else {
-            				if(this.isGroupValid('<name>GUEST</name>', privilegesRequest.responseText)) {
+            				if(this.isGroupValid('<name>all</name>', privilegesRequest.responseText)) {
             					this.user.downloadPermissions[values.uuid] = true;
             				}
             			}

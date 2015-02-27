@@ -150,6 +150,7 @@ GeoNetwork.FacetsPanel = Ext.extend(Ext.Panel, {
         // Clean previous facets
         store.removeAll();
         
+        var keywordsFacet = null;
         if (facets.nodeName === 'summary') {
             // TODO : Use template
             if (this.facetListConfig.length > 0) {
@@ -205,17 +206,31 @@ GeoNetwork.FacetsPanel = Ext.extend(Ext.Panel, {
                                     nodeCount ++;
                                 }
                             });
-                            if (facetList !== "") {
+                            if (facetList !== "" && facet.nodeName !== 'keywords') {
                                 zappette += "<li>" + OpenLayers.i18n(facet.nodeName) + "</li><ul>";
                                 zappette += facetList;
                                 if (facet.getAttribute('moreAction') === 'true') {
                                     zappette += lessBt;
                                 }
                                 zappette += "</ul>";
+                            } else if(facet.nodeName === 'keywords'){
+                            	keywordsFacet = {
+                            		facet: facet,
+                            		facetList: facetList
+                            	}
                             }
                         }
                     }
                 });
+                
+                if(keywordsFacet) {
+                	zappette += "<li>" + OpenLayers.i18n(keywordsFacet.facet.nodeName) + "</li><ul>";
+                    zappette += keywordsFacet.facetList;
+                    if (keywordsFacet.facet.getAttribute('moreAction') === 'true') {
+                        zappette += lessBt;
+                    }
+                    zappette += "</ul>";
+                }
             }
         }
         Ext.getDom('facets').innerHTML = "<ul>" + zappette + "</ul>";

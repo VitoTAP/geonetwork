@@ -505,7 +505,7 @@ GeoNetwork.Templates = Ext.extend(Ext.XTemplate, {
                 	var value = values.href + '" target="_blank"  onclick="catalogue.sendGAEvent(values.href)';
                 	//if (values.isPrivate=="true" && !catalogue.isIdentified()) {
                 	if(!this.user.downloadPermissions[values.uuid]) {
-                		value = '#" target onclick="Ext.Msg.alert(\'Not registered\', \'' + (catalogue.isIdentified() ? OpenLayers.i18n('notRightPermissionsForDownload') : OpenLayers.i18n('notRegisteredForDownload')) + '\')';
+                		value = '#" target onclick="Ext.Msg.alert(\'Permission denied\', \'' + (catalogue.isIdentified() ? OpenLayers.i18n('notRightPermissionsForDownload') : OpenLayers.i18n('notRegisteredForDownload')) + '\')';
                 	}
                 	return value;
                 }, isGroupValid: function(group, privileges) {

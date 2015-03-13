@@ -150,6 +150,15 @@ GeoNetwork.FacetsPanel = Ext.extend(Ext.Panel, {
         // Clean previous facets
         store.removeAll();
         
+        var keywordsToIgnore = null;
+        $.ajax({
+        	url: this.catalogue.services.facetsFilter,
+        	success: function(data) {
+        		keywordsToIgnore = data.split('\n');        		
+        	},
+        	async: false
+        });
+        
         var keywordsFacet = null;
         if (facets.nodeName === 'summary') {
             // TODO : Use template
@@ -196,7 +205,7 @@ GeoNetwork.FacetsPanel = Ext.extend(Ext.Panel, {
                             var facetList = "";
                             var nodeCount = 0;
                             Ext.each(facet.childNodes, function (node) {
-                                if (node.nodeName !== '#text') {
+                                if (node.nodeName !== '#text' && keywordsToIgnore != null && keywordsToIgnore.indexOf(node.getAttribute('name')) === -1) {
                                     var visible = (nodeCount < panel.maxDisplayedItems);
                                     if (facet.getAttribute('moreAction') === 'false' && !visible) {
                                         facet.setAttribute('moreAction', 'true');

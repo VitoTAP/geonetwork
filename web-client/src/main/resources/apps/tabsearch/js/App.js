@@ -866,7 +866,8 @@ GeoNetwork.app = function(){
                 searchForm: searchForm,
                 breadcrumb: breadcrumb,
                 maxDisplayedItems: GeoNetwork.Settings.facetMaxItems || 1000,
-                facetListConfig: GeoNetwork.Settings.facetListConfig || []
+                facetListConfig: GeoNetwork.Settings.facetListConfig || [],
+                catalogue: catalogue
             });
 
             var viewport = new Ext.Viewport({

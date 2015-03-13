@@ -374,7 +374,8 @@ GeoNetwork.Catalogue = Ext.extend(Ext.util.Observable, {
             harvesterLogoUrl: this.URL + '/images/harvesting/',
             pdfGetParameters: this.pdfUrl + '?action=getparameters',
             pdfCaptcha: this.pdfUrl + '?action=captcha',
-            pdfRegister: this.pdfUrl
+            pdfRegister: this.pdfUrl,
+            facetsFilter: this.URL + '/resources/facets-filter.txt',
         };
         
         // TODO : init only once required (ie. metadata show)

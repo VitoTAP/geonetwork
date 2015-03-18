@@ -1105,7 +1105,7 @@ GeoNetwork.app = function(){
                                 defaults:{bodyStyle:'border-width:0px'},
 	                            items: 	                            		
 								    {
-	                            		html:'<div class="facets"><ul><li style="font-size: medium;">BELAIR Geoportal documentation</li><ul><li><a style="text-decoration: underline; font-size: bigger;" href="' + catalogue.URL + '/documents/BELAIR_Geoportal-Manual_for_data_providers-V1.0_20150226.pdf" target="_blank">Manual for BELAIR data providers</a></li></ul></ul></div>'
+	                            		html:'<div class="facets"><ul><li style="font-size: medium;">BELAIR Geoportal documentation</li><ul><li><a style="text-decoration: underline; font-size: bigger;" href="' + catalogue.URL + '/documents/BELAIR_Geoportal-Manual_for_data_providers-V1.0_20150226.pdf" target="_blank">Manual for BELAIR data providers</a></li><li><a style="text-decoration: underline; font-size: bigger;" href="http://www.vito-eodata.be/PDF/image/TermsOfUse.pdf" target="_blank">Terms of use</a></li></ul></ul></div>'
 								    }
 	                    	}
                         ]

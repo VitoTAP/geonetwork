@@ -127,7 +127,7 @@ GeoNetwork.LoginForm = Ext.extend(Ext.FormPanel, {
 	                		});*/
 	                		Ext.Msg.show({
 	                			title: 'Registration',
-	                			msg: 'Clicking on the link below will open up a new browser window where you can register by clicking in the top right corner:<br/><a href="http://www.vito-eodata.be/PDF/portal/Application.html#Home" target="_blank">http://www.vito-eodata.be/PDF/portal/Application.html</a>',
+	                			msg: 'Clicking on the link below will open up a new browser window where you can register by clicking in the top right corner:<br/><a href="http://www.vito-eodata.be/PDF/portal/Application.html#Home" target="_blank">http://www.vito-eodata.be/PDF/portal/Application.html</a><br/>Please send your username (not your password) to belairgeoportal@vgt.vito.be so that the belair administrator can give you the right access/download rights.',
 	                			buttons: Ext.Msg.CANCEL,
 	                		});
 	                		//this.showPdfRegisterWindow();

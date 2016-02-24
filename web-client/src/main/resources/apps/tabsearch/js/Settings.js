@@ -74,5 +74,5 @@ GeoNetwork.Settings.nodeType = "BELAIR";
 GeoNetwork.Settings.useSTS = false;
 GeoNetwork.Settings.ga = true;
 GeoNetwork.Settings.logoutUrlSTS = "https://auth." + (GeoNetwork.Settings.isProduction ? "" : "beta.") + "agiv.be/sts/";
-GeoNetwork.Settings.nodeFooterInfo = "Build: 24/09/2014 - &copy; 2013-2014 - VITO NV. all rights reserved. <a target='_blank' href='http://www.vito-eodata.be/PDF/image/TermsOfUse.pdf'>Terms of use</a>";
+GeoNetwork.Settings.nodeFooterInfo = "Build: 24/09/2014 - &copy; 2013-2014 - VITO NV. all rights reserved. <a target='_blank' href='" + GeoNetwork.URL + "/documents/TermsOfUse.pdf'>Terms of use</a>";
 

@@ -1681,6 +1681,35 @@ GeoNetwork.Catalogue = Ext.extend(Ext.util.Observable, {
 			}
 		}    	
     },
+    
+    getCookie: function (cname) {
+        var name = cname + "=";
+        var ca = document.cookie.split(';');
+        for(var i=0; i<ca.length; i++) {
+            var c = ca[i];
+            while (c.charAt(0)==' ') c = c.substring(1);
+            if (c.indexOf(name) == 0) return c.substring(name.length,c.length);
+        }
+        return "";
+    },
+    setCookie: function (cname, cvalue, exdays) {
+        var d = new Date();
+        d.setTime(d.getTime() + (exdays*24*60*60*1000));
+        var expires = "expires="+d.toUTCString();
+        document.cookie = cname + "=" + cvalue + "; " + expires;
+    },
+    downloadProduct: function(href) {
+    	this.sendGAEvent(href);
+    	if(this.getCookie('showTermsOfUse') === ''){
+    		this.setCookie('showTermsOfUse', false, 1);
+    		Ext.Msg.alert('Terms Of Use', 'Thank you for downloading the BELAIR data.\nPlease <a href="' + this.URL + '/documents/TermsOfUse.pdf" target="_blank">read</a> the Terms of Use before downloading and using the BELAIR data.', 
+    				function(){ 
+    					window.open(href);
+    				}) 
+    	} else { 
+    		window.open(href);
+    	}
+    },
 
     getMdAggegatedInfo: function(uuid,successCb){
     	var mduuid

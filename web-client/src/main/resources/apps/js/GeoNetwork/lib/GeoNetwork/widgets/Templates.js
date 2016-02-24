@@ -260,7 +260,7 @@ GeoNetwork.Templates = Ext.extend(Ext.XTemplate, {
             '</tpl>',
             '<table>',
             '<tpl for="this.getApplicationProfileLinks(values.links)">',
-            	'<tr><td style="width:30px"><a href="{[this.getHref(values)]}" title="File type {applicationProfile}"><img src="{catalogue.URL}/apps/images/default/{applicationProfile}.png"/></a></td><td><a href="{[this.getHref(values)]}">{[this.getTitle(values)]}</a></td></tr>',
+            	'<tr><td style="width:30px"><a href="{[this.getHref(values, true)]}" title="File type {applicationProfile}"><img src="{catalogue.URL}/apps/images/default/{applicationProfile}.png"/></a></td><td><a href="{[this.getHref(values, true)]}">{[this.getTitle(values)]}</a></td></tr>',
             '</tpl>',
             '<tpl for="this.getOtherLinks(values.links)">',
             	'<tr><td style="width:30px"><a href="{[this.getHref(values)]}" class="md-mn md-mn-www" title="Web link">&nbsp;</a></td><td><a href="{[this.getHref(values)]}">{[this.getTitle(values)]}</a></td></tr>',
@@ -449,7 +449,7 @@ GeoNetwork.Templates = Ext.extend(Ext.XTemplate, {
                     return selectedLinks;
                 },
                 user: null,
-                getHref: function(values){
+                getHref: function(values, showPopup){
                 	// TODO: add support for guest profiles --> MD privileges naar buiten trekken + user obj naar buiten trekken
                 	if(catalogue.isIdentified()) {
                 		if(this.user == null || this.user.id == null || this.user.id != catalogue.identifiedUser.id) {
@@ -506,6 +506,8 @@ GeoNetwork.Templates = Ext.extend(Ext.XTemplate, {
                 	//if (values.isPrivate=="true" && !catalogue.isIdentified()) {
                 	if(!this.user.downloadPermissions[values.uuid]) {
                 		value = '#" target onclick="Ext.Msg.alert(\'Permission denied\', \'' + (catalogue.isIdentified() ? OpenLayers.i18n('notRightPermissionsForDownload') : OpenLayers.i18n('notRegisteredForDownload')) + '\')';
+                	} else if(showPopup) {
+                		value = '#" target onclick="catalogue.downloadProduct(\'' + values.href + '\')';
                 	}
                 	return value;
                 }, isGroupValid: function(group, privileges) {

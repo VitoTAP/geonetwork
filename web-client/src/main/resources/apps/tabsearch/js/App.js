@@ -1131,6 +1131,15 @@ GeoNetwork.app = function(){
                                 		tabPanel.setActiveTab(previousTab);
                                     }
                        			}
+	                    	},
+	                    	{
+	                    		title: '<span style="color: #50A302;"><img src="images/logosigma.png" alt="SIGMA icon" width="16" height="16" />' + OpenLayers.i18n('STAC DB viewer') + '</span>',
+                                listeners: {
+                                	activate : function (p) {
+                                		window.open('http://agrostac.vgt.vito.be/stac.html');
+                                		tabPanel.setActiveTab(previousTab);
+                                    }
+                       			}
 	                    	}
                         ]
                         

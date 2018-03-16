@@ -26,5 +26,17 @@
   <skos:Concept rdf:about="http://belair.vito.be/v1/BELAIR-Campaigns/2015">
     <skos:prefLabel xml:lang="en">2015</skos:prefLabel>
   </skos:Concept>
+  <skos:Concept rdf:about="http://belair.vito.be/v1/BELAIR-Campaigns/2016">
+    <skos:prefLabel xml:lang="en">2016</skos:prefLabel>
+  </skos:Concept>
+  <skos:Concept rdf:about="http://belair.vito.be/v1/BELAIR-Campaigns/2017">
+    <skos:prefLabel xml:lang="en">2017</skos:prefLabel>
+  </skos:Concept>
+  <skos:Concept rdf:about="http://belair.vito.be/v1/BELAIR-Campaigns/2018">
+    <skos:prefLabel xml:lang="en">2018</skos:prefLabel>
+  </skos:Concept>
+  <skos:Concept rdf:about="http://belair.vito.be/v1/BELAIR-Campaigns/2019">
+    <skos:prefLabel xml:lang="en">2019</skos:prefLabel>
+  </skos:Concept>
 </rdf:RDF>
 

@@ -41,5 +41,14 @@
       </gml:Envelope>
     </gml:BoundedBy>
   </skos:Concept>
+  <skos:Concept rdf:about="http://belair.vgt.vito.be/regions#9004">
+    <skos:prefLabel xml:lang="en">Silva</skos:prefLabel>
+    <gml:BoundedBy>
+      <gml:Envelope gml:srsName="http://www.opengis.net/gml/srs/epsg.xml#epsg:4326">
+        <gml:lowerCorner>5.816 50.188</gml:lowerCorner>
+        <gml:upperCorner>5.915 50.288</gml:upperCorner>
+      </gml:Envelope>
+    </gml:BoundedBy>
+  </skos:Concept>
   </rdf:RDF>
 

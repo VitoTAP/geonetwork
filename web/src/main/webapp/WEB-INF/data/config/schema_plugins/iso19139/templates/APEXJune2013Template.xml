@@ -345,6 +345,36 @@
             <gmd:MD_Keywords xmlns:srv="http://www.isotc211.org/2005/srv"
                              xmlns:gmx="http://www.isotc211.org/2005/gmx">
                <gmd:keyword>
+                  <gco:CharacterString>Silva</gco:CharacterString>
+               </gmd:keyword>
+               <gmd:type gco:nilReason="missing">
+                  <gmd:MD_KeywordTypeCode codeList="http://standards.iso.org/ittf/PubliclyAvailableStandards/ISO_19139_Schemas/resources/Codelist/ML_gmxCodelists.xml#MD_KeywordTypeCode"
+                                          codeListValue=""/>
+               </gmd:type>
+               <gmd:thesaurusName>
+                  <gmd:CI_Citation>
+                     <gmd:title>
+                        <gco:CharacterString>BELAIR Sites</gco:CharacterString>
+                     </gmd:title>
+                     <gmd:date>
+                        <gmd:CI_Date>
+                           <gmd:date>
+                              <gco:Date>2014-05-06</gco:Date>
+                           </gmd:date>
+                           <gmd:dateType>
+                              <gmd:CI_DateTypeCode codeList="http://standards.iso.org/ittf/PubliclyAvailableStandards/ISO_19139_Schemas/resources/Codelist/ML_gmxCodelists.xml#CI_DateTypeCode"
+                                                   codeListValue="publication"/>
+                           </gmd:dateType>
+                        </gmd:CI_Date>
+                     </gmd:date>
+                  </gmd:CI_Citation>
+               </gmd:thesaurusName>
+            </gmd:MD_Keywords>
+         </gmd:descriptiveKeywords>
+         <gmd:descriptiveKeywords>
+            <gmd:MD_Keywords xmlns:srv="http://www.isotc211.org/2005/srv"
+                             xmlns:gmx="http://www.isotc211.org/2005/gmx">
+               <gmd:keyword>
                   <gco:CharacterString>Litora</gco:CharacterString>
                </gmd:keyword>
                <gmd:type gco:nilReason="missing">

@@ -1315,6 +1315,13 @@ GeoNetwork.app = function() {
 
 						},
 						{
+							value : 'SILVA',
+							bounds : new google.maps.LatLngBounds(
+									new google.maps.LatLng(50.288, 5.916),
+									new google.maps.LatLng(50.288, 5.916))
+
+						},
+						{
 							value : 'HESBANIA',
 							bounds : new google.maps.LatLngBounds(
 									new google.maps.LatLng(50.595644, 5.044855),
